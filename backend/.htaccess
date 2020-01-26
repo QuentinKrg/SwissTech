@@ -1,0 +1,10 @@
+
+# Remove PHP Extension from the filename
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Set the headers for the restful api
+Header always set Access-Control-Allow-Origin: "*"
+Header always set Access-Control-Allow-Methods: "GET,HEAD,POST,DELETE,OPTIONS"
+Header always set Access-Control-Allow-Headers: "*"
