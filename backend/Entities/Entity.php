@@ -3,7 +3,7 @@
   // Class pour debug
   include('_Helpers/vardump.php');
 
-  class html_entity_decode {
+  class Entity {
 
     // Attributs
     public $jsonToProcess = null;
@@ -23,28 +23,32 @@
     // Appel de la fonction connect
     public function init() {
 
+      // Vérification du token
       $this->CheckToken();
 
+      // Récupération de toutes les données après les Headers
       $json =  file_get_contents("php://input");
-        if ($json != false)
-        {
-            $this->jsonToProcess = json_decode($json);
-        }
+      // Vérifier si qqch a été reçu
+      if ($json != false)
+      {
+          // Stocker les valeurs reçues
+          $this->jsonToProcess = json_decode($json);
+      }
 
-        if (isset($_GET["id"]) != "" && is_numeric($_GET["id"]))
-        {
-            $this->idToProcess = $_GET["id"];
-        }
+      // Vérification de l'ID reçu en paramètre
+      if (isset($_GET["id"]) != "" && is_numeric($_GET["id"]))
+      {
+          $this->idToProcess = $_GET["id"];
+      }
 
-        $this->Connection();
+      // Connexion à la DB
+      $this->Connect();
     }
 
     // Connexion à la DB
     public function Connect() {
       $this->dbSt = new PDO("mysql:host=$this->servername;dbname=$this->dbname", $this->username, $this->password,
                             array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-      // Set the PDO error mode to exception
-      $this->dbSt->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXEPTION);
     }
 
     // Executer les requêtes

@@ -26,8 +26,7 @@ class Article extends Entity
         // Requête sql
         $sql = "INSERT INTO article (Name, Price) VALUES ('$name', '$price')";
 
-        $resultat = $this->Query($sql);
-
+        $this->Query($sql);
         }
     }
 
@@ -36,7 +35,7 @@ class Article extends Entity
     {
       $sql = "DELETE FROM article WHERE id = '$this->idToProcess' LIMIT 1";
 
-      $this->Query($this->dbconnection, $sql);
+      $this->Query($sql);
     }
 
     // Mise à jour d'un article
@@ -49,7 +48,7 @@ class Article extends Entity
 
       $sql = "UPDATE article SET Name = '$name', Price = '$price' WHERE id = '$id'";
 
-      $this->Query($this->dbconnection, $sql);
+      $this->Query($sql);
     }
 
     // Récupération de tous les articles
@@ -59,13 +58,13 @@ class Article extends Entity
 
       $sql = "SELECT * FROM article";
 
-      $tmpResult = $this->Query($this->dbconnection, $sql);
+      $tmpResult = $this->Query($sql);
 
-      if(mysqli_num_rows($tmpResult) > 0) {
+      if($tmpResult->rowCount() > 0) {
 
         // Sortir les données pour chaque "row"
         $cr = 0;
-        while($row = mysqli_fetch_assoc($tmpResult)) {
+        while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
           $articles[$cr]['id'] = $row['id'];
           $articles[$cr]['name'] = $row['Name'];
           $articles[$cr]['price'] = $row['Price'];
@@ -75,7 +74,6 @@ class Article extends Entity
         echo json_encode($articles);
       }
       // Fermeture de la connexion
-      mysqli_close($this->dbconnection);
       return $tmpResult;
     }
 
@@ -84,6 +82,7 @@ class Article extends Entity
     {
       $sql = "SELECT * FROM article WHERE id = '$this->idToProcess' LIMIT 1";
 
-      echo json_encode(mysqli_fetch_assoc($this->Query($this->dbconnection, $sql)));
+
+      echo json_encode($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
     }
 }
