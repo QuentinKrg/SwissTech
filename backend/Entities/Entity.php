@@ -62,8 +62,29 @@
     // Vérification du Token
     public function CheckToken() {
 
+      // Récupération du token dans les en-têtes HTML
+
+      // Checker si le token voulue existe et n'est pas vide
+
+      // Assigner les valeurs voulues
+
+      // Vérifier la valeur du token grâce à l'id du User
+
+      // Mettre à jour le temps de validiter du token
 
       return $this->isUserTokenValid = true;
     }
+
+    // Récupération du token par l'id de l'utilsateur
+    public function getTokenByUserId($userid, $token) {
+
+      $sql = "SELECT token, tokenValidity FROM user WHERE id = '$userid'";
+
+      $resultat = $this->Query($sql);
+
+      return $resultat;
+    }
+
+
   }
 ?>
