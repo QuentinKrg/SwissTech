@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  backendURL: 'https://www.backend.quentinkrg.ch/backendangular/'
 };

@@ -27,6 +27,17 @@ if (isset($_GET["c"]) != '' && isset($_GET["f"]) != '')
         return http_response_code(404);
     }
 
-    // Executer la fonction voulue
-    return $object->$function();
+    if (strpos($function, 'Protected') !== false)
+    {
+      if($object->CheckToken())
+      {
+        echo json_encode($object->$function());
+      }
+    } else {
+      // Executer la fonction voulue
+      echo json_encode($object->$function());
+    }
+
+
+
 }

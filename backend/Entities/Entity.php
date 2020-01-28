@@ -23,9 +23,6 @@
     // Appel de la fonction connect
     public function init() {
 
-      // Vérification du token
-      $this->CheckToken();
-
       // Récupération de toutes les données après les Headers
       $json =  file_get_contents("php://input");
       // Vérifier si qqch a été reçu
@@ -71,9 +68,12 @@
       // Vérifier la valeur du token grâce à l'id du User
 
       // Mettre à jour le temps de validiter du token
+      $userEntity = new User();
+      $userEntity->UpdateTokenValidity("test");
 
-      return $this->isUserTokenValid = true;
+      return true;
     }
+
 
     // Récupération du token par l'id de l'utilsateur
     public function getTokenByUserId($userid, $token) {
@@ -84,6 +84,8 @@
 
       return $resultat;
     }
+
+
 
 
   }

@@ -14,7 +14,7 @@ class Article extends Entity
     }
 
     // Ajout d'un article
-    public function Add()
+    public function AddProtected() 
     {
 
       if($this->jsonToProcess !=null)
@@ -33,6 +33,7 @@ class Article extends Entity
     // Suppression d'un article
     public function Delete()
     {
+
       $sql = "DELETE FROM article WHERE id = '$this->idToProcess' LIMIT 1";
 
       $this->Query($sql);
