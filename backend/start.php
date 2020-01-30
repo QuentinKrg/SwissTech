@@ -27,6 +27,7 @@ if (isset($_GET["c"]) != '' && isset($_GET["f"]) != '')
         return http_response_code(404);
     }
 
+    // Si la function contient une certaine chaine de charachtère 
     if (strpos($function, 'Protected') !== false)
     {
       if($object->CheckToken())

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, pipe } from 'rxjs';
 import { User } from '../models/user';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -29,8 +29,10 @@ export class AuthenticationService {
     user.password = CryptoJS.SHA256(user.password).toString();
     console.log(user.password);
     console.log(user);
-    return this.http.post<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=Login', user);
-      /*.pipe(map(usr => {
+    return this.http.post<User>(environment.backendURL + 'start.php?' + 'c=User&f=Login', user)
+      .pipe(map(usr => {
+
+        //TODO : Voir tuto pour le backend et le retour voulu
 
         console.log(usr);
         // La connection est réussie si il y a un token en retour
@@ -38,11 +40,11 @@ export class AuthenticationService {
 
           // Enregistrement des détails de l'utilisateur et du token en local pour garder la connection entre les refresh
           localStorage.setItem('currentUser', JSON.stringify(usr));
-          this.céurrentUserSubject.next(usr);
+          this.currentUserSubject.next(usr);
         }
-
+        console.log(localStorage);
         return usr;
-      }));*/
+      }));
       
    }
 

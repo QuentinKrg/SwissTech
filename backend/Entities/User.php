@@ -41,7 +41,7 @@ class User extends Entity
         {
           $this->UpdateTokenValidity($login);
           //vardump(array($userInDB['token'],$userTokenDateTime));
-          return $userInDB['token'];
+          return ['Token'=>$userInDB['token'],'UserLogin'=>$login];
         }
       }
 
@@ -59,7 +59,7 @@ class User extends Entity
   }
 }
 
-  
+
   private function GetUserByUsername($username)
   {
     $sql = "SELECT * FROM user WHERE login = '$username' LIMIT 1";
