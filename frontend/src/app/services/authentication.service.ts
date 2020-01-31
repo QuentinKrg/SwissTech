@@ -14,27 +14,22 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient) { 
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();  
+    constructor(private http: HttpClient) { 
+      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+      this.currentUser = this.currentUserSubject.asObservable();  
    }
 
    public get currentUserValue(): User {
-     console.log(this.currentUserSubject.value)
-     return this.currentUserSubject.value;
+      console.log(this.currentUserSubject.value)
+      return this.currentUserSubject.value;
    }
 
    login(user: User) {
 
     user.password = CryptoJS.SHA256(user.password).toString();
-    console.log(user.password);
-    console.log(user);
     return this.http.post<User>(environment.backendURL + 'start.php?' + 'c=User&f=Login', user)
       .pipe(map(usr => {
-
-        //TODO : Voir tuto pour le backend et le retour voulu
-
-        console.log(usr);
+        
         // La connection est réussie si il y a un token en retour
         if(usr && usr.token) {
 
@@ -42,7 +37,6 @@ export class AuthenticationService {
           localStorage.setItem('currentUser', JSON.stringify(usr));
           this.currentUserSubject.next(usr);
         }
-        console.log(localStorage);
         return usr;
       }));
       

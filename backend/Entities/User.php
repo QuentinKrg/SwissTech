@@ -41,7 +41,7 @@ class User extends Entity
         {
           $this->UpdateTokenValidity($login);
           //vardump(array($userInDB['token'],$userTokenDateTime));
-          return ['Token'=>$userInDB['token'],'UserLogin'=>$login];
+          return ['login'=>$login,'token'=>$userInDB['token']];
         }
       }
 
@@ -55,7 +55,7 @@ class User extends Entity
       }
       // Envoie au format JSON du token
       //vardump($userToken);
-      return ['Token'=>$userToken,'UserLogin'=>$login];
+      return ['login'=>$login,'token'=>$userToken];
   }
 }
 
