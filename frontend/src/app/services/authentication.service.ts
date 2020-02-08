@@ -20,16 +20,17 @@ export class AuthenticationService {
    }
 
    public get currentUserValue(): User {
-      console.log(this.currentUserSubject.value)
+      //console.log(this.currentUserSubject.value)
       return this.currentUserSubject.value;
    }
 
    login(user: User) {
 
     user.password = CryptoJS.SHA256(user.password).toString();
+
     return this.http.post<User>(environment.backendURL + 'start.php?' + 'c=User&f=Login', user)
       .pipe(map(usr => {
-        
+        //console.log(usr);
         // La connection est réussie si il y a un token en retour
         if(usr && usr.token) {
 

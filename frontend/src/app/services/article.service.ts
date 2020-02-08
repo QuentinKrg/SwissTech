@@ -11,6 +11,10 @@ export class ArticleService {
   constructor(private http: HttpClient) {
 
   }
+
+  getTest(){
+    return this.http.get<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=TestProtected');
+  }
  
   getArticles() {
     return this.http.get<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=GetAll');
@@ -21,7 +25,7 @@ export class ArticleService {
   }
 
   addArticle(article: Article) {
-    return this.http.post<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=Add',  article);
+    return this.http.post<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=AddProtected',  article);
   }
 
   getArticleById(id:number) {

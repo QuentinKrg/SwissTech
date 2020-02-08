@@ -13,8 +13,13 @@ class Article extends Entity
 
     }
 
+    public function TestProtected()
+    {
+      return "woooow";
+    }
+
     // Ajout d'un article : doit avoir un token
-    public function Add()
+    public function AddProtected()
     {
 
       if($this->jsonToProcess !=null)
@@ -24,7 +29,7 @@ class Article extends Entity
         $price = $this->jsonToProcess->Price;
 
         // Requête sql
-        $sql = "INSERT INTO article (Name, Price) VALUES ('$name', '$price')";
+        $sql = "INSERT INTO t_products (ProductName, ProductUnitPrice) VALUES ('$name', '$price')";
 
         $this->Query($sql);
         }
@@ -56,7 +61,7 @@ class Article extends Entity
     {
       $articles = [];
 
-      $sql = "SELECT * FROM article";
+      $sql = "SELECT * FROM t_products";
 
       $tmpResult = $this->Query($sql);
 
@@ -65,13 +70,13 @@ class Article extends Entity
         // Sortir les données pour chaque "row"
         $cr = 0;
         while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
-          $articles[$cr]['id'] = $row['id'];
-          $articles[$cr]['name'] = $row['Name'];
-          $articles[$cr]['price'] = $row['Price'];
+          $articles[$cr]['id'] = $row['id_Product'];
+          $articles[$cr]['Name'] = $row['ProductName'];
+          $articles[$cr]['Price'] = $row['ProductUnitPrice'];
           $cr++;
         }
         // echo de la liste des articles
-        echo json_encode($articles);
+        return $articles;
       }
       // Fermeture de la connexion
       return $tmpResult;

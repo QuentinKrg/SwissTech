@@ -5,6 +5,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
 # Set the headers for the restful api
-Header set Access-Control-Allow-Origin: "http://localhost:4200"
-Header always set Access-Control-Allow-Methods: "GET,HEAD,POST,DELETE,OPTIONS"
+Header set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods: "GET,HEAD,POST,DELETE, OPTIONS"
 Header always set Access-Control-Allow-Headers: "*"

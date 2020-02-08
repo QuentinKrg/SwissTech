@@ -70,7 +70,7 @@ CREATE TABLE `t_categories` (
 
 CREATE TABLE `t_comments` (
   `id_Comment` int(11) NOT NULL,
-  `Comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CommentValue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `CommentDate` datetime NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `FK_Product` int(11) NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE `t_products` (
   `FK_Manufacturer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--------------------------------------------------------
+-- -------------------------------------------------------
 
 --
 -- Structure de la table `t_products_images`

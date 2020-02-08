@@ -1,5 +1,7 @@
 <?php
-
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
+     return http_response_code(200);
+}
 // Vérification des paramètres reçus dans l'URL
 if (isset($_GET["c"]) != '' && isset($_GET["f"]) != '')
 {
@@ -27,13 +29,15 @@ if (isset($_GET["c"]) != '' && isset($_GET["f"]) != '')
         return http_response_code(404);
     }
 
-    // Si la function contient une certaine chaine de charachtère 
+    // Si la function contient une certaine chaine de charachtère
     if (strpos($function, 'Protected') !== false)
     {
-      if($object->CheckToken())
-      {
+      if ($object->CheckToken()) {
         echo json_encode($object->$function());
+      } else {
+        return http_response_code(401);
       }
+
     } else {
       // Executer la fonction voulue
       echo json_encode($object->$function());

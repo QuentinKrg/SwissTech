@@ -1,1 +1,78 @@
-<p>register works!</p>
+<h2>Register</h2>
+<form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form">
+    <!-- Title-->
+    <div class="form-group">
+        <label for="title">Titre</label>
+        <select class="form-control" formControlName="title">
+            <option value="" selected disabled>Veuillez choisir</option>
+            <option value="Mme">Mme</option>
+            <option value="Mr">Mr</option>
+            <option value="NB">Non binaire</option>
+        </select>
+    </div>
+
+    <!-- First name-->
+    <div class="form-group">
+        <label for="firstname">Prénom</label>
+        <input type="text" autofocus formControlName="firstname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Last name-->
+    <div class="form-group">
+        <label for="lastname">Nom</label>
+        <input type="text" autofocus formControlName="lastname" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Birthday date-->
+    <div class="form-group">
+        <label for="birthday">Date de naissance</label>
+        <input onfocus="(this.type='date')" type="text" autofocus formControlName="birthday" class="form-control" placeholder="" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" autofocus formControlName="email" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Username -->
+    <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" autofocus formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" autofocus formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Private phone-->
+    <div class="form-group">
+        <label for="privatephone">Numéro de téléphone privé</label>
+        <input type="phone" autofocus formControlName="privatephone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Pro phone-->
+    <div class="form-group">
+        <label for="prophone">Numéro de téléphone professionnel</label>
+        <input type="text" autofocus formControlName="prophone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    </div>
+
+    <!-- Checkbox general condition-->
+    <div class="form-group">
+        <div class="form-check">
+            <input id="checkbox_register" type="checkbox" class="form-check-input">
+            <label for="checkbox_register" class="form-check-label">
+                Oui, j'accepte les Conditions générales de vente.
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Inscrivez-vous
+        </button>
+    </div>
+</form>

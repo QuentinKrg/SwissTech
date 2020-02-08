@@ -61,9 +61,9 @@ export class LoginComponent implements OnInit {
          this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.alertService.error(error);
+          this.alertService.error("Vos données de connexion sont erronées. Veuillez réessayer.");
           this.loading = false;
-          console.log("testsss");
+          this.loginForm.reset();
         }
       );
   }

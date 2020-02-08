@@ -2,6 +2,7 @@
 
   // Class pour debug
   include('_Helpers/vardump.php');
+  include('Entities/User.php');
 
   class Entity {
 
@@ -15,7 +16,7 @@
     private $servername = "localhost";
     private $username = "root";
     private $password = "";
-    private $dbname = "angular8php";
+    private $dbname = "db_swisstech";
 
     // Variable de la DB
     private $dbSt = null;
@@ -53,25 +54,63 @@
       $stmt = $this->dbSt->prepare($query);
       $stmt->execute();
 
-        return $stmt;
+      return $stmt;
     }
 
     // Vérification du Token
     public function CheckToken() {
+      // Variable de méthode pour CheckToken()
+      $hdUsername = "";
+      $hdToken = "";
+      $hdRole = "";
 
       // Récupération du token dans les en-têtes HTML
+      foreach (getallheaders() as $name => $value) {
+          if($name == "Username")
+          {
+            $hdUsername = $value;
+          }
+          if($name == "Authorization")
+          {
+            $hdToken = $value;
+          }
+          /*if($name == "Role")
+          {
+            $hdRole = $value;
+          }*/
+      }
 
-      // Checker si le token voulue existe et n'est pas vide
+      // Checker que le token ne soit pas vide
+      if($hdUsername == "" || $hdToken == "")
+      {
+        return false;
+      }
 
-      // Assigner les valeurs voulues
-
-      // Vérifier la valeur du token grâce à l'id du User
-
-      // Mettre à jour le temps de validiter du token
       $userEntity = new User();
-      $userEntity->UpdateTokenValidity("test");
+      // Récupération des données de l'utilsateur
+      $userInDB = $userEntity->GetUserByUsername($hdUsername);
+      //vardump($userInDB);
 
-      return true;
+      // Vérifier que l'on récupère qqch
+      if($userInDB == null)
+      {
+        return false;
+      }
+
+      // Vérification de la validité du token de l'utilisateur
+      $actualDateTime = new DateTime();
+      // Si valide
+      if($userInDB['Token'] != null && $userInDB['TokenValidity'] != null)
+      {
+        $userTokenDateTime = new DateTime($userInDB['TokenValidity']);
+        if($userTokenDateTime >= $actualDateTime)
+        {
+          $userEntity->UpdateTokenValidity($hdUsername);
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
 
 
@@ -85,8 +124,10 @@
       return $resultat;
     }
 
-
-
+    public function Error($message)
+    {
+      echo $message;
+    }
 
   }
 ?>

@@ -5,4 +5,5 @@ export class User {
     salt: string;
     token: string;
     tokenValidity: Date;
+    role: string;
 }
