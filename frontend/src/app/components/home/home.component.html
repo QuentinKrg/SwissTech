@@ -13,7 +13,7 @@
                 <tr *ngFor="let art of articles">
                     <th scope="row">{{art.id}}</th>
                     <td>{{art.Name}}</td>
-                    <td>{{art.Price}}</td>
+                    <td>{{art.Price}} CHF</td>
                     <td><button class="btn btn-success">Edit</button> |
                         <button (click)="onDelete(art)" class="btn btn-danger">Delete</button>
                     </td>
