@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row justify-content-md-center"> 
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let art of articles">
+                    <th scope="row">{{art.id}}</th>
+                    <td>{{art.Name}}</td>
+                    <td>{{art.Price}} CHF</td>
+                    <td><button class="btn btn-success">Edit</button> |
+                        <button (click)="onDelete(art)" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            
+        </table>
+        <button class="btn btn-success" (click)="monstreTest()" >Ajouter un article</button>
+    </div>
+</div>
+
