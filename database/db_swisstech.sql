@@ -2,7 +2,7 @@
 -- Hôte :                        127.0.0.1
 -- Version du serveur:           10.4.11-MariaDB - mariadb.org binary distribution
 -- SE du serveur:                Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             10.3.0.5771
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `t_products` (
   CONSTRAINT `FK_Product_Manufacturer` FOREIGN KEY (`FK_Manufacturer`) REFERENCES `t_manufacturers` (`id_Manufacturer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_products : ~2 rows (environ)
 /*!40000 ALTER TABLE `t_products` DISABLE KEYS */;
 INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductColor`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `FK_Category`, `FK_Manufacturer`) VALUES
 	(4, 'PS4 Pro', '', '', '', 16.6, NULL, NULL),
@@ -275,6 +275,7 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   `Token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `TokenValidity` datetime NOT NULL,
   `isActive` tinyint(1) NOT NULL,
+  `IpAddresse` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `FK_Role` int(11) NOT NULL DEFAULT 1,
   `FK_Customer` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
@@ -284,10 +285,10 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~1 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
-INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `FK_Role`, `FK_Customer`) VALUES
-	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '6d6037c71770289cb0d3f8aef6247fbc', '2020-02-13 10:50:09', 1, 1, NULL);
+INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddresse`, `FK_Role`, `FK_Customer`) VALUES
+	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b66b6d307a71dc313f25555acce24677', '2020-02-27 09:13:47', 1, '', 1, NULL);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
