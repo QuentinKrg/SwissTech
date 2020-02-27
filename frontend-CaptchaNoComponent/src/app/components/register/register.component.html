@@ -83,18 +83,24 @@
         </div>
     
         <div  class="form-group" style="max-width: 260px;">
-            <input class="form-control" formControlName="userEnteredCaptcha" placeholder="Captcha" type="text"
-                id="userEnteredCaptcha" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.hasError('required') || 
-                f.userEnteredCaptcha.value.length==6 && !isValid(f.userEnteredCaptcha.value)}" />
-            <div *ngIf="submitted || f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.hasError('required') &&f.userEnteredCaptcha.value.length<6"
+
+            <input class="form-control" formControlName="userEnteredCaptcha" placeholder="Inserez le captcha" type="text"
+                [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
+                f.userEnteredCaptcha.value.length==6 && !isValid(f.userEnteredCaptcha.value) ||
+                submitted && f.userEnteredCaptcha.errors}" />
+
+            <div *ngIf="submitted &&  f.userEnteredCaptcha.errors || f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors && f.userEnteredCaptcha.value.length<6"
                 class="invalid-feedback">
                 Veuillez saisir les caractères de l'image
             </div>
-            <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value) || f.userEnteredCaptcha.value.length==6 && !isValid(f.userEnteredCaptcha.value)"
+
+            <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value) && f.userEnteredCaptcha.value.length==6"
                 class="invalid-feedback">
                 Le captcha est invalide
             </div>
+
         </div>
+
     </div>
 
     <div class="form-group">

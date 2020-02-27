@@ -35,7 +35,6 @@ export class RegisterComponent implements OnInit {
     });
     this.generateCaptchaImage();
      this.userCaptcha = this.registerForm.value.userEnteredCaptcha;
-   this.userCaptcha = this.registerForm.value.userEnteredCaptcha;
     console.log(this.captchaGenerated);
     console.log(this.userCaptcha);
   }
@@ -57,35 +56,31 @@ export class RegisterComponent implements OnInit {
     const canvas = <HTMLCanvasElement>document.getElementById('myCanvas');//Create a canvas and link to the canvashtml tag
     const ctx = canvas.getContext('2d');
 
-    //use the php image for the captcha background
-   /* var myImg = new Image();
-    myImg.onload = function () {
-      ctx.drawImage(myImg, 0, 0);
-    };
-    myImg.src = 'http://localhost/Captcha/captcha.php';//backgroup php
-  */ //put the array string on the canvas
+ 
+  //put the array string on the canvas
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+   for (var j = 1; j < 70; j++) {
+      ctx.save();
+      ctx.lineWidth = getRandomInt(2,15);
+      ctx.strokeStyle = 'rgb(' + getRandomInt(133,211) + ',' +
+                         getRandomInt(133,211) + ','+getRandomInt(133,211)+')';
+      ctx.strokeRect(getRandomInt(-5,200), 1, getRandomInt(20,60), getRandomInt(35,70))
+      ctx.restore();
+    }
+    ctx.globalCompositeOperation = "source-atop";//Définit quel contexte va apparaître en tout premier sur le canvas
+    
   ctx.font = "34px Arial";
-  ctx.strokeStyle='#D55F09';
   ctx.lineWidth = 1.5;
-  ctx.strokeText(this.captchaGenerated, 30, 33);
+  ctx.fillStyle = '#3F3F3F';
+  ctx.fillText(this.captchaGenerated, 30, 33);
   ctx.textAlign = 'center';
   console.log('test generemimage');
 
- ctx.globalCompositeOperation = "multiply";
- function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
- for (var j = 1; j < 20; j++) {
-    ctx.save();
-    ctx.lineWidth = getRandomInt(1,8);
-    ctx.strokeStyle = 'rgb(' + getRandomInt(133,211) + ',' +
-                       getRandomInt(133,211) + ','+getRandomInt(133,211)+')';
-    ctx.strokeRect(getRandomInt(-5,200), 1, getRandomInt(20,60), getRandomInt(35,70))
-    ctx.restore();
-  }
-    ctx.globalCompositeOperation = "destination-over";//Définit quel contexte va apparaître en tout premier sur le canvas
+ 
 
    
   }
@@ -118,14 +113,14 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     // ------------------------Captcha---------------------------------------
     //Stop si le captcha saisit ne match pas avec celui qui a été généré au moment du submit
-    
+    this.submitted = true;
     if(this.isValid(this.registerForm.value.userEnteredCaptcha)){
       console.log('true');
     }else{console.log('false');
     return;
     }
     // ----------------------------/Captcha-----------------------------------
-     this.submitted = true;
+     
  
      // Stop si le formulaire n'est pas correctement rempli
      if (this.registerForm.invalid) {
