@@ -1,4 +1,4 @@
--- --------------------------------------------------------
+﻿-- --------------------------------------------------------
 -- Hôte :                        127.0.0.1
 -- Version du serveur:           10.4.11-MariaDB - mariadb.org binary distribution
 -- SE du serveur:                Win64
@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `t_comments` (
 -- Listage de la structure de la table db_swisstech. t_customers
 CREATE TABLE IF NOT EXISTS `t_customers` (
   `id_customer` int(11) NOT NULL AUTO_INCREMENT,
+  `CustomerTitre` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CustomerName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CustomerLastName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CustomerPhone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
