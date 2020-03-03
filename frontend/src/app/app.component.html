@@ -1,89 +1,22 @@
 
-  <!-- Barre de navigation -->
-  <header class="header w-100">
+<!-- Barre de navigation -->
+<header role="banner">
+    <app-header></app-header>
+</header>
 
-    <!-- Première barre de navigation-->
-    <nav class="header-infoNav">
-      <div class="container row m-auto p-0 align-middle">
-        <div class="d-flex flex-row justify-content-start col-sm-2 col-md-4 col-lg-7 p-0">
-          <a class="d-none py-0 px-2 d-lg-block text-left d-xl-block" routerLink="/">Infos & Contact</a>
-          <a class="d-none py-0 px-2 d-lg-block text-left d-xl-block" routerLink="/">L'entreprise</a>
-        </div>
-        <div class="d-flex flex-row justify-content-end col-sm-10 col-md-8 p-0 py-0 col-lg-5 col-xl-4 pr-2 text-right font-weight-bold pr-xxl-1">
-          <div class="d-flex flex-row justify-content-end">
-            <!--Si connecté-->
-            <a *ngIf="currentUser" class="pr-2" routerLink="/">Votre compte</a>
-            <a *ngIf="currentUser" (click)="logout()">Se déconnecter</a>
-            <!--Si non connecté-->
-            <a *ngIf="!currentUser" routerLink="Login">Se connecter</a>
-          </div>
-        </div>
-      </div>
-    </nav>
+<!-- Principale container-->
 
-    <div data-toggle="sticky-onscroll">
-      <!-- Seconde barre de navigation-->
-      <nav class="container py-sm-0 sticky-header" >
-        <div class="row d-flex flex-row justify-content-between">
-          <!-- Marque barre de navigation-->
-          <a href="" class="col navbar-brand mx-0 order-0 header_brand">SwissTech.store</a>
-
-          <!-- Recherche d'articles-->
-          <div class="col d-flex justify-content-between order-2 pr-2 pr-lg-0 header-left">
-            <form class="form-inline search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-              <div class="input-group mb-2 w-100">
-                <input class="form-control search-field" type="sear
-                <button class="btn btn-primary">Search</button>
-              </div>
-            </form>
-          </div>
-          
-          <!-- Panier-->
-          <div class="col d-flex flex-row justify-content-end"></div>
-        </div>
-      </nav>
-
-      <!-- Troisième barre de navigation-->
-      <nav id="topNavigation" class="desktop-nav">
-        <ul role="tree">
-          <li role="treeitem">
-            <span>
-              <a [routerLink]="['/jeux-video']" routerLinkActive="router-link-active" >Jeux vidéo</a>
-            </span>
-          </li>
-          <li role="treeitem">
-            <span>
-              <a [routerLink]="['/audio-tv-et-video']" routerLinkActive="router-link-active" >Audio, TV & Vidéo</a>
-            </span>
-          </li>
-          <li role="treeitem">
-            <span>
-              <a [routerLink]="['/photo-et-optique']" routerLinkActive="router-link-active" >Photo & Optique</a>
-            </span>
-          </li>
-          <li role="treeitem">
-            <span>
-              <a [routerLink]="['/telephonie']" routerLinkActive="router-link-active" >Téléphonie</a>
-            </span>
-          </li>
-        </ul>
-      </nav>
-  </div>
-  </header>
-
-
-<!-- Principale app container-->
-
-      <article>
-        <app-alert></app-alert>
-        <router-outlet></router-outlet>
-        
-      </article>
+<article>
+    <app-alert></app-alert>
+    <router-outlet></router-outlet>
+</article>
 
 <!-- Footer -->
   <footer>
     <p>&copy;2020 - SwissTech</p>
   </footer>
+
+
 
  
 

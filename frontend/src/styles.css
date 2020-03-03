@@ -1,3 +1,11 @@
-
+.header-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+  .header-container #block-siteBranding a img {
+    height: 50px;
+    margin-left: 1em;
+    margin-top: 1em; }
 
 /*# sourceMappingURL=styles.css.map */
