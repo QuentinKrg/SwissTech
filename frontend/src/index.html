@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- bootstrap css -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    
+    
 
     <style>
         a { cursor: pointer; }
@@ -16,5 +19,41 @@
     <app-root>Loading...</app-root>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-  </body>
+    <script>
+        $(document).ready(function() {
+            // Custom 
+            var stickyToggle = function(sticky, stickyWrapper, scrollElement) {
+                var stickyHeight = sticky.outerHeight();
+                var stickyTop = stickyWrapper.offset().top;
+                if (scrollElement.scrollTop() >= stickyTop){
+                stickyWrapper.height(stickyHeight);
+                sticky.addClass("is-sticky");
+                }
+                else{
+                sticky.removeClass("is-sticky");
+                stickyWrapper.height('auto');
+                }
+            };
+            
+            // Find all data-toggle="sticky-onscroll" elements
+            $('[data-toggle="sticky-onscroll"]').each(function() {
+                var sticky = $(this);
+                var stickyWrapper = $('<div>').addClass('sticky-wrapper'); // insert hidden element to maintain actual top offset on page
+                sticky.before(stickyWrapper);
+                sticky.addClass('sticky');
+                
+                // Scroll & resize events
+                $(window).on('scroll.sticky-onscroll resize.sticky-onscroll', function() {
+                stickyToggle(sticky, stickyWrapper, $(this));
+                });
+                
+                // On page load
+                stickyToggle(sticky, stickyWrapper, $(window));
+            });
+        });
+    </script>
+    
+</body>
 </html>
+
+

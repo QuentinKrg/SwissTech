@@ -13,7 +13,7 @@ class Article extends Entity
 
     }
 
-    public function TestProtected()
+    public function TestPlus()
     {
       return "woooow";
     }

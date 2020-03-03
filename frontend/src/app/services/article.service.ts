@@ -13,7 +13,7 @@ export class ArticleService {
   }
 
   getTest(){
-    return this.http.get<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=TestProtected');
+    return this.http.get<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=TestPlus');
   }
  
   getArticles() {

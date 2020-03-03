@@ -58,11 +58,11 @@
     }
 
     // Vérification du Token
-    public function CheckToken() {
+    public function CheckToken($checkRole = false) {
       // Variable de méthode pour CheckToken()
       $hdUsername = "";
       $hdToken = "";
-      $hdRole = "";
+      $hdRoleCode = "";
 
       // Récupération du token dans les en-têtes HTML
       foreach (getallheaders() as $name => $value) {
@@ -74,10 +74,10 @@
           {
             $hdToken = $value;
           }
-          /*if($name == "Role")
+          if($name == "Role")
           {
-            $hdRole = $value;
-          }*/
+            $hdRoleCode = $value;
+          }
       }
 
       // Checker que le token ne soit pas vide
@@ -89,12 +89,20 @@
       $userEntity = new User();
       // Récupération des données de l'utilsateur
       $userInDB = $userEntity->GetUserByUsername($hdUsername);
-      //vardump($userInDB);
 
       // Vérifier que l'on récupère qqch
       if($userInDB == null)
       {
         return false;
+      }
+
+      // Le role doit-il être vérifier
+      if($checkRole)
+      {
+        if($hdRoleCode != "AD")
+        {
+          return false;
+        }
       }
 
       // Vérification de la validité du token de l'utilisateur
