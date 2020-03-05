@@ -13,7 +13,7 @@ class Article extends Entity
 
     }
 
-    public function TestPlus()
+    public function TestMBAD()
     {
       return "woooow";
     }
@@ -86,8 +86,6 @@ class Article extends Entity
     public function GetById()
     {
       $sql = "SELECT * FROM article WHERE id = '$this->idToProcess' LIMIT 1";
-
-
       echo json_encode($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
     }
 }

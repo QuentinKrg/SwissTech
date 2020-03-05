@@ -30,7 +30,7 @@ if (isset($_GET["c"]) != '' && isset($_GET["f"]) != '')
     }
 
     // Si la function contient une certaine chaine de charachtère
-    // MLD = Must Be Logged
+    // MBL = Must Be Logged
     if (strpos($function, 'MBL') !== false)
     {
       if ($object->CheckToken()) {
