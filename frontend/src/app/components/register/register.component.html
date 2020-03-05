@@ -1,78 +1,332 @@
+<style>
+    .card-header .fa {
+        transition: .3s transform ease-in-out;
+    }
+
+    .card-header .collapsed .fa {
+        transform: rotate(180deg);
+    }
+</style>
+
 <h2>Register</h2>
 <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form">
-    <!-- Title-->
-    <div class="form-group">
-        <label for="title">Titre</label>
-        <select class="form-control" formControlName="title">
-            <option value="" selected disabled>Veuillez choisir</option>
-            <option value="Mme">Mme</option>
-            <option value="Mr">Mr</option>
-            <option value="NB">Non binaire</option>
-        </select>
-    </div>
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne"
+                aria-controls="collapseOne">
+                <h5>
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne" class="d-block" [ngStyle]="{'color':submitted && f.titre.errors ||submitted && f.firstname.errors ||
+                        f.firstname.hasError('pattern') ||submitted && f.lastname.errors ||  submitted && f.lastname.hasError('pattern') ||
+                        submitted && f.birthday.errors ? '#dc3545' : 'null' }">
+                        <i class="fa fa-chevron-up pull-right"></i>Mes Informations Personnelles
+                    </a>
+                </h5>
 
-    <!-- First name-->
-    <div class="form-group">
-        <label for="firstname">Prénom</label>
-        <input type="text" autofocus formControlName="firstname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+            </div>
 
-    <!-- Last name-->
-    <div class="form-group">
-        <label for="lastname">Nom</label>
-        <input type="text" autofocus formControlName="lastname" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Titre-->
+                    <div class="form-group">
+                        <label for="titre">Titre</label>
+                        <select class="form-control" formControlName="titre"
+                            [ngClass]="{ 'is-invalid': submitted && f.titre.errors }">
+                            <option value="" selected disabled>Veuillez choisir</option>
+                            <option value="Mme">Mme</option>
+                            <option value="Mr">Mr</option>
+                            <option value="NB">Non binaire</option>
+                        </select>
+                    </div>
 
-    <!-- Birthday date-->
-    <div class="form-group">
-        <label for="birthday">Date de naissance</label>
-        <input onfocus="(this.type='date')" type="text" autofocus formControlName="birthday" class="form-control" placeholder="" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+                    <!-- First name-->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label for="firstname">Prénom</label>
+                                <input type="text" maxlength="100" autofocus formControlName="firstname"
+                                    class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }" />
+                                <div class="invalid-feedback" *ngIf=" f.firstname.hasError('pattern')">
+                                    Uniquement des lettres et des espaces</div>
+                            </div>
+                        </div>
+                        <!-- Last name-->
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label for="lastname">Nom</label>
+                                <input type="text" maxlength="100" autofocus formControlName="lastname"
+                                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" />
+                                <div class="invalid-feedback" *ngIf="submitted && f.lastname.hasError('pattern')">
+                                    Uniquement des lettres et des espaces</div>
+                            </div>
+                        </div>
 
-    <!-- Email -->
-    <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="email" autofocus formControlName="email" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+                    </div>
 
-    <!-- Username -->
-    <div class="form-group">
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" autofocus formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+                    <!-- Birthday date-->
+                    <div class="form-group">
+                        <label for="birthday">Date de naissance</label>
+                        <input onfocus="(this.type='date')" type="text" autofocus formControlName="birthday"
+                            class="form-control" placeholder=""
+                            [ngClass]="{ 'is-invalid': submitted && f.birthday.errors }" />
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Password -->
-    <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input type="password" autofocus formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+        <div class="card">
+            <div class="card-header" id="headingAddress" data-toggle="collapse" data-target="#collapseAddress"
+                aria-controls="collapseAddress">
+                <h5>
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseAddress"
+                        aria-controls="collapseAddress" class="collapsed d-block"
+                        [ngStyle]="{'color':submitted && f.shippingAddress.errors ||
+                        submitted && f.shippingCity.errors || submitted && f.shippingZip.errors ? '#dc3545' : 'null' }">
+                        <i class="fa fa-chevron-up pull-right"></i> Adresse
+                    </a>
+                </h5>
+            </div>
 
-    <!-- Private phone-->
-    <div class="form-group">
-        <label for="privatephone">Numéro de téléphone privé</label>
-        <input type="phone" autofocus formControlName="privatephone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+            <div id="collapseAddress" class="collapse" aria-labelledby="headingAddress" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Adresse de livraison -->
+                    <label style=" width: -webkit-fill-available;">
+                        <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_027_location">
+                            <path fill="currentColor" d="M16 3.1a7.04 7.04 0 017.03 7.04c0 4.47-4.66 11.77-7.03 15.75-4-6.74-7.03-11.9-7.03-15.75A7.04 7.04 0 0116 3.1zM16 0C10.4 0 5.86 4.54 5.86 10.14S10.3 22.24 16 32c5.7-9.76 10.14-16.27 10.14-21.86S21.6 0 16 0zm0 6.52a3.52 3.52 0 100 7.04 3.52 3.52 0 000-7.04z"></path>
+                          </svg>
+                        Adresse de livraison</label>
+                    <div>
+                        <!-- Adresse-->
+                        <div class="form-group">
+                            <label for="ShippingAddress">Rue, n°</label>
+                            <input id="shippingAddress" type="text" autofocus formControlName="shippingAddress"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.shippingAddress.errors ||submitted && f.shippingAddress.invalid}" />
+                        </div>
+                        <!-- Ville-->
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="shippingCity">Ville</label>
+                                    <input type="text" maxlength="100" autofocus formControlName="shippingCity"
+                                        id="shippingCity" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f.shippingCity.errors }" />
+                                </div>
+                            </div>
+                            <!-- NPA-->
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="shippingZip">NPA</label>
+                                    <input maxlength="4" autofocus formControlName="shippingZip" class="form-control"
+                                        id="shippingZip" [ngClass]="{ 'is-invalid': submitted && f.shippingZip.errors ||
+                                             f.shippingZip.errors && f.shippingZip.hasError('pattern')}" />
+                                    <div class="invalid-feedback" *ngIf="f.shippingZip.touched && f.shippingZip.hasError('pattern') ||
+                                             f.shippingZip.errors && f.shippingZip.hasError('pattern')">
+                                        Uniquement des chiffres</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Adresse de facturation -->
+                    <label style="border-top:outset;margin-top: 2% ; width: -webkit-fill-available;">
+                        <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_017_postal_card">
+                            <path fill="currentColor"
+                                d="M16.12 15.24L5.96 18.35l.4 1.33 10.16-3.12-.4-1.32zM27.25 4.08L32 19.57 4.75 27.92 0 12.43l27.25-8.35zm2.16 14.11L25.88 6.67 2.59 13.81l3.53 11.52 23.29-7.14zM7.3 22.77l10.16-3.11-.4-1.32-10.16 3.1.4 1.33zm18.76-11.6l-1-3.24-2.4.74.99 3.24 2.4-.74z">
+                            </path>
+                        </svg>
+                        Adresse de facturation</label>
+                    <div>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input [value]="true" name="checkbox_address" id="checkbox_address" type="checkbox"
+                                    class="custom-control-input" formControlName="checkbox_address"
+                                    (change)="onSameAddressCheck()">
+                                <label for="checkbox_address" class="custom-control-label">
+                                    Comme l'adresse de livraison.
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Adresse-->
+                        <div class="form-group">
+                            <label for="billingAddress">Rue, n°</label>
+                            <input id="billingAddress" type="text" autofocus formControlName="billingAddress"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.billingAddress.errors ||submitted && f.billingAddress.invalid}" />
+                        </div>
+                        <!-- Ville-->
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="billingAddressCity">Ville</label>
+                                    <input type="text" maxlength="100" autofocus formControlName="billingAddressCity"
+                                        id="billingCity" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f.billingAddressCity.errors }" />
+                                </div>
+                            </div>
+                            <!-- NPA-->
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="billingAddressZip">NPA</label>
+                                    <input maxlength="4" autofocus formControlName="billingAddressZip" id="billingZip"
+                                        class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f.billingAddressZip.errors || f.billingAddressZip.errors && f.billingAddressZip.hasError('pattern')}" />
+                                    <div class="invalid-feedback" *ngIf="f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern') ||
+                                     f.billingAddressZip.errors && f.billingAddressZip.hasError('pattern')">
+                                        Uniquement des chiffres</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Pro phone-->
-    <div class="form-group">
-        <label for="prophone">Numéro de téléphone professionnel</label>
-        <input type="text" autofocus formControlName="prophone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-    </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo"
+                aria-controls="collapseTwo">
+                <h5>
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo"
+                        aria-controls="collapseTwo" class="collapsed d-block"
+                        [ngStyle]="{'color':submitted && f.email.errors ||submitted && f.email.invalid ||
+                        submitted && f.email.hasError('email') ||submitted && f.privatephone.errors  ? '#dc3545' : 'null' }">
+                        <i class="fa fa-chevron-up pull-right"></i>Contact
+                    </a>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" autofocus formControlName="email" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors ||submitted && f.email.invalid}" />
+                        <div class="invalid-feedback" *ngIf="submitted && f.email.hasError('email')">
+                            Le format de la saisie n'est pas valable
+                        </div>
+                    </div>
+                    <!-- Private phone-->
+                    <div class="form-group">
+                        <label for="privatephone">Téléphone privé</label>
+                        <input type="phone" autofocus formControlName="privatephone" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.privatephone.errors }" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree" data-toggle="collapse" data-target="#collapseThree"
+                aria-controls="collapseThree">
+                <h5>
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree"
+                        aria-controls="collapseThree" class="collapsed d-block" [ngStyle]="{'color':submitted && f.username.errors ||submitted && f.password.errors ||
+                        submitted && f.password.value.length<8 || submitted && f.password.hasError('pattern') ||submitted && f.confirmPassword.errors ||
+                        f.confirmPassword.touched && f.confirmPassword.hasError('mustMatch')? '#dc3545' : 'null' }">
+                        <i class="fa fa-chevron-up pull-right"></i>Informations de connexion
+                    </a>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label for="username">Nom d'utilisateur</label>
+                        <input type="text" autofocus formControlName="username" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
 
-    <!-- Checkbox general condition-->
-    <div class="form-group">
-        <div class="form-check">
-            <input id="checkbox_register" type="checkbox" class="form-check-input">
-            <label for="checkbox_register" class="form-check-label">
-                Oui, j'accepte les Conditions générales de vente.
-            </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <!-- Password -->
+                            <div class="form-group">
+                                <label for="password">Mot de passe</label>
+                                <input type="password" autofocus formControlName="password" class="form-control"
+                                    [ngClass]="{ 'is-invalid': f.password.touched && f.password.errors || submitted && f.password.errors }" />
+                                <div *ngIf="f.password.touched && f.password.value.length<8 || submitted && f.password.errors"
+                                    class="invalid-feedback">
+                                    Le mot de passe doit contenir au moins 8 caractères
+                                </div>
+                                <div *ngIf=" f.password.touched && f.password.hasError('pattern') || submitted && f.password.errors"
+                                    class="invalid-feedback">
+                                    Le mot de passe doit contenir au moins: <br />
+                                    une lettre minuscule <br />
+                                    une lettre majuscule<br />
+                                    un chiffre <br />
+                                    un caractère spécial
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <!-- Confirmation Password -->
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirmez votre mot de passe</label>
+                                <input type="password" autofocus formControlName="confirmPassword" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                                <div *ngIf="f.confirmPassword.touched && f.confirmPassword.hasError('mustMatch')"
+                                    class="invalid-feedback">
+                                    Password dont match
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="card" style="min-width: 250px;box-sizing: border-box; padding-left: 5%;">
+
+        <!-- Checkbox general condition-->
+        <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input id="checkbox_register" type="checkbox" class="custom-control-input"
+                    formControlName="generalConditions"
+                    [ngClass]="{ 'is-invalid': submitted && !registerForm.value.generalConditions}">
+                <label for="checkbox_register" class="custom-control-label">
+                    J'accepte les Conditions générales.
+                </label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <canvas id="myCanvas" width="180" height="45" style="border:1px solid #d3d3d3">
+                Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
+
+            <button id="MyButton" type="button" class="btn btn-light"
+                style="vertical-align: baseline; margin-left: 5%;height: 45px;" (click)="onRefresh() ">
+                <i class="fa fa-refresh" style="font-size:38px;color:#1186e9; vertical-align: super;">
+                </i>
+            </button>
+        </div>
+
+        <div class="form-group" style="max-width: 260px;">
+
+            <input class="form-control" formControlName="userEnteredCaptcha" placeholder="Inserez le code de l'image"
+                type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
+                submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
+
+            <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
+             f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors" class="invalid-feedback">
+                Veuillez saisir les caractères de l'image
+            </div>
+
+            <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)" class="invalid-feedback">
+                Le captcha est invalide
+            </div>
+
+        </div>
+
+    </div>
 
     <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
+        <button [disabled]="loading" class="btn btn-primary btn-lg btn-block">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Inscrivez-vous
         </button>
     </div>
 </form>
+<p>
+    Form is {{registerForm.valid ? 'Valid' : 'Invalid'}}
+</p>
+<pre>Form Values: {{registerForm.value | json}}</pre>
