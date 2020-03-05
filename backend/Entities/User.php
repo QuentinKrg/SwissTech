@@ -31,13 +31,13 @@ class User extends Entity
       // Vérifier que le mot de passe hashé et celui en base correspondent
       if($hashedPassword != $userInDB['Password'])
       {
-        return http_response_code(408);
+        return http_response_code(409);
       }
 
       // Vérifier que l'utilisateur est bien actif
       if($userInDB['isActive'] == 0 || $userInDB['isActive'] == null)
       {
-        return http_response_code(408);
+        return http_response_code(410);
       }
 
       // Vérification de la validité du token de l'utilisateur

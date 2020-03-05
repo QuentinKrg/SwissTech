@@ -13,6 +13,7 @@ class Customer extends Entity
 		$this->Connect();
     }
 
+
     // Ajout d'un Client via le formulaire d'inscription
     public function AddCustomer()
     {
@@ -27,7 +28,7 @@ class Customer extends Entity
 		$phone = $this->jsonToProcess->privatephone;
         $email = $this->jsonToProcess->email;
 		$birthday = $this->jsonToProcess->birthday;
-		$username = $this->jsonToProcess->username;
+		$login = $this->jsonToProcess->login;
 		$password = $this->jsonToProcess->password;
 		$shippingAddress = $this->jsonToProcess->shippingAddress;
 		$city = $this->jsonToProcess->shippingCity;
@@ -54,8 +55,11 @@ class Customer extends Entity
         $this->Query($addcustomer);
 		
 		
-		//hashage du mdp
-		$hashedPassword = hash('sha256', $password);
+
+		  // Hash du mot de passe reçu et du salt de l'utilisateur
+		  $firsthashedPassword = hash('sha256', $password);
+		  $hashedPassword = hash('sha256', 'monsalt'.$firsthashedPassword);
+		  
 		// Création du token
 		$token = md5(bin2hex(random_bytes(10)));
 
@@ -67,7 +71,7 @@ class Customer extends Entity
 		//Insert
 		$adduser = "INSERT INTO t_users
 					(Username , Password , salt , Token , TokenValidity)
-					VALUES ('$username','$hashedPassword','monsalt','$token','$tokenValidity')";
+					VALUES ('$login','$hashedPassword','monsalt','$token','$tokenValidity')";
         $this->Query($adduser);
 		
 		//Insert Shipping address

@@ -44,8 +44,7 @@
                         <div class="col-sm">
                             <div class="form-group">
                                 <label for="firstname">Prénom</label>
-                                <input type="text" maxlength="100"  formControlName="firstname"
-                                    class="form-control"
+                                <input type="text" maxlength="100" formControlName="firstname" class="form-control"
                                     [ngClass]="{ 'is-invalid': submitted && f.firstname.errors || f.firstname.touched && f.firstname.errors}" />
                                 <div class="invalid-feedback" *ngIf=" f.firstname.hasError('pattern')">
                                     Uniquement des lettres et des espaces</div>
@@ -55,8 +54,7 @@
                         <div class="col-sm">
                             <div class="form-group">
                                 <label for="lastname">Nom</label>
-                                <input type="text" maxlength="100"  formControlName="lastname"
-                                    class="form-control"
+                                <input type="text" maxlength="100" formControlName="lastname" class="form-control"
                                     [ngClass]="{ 'is-invalid': submitted && f.lastname.errors || f.lastname.touched && f.lastname.errors}" />
                                 <div class="invalid-feedback" *ngIf="submitted && f.lastname.hasError('pattern')">
                                     Uniquement des lettres et des espaces</div>
@@ -68,8 +66,8 @@
                     <!-- Birthday date-->
                     <div class="form-group">
                         <label for="birthday">Date de naissance</label>
-                        <input onfocus="(this.type='date')" type="text"  formControlName="birthday"
-                            class="form-control" placeholder=""
+                        <input onfocus="(this.type='date')" type="text" formControlName="birthday" class="form-control"
+                            placeholder=""
                             [ngClass]="{ 'is-invalid': submitted && f.birthday.errors || f.birthday.touched && f.birthday.errors}" />
                     </div>
                 </div>
@@ -106,7 +104,7 @@
                         <!-- Adresse-->
                         <div class="form-group">
                             <label for="ShippingAddress">Rue, n°</label>
-                            <input id="shippingAddress" type="text"  formControlName="shippingAddress"
+                            <input id="shippingAddress" type="text" formControlName="shippingAddress"
                                 class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted && f.shippingAddress.errors || f.shippingAddress.touched && f.shippingAddress.errors}" />
                         </div>
@@ -115,8 +113,8 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="shippingCity">Ville</label>
-                                    <input type="text" maxlength="100"  formControlName="shippingCity"
-                                        id="shippingCity" class="form-control"
+                                    <input type="text" maxlength="100" formControlName="shippingCity" id="shippingCity"
+                                        class="form-control"
                                         [ngClass]="{ 'is-invalid': submitted && f.shippingCity.errors  || f.shippingCity.touched && f.shippingCity.errors}" />
                                 </div>
                             </div>
@@ -124,7 +122,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="shippingZip">NPA</label>
-                                    <input maxlength="4"  formControlName="shippingZip" class="form-control"
+                                    <input maxlength="4" formControlName="shippingZip" class="form-control"
                                         id="shippingZip" [ngClass]="{ 'is-invalid': submitted && f.shippingZip.errors ||
                                              f.shippingZip.errors && f.shippingZip.hasError('pattern') || f.shippingZip.touched && f.shippingZip.errors ||
                                              f.shippingZip.touched && f.shippingZip.hasError('minLength')}" />
@@ -163,8 +161,7 @@
                         <!-- Adresse-->
                         <div class="form-group">
                             <label for="billingAddress">Rue, n°</label>
-                            <input id="billingAddress" type="text"  formControlName="billingAddress"
-                                class="form-control"
+                            <input id="billingAddress" type="text" formControlName="billingAddress" class="form-control" 
                                 [ngClass]="{ 'is-invalid': submitted && f.billingAddress.errors ||f.billingAddress.touched && f.billingAddress.errors}" />
                         </div>
                         <!-- Ville-->
@@ -172,7 +169,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="billingAddressCity">Ville</label>
-                                    <input type="text" maxlength="100"  formControlName="billingAddressCity"
+                                    <input type="text" maxlength="100" formControlName="billingAddressCity"
                                         id="billingCity" class="form-control"
                                         [ngClass]="{ 'is-invalid': submitted && f.billingAddressCity.errors ||f.billingAddressCity.touched && f.billingAddressCity.errors }" />
                                 </div>
@@ -181,7 +178,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="billingAddressZip">NPA</label>
-                                    <input maxlength="4"  formControlName="billingAddressZip" id="billingZip"
+                                    <input maxlength="4" formControlName="billingAddressZip" id="billingZip"
                                         class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billingAddressZip.errors ||
                                          f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern')
                                          || f.billingAddressZip.touched && f.billingAddressZip.errors ||
@@ -217,7 +214,7 @@
                     <!-- Email -->
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input type="email"  formControlName="email" class="form-control"
+                        <input type="email" formControlName="email" class="form-control"
                             placeholder="exemple@domaine.com"
                             [ngClass]="{ 'is-invalid': submitted && f.email.errors || f.email.touched && f.email.errors}" />
                         <div class="invalid-feedback"
@@ -228,7 +225,7 @@
                     <!-- Private phone-->
                     <div class="form-group">
                         <label for="privatephone">Téléphone privé</label>
-                        <input type="phone"  formControlName="privatephone" class="form-control"
+                        <input type="phone" formControlName="privatephone" class="form-control"
                             placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.privatephone.errors || f.privatephone.touched && f.privatephone.errors || 
                             f.privatephone.touched && f.privatephone.hasError('pattern')}" />
                         <div class="invalid-feedback" *ngIf="submitted && f.privatephone.hasError('pattern') ||
@@ -244,7 +241,7 @@
                 aria-controls="collapseThree">
                 <h5>
                     <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree"
-                        aria-controls="collapseThree" class="collapsed d-block" [ngStyle]="{'color':submitted && f.username.errors ||submitted && f.password.errors ||
+                        aria-controls="collapseThree" class="collapsed d-block" [ngStyle]="{'color':submitted && f.login.errors ||submitted && f.password.errors ||
                         submitted && f.password.value.length<8 || submitted && f.password.hasError('pattern') ||submitted && f.confirmPassword.errors ||
                         f.confirmPassword.touched && f.confirmPassword.hasError('mustMatch')? '#dc3545' : 'null' }">
                         <i class="fa fa-chevron-up pull-right"></i>Informations de connexion
@@ -253,12 +250,12 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                 <div class="card-body">
-                    <!-- Username -->
+                    <!-- login -->
                     <div class="form-group">
-                        <label for="username">Nom d'utilisateur</label>
-                        <input type="text"  formControlName="username" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
-                        <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
+                        <label for="login">Nom d'utilisateur</label>
+                        <input type="text" formControlName="login" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.login.errors ||f.login.touched && f.login.errors || f.login.hasError('pattern')}" />
+                        <div *ngIf=" f.login.hasError('pattern')" class="invalid-feedback">
                             Uniquement des lettres et des chiffres
                         </div>
 
@@ -382,7 +379,3 @@
         </button>
     </div>
 </form>
-<p>
-    Form is {{registerForm.valid ? 'Valid' : 'Invalid'}}
-</p>
-<pre>Form Values: {{registerForm.value | json}}</pre>

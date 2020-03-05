@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { CustomValidators } from '../../helpers/CustomValidators';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   ariaOneisExpended;
-  customer: Customer[];
+  user = new User;
   // --------------------------------Captcha---------------------------------------------------
   userCaptcha: String;
   captchaIsValid = false;
@@ -49,7 +50,7 @@ export class RegisterComponent implements OnInit {
       billingAddressCity: ['', Validators.required],
       billingAddressZip: ['', [Validators.required,Validators.minLength(4) , Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      login: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       confirmPassword: ['', [Validators.required]],
       privatephone: ['', [Validators.required,Validators.pattern('[0-9 - + .]*')]],
       userEnteredCaptcha: ['', [Validators.required]],
@@ -214,13 +215,16 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-
+    this.user.login = this.registerForm.value.login;
+    this.user.password = this.registerForm.value.password;
     this.loading = true;
     console.log(this.registerForm.value);
+    console.log(this.user);
+    
 
     this._userService.addCustomer(this.registerForm.value)
       .subscribe(() => {
-        this.authenticationService.login(this.registerForm.value)
+        this.authenticationService.login(this.user)
           //.pipe(first())
           .subscribe(
             () => {

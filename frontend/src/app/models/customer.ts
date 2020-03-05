@@ -10,7 +10,7 @@ export class Customer {
     billingAddressCity: string;
     billingAddressZip: number;
     checkbox_address: boolean;
-    username: string;
+    login: string;
     password: string;
     email: string;
     privatephone: string;
