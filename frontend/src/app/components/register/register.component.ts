@@ -43,13 +43,17 @@ export class RegisterComponent implements OnInit {
       birthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
-      shippingZip: ['', [Validators.required, Validators.pattern('[0-9 ]*')]],
+      shippingZip: ['', [Validators.required,Validators.minLength(4) ,Validators.pattern('[0-9 ]*')]],
       checkbox_address: [''],
       billingAddress: ['', Validators.required],
       billingAddressCity: ['', Validators.required],
-      billingAddressZip: ['', [Validators.required, Validators.pattern('[0-9 ]*')]],
+      billingAddressZip: ['', [Validators.required,Validators.minLength(4) , Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      confirmPassword: ['', [Validators.required]],
+      privatephone: ['', [Validators.required,Validators.pattern('[0-9 - + .]*')]],
+      userEnteredCaptcha: ['', [Validators.required]],
+      generalConditions: ['', Validators.required],
       password: [
         null,
         Validators.compose([
@@ -75,11 +79,7 @@ export class RegisterComponent implements OnInit {
           ),
           Validators.minLength(8)
         ])
-      ],
-      confirmPassword: ['', [Validators.required]],
-      privatephone: ['', Validators.required],
-      userEnteredCaptcha: ['', [Validators.required]],
-      generalConditions: ['', Validators.required]
+      ]
     }
       , {
         validator: CustomValidators.passwordMatchValidator
