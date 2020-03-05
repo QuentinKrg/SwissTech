@@ -92,9 +92,12 @@
                 <div class="card-body">
                     <!-- Adresse de livraison -->
                     <label style=" width: -webkit-fill-available;">
-                        <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_027_location">
-                            <path fill="currentColor" d="M16 3.1a7.04 7.04 0 017.03 7.04c0 4.47-4.66 11.77-7.03 15.75-4-6.74-7.03-11.9-7.03-15.75A7.04 7.04 0 0116 3.1zM16 0C10.4 0 5.86 4.54 5.86 10.14S10.3 22.24 16 32c5.7-9.76 10.14-16.27 10.14-21.86S21.6 0 16 0zm0 6.52a3.52 3.52 0 100 7.04 3.52 3.52 0 000-7.04z"></path>
-                          </svg>
+                        <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_027_location">
+                            <path fill="currentColor"
+                                d="M16 3.1a7.04 7.04 0 017.03 7.04c0 4.47-4.66 11.77-7.03 15.75-4-6.74-7.03-11.9-7.03-15.75A7.04 7.04 0 0116 3.1zM16 0C10.4 0 5.86 4.54 5.86 10.14S10.3 22.24 16 32c5.7-9.76 10.14-16.27 10.14-21.86S21.6 0 16 0zm0 6.52a3.52 3.52 0 100 7.04 3.52 3.52 0 000-7.04z">
+                            </path>
+                        </svg>
                         Adresse de livraison</label>
                     <div>
                         <!-- Adresse-->
@@ -240,33 +243,65 @@
                         <div class="col-sm">
                             <!-- Password -->
                             <div class="form-group">
-                                <label for="password">Mot de passe</label>
-                                <input type="password" autofocus formControlName="password" class="form-control"
-                                    [ngClass]="{ 'is-invalid': f.password.touched && f.password.errors || submitted && f.password.errors }" />
-                                <div *ngIf="f.password.touched && f.password.value.length<8 || submitted && f.password.errors"
-                                    class="invalid-feedback">
-                                    Le mot de passe doit contenir au moins 8 caractères
-                                </div>
-                                <div *ngIf=" f.password.touched && f.password.hasError('pattern') || submitted && f.password.errors"
-                                    class="invalid-feedback">
-                                    Le mot de passe doit contenir au moins: <br />
-                                    une lettre minuscule <br />
-                                    une lettre majuscule<br />
-                                    un chiffre <br />
-                                    un caractère spécial
-                                </div>
+                                <label for="password"
+                                    [ngClass]="f.password.invalid ? 'text-danger' : ''">Mot de
+                                    passe:</label>
+                                <input id="password" formControlName="password" type="password" class="form-control"
+                                    [ngClass]="f.password.invalid ? 'is-invalid' : ''">
+                                <!-- <label class="text-danger col" *ngIf="f.password.hasError('required')">
+              Password is Required!
+            </label> -->
+                                <label class="col"
+                                    [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
+                                    <i class="material-icons">{{ f.password.hasError('required') ||
+                f.password.hasError('minlength') ? 'cancel' :
+                'check_circle' }}</i>
+                                    Au moins 8 caractères
+                                </label>
+                                <label class="col"
+                                    [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+                                    <i class="material-icons">{{ f.password.hasError('required') ||
+                f.password.hasError('hasNumber') ? 'cancel' :
+                'check_circle' }}</i>
+                                    Au moins un ciffre
+                                </label>
+                                <label class="col"
+                                    [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+                                    
+                                    <i class="material-icons">{{ f.password.hasError('required') ||
+                f.password.hasError('hasCapitalCase') ? 'cancel' :
+                'check_circle' }}</i>
+                                    Au moins une majuscule
+                                </label>
+                                <label class="col"
+                                    [ngClass]="f.password.hasError('required') || f.password.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
+                                    <i class="material-icons">{{ f.password.hasError('required') ||
+                f.password.hasError('hasSmallCase') ? 'cancel' :
+                'check_circle' }}</i>
+                                   Au moins une minuscule
+                                </label>
+                                <label class="col"
+                                    [ngClass]="f.password.hasError('required') || f.password.hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                                    <i class="material-icons">{{ f.password.hasError('required') ||
+                f.password.hasError('hasSpecialCharacters') ? 'cancel' :
+                'check_circle' }}</i>
+                                    Au moins un caractère spécial
+                                </label>
                             </div>
                         </div>
                         <div class="col-sm">
                             <!-- Confirmation Password -->
                             <div class="form-group">
-                                <label for="confirmPassword">Confirmez votre mot de passe</label>
-                                <input type="password" autofocus formControlName="confirmPassword" class="form-control"
-                                    [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
-                                <div *ngIf="f.confirmPassword.touched && f.confirmPassword.hasError('mustMatch')"
-                                    class="invalid-feedback">
-                                    Password dont match
-                                </div>
+                                <label for="confirmPassword" [ngClass]="f.confirmPassword.invalid ? 'text-danger' : ''">
+                                    Confirmez votre mot de passe:</label>
+                                  <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control"
+                                    [ngClass]="f.confirmPassword.invalid ? 'is-invalid' : ''">
+                                  <label class="text-danger" *ngIf="f.confirmPassword.hasError('required')">
+                                    Password is Required!
+                                  </label>
+                                  <label class="text-danger" *ngIf="f.confirmPassword.hasError('NoPassswordMatch')">
+                                    Password do not match
+                                  </label>
                             </div>
                         </div>
                     </div>

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { UserService } from 'src/app/services/user.service';
 import { Customer } from 'src/app/models/customer';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { CustomValidators } from '../../helpers/CustomValidators';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -25,33 +27,14 @@ export class RegisterComponent implements OnInit {
   // --------------------------------/Captcha---------------------------------------------------
   constructor(
     private formBuilder: FormBuilder,
-     private _userService: UserService,
-      private router: Router,
-      private route: ActivatedRoute,
-      private authenticationService: AuthenticationService,
+    private _userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService,
     private alertService: AlertService
-  ) {
-
-
-  }
-  MustMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-
-      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        // return if another validator has already found an error on the matchingControl
-        return;
-      }
-
-      // set error on matchingControl if validation fails
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    }
-  }
+  ) {  }
+ 
+  
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       titre: ['', Validators.required],
@@ -67,25 +50,50 @@ export class RegisterComponent implements OnInit {
       billingAddressZip: ['', [Validators.required, Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,255}$/)]],
+      password: [
+        null,
+        Validators.compose([
+          Validators.required,
+          // check whether the entered password has a number
+          CustomValidators.patternValidator(/\d/, {
+            hasNumber: true
+          }),
+          // check whether the entered password has upper case letter
+          CustomValidators.patternValidator(/[A-Z]/, {
+            hasCapitalCase: true
+          }),
+          // check whether the entered password has a lower case letter
+          CustomValidators.patternValidator(/[a-z]/, {
+            hasSmallCase: true
+          }),
+          // check whether the entered password has a special character
+          CustomValidators.patternValidator(
+            /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+            {
+              hasSpecialCharacters: true
+            }
+          ),
+          Validators.minLength(8)
+        ])
+      ],
       confirmPassword: ['', [Validators.required]],
       privatephone: ['', Validators.required],
       userEnteredCaptcha: ['', [Validators.required]],
       generalConditions: ['', Validators.required]
     }
       , {
-        validator: this.MustMatch('password', 'confirmPassword')
+        validator: CustomValidators.passwordMatchValidator
       });
     this.generateCaptchaImage();
     this.userCaptcha = this.registerForm.value.userEnteredCaptcha;
     console.log(this.captchaGenerated);
-    console.log(this.userCaptcha);
 
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
+
   get f() { return this.registerForm.controls; }
-  
+
   onSameAddressCheck() {//Fonction pour copier l'addresse livraison... uniquement l'affichage HTML
     //Recuperation des element input du form
     const bilAddressValue = <HTMLInputElement>document.getElementById("billingAddress");
@@ -96,7 +104,7 @@ export class RegisterComponent implements OnInit {
     const bilZipValue = <HTMLInputElement>document.getElementById("billingZip");
     //si la checkbox est cochée copie les valeurs et désactive les inputs en question
     if (this.registerForm.value.checkbox_address == true) {
-      console.log(this.registerForm.value.checkbox_address);
+      
       bilAddressValue.value = shipAddressValue.value;
       bilZipValue.value = shipZipValue.value;
       bilCityValue.value = shipCityValue.value;
@@ -115,7 +123,7 @@ export class RegisterComponent implements OnInit {
     }
 
   }
-  
+
   // --------------------------------Captcha---------------------------------------------------
   //fonction qui retourne un array de string, longeur selon paramètre
   generateText(length) {
@@ -171,7 +179,7 @@ export class RegisterComponent implements OnInit {
     this.generateCaptchaImage();
     console.log(this.captchaGenerated);
     console.log(this.registerForm.value);
-    
+
   }
 
   //Fontion utile pour valider le champ captcha au moment de la saisie 
@@ -211,17 +219,17 @@ export class RegisterComponent implements OnInit {
     console.log(this.registerForm.value);
 
     this._userService.addCustomer(this.registerForm.value)
-    .subscribe(() => {
-      this.authenticationService.login(this.registerForm.value)
-      //.pipe(first())
-      .subscribe(
-        () => {
-         this.router.navigate([this.returnUrl]);
-        }
-      );
-      this.router.navigate([this.returnUrl]);
-      //this.router.navigate(['home']);
-    });
+      .subscribe(() => {
+        this.authenticationService.login(this.registerForm.value)
+          //.pipe(first())
+          .subscribe(
+            () => {
+              this.router.navigate([this.returnUrl]);
+            }
+          );
+        this.router.navigate([this.returnUrl]);
+        //this.router.navigate(['home']);
+      });
 
   }
 }
