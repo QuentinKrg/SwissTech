@@ -29,13 +29,13 @@ class Categories extends Entity
         $cr = 0;
         while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
           $MainCategories[$cr]['id'] = $row['id_Category'];
-          $articles[$cr]['CategoryName'] = $row['CategoryName'];
-          $articles[$cr]['IsActive'] = $row['isActive'];
-          $articles[$cr]['FK_Category'] = $row['FK_Category'];
+          $MainCategories[$cr]['CategoryName'] = $row['CategoryName'];
+          $MainCategories[$cr]['IsActive'] = $row['isActive'];
+          $MainCategories[$cr]['FK_Category'] = $row['FK_Category'];
           $cr++;
         }
         // echo de la liste des articles
-        return $articles;
+        return $MainCategories;
       }
       // Fermeture de la connexion
       return $tmpResult;
