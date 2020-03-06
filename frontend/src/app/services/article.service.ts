@@ -20,6 +20,10 @@ export class ArticleService {
     return this.http.get<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=GetAll');
   }
 
+  getRandoms(id: number) {
+    return this.http.get<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=GetRandom&id='+id);
+  }
+
   deleteArticle(id:number) {
     return this.http.delete<Article[]>(environment.backendURL + 'start.php?' + 'c=Article&f=Delete&id=' +id);
   }

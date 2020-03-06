@@ -82,6 +82,31 @@ class Article extends Entity
       return $tmpResult;
     }
 
+    // Récupérer alléatoirement un nombre d'articles voulue
+    public function GetRandom()
+    {
+      $articles = [];
+
+      $sql = "SELECT * FROM t_products ORDER BY RAND() LIMIT $this->idToProcess";
+
+      $tmpResult = $this->Query($sql);
+
+      if($tmpResult->rowCount() > 0) {
+
+        // Sortir les données pour chaque "row"
+        $cr = 0;
+        while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+          $articles[$cr]['id'] = $row['id_Product'];
+          $articles[$cr]['Name'] = $row['ProductName'];
+          $articles[$cr]['Price'] = $row['ProductUnitPrice'];
+          $cr++;
+        }
+        // echo de la liste des articles
+        return $articles;
+      }
+      // Fermeture de la connexion
+      return $tmpResult;
+    }
     // Récupération d'un article avec son id
     public function GetById()
     {

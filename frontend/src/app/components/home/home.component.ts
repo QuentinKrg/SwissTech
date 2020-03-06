@@ -10,13 +10,17 @@ import { Article } from 'src/app/models/article';
 })
 export class HomeComponent implements OnInit {
 
-  articles: Article[];
+  recommendationList: Article[];
   private _id: number;
   constructor(private _articleService: ArticleService,
               private _router: Router) { }
 
   ngOnInit() {
-    
+    this._articleService.getRandoms(4)
+      .subscribe((data: Article[]) =>{
+        this.recommendationList = data;
+        console.log(data);
+    });
   }
 
   onEdit(article: Article):void {
