@@ -16,22 +16,15 @@ export class HomeComponent implements OnInit {
               private _router: Router) { }
 
   ngOnInit() {
-    this._articleService.getArticles()
-      .subscribe((data: Article[]) =>{
-        this.articles = data;
-      });
+    
   }
 
   onEdit(article: Article):void {
-    this._id = article.id;
-    this._router.navigate(['edit/' + this._id]);
+
   }
 
   onDelete(article: Article):void {
-    this._articleService.deleteArticle(article.id)
-      .subscribe(data => {
-        this.articles = this.articles.filter(u => u !== article);
-      });
+
   }
 
   monstreTest():void {

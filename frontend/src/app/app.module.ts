@@ -13,6 +13,8 @@ import { TokenInterceptor } from './helpers/token.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
+import { ProductListComponent } from './components/home/product-list/product-list.component';
+import { ProductCardComponent } from './components/home/product-list/product-card/product-card.component';
 
 
 
@@ -24,7 +26,9 @@ import { FooterComponent } from './components/layout/footer/footer.component';
     RegisterComponent,
     HomeComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ProductListComponent,
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,

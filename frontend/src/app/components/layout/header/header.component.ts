@@ -27,4 +27,13 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
+
 }
