@@ -236,7 +236,7 @@ export class RegisterComponent implements OnInit {
       );
     },
     (error)=> {
-      this.usernameErrorMessage=error;
+      this.usernameErrorMessage="Nom d'utilisateur non disponible";
       this.submitted = false;
       this.loading = false;
       return;

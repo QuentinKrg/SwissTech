@@ -223,6 +223,7 @@
                 <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
                     Uniquement des lettres et des chiffres
                 </div>
+                <p class="text-danger">{{usernameErrorMessage}}</p>
             </div>
     
             <div class="row">
@@ -341,5 +342,5 @@
             </button>
         </div>
     </form>
-    <p class="text-danger">{{usernameErrorMessage}}</p>
+    
 </div>

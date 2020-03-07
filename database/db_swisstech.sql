@@ -40,25 +40,74 @@ CREATE TABLE IF NOT EXISTS `t_addresstypes` (
   `id_AddressType` int(11) NOT NULL AUTO_INCREMENT,
   `AddressType` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_AddressType`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_addresstypes : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_addresstypes` DISABLE KEYS */;
+INSERT INTO `t_addresstypes` (`id_AddressType`, `AddressType`) VALUES
+	(1, 'Livraison'),
+	(2, 'Facturation');
 /*!40000 ALTER TABLE `t_addresstypes` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_categories
 CREATE TABLE IF NOT EXISTS `t_categories` (
   `id_Category` int(11) NOT NULL AUTO_INCREMENT,
   `CategoryName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `isActive` tinyint(1) NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT 1,
   `FK_Category` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_Category`),
   KEY `FK_Category_Category` (`FK_Category`),
   CONSTRAINT `FK_Category_Category` FOREIGN KEY (`FK_Category`) REFERENCES `t_categories` (`id_Category`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_categories : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_categories` DISABLE KEYS */;
+INSERT INTO `t_categories` (`id_Category`, `CategoryName`, `isActive`, `FK_Category`) VALUES
+	(3, 'IT & Multimédia', 1, NULL),
+	(4, 'Ordinateurs & tablettes', 1, 3),
+	(5, 'Périphériques & câbles', 1, 3),
+	(6, 'Réseau & serveurs', 1, 3),
+	(7, 'Composants PC', 1, 3),
+	(8, 'Logiciels', 1, 3),
+	(9, 'Téléphonie & gadgets', 1, 3),
+	(10, 'Gaming', 1, 3),
+	(11, 'Photo & vidéo', 1, 3),
+	(12, 'TV & home cinéma', 1, 3),
+	(13, 'Audio', 1, 3),
+	(14, 'Son & éclairage', 1, 3),
+	(15, 'Gadgets', 1, 3),
+	(16, 'Bons & Cartes cadeaux', 1, NULL),
+	(17, 'Promotions', 1, NULL),
+	(18, 'Nouveautés', 1, NULL),
+	(19, 'Accessoires pour ordinateurs portables', 1, 4),
+	(20, 'Accessoires pour tablettes', 1, 4),
+	(21, 'Liseuses', 1, 4),
+	(22, 'Ordinateurs', 1, 4),
+	(23, 'Ordinateurs portables', 1, 4),
+	(24, 'Tablettes & 2-en-1', 1, 4),
+	(25, 'Accessoires pour imprimantes & scanners', 1, 5),
+	(26, 'Accessoires pour moniteurs', 1, 5),
+	(27, 'Adaptateurs & commutateurs', 1, 5),
+	(28, 'Boîtiers externes (lecteurs)', 1, 5),
+	(29, 'Clavier & souris', 1, 5),
+	(30, 'Clés USB', 1, 5),
+	(31, 'Câbles', 1, 5),
+	(32, 'Encres & toners', 1, 5),
+	(33, 'Haut-parleurs de PC', 1, 5),
+	(34, 'Hubs & lecteurs de cartes USB', 1, 5),
+	(35, 'Imprimantes & scanners', 1, 5),
+	(36, 'Moniteurs', 1, 5),
+	(37, 'Mémoire externe', 1, 5),
+	(38, 'Périphériques d\'entrée', 1, 5),
+	(39, 'Tablettes graphiques', 1, 5),
+	(40, 'Accessoires pour ordinateurs portables', 1, 5),
+	(41, 'Casques', 1, 10),
+	(42, 'Casques de RV', 1, 10),
+	(43, 'Chaises de gaming', 1, 10),
+	(44, 'Consoles', 1, 10),
+	(45, 'Figurines', 1, 10),
+	(46, 'Jeux', 1, 10),
+	(47, 'périphériques d\'entrée gamers', 1, 10);
 /*!40000 ALTER TABLE `t_categories` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_comments
@@ -97,8 +146,6 @@ CREATE TABLE IF NOT EXISTS `t_customers` (
 
 -- Listage des données de la table db_swisstech.t_customers : ~1 rows (environ)
 /*!40000 ALTER TABLE `t_customers` DISABLE KEYS */;
-INSERT INTO `t_customers` (`id_customer`, `CustomerTitre`, `CustomerName`, `CustomerLastName`, `CustomerPhone`, `CustomerEmail`, `CustomerBirthday`, `FK_ShoppingCart`) VALUES
-	(3, 'Mr', 'Winston', 'Meisen', '+41 076 801 85 10', 'winstonforti@gmail.com', '1991-10-28', NULL);
 /*!40000 ALTER TABLE `t_customers` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_images
@@ -118,10 +165,30 @@ CREATE TABLE IF NOT EXISTS `t_manufacturers` (
   `id_Manufacturer` int(11) NOT NULL AUTO_INCREMENT,
   `ManufacturerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_Manufacturer`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_manufacturers : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_manufacturers : ~15 rows (environ)
 /*!40000 ALTER TABLE `t_manufacturers` DISABLE KEYS */;
+INSERT INTO `t_manufacturers` (`id_Manufacturer`, `ManufacturerName`) VALUES
+	(2, 'HP'),
+	(3, 'Apple'),
+	(4, 'Samsung'),
+	(5, 'Lenovo'),
+	(6, 'Acer'),
+	(7, 'Asus'),
+	(8, 'Dell'),
+	(9, 'Microsoft'),
+	(10, 'Intel'),
+	(11, 'Belkin'),
+	(12, 'Epson'),
+	(13, 'Canon'),
+	(14, 'Nikon'),
+	(15, 'Logitech'),
+	(16, 'TP-Link'),
+	(17, 'Sony'),
+	(18, 'Huawei'),
+	(19, 'Xiaomi'),
+	(20, 'Nintendo');
 /*!40000 ALTER TABLE `t_manufacturers` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_orders
@@ -186,13 +253,21 @@ CREATE TABLE IF NOT EXISTS `t_products` (
   KEY `FK_Product_Manufacturer` (`FK_Manufacturer`),
   CONSTRAINT `FK_Product_Category` FOREIGN KEY (`FK_Category`) REFERENCES `t_categories` (`id_Category`),
   CONSTRAINT `FK_Product_Manufacturer` FOREIGN KEY (`FK_Manufacturer`) REFERENCES `t_manufacturers` (`id_Manufacturer`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_products : ~2 rows (environ)
 /*!40000 ALTER TABLE `t_products` DISABLE KEYS */;
 INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductColor`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `FK_Category`, `FK_Manufacturer`) VALUES
-	(4, 'PS4 Pro', '', '', '', 16.6, NULL, NULL),
-	(5, 'Apple Mac Pro', '', '', '', 5889, NULL, NULL);
+	(4, 'PS4 Pro 1 TB ', 'Noir', '30cm', '1 Contrôleur compris', 419, 44, 17),
+	(5, 'Apple Mac Pro', '', '', '', 5889, 22, 3),
+	(6, 'Ordinateur portable 250 G7 ', 'Noir/Gris', '50cm', '-Processeur Celeron 3867U - Mémoire vive intégrée: 4GB - Disque dûr: 500GB - Ecran 15.6"', 299, 23, 2),
+	(7, 'MacBook Pro 13" 2019 Touch Bar', 'Argenté', '40cm', '- Processeur: Intel Core i5-8xxx - Mémoire vive intégrée: 8GB - Disque dûr: 128 GB - Ecran: 13.3"', 1379, 23, 3),
+	(8, 'Ordinateur portabe V130-15', 'Noir', '50cm', '-Processeur: Intel Core i3-7020U - Mémoire vive: 4GB - Disque dûr: 256 GB - Ecran: 15.6 " ', 369, 23, 5),
+	(9, 'Nintendo Switch  ', 'Rouge/Bleu', '20cm', 'Modèle révisé HAC-001-01 avec révision du matériel 2019', 349, 44, 20),
+	(10, 'Xbox One S All-Digital Edition 1 To', 'Blanc', '30cm', 'Edition standard', 259, 44, 9),
+	(11, 'iPad 7th Gen. Wifi 32 Go', 'Gris', '20cm', 'Ecran: 10.2 "  - Mémoire totale: 32 GB - Système d\'exploitation: iPadOS - Bluetooth', 379, 24, 3),
+	(12, 'Tablette Galaxy Tab A (2019) SM-T290 32 GB', 'Noir', '18cm', 'Ecran 8 " - Mémoire totale: 32 GB - Système d\'exploitation: Android - Bluetooth', 159, 24, 4),
+	(13, 'Souris B100 Optical', 'Noir', '5cm', 'Type: standard - Molette: Oui - Câble: Oui - Interface: USB', 9, 29, 15);
 /*!40000 ALTER TABLE `t_products` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_products_images
@@ -289,11 +364,10 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~1 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~2 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddresse`, `FK_Role`, `FK_Customer`) VALUES
-	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b66b6d307a71dc313f25555acce24677', '2020-02-27 09:13:47', 1, '', 1, NULL),
-	(20, 'wmeisen', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', '279077046289149445a99043c23274ef', '2020-03-07 19:55:01', 1, '', 1, NULL);
+	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b66b6d307a71dc313f25555acce24677', '2020-02-27 09:13:47', 1, '', 1, NULL);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
