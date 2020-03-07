@@ -1,4 +1,4 @@
-﻿-- --------------------------------------------------------
+-- --------------------------------------------------------
 -- Hôte :                        127.0.0.1
 -- Version du serveur:           10.4.11-MariaDB - mariadb.org binary distribution
 -- SE du serveur:                Win64
@@ -89,14 +89,16 @@ CREATE TABLE IF NOT EXISTS `t_customers` (
   `CustomerPhone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CustomerEmail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CustomerBirthday` date NOT NULL,
-  `FK_ShoppingCart` int(11) NOT NULL,
+  `FK_ShoppingCart` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_customer`),
   KEY `FK_Customer_ShoppingCart` (`FK_ShoppingCart`),
   CONSTRAINT `FK_Customer_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_customers : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_customers : ~1 rows (environ)
 /*!40000 ALTER TABLE `t_customers` DISABLE KEYS */;
+INSERT INTO `t_customers` (`id_customer`, `CustomerTitre`, `CustomerName`, `CustomerLastName`, `CustomerPhone`, `CustomerEmail`, `CustomerBirthday`, `FK_ShoppingCart`) VALUES
+	(3, 'Mr', 'Winston', 'Meisen', '+41 076 801 85 10', 'winstonforti@gmail.com', '1991-10-28', NULL);
 /*!40000 ALTER TABLE `t_customers` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_images
@@ -275,21 +277,23 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   `Salt` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `TokenValidity` datetime NOT NULL,
-  `isActive` tinyint(1) NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT 1,
   `IpAddresse` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `FK_Role` int(11) NOT NULL DEFAULT 1,
   `FK_Customer` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
+  UNIQUE KEY `Username` (`Username`),
   KEY `FK_Users_Customers` (`FK_Customer`),
   KEY `FK_Users_Roles` (`FK_Role`),
   CONSTRAINT `FK_Users_Customers` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~1 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddresse`, `FK_Role`, `FK_Customer`) VALUES
-	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b66b6d307a71dc313f25555acce24677', '2020-02-27 09:13:47', 1, '', 1, NULL);
+	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b66b6d307a71dc313f25555acce24677', '2020-02-27 09:13:47', 1, '', 1, NULL),
+	(20, 'wmeisen', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', '279077046289149445a99043c23274ef', '2020-03-07 19:55:01', 1, '', 1, NULL);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
