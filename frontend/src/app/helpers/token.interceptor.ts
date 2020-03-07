@@ -16,7 +16,7 @@ export class TokenInterceptor implements HttpInterceptor {
         if(currentUser && currentUser.token) {
             request = request.clone( {
                 setHeaders: {
-                    'Username': `${currentUser.login}`,
+                    'Username': `${currentUser.username}`,
                     'Authorization': `${currentUser.token}`,
                     'Role': `${currentUser.role}`
                 }

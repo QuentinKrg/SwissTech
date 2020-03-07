@@ -28,7 +28,7 @@ class Customer extends Entity
 		$phone = $this->jsonToProcess->privatephone;
         $email = $this->jsonToProcess->email;
 		$birthday = $this->jsonToProcess->birthday;
-		$login = $this->jsonToProcess->login;
+		$login = $this->jsonToProcess->username;
 		$password = $this->jsonToProcess->password;
 		$shippingAddress = $this->jsonToProcess->shippingAddress;
 		$city = $this->jsonToProcess->shippingCity;
@@ -47,6 +47,13 @@ class Customer extends Entity
 			$billingAddressZip = $zip;
 		}
 		
+		$sql = "SELECT * FROM t_users WHERE Username = '$login'";
+		$tmpUser = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
+		
+		if($tmpUser != null)
+		  {
+			return http_response_code(409);
+		  }
 		// Requête sql pour la table customers
 		//Insert
         $addcustomer = "INSERT INTO t_customers
@@ -57,8 +64,7 @@ class Customer extends Entity
 		
 
 		  // Hash du mot de passe reçu et du salt de l'utilisateur
-		  $firsthashedPassword = hash('sha256', $password);
-		  $hashedPassword = hash('sha256', 'monsalt'.$firsthashedPassword);
+		  $hashedPassword = hash('sha256', 'monsalt'.$password);
 		  
 		// Création du token
 		$token = md5(bin2hex(random_bytes(10)));
@@ -67,6 +73,7 @@ class Customer extends Entity
 		$validity = new DateTime();
 		$validity->Add(new DateInterval('PT1M'));
 		$tokenValidity = $validity->format('yy-m-d H:i:s');
+		
         //Requête sql pour la table users
 		//Insert
 		$adduser = "INSERT INTO t_users
@@ -89,5 +96,19 @@ class Customer extends Entity
 	  }
 		
     }
+	public function CheckUserByUsername()
+  {
+	$username = $this->jsonToProcess->username;
+    $sql = "SELECT * FROM t_users WHERE Username = '$username'";
+    $tmpUser = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
+	
+	if($tmpUser != 'false')
+      {
+        return http_response_code(409);
+      }
+	else {
+	return $tmpUser;
+	}
+  }
 }
  ?>

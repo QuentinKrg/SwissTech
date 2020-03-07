@@ -241,7 +241,7 @@
                 aria-controls="collapseThree">
                 <h5>
                     <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree"
-                        aria-controls="collapseThree" class="collapsed d-block" [ngStyle]="{'color':submitted && f.login.errors ||submitted && f.password.errors ||
+                        aria-controls="collapseThree" class="collapsed d-block" [ngStyle]="{'color':submitted && f.username.errors ||submitted && f.password.errors ||
                         submitted && f.password.value.length<8 || submitted && f.password.hasError('pattern') ||submitted && f.confirmPassword.errors ||
                         f.confirmPassword.touched && f.confirmPassword.hasError('mustMatch')? '#dc3545' : 'null' }">
                         <i class="fa fa-chevron-up pull-right"></i>Informations de connexion
@@ -250,12 +250,12 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                 <div class="card-body">
-                    <!-- login -->
+                    <!-- username -->
                     <div class="form-group">
-                        <label for="login">Nom d'utilisateur</label>
-                        <input type="text" formControlName="login" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.login.errors ||f.login.touched && f.login.errors || f.login.hasError('pattern')}" />
-                        <div *ngIf=" f.login.hasError('pattern')" class="invalid-feedback">
+                        <label  for="username">Nom d'utilisateur</label>
+                        <input  type="text" formControlName="username" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
+                        <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
                             Uniquement des lettres et des chiffres
                         </div>
 
@@ -379,3 +379,4 @@
         </button>
     </div>
 </form>
+<p class="text-danger">{{usernameErrorMessage}}</p>

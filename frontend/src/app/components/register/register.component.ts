@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { CustomValidators } from '../../helpers/CustomValidators';
 import { User } from 'src/app/models/user';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,8 @@ export class RegisterComponent implements OnInit {
   returnUrl: string;
   ariaOneisExpended;
   user = new User;
+  haveUser: String;
+  usernameErrorMessage: String;
   // --------------------------------Captcha---------------------------------------------------
   userCaptcha: String;
   captchaIsValid = false;
@@ -33,9 +36,9 @@ export class RegisterComponent implements OnInit {
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private alertService: AlertService
-  ) {  }
- 
-  
+  ) { }
+
+
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       titre: ['', Validators.required],
@@ -44,15 +47,15 @@ export class RegisterComponent implements OnInit {
       birthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
-      shippingZip: ['', [Validators.required,Validators.minLength(4) ,Validators.pattern('[0-9 ]*')]],
+      shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       checkbox_address: [''],
       billingAddress: ['', Validators.required],
       billingAddressCity: ['', Validators.required],
-      billingAddressZip: ['', [Validators.required,Validators.minLength(4) , Validators.pattern('[0-9 ]*')]],
+      billingAddressZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      login: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       confirmPassword: ['', [Validators.required]],
-      privatephone: ['', [Validators.required,Validators.pattern('[0-9 - + .]*')]],
+      privatephone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       userEnteredCaptcha: ['', [Validators.required]],
       generalConditions: ['', Validators.required],
       password: [
@@ -105,7 +108,7 @@ export class RegisterComponent implements OnInit {
     const bilZipValue = <HTMLInputElement>document.getElementById("billingZip");
     //si la checkbox est cochée copie les valeurs et désactive les inputs en question
     if (this.registerForm.value.checkbox_address == true) {
-      
+
       bilAddressValue.value = shipAddressValue.value;
       bilZipValue.value = shipZipValue.value;
       bilCityValue.value = shipCityValue.value;
@@ -125,6 +128,7 @@ export class RegisterComponent implements OnInit {
 
   }
 
+ 
   // --------------------------------Captcha---------------------------------------------------
   //fonction qui retourne un array de string, longeur selon paramètre
   generateText(length) {
@@ -165,7 +169,6 @@ export class RegisterComponent implements OnInit {
     ctx.fillStyle = '#3F3F3F';
     ctx.fillText(this.captchaGenerated, 30, 33);
     ctx.textAlign = 'center';
-    console.log('test generemimage');
 
   }
   clearCanvas(a) {
@@ -180,7 +183,6 @@ export class RegisterComponent implements OnInit {
     this.generateCaptchaImage();
     console.log(this.captchaGenerated);
     console.log(this.registerForm.value);
-
   }
 
   //Fontion utile pour valider le champ captcha au moment de la saisie 
@@ -200,12 +202,11 @@ export class RegisterComponent implements OnInit {
     //Stop si le captcha saisit ne match pas avec celui qui a été généré au moment du submit
     this.submitted = true;
     if (this.isValid(this.registerForm.value.userEnteredCaptcha)) {
-      console.log('true');
     } else {
-      console.log('false');
       return;
     }
     // ----------------------------/Captcha-----------------------------------
+     
 
     if (this.registerForm.invalid) {
       this.submitted = false;
@@ -214,26 +215,36 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-
-    this.user.login = this.registerForm.value.login;
+    
+    this.user.username = this.registerForm.value.username;
     this.user.password = this.registerForm.value.password;
+    this.registerForm.value.password = CryptoJS.SHA256(this.registerForm.value.password ).toString();
     this.loading = true;
     console.log(this.registerForm.value);
     console.log(this.user);
-    
 
-    this._userService.addCustomer(this.registerForm.value)
-      .subscribe(() => {
+
+    this._userService.addCustomer(this.registerForm.value).then(
+      () =>{
+        console.log('tout va bien');
         this.authenticationService.login(this.user)
-          //.pipe(first())
-          .subscribe(
-            () => {
-              this.router.navigate([this.returnUrl]);
-            }
-          );
-        this.router.navigate([this.returnUrl]);
-        //this.router.navigate(['home']);
-      });
+      //.pipe(first())
+      .subscribe(
+        () => {
+          this.router.navigate([this.returnUrl]);
+        }
+      );
+    },
+    (error)=> {
+      this.usernameErrorMessage=error;
+      this.submitted = false;
+      this.loading = false;
+      return;
+    });
+      /*.subscribe(() => {
 
+        //this.router.navigate(['home']);
+      });*/
+    
   }
 }
