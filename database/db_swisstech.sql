@@ -33,6 +33,11 @@ CREATE TABLE IF NOT EXISTS `t_address` (
 
 -- Listage des données de la table db_swisstech.t_address : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_address` DISABLE KEYS */;
+INSERT INTO `t_address` (`id_Address`, `Address`, `City`, `ZIP`, `FK_AddressType`, `FK_Customer`) VALUES
+	(1, 'Rue du théatre 9, Casino de Montreux', 'Montreux', 1820, 1, 4),
+	(2, 'Rue du théatre 9, Casino de Montreux', 'Montreux', 1820, 2, 4),
+	(3, 'La rue la', 'Chepa', 1234, 1, 5),
+	(4, 'rue 2', 'ville 2', 4321, 2, 5);
 /*!40000 ALTER TABLE `t_address` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_addresstypes
@@ -42,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `t_addresstypes` (
   PRIMARY KEY (`id_AddressType`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_addresstypes : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_addresstypes : ~2 rows (environ)
 /*!40000 ALTER TABLE `t_addresstypes` DISABLE KEYS */;
 INSERT INTO `t_addresstypes` (`id_AddressType`, `AddressType`) VALUES
 	(1, 'Livraison'),
@@ -60,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `t_categories` (
   CONSTRAINT `FK_Category_Category` FOREIGN KEY (`FK_Category`) REFERENCES `t_categories` (`id_Category`)
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_categories : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_categories : ~45 rows (environ)
 /*!40000 ALTER TABLE `t_categories` DISABLE KEYS */;
 INSERT INTO `t_categories` (`id_Category`, `CategoryName`, `isActive`, `FK_Category`) VALUES
 	(3, 'IT & Multimédia', 1, NULL),
@@ -144,8 +149,11 @@ CREATE TABLE IF NOT EXISTS `t_customers` (
   CONSTRAINT `FK_Customer_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_customers : ~1 rows (environ)
+-- Listage des données de la table db_swisstech.t_customers : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_customers` DISABLE KEYS */;
+INSERT INTO `t_customers` (`id_customer`, `CustomerTitre`, `CustomerName`, `CustomerLastName`, `CustomerPhone`, `CustomerEmail`, `CustomerBirthday`, `FK_ShoppingCart`) VALUES
+	(4, 'Mr', 'Winston', 'Meisen', '+41 076 801 85 10', 'winstonforti@gmail.com', '1991-10-28', NULL),
+	(5, 'Mme', 'Josephine', 'Ange Gardien', '989898', 'joange@gmail.com', '1000-01-01', NULL);
 /*!40000 ALTER TABLE `t_customers` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_images
@@ -158,6 +166,13 @@ CREATE TABLE IF NOT EXISTS `t_images` (
 
 -- Listage des données de la table db_swisstech.t_images : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_images` DISABLE KEYS */;
+INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
+	(1, 'PS4 - std - black', 'http://localhost/SwissTech/frontend/src/assets/images/products/ps4.png'),
+	(2, 'Nintendo Switch - red-blue', 'http://localhost/SwissTech/frontend/src/assets/images/products/Nintendo-Switch-.png'),
+	(3, 'Laptop HP 250 G7 - Noir', 'http://localhost/SwissTech/frontend/src/assets/images/products/Laptop-HP-250-G7-Black.png'),
+	(4, 'iPad Silver 32 Go', 'http://localhost/SwissTech/frontend/src/assets/images/products/ipad-wifi-select-silver32Go.png'),
+	(5, 'Macbook Pro - silver', 'http://localhost/SwissTech/frontend/src/assets/images/products/macbook-pro-.png'),
+	(6, 'AirPods -std', 'http://localhost/SwissTech/frontend/src/assets/images/products/img-article-temp.jpg');
 /*!40000 ALTER TABLE `t_images` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_manufacturers
@@ -167,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `t_manufacturers` (
   PRIMARY KEY (`id_Manufacturer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_manufacturers : ~15 rows (environ)
+-- Listage des données de la table db_swisstech.t_manufacturers : ~19 rows (environ)
 /*!40000 ALTER TABLE `t_manufacturers` DISABLE KEYS */;
 INSERT INTO `t_manufacturers` (`id_Manufacturer`, `ManufacturerName`) VALUES
 	(2, 'HP'),
@@ -255,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `t_products` (
   CONSTRAINT `FK_Product_Manufacturer` FOREIGN KEY (`FK_Manufacturer`) REFERENCES `t_manufacturers` (`id_Manufacturer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products : ~2 rows (environ)
+-- Listage des données de la table db_swisstech.t_products : ~10 rows (environ)
 /*!40000 ALTER TABLE `t_products` DISABLE KEYS */;
 INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductColor`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `FK_Category`, `FK_Manufacturer`) VALUES
 	(4, 'PS4 Pro 1 TB ', 'Noir', '30cm', '1 Contrôleur compris', 419, 44, 17),
@@ -284,6 +299,12 @@ CREATE TABLE IF NOT EXISTS `t_products_images` (
 
 -- Listage des données de la table db_swisstech.t_products_images : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_products_images` DISABLE KEYS */;
+INSERT INTO `t_products_images` (`id_Product_Image`, `FK_Product`, `FK_Image`) VALUES
+	(1, 4, 1),
+	(2, 7, 5),
+	(3, 9, 2),
+	(4, 6, 3),
+	(5, 11, 4);
 /*!40000 ALTER TABLE `t_products_images` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_products_orders
@@ -364,10 +385,12 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~2 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~1 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddresse`, `FK_Role`, `FK_Customer`) VALUES
-	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b66b6d307a71dc313f25555acce24677', '2020-02-27 09:13:47', 1, '', 1, NULL);
+	(1, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b66b6d307a71dc313f25555acce24677', '2020-02-27 09:13:47', 1, '', 1, NULL),
+	(21, 'wmeisen', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', '77090f476addbccfe5f28cf61c4cb171', '2020-03-08 10:37:10', 1, '', 1, NULL),
+	(22, 'joseph', '62e090d846930e00038efb7f607eb93abc7af428a650d4947ef7ebe1ed325bae', 'monsalt', '6d713567178f43c216c08e78ec33b7f6', '2020-03-08 11:05:32', 1, '', 1, NULL);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
