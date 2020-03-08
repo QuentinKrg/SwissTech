@@ -8,4 +8,7 @@ header {
   header .icon {
     height: 23px; }
 
+.card-body {
+  min-height: 125px; }
+
 /*# sourceMappingURL=styles.css.map */

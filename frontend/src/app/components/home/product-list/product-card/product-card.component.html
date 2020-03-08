@@ -2,14 +2,14 @@
     <div class="card-header">
 
     </div>
-    <img src="/assets/images/products/img-article-temp.jpg" class="card-img-top" alt="...">
+    <img src='/assets/images/products/{{product.ProductImagePath}}' class="card-img-top" alt="...">
     <div class="card-body">
         <figcaption class="figure-caption">A caption for the above image.</figcaption>
-        <p class="card-text">{{product.Name}}</p>
+        <p class="card-text">{{product.ProductName}}</p>
     </div>
     <div class="card-footer">
         <div>
-            <span>CHF {{product.Price}}.00</span>
+            <span>CHF {{product.ProductUnitPrice}}.00</span>
         </div>
     </div>
     

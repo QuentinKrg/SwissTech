@@ -5,7 +5,7 @@
  * Time: 12:44
  */
 
-class Article extends Entity
+class Product extends Entity
 {
 
     public function  __construct()
@@ -87,7 +87,12 @@ class Article extends Entity
     {
       $articles = [];
 
-      $sql = "SELECT * FROM t_products ORDER BY RAND() LIMIT $this->idToProcess";
+      $sql = " SELECT * FROM t_products
+               INNER JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
+               INNER JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
+               INNER JOIN t_manufacturers ON t_products.FK_Manufacturer = t_manufacturers.id_Manufacturer
+               INNER JOIN t_categories ON t_products.FK_Category = t_categories.id_Category
+               ORDER BY RAND() LIMIT $this->idToProcess";
 
       $tmpResult = $this->Query($sql);
 
@@ -97,8 +102,14 @@ class Article extends Entity
         $cr = 0;
         while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
           $articles[$cr]['id'] = $row['id_Product'];
-          $articles[$cr]['Name'] = $row['ProductName'];
-          $articles[$cr]['Price'] = $row['ProductUnitPrice'];
+          $articles[$cr]['ProductName'] = $row['ProductName'];
+          $articles[$cr]['ProductColor'] = $row['ProductColor'];
+          $articles[$cr]['ProductDescription'] = $row['ProductDescription'];
+          $articles[$cr]['ProductUnitPrice'] = $row['ProductUnitPrice'];
+          $articles[$cr]['ProductImageName'] = $row['ImageName'];
+          $articles[$cr]['ProductImagePath'] = $row['ImagePath'];
+          $articles[$cr]['ProductManufacturer'] = $row['ManufacturerName'];
+          $articles[$cr]['ProductCategory'] = $row['CategoryName'];
           $cr++;
         }
         // echo de la liste des articles
