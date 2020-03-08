@@ -225,8 +225,8 @@
             <!-- username -->
             <div class="form-group">
                 <label for="username">Nom d'utilisateur</label>
-                <input type="text" formControlName="username" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
+                <input type="text" formControlName="username" class="form-control"  (keyup.tab)="isUserAvailable()" (blur)="isUserAvailable()"
+                    [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
                 <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
                     Uniquement des lettres et des chiffres
                 </div>

@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
   user = new User;
   haveUser: String;
   usernameErrorMessage: String;
+  isUserValid = true;
   // --------------------------------Captcha---------------------------------------------------
   userCaptcha: String;
   captchaIsValid = false;
@@ -199,6 +200,21 @@ export class RegisterComponent implements OnInit {
   }
   // --------------------------------/Captcha---------------------------------------------------
 
+  //live validation pour voir si le nom d'utilisateur est disponible et avertir l'utilisateur
+  isUserAvailable(){
+    this.user.username = this.registerForm.value.username;
+    this._userService.getUserByUsername(this.user).then(
+      ()=>{
+        this.usernameErrorMessage = "";
+        this.isUserValid = true;
+      },
+      (error) =>{
+        this.usernameErrorMessage = "Nom d'utilisateur non disponible";
+        this.isUserValid = false;
+      }
+    );
+  }
+  
   onSubmit() {
     // ------------------------Captcha---------------------------------------
     //Stop si le captcha saisit ne match pas avec celui qui a été généré au moment du submit
@@ -260,7 +276,7 @@ export class RegisterComponent implements OnInit {
         return;
       }
       
-    )
+    );
     
   }
 }
