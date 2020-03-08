@@ -6,27 +6,32 @@
     .card-header .collapsed .fa {
         transform: rotate(180deg);
     }
+
     h2 {
         font-family: Poppins, sans-serif;
         margin-bottom: 20px;
         padding-top: 10px;
         height: 50px;
         align-items: center;
+        text-align: center;
     }
-    h5{
+
+    h5 {
         font-size: 1.25rem;
         padding-top: 7px;
         height: 50px;
         margin-top: 20px;
         border-top-style: outset;
     }
-    h6{
+
+    h6 {
         height: 30px;
         padding-top: 10px;
         margin-bottom: 20px;
         border-top-style: outset;
     }
-    i{
+
+    i {
         vertical-align: middle;
     }
 </style>
@@ -35,185 +40,187 @@
     padding-left: 3%;
     padding-right: 3%;
     margin: auto;
-    background-color: white;"
->
+    background-color: white;">
     <h2>Créer un compte</h2>
     <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form">
 
         <div>
-        <h5>Mes coordonnées </h5>
+            <h5>Mes coordonnées </h5>
             <!-- Titre-->
-        <div class="form-group">
-            <label for="titre">Titre</label>
-            <select class="form-control" formControlName="titre" autofocus
-                [ngClass]="{ 'is-invalid': submitted && f.titre.errors || f.titre.touched && f.titre.errors}">
-                <option value="" selected disabled>Veuillez choisir</option>
-                <option value="Mme">Mme</option>
-                <option value="Mr">Mr</option>
-                <option value="NB">Non binaire</option>
-            </select>
-        </div>
-
-        <!-- First name-->
-        <div class="row">
-            <div class="col-sm">
-                <div class="form-group">
-                    <label for="firstname">Prénom</label>
-                    <input type="text" maxlength="100" formControlName="firstname" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f.firstname.errors || f.firstname.touched && f.firstname.errors}" />
-                    <div class="invalid-feedback" *ngIf=" f.firstname.hasError('pattern')">
-                        Uniquement des lettres et des espaces</div>
-                </div>
-            </div>
-            <!-- Last name-->
-            <div class="col-sm">
-                <div class="form-group">
-                    <label for="lastname">Nom</label>
-                    <input type="text" maxlength="100" formControlName="lastname" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f.lastname.errors || f.lastname.touched && f.lastname.errors}" />
-                    <div class="invalid-feedback" *ngIf="submitted && f.lastname.hasError('pattern')">
-                        Uniquement des lettres et des espaces</div>
-                </div>
+            <div class="form-group">
+                <label for="titre">Titre</label>
+                <select class="form-control" formControlName="titre" autofocus
+                    [ngClass]="{ 'is-invalid': submitted && f.titre.errors || f.titre.touched && f.titre.errors}">
+                    <option value="" selected disabled>Veuillez choisir</option>
+                    <option value="Mme">Mme</option>
+                    <option value="Mr">Mr</option>
+                    <option value="NB">Non binaire</option>
+                </select>
             </div>
 
-        </div>
+            <!-- First name-->
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label for="firstname">Prénom</label>
+                        <input type="text" maxlength="100" formControlName="firstname" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.firstname.errors || f.firstname.touched && f.firstname.errors}" />
+                        <div class="invalid-feedback" *ngIf=" f.firstname.hasError('pattern')">
+                            Uniquement des lettres et des espaces</div>
+                    </div>
+                </div>
+                <!-- Last name-->
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label for="lastname">Nom</label>
+                        <input type="text" maxlength="100" formControlName="lastname" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.lastname.errors || f.lastname.touched && f.lastname.errors}" />
+                        <div class="invalid-feedback" *ngIf="submitted && f.lastname.hasError('pattern')">
+                            Uniquement des lettres et des espaces</div>
+                    </div>
+                </div>
 
-        <!-- Birthday date-->
-        <div class="form-group">
-            <label for="birthday">Date de naissance</label>
-            <input onfocus="(this.type='date')" type="text" formControlName="birthday" class="form-control"
-                placeholder=""
-                [ngClass]="{ 'is-invalid': submitted && f.birthday.errors || f.birthday.touched && f.birthday.errors}" />
-        </div>
+            </div>
+
+            <!-- Birthday date-->
+            <div class="form-group">
+                <label for="birthday">Date de naissance</label>
+                <input onfocus="(this.type='date')" type="text" formControlName="birthday" class="form-control"
+                    placeholder=""
+                    [ngClass]="{ 'is-invalid': submitted && f.birthday.errors || f.birthday.touched && f.birthday.errors}" />
+            </div>
 
 
-        <!-- Adresse de livraison -->
-        <h6 style=" width: -webkit-fill-available;">
-            <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_027_location">
-                <path fill="currentColor" d="M16 3.1a7.04 7.04 0 017.03 7.04c0 4.47-4.66 11.77-7.03 15.75-4-6.74-7.03-11.9-7.03-15.75A7.04
+            <!-- Adresse de livraison -->
+            <h6 style=" width: -webkit-fill-available;">
+                <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_027_location">
+                    <path fill="currentColor" d="M16 3.1a7.04 7.04 0 017.03 7.04c0 4.47-4.66 11.77-7.03 15.75-4-6.74-7.03-11.9-7.03-15.75A7.04
                                  7.04 0 0116 3.1zM16 0C10.4 0 5.86 4.54 5.86 10.14S10.3 22.24 16 32c5.7-9.76 10.14-16.27 10.14-21.86S21.6
                                   0 16 0zm0 6.52a3.52 3.52 0 100 7.04 3.52 3.52 0 000-7.04z">
-                </path>
-            </svg>
-            Adresse de livraison</h6>
-        <div>
-            <!-- Adresse-->
-            <div class="form-group">
-                <label for="ShippingAddress">Rue, n°</label>
-                <input id="shippingAddress" type="text" formControlName="shippingAddress" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.shippingAddress.errors || f.shippingAddress.touched && f.shippingAddress.errors}" />
-            </div>
-            <!-- Ville-->
-            <div class="row">
-                <div class="col-sm">
-                    <div class="form-group">
-                        <label for="shippingCity">Ville</label>
-                        <input type="text" maxlength="100" formControlName="shippingCity" id="shippingCity"
-                            class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.shippingCity.errors  || f.shippingCity.touched && f.shippingCity.errors}" />
-                    </div>
+                    </path>
+                </svg>
+                Adresse de livraison</h6>
+            <div>
+                <!-- Adresse-->
+                <div class="form-group">
+                    <label for="ShippingAddress">Rue, n°</label>
+                    <input id="shippingAddress" type="text" formControlName="shippingAddress" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.shippingAddress.errors || f.shippingAddress.touched && f.shippingAddress.errors}" />
                 </div>
-                <!-- NPA-->
-                <div class="col-sm">
-                    <div class="form-group">
-                        <label for="shippingZip">Code Postal</label>
-                        <input maxlength="4" formControlName="shippingZip" class="form-control" id="shippingZip"
-                            [ngClass]="{ 'is-invalid': submitted && f.shippingZip.errors ||
+                <!-- Ville-->
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="shippingCity">Ville</label>
+                            <input type="text" maxlength="100" formControlName="shippingCity" id="shippingCity"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.shippingCity.errors  || f.shippingCity.touched && f.shippingCity.errors}" />
+                        </div>
+                    </div>
+                    <!-- NPA-->
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="shippingZip">Code Postal</label>
+                            <input maxlength="4" formControlName="shippingZip" class="form-control" id="shippingZip"
+                                [ngClass]="{ 'is-invalid': submitted && f.shippingZip.errors ||
                                              f.shippingZip.errors && f.shippingZip.hasError('pattern') || f.shippingZip.touched && f.shippingZip.errors ||
                                              f.shippingZip.touched && f.shippingZip.hasError('minLength')}" />
-                        <div class="invalid-feedback"
-                            *ngIf="f.shippingZip.touched && f.shippingZip.hasError('pattern') ">
-                            Uniquement des chiffres</div>
-                        <div class="invalid-feedback"
-                            *ngIf="f.shippingZip.touched && f.shippingZip.value.length<4 && f.shippingZip.value.length!=0 ">
-                            Au moins 4 chiffres</div>
+                            <div class="invalid-feedback"
+                                *ngIf="f.shippingZip.touched && f.shippingZip.hasError('pattern') ">
+                                Uniquement des chiffres</div>
+                            <div class="invalid-feedback"
+                                *ngIf="f.shippingZip.touched && f.shippingZip.value.length<4 && f.shippingZip.value.length!=0 ">
+                                Au moins 4 chiffres</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Adresse de facturation -->
-        <h6 style=" width: -webkit-fill-available;">
-            <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_017_postal_card">
-                <path fill="currentColor"
-                    d="M16.12 15.24L5.96 18.35l.4 1.33 10.16-3.12-.4-1.32zM27.25 4.08L32 19.57 4.75 27.92
+            <!-- Adresse de facturation -->
+            <h6 style=" width: -webkit-fill-available;">
+                <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_017_postal_card">
+                    <path fill="currentColor"
+                        d="M16.12 15.24L5.96 18.35l.4 1.33 10.16-3.12-.4-1.32zM27.25 4.08L32 19.57 4.75 27.92
                                  0 12.43l27.25-8.35zm2.16 14.11L25.88 6.67 2.59 13.81l3.53 11.52 23.29-7.14zM7.3
                                   22.77l10.16-3.11-.4-1.32-10.16 3.1.4 1.33zm18.76-11.6l-1-3.24-2.4.74.99 3.24 2.4-.74z">
-                </path>
-            </svg>
-            Adresse de facturation</h6>
-        <div>
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input [value]="true" name="checkbox_address" id="checkbox_address" type="checkbox"
-                        class="custom-control-input" formControlName="checkbox_address" (change)="onSameAddressCheck()">
-                    <label for="checkbox_address" class="custom-control-label">
-                        Comme l'adresse de livraison.
-                    </label>
-                </div>
-            </div>
-            <!-- Adresse-->
-            <div class="form-group">
-                <label for="billingAddress">Rue, n°</label>
-                <input id="billingAddress" type="text" formControlName="billingAddress" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.billingAddress.errors ||f.billingAddress.touched && f.billingAddress.errors}" />
-            </div>
-            <!-- Ville-->
-            <div class="row">
-                <div class="col-sm">
-                    <div class="form-group">
-                        <label for="billingAddressCity">Ville</label>
-                        <input type="text" maxlength="100" formControlName="billingAddressCity" id="billingCity"
-                            class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.billingAddressCity.errors ||f.billingAddressCity.touched && f.billingAddressCity.errors }" />
+                    </path>
+                </svg>
+                Adresse de facturation</h6>
+            <div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input [value]="true" name="checkbox_address" id="checkbox_address" type="checkbox"
+                            class="custom-control-input" formControlName="checkbox_address"
+                            (change)="onSameAddressCheck()">
+                        <label for="checkbox_address" class="custom-control-label">
+                            Comme l'adresse de livraison.
+                        </label>
                     </div>
                 </div>
-                <!-- NPA-->
-                <div class="col-sm">
-                    <div class="form-group">
-                        <label for="billingAddressZip">Code Postal</label>
-                        <input maxlength="4" formControlName="billingAddressZip" id="billingZip" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.billingAddressZip.errors ||
+                <!-- Adresse-->
+                <div class="form-group">
+                    <label for="billingAddress">Rue, n°</label>
+                    <input id="billingAddress" type="text" formControlName="billingAddress" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.billingAddress.errors ||f.billingAddress.touched && f.billingAddress.errors}" />
+                </div>
+                <!-- Ville-->
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="billingAddressCity">Ville</label>
+                            <input type="text" maxlength="100" formControlName="billingAddressCity" id="billingCity"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.billingAddressCity.errors ||f.billingAddressCity.touched && f.billingAddressCity.errors }" />
+                        </div>
+                    </div>
+                    <!-- NPA-->
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="billingAddressZip">Code Postal</label>
+                            <input maxlength="4" formControlName="billingAddressZip" id="billingZip"
+                                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billingAddressZip.errors ||
                                          f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern')
                                          || f.billingAddressZip.touched && f.billingAddressZip.errors ||
                                          f.billingAddressZip.touched && f.billingAddressZip.hasError('minLength')}" />
-                        <div class="invalid-feedback" *ngIf="f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern') ||
+                            <div class="invalid-feedback" *ngIf="f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern') ||
                                      f.billingAddressZip.errors && f.billingAddressZip.hasError('pattern')">
-                            Uniquement des chiffres</div>
-                        <div class="invalid-feedback"
-                            *ngIf="f.billingAddressZip.touched && f.billingAddressZip.value.length<4 && f.billingAddressZip.value.length!=0 ">
-                            Au moins 4 chiffres</div>
+                                Uniquement des chiffres</div>
+                            <div class="invalid-feedback"
+                                *ngIf="f.billingAddressZip.touched && f.billingAddressZip.value.length<4 && f.billingAddressZip.value.length!=0 ">
+                                Au moins 4 chiffres</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>Mes informations de contact</h5>
+            <div>
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" formControlName="email" class="form-control" placeholder="exemple@domaine.com"
+                        [ngClass]="{ 'is-invalid': submitted && f.email.errors || f.email.touched && f.email.errors}" />
+                    <div class="invalid-feedback"
+                        *ngIf="submitted && f.email.hasError('email') || f.email.touched && f.email.hasError('email')">
+                        Le format de la saisie n'est pas valable
+                    </div>
+                </div>
+                <!-- Private phone-->
+                <div class="form-group">
+                    <label for="privatephone">Téléphone privé</label>
+                    <input type="phone" formControlName="privatephone" class="form-control"
+                        placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.privatephone.errors || f.privatephone.touched && f.privatephone.errors || 
+                            f.privatephone.touched && f.privatephone.hasError('pattern')}" />
+                    <div class="invalid-feedback" *ngIf="submitted && f.privatephone.hasError('pattern') ||
+                             f.privatephone.touched && f.privatephone.hasError('pattern')">
+                        Le format de la saisie n'est pas valable
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <!-- Email -->
-        <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" formControlName="email" class="form-control" placeholder="exemple@domaine.com"
-                [ngClass]="{ 'is-invalid': submitted && f.email.errors || f.email.touched && f.email.errors}" />
-            <div class="invalid-feedback"
-                *ngIf="submitted && f.email.hasError('email') || f.email.touched && f.email.hasError('email')">
-                Le format de la saisie n'est pas valable
-            </div>
-        </div>
-        <!-- Private phone-->
-        <div class="form-group">
-            <label for="privatephone">Téléphone privé</label>
-            <input type="phone" formControlName="privatephone" class="form-control"
-                placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.privatephone.errors || f.privatephone.touched && f.privatephone.errors || 
-                            f.privatephone.touched && f.privatephone.hasError('pattern')}" />
-            <div class="invalid-feedback" *ngIf="submitted && f.privatephone.hasError('pattern') ||
-                             f.privatephone.touched && f.privatephone.hasError('pattern')">
-                Le format de la saisie n'est pas valable
-            </div>
-        </div>
-        </div>
-
-        <div >
+        <div>
             <h5>Mes identifiants </h5>
             <!-- username -->
             <div class="form-group">
@@ -225,7 +232,7 @@
                 </div>
                 <p class="text-danger">{{usernameErrorMessage}}</p>
             </div>
-    
+
             <div class="row">
                 <div class="col-sm">
                     <!-- Password -->
@@ -249,7 +256,7 @@
                         </label>
                         <label class="col"
                             [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
-    
+
                             <i class="material-icons">{{ f.password.hasError('required') ||
                     f.password.hasError('hasCapitalCase') ? 'cancel' :
                     'check_circle' }}</i>
@@ -275,7 +282,8 @@
                     <!-- Confirmation Password -->
                     <div class="form-group">
                         <label for="confirmPassword">Confirmation de mot de passe:</label>
-                        <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control"
+                        <input id="confirmPassword" formControlName="confirmPassword" type="password"
+                            class="form-control"
                             [ngClass]="f.confirmPassword.touched && f.confirmPassword.invalid ? 'is-invalid' : ''">
                         <label class="text-danger"
                             *ngIf="f.confirmPassword.value.length < 1 || f.confirmPassword.hasError('required')">
@@ -287,60 +295,61 @@
                         </label>
                     </div>
                 </div>
-            </div></div>
-        
+            </div>
+        </div>
 
-            <!-- Checkbox general condition-->
-            <div class="form-group" style=" border-top-style: outset;
+
+        <!-- Checkbox general condition-->
+        <div class="form-group" style=" border-top-style: outset;
             padding-top: 5px;">
-                <div class="custom-control custom-checkbox">
-                    <input id="checkbox_register" type="checkbox" class="custom-control-input"
-                        formControlName="generalConditions"
-                        [ngClass]="{ 'is-invalid': submitted && !registerForm.value.generalConditions}">
-                    <label for="checkbox_register" class="custom-control-label">
-                        J'accepte les Conditions générales.
-                    </label>
-                </div>
+            <div class="custom-control custom-checkbox">
+                <input id="checkbox_register" type="checkbox" class="custom-control-input"
+                    formControlName="generalConditions"
+                    [ngClass]="{ 'is-invalid': submitted && !registerForm.value.generalConditions}">
+                <label for="checkbox_register" class="custom-control-label">
+                    J'accepte les Conditions générales.
+                </label>
             </div>
+        </div>
 
 
-            <div class="form-group" style=" text-align: -webkit-center;
+        <div class="form-group" style=" text-align: -webkit-center;
             padding-top: 2%;">
-                <canvas id="myCanvas" width="180" height="45" style="border:1px solid #d3d3d3">
-                    Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
+            <canvas id="myCanvas" width="180" height="45" style="border:1px solid #d3d3d3">
+                Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
 
-                <button id="MyButton" type="button" class="btn btn-light"
-                    style="vertical-align: baseline; margin-left: 5%;height: 45px;" (click)="onRefresh() ">
-                    <i class="fa fa-refresh" style="font-size:38px;color:#1186e9; vertical-align: super;">
-                    </i>
-                </button>
-                <div class="form-group" >
+            <button id="MyButton" type="button" class="btn btn-light"
+                style="vertical-align: baseline; margin-left: 5%;height: 45px;" (click)="onRefresh() ">
+                <i class="fa fa-refresh" style="font-size:38px;color:#1186e9; vertical-align: super;">
+                </i>
+            </button>
+            <div class="form-group">
 
-                    <input class="form-control" formControlName="userEnteredCaptcha" style="max-width: 270px;"
-                        placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
+                <input class="form-control" formControlName="userEnteredCaptcha" style="max-width: 270px;"
+                    placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
                     submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
-    
-                    <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
+
+                <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
                  f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors" class="invalid-feedback">
-                        Veuillez saisir les caractères de l'image
-                    </div>
-    
-                    <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)" class="invalid-feedback">
-                        Le captcha est invalide
-                    </div>
-    
+                    Veuillez saisir les caractères de l'image
                 </div>
-    
+
+                <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)" class="invalid-feedback">
+                    Le captcha est invalide
+                </div>
+
             </div>
 
-           
+        </div>
 
-        <div class="form-group" style="margin-top: 10%; text-align: -webkit-center">
+
+
+        <div class="form-group" style="margin-top: 5%; padding-bottom: 5%; text-align: -webkit-center">
             <button [disabled]="loading" class="btn btn-primary btn-lg" style=" width: 60%">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Inscrivez-vous
             </button>
         </div>
     </form>
-    
+
 </div>

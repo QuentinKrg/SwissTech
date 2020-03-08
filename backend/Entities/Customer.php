@@ -102,7 +102,7 @@ class Customer extends Entity
     $sql = "SELECT * FROM t_users WHERE Username = '$username'";
     $tmpUser = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
 	
-	if($tmpUser != 'false')
+	if($tmpUser != null)
       {
         return http_response_code(409);
       }

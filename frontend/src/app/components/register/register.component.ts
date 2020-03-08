@@ -128,7 +128,7 @@ export class RegisterComponent implements OnInit {
 
   }
 
- 
+
   // --------------------------------Captcha---------------------------------------------------
   //fonction qui retourne un array de string, longeur selon paramètre
   generateText(length) {
@@ -147,12 +147,13 @@ export class RegisterComponent implements OnInit {
     const canvas = <HTMLCanvasElement>document.getElementById('myCanvas');//Crée une tag canvas pour HTML
     const ctx = canvas.getContext('2d');
 
-    //put the array string on the canvas
+    //Génère un nombre aléatoire
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min)) + min;
     }
+    //Génère des rectangles aléatoires (taille et couleur)
     for (var j = 1; j < 60; j++) {
       ctx.save();
       ctx.lineWidth = getRandomInt(3, 20);
@@ -164,25 +165,26 @@ export class RegisterComponent implements OnInit {
     ctx.globalCompositeOperation = "source-atop";//Définit quel contexte va apparaître en tout premier sur le canvas
 
     //Définit le style du text et l'affiche dans le canvas
+    ctx.shadowColor = 'gray';
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowBlur = 0;
     ctx.font = "34px Arial";
     ctx.lineWidth = 1.5;
-    ctx.fillStyle = '#3F3F3F';
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillText(this.captchaGenerated, 30, 33);
     ctx.textAlign = 'center';
 
   }
-  clearCanvas(a) {
-    //Create a canvas and link to the canvashtml tag
-    const canvas = <HTMLCanvasElement>document.getElementById('myCanvas');
-    // mais à jour la taille du canvas pour rafrechir le captcha
-    canvas.width += a;
-  }
-  //Refresh button fonction - Refresh le canvas HTML 
+  // Refresh le canvas HTML 
   onRefresh() {
-    this.clearCanvas(0);
+    //Cost canvas pour avoir accès à l'element HTML
+    const canvas = <HTMLCanvasElement>document.getElementById('myCanvas');
+    // met à jour la taille du canvas pour rafrechir le captcha
+    canvas.width += 0;
+    //regénére l'image
     this.generateCaptchaImage();
     console.log(this.captchaGenerated);
-    console.log(this.registerForm.value);
   }
 
   //Fontion utile pour valider le champ captcha au moment de la saisie 
@@ -206,8 +208,8 @@ export class RegisterComponent implements OnInit {
       return;
     }
     // ----------------------------/Captcha-----------------------------------
-     
 
+    //Stop si le formulaire n'est pas valide
     if (this.registerForm.invalid) {
       this.submitted = false;
     }
@@ -215,36 +217,50 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    
+
+    //Récupère les identifiant pour le login
     this.user.username = this.registerForm.value.username;
     this.user.password = this.registerForm.value.password;
-    this.registerForm.value.password = CryptoJS.SHA256(this.registerForm.value.password ).toString();
+    //Hash le mot de passe reçu avant l'envoyer au backend
+    this.registerForm.value.password = CryptoJS.SHA256(this.registerForm.value.password).toString();
+    //désactive le bouton d'enregistrement
     this.loading = true;
     console.log(this.registerForm.value);
     console.log(this.user);
 
-
-    this._userService.addCustomer(this.registerForm.value).then(
-      () =>{
-        console.log('tout va bien');
-        this.authenticationService.login(this.user)
-      //.pipe(first())
-      .subscribe(
-        () => {
-          this.router.navigate([this.returnUrl]);
-        }
-      );
-    },
-    (error)=> {
-      this.usernameErrorMessage="Nom d'utilisateur non disponible";
-      this.submitted = false;
-      this.loading = false;
-      return;
-    });
-      /*.subscribe(() => {
-
-        //this.router.navigate(['home']);
-      });*/
+    //vérifie que le nom d'utilisateur est disponible
+    this._userService.getUserByUsername(this.user).then(
+      ()=>{
+        //si crée un nouveau client
+        this._userService.addCustomer(this.registerForm.value).then(
+          () => {
+            console.log('tout va bien');
+            //si tout va bien le client se connecte directement
+            this.authenticationService.login(this.user)
+              .subscribe(
+                () => {
+                  //puis est redirigé vers la page qu'il essayer d'acceder
+                  this.router.navigate([this.returnUrl]);
+                }
+              );
+          },
+          //en cas d'erreur
+          (error) => {
+            console.log(error);
+            this.submitted = false;
+            this.loading = false;
+            return;
+          });
+      },
+      (error) =>{
+        this.usernameErrorMessage = "Nom d'utilisateur non disponible";
+        console.log(error);
+        this.submitted = false;
+        this.loading = false;
+        return;
+      }
+      
+    )
     
   }
 }
