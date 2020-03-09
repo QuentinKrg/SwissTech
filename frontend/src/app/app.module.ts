@@ -8,13 +8,15 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { appRoutingModule } from './app.routing';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './helpers/token.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { ProductListComponent } from './components/home/product-list/product-list.component';
 import { ProductCardComponent } from './components/home/product-list/product-card/product-card.component';
+import { AddToCartComponent } from './components/shared/add-to-cart/add-to-cart.component';
+import { PaginationComponent } from './components/shared/pagination/pagination.component';
 
 
 
@@ -28,13 +30,16 @@ import { ProductCardComponent } from './components/home/product-list/product-car
     HeaderComponent,
     FooterComponent,
     ProductListComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    AddToCartComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    appRoutingModule
+    appRoutingModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

@@ -1,16 +1,17 @@
 <div class="card">
     <div class="card-header">
-
+        <a> 
+            <figcaption class="figure-caption">{{product.ProductCategory}}</figcaption>
+        </a>
     </div>
     <img src='/assets/images/products/{{product.ProductImagePath}}' class="card-img-top" alt="...">
     <div class="card-body">
-        <figcaption class="figure-caption">A caption for the above image.</figcaption>
+        <figcaption class="figure-caption">{{product.ProductManufacturer}}</figcaption>
         <p class="card-text">{{product.ProductName}}</p>
     </div>
     <div class="card-footer">
-        <div>
-            <span>CHF {{product.ProductUnitPrice}}.00</span>
-        </div>
+        <span class="float-left price-card-footer">CHF {{product.ProductUnitPrice}}</span>
+        <span><app-add-to-cart [productDetails]="product" [isCartItem]="true" class="float-right"></app-add-to-cart></span>
+        
     </div>
-    
 </div>
