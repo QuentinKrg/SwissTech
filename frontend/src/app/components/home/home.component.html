@@ -4,11 +4,11 @@
         width: 100%;
         height: 100%;
     }
-    </style>
+</style>
 
 
     
-    <div class="row align-item-center "> 
+    <div class="row align-item-center"> 
             <div id="demo" class="carousel slide mb-4" data-ride="carousel">
                 <!-- Indicators -->
                 <ul class="carousel-indicators">
@@ -40,9 +40,10 @@
             </div>
 
             <div class="col-12 p-md-0">
+                
                 <h3> Nos recommendations </h3>
-                <div class="row pt-2">
-                    <app-product-card *ngFor="let product of recommendationList" [productData]="product" class="col-md-3 col-sm-12"></app-product-card>
+                <div class="row">
+                    <app-product-card *ngFor="let product of recommendationList" [productData]="product" class="col-md-3 col-sm-12 pt-3"></app-product-card>
                 </div>
             </div>
     </div>

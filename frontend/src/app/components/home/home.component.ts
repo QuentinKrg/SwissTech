@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ArticleService } from 'src/app/services/article.service';
+import { ProductService } from 'src/app/services/product.service';
 import { Router } from '@angular/router';
-import { Article } from 'src/app/models/article';
+import { Product } from 'src/app/models/product';
 
 @Component({
   selector: 'app-home',
@@ -10,29 +10,29 @@ import { Article } from 'src/app/models/article';
 })
 export class HomeComponent implements OnInit {
 
-  recommendationList: Article[];
+  recommendationList: Product[];
   private _id: number;
-  constructor(private _articleService: ArticleService,
+  constructor(private _productService: ProductService,
               private _router: Router) { }
 
   ngOnInit() {
-    this._articleService.getRandoms(4)
-      .subscribe((data: Article[]) =>{
+    this._productService.getRandoms(4)
+      .subscribe((data: Product[]) =>{
         this.recommendationList = data;
         console.log(data);
     });
   }
 
-  onEdit(article: Article):void {
+  onEdit(product: Product):void {
 
   }
 
-  onDelete(article: Article):void {
+  onDelete(product: Product):void {
 
   }
 
   monstreTest():void {
-    this._articleService.getTest()
+    this._productService.getTest()
       .subscribe(data => {
         console.log(data+"test");
       },
