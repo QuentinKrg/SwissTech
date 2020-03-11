@@ -18,7 +18,7 @@ import { ProductCardComponent } from './components/home/product-list/product-car
 import { AddToCartComponent } from './components/shared/add-to-cart/add-to-cart.component';
 import { PaginationComponent } from './components/shared/pagination/pagination.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
-import { MyProfileSidebarComponent } from './components/my-profile/my-profile-sidebar/my-profile-sidebar.component';
+import { EditProfileComponent } from './components/my-profile/edit-profile/edit-profile.component';
 
 
 
@@ -36,7 +36,7 @@ import { MyProfileSidebarComponent } from './components/my-profile/my-profile-si
     AddToCartComponent,
     PaginationComponent,
     MyProfileComponent,
-    MyProfileSidebarComponent
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
