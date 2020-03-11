@@ -25,6 +25,11 @@ export class UserService {
         }
       );
     }
+
+    getCustomer(user: Customer){
+      return this.http.post<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetCustomerById',user);
+    }
+
   getUserByUsername(user: User) {
     return new Promise(
       (resolve, reject) => {

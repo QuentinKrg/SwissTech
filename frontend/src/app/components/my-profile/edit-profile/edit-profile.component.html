@@ -1,40 +1,7 @@
-<style>
-    h2 {
-        font-family: Poppins, sans-serif;
-        margin-bottom: 20px;
-        padding-top: 10px;
-        height: 50px;
-        align-items: center;
-        text-align: center;
-    }
 
-    h5 {
-        font-size: 1.25rem;
-        padding-top: 7px;
-        height: 50px;
-        margin-top: 20px;
-        border-top-style: outset;
-    }
-
-    h6 {
-        height: 30px;
-        padding-top: 10px;
-        margin-bottom: 20px;
-        border-top-style: outset;
-    }
-
-    i {
-        vertical-align: middle;
-    }
-</style>
-<div style="
-    max-width: 650px;
-    padding-left: 3%;
-    padding-right: 3%;
-    margin: auto;
-    background-color: white;">
+<div id="divFormEdit">
     <h2>Editer mon compte</h2>
-    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form">
+    <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
 
         <div>
             <h5>Mes coordonnées </h5>
@@ -290,56 +257,10 @@
             </div>
         </div>
 
-
-        <!-- Checkbox general condition-->
-        <div class="form-group" style=" border-top-style: outset;
-            padding-top: 5px;">
-            <div class="custom-control custom-checkbox">
-                <input id="checkbox_register" type="checkbox" class="custom-control-input"
-                    formControlName="generalConditions"
-                    [ngClass]="{ 'is-invalid': submitted && !registerForm.value.generalConditions}">
-                <label for="checkbox_register" class="custom-control-label">
-                    J'accepte les Conditions générales.
-                </label>
-            </div>
-        </div>
-
-
-        <div class="form-group" style=" text-align: -webkit-center;
-            padding-top: 2%;">
-            <canvas id="myCanvas" width="180" height="45" style="border:1px solid #d3d3d3">
-                Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
-
-            <button id="MyButton" type="button" class="btn btn-light"
-                style="vertical-align: baseline; margin-left: 5%;height: 45px;" (click)="onRefresh() ">
-                <i class="fa fa-refresh" style="font-size:38px;color:#1186e9; vertical-align: super;">
-                </i>
-            </button>
-            <div class="form-group">
-
-                <input class="form-control" formControlName="userEnteredCaptcha" style="max-width: 270px;"
-                    placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
-                    submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
-
-                <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
-                 f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors" class="invalid-feedback">
-                    Veuillez saisir les caractères de l'image
-                </div>
-
-                <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)" class="invalid-feedback">
-                    Le captcha est invalide
-                </div>
-
-            </div>
-
-        </div>
-
-
-
         <div class="form-group" style="margin-top: 5%; padding-bottom: 5%; text-align: -webkit-center">
             <button [disabled]="loading" class="btn btn-primary btn-lg" style=" width: 60%">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Inscrivez-vous
+                Mettre à jour mes informations
             </button>
         </div>
     </form>

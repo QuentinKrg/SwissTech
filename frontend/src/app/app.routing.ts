@@ -16,6 +16,7 @@ const routes: Routes = [
     { path: 'myprofile', component: MyProfileComponent, canActivate: [AuthGuard], children: 
         [
         { path: 'editprofile', component: EditProfileComponent, outlet: 'profilecontent1'},    
+        { path: 'myprofile', redirectTo: 'myprofile' }
         ] 
     },
     

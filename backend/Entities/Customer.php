@@ -97,18 +97,26 @@ class Customer extends Entity
 		
     }
 	public function CheckUserByUsername()
-  {
-	$username = $this->jsonToProcess->username;
-    $sql = "SELECT * FROM t_users WHERE Username = '$username'";
-    $tmpUser = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
-	
-	if($tmpUser != null)
-      {
-        return http_response_code(409);
-      }
-	else {
-	return $tmpUser;
-	}
-  }
+	  {
+		$username = $this->jsonToProcess->username;
+		$sql = "SELECT * FROM t_users WHERE Username = '$username'";
+		$tmpUser = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
+		
+		if($tmpUser != null)
+		  {
+			return http_response_code(409);
+		  }
+		else {
+			return $tmpUser;
+		}
+	  }
+	public function GetCustomerById()
+		{
+		$username = $this->jsonToProcess->username;
+		  $sql = "SELECT * FROM t_users
+               INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+               INNER JOIN t_address ON t_customers.id_customer = t_address.fk_customer WHERE username = '$username' LIMIT 1";
+		  echo json_encode($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+		}
 }
  ?>
