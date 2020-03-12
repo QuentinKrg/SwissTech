@@ -1,1 +1,4 @@
-<p>product-list works!</p>
+
+<app-filters [productList]="productList"></app-filters>
+
+<app-product-card *ngFor="let product of productList"></app-product-card>

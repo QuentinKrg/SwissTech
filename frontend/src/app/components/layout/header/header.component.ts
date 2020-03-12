@@ -20,6 +20,9 @@ export class HeaderComponent implements OnInit {
   mainCategories: Categories[];
   cartCount: number = 0;
   
+  
+
+  
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -30,6 +33,8 @@ export class HeaderComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
+  
+
 
   ngOnInit() {
     this.dataService.count.subscribe(count => this.cartCount = count);
@@ -37,7 +42,7 @@ export class HeaderComponent implements OnInit {
       .subscribe((data: Categories[]) =>{
         this.mainCategories = data;
     });
-  
+    
     this.searchForm = this.formBuilder.group({
       search: ['', Validators.required]
     });
@@ -46,6 +51,12 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  onSearch(query: string) {
+    if(query == "" || query == null) {
+      return;
+    }
+    this.router.navigate(['search', query]);
+    }
   onSubmit() {
     
   }

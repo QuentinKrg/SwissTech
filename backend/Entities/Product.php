@@ -82,6 +82,15 @@ class Product extends Entity
       return $tmpResult;
     }
 
+    // Retourne list d'article lors d'une recherche
+    public function GetOnSearch() {
+      echo "ok";
+      if (isset($_GET["toSearch"]) != "" )
+      {
+        return "wesh";
+      }
+    }
+
     // Récupérer alléatoirement un nombre d'articles voulue
     public function GetRandom()
     {
