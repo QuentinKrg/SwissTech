@@ -305,19 +305,24 @@
         </div>
 
 
-        <div class="form-group" style=" text-align: -webkit-center;
-            padding-top: 2%;">
-            <canvas id="myCanvas" width="180" height="45" style="border:1px solid #d3d3d3">
-                Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
-
-            <button id="MyButton" type="button" class="btn btn-light"
-                style="vertical-align: baseline; margin-left: 5%;height: 45px;" (click)="onRefresh() ">
-                <i class="fa fa-refresh" style="font-size:38px;color:#1186e9; vertical-align: super;">
-                </i>
-            </button>
+        <div class="form-group text-center pt-2">
+            <div class="row w-50 text-center">
+                <div class="col w-50">
+                    <canvas id="myCanvas" width="180" height="45" style="border:1px solid #d3d3d3">
+                        Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
+                </div>
+                <div class="col w-50">
+                    <button id="MyButton" type="button" class="btn btn-light align-baseline ml-3 h-20"
+                    (click)="onRefresh() ">
+                   <i class="fa fa-refresh align-baseline" style="font-size:38px;color:#1186e9;">
+                   </i>
+               </button>
+                </div>
+            </div>
+                        
             <div class="form-group">
 
-                <input class="form-control" formControlName="userEnteredCaptcha" style="max-width: 270px;"
+                <input class="form-control mw-30" formControlName="userEnteredCaptcha" 
                     placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
                     submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
 
@@ -336,8 +341,8 @@
 
 
 
-        <div class="form-group" style="margin-top: 5%; padding-bottom: 5%; text-align: -webkit-center">
-            <button [disabled]="loading" class="btn btn-primary btn-lg" style=" width: 60%">
+        <div class="form-group pb-3 mt-3 text-center" >
+            <button [disabled]="loading" class="btn btn-primary btn-lg w-60 " >
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Inscrivez-vous
             </button>

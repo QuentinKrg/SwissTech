@@ -26,7 +26,7 @@ export class EditProfileComponent implements OnInit {
   usernameErrorMessage: String;
   isUserValid = true;
   userInfos = new Customer;
-  userFormData: Customer[];
+  userFormData: Customer;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -39,11 +39,7 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit() {
 
-    const currentUsername = this.authenticationService.currentUserValue.login;
-    console.log(currentUsername);
     
-    
-
     
     
     this.editRegisterForm = this.formBuilder.group({
@@ -95,13 +91,12 @@ export class EditProfileComponent implements OnInit {
         validator: CustomValidators.passwordMatchValidator
       });
 
+      const currentUsername = this.authenticationService.currentUserValue.login;
+      console.log(currentUsername);
       this._userService.getCustomer(currentUsername).subscribe(
-        (data: Customer[])=>{
+        (data: any)=>{
           console.log(data);
-          
           this.userFormData = data;
-          console.log(this.userFormData);
-          
         },
         (error) =>{
           this.usernameErrorMessage = "Error ";

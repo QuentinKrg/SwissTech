@@ -21,14 +21,14 @@ export class UserService {
           (error) => {
             reject(error)
           }
-          );
-        }
-      );
-    }
+        );
+      }
+    );
+  }
 
-    getCustomer(user: string){
-      return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetCustomerByUsername?username='+ user);
-    }
+  getCustomer(user: string) {
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetCustomerByUsername&username=' + user);
+  }
 
   getUserByUsername(user: User) {
     return new Promise(

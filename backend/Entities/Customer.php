@@ -114,11 +114,11 @@ class Customer extends Entity
 		{
 			if(isset($_GET['username'])){
 				$username = $_GET['username'];
-			  $sql = "SELECT * FROM t_users	
-				   INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-				   INNER JOIN t_address ON t_customers.id_customer = t_address.fk_customer WHERE username = '$username' LIMIT 1";
-			  $tmpUser =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-			return $tmpUser;
+				  $sql = "SELECT * FROM t_users	
+					   INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+					   INNER JOIN t_address ON t_customers.id_customer = t_address.fk_customer WHERE username = '$username' LIMIT 1";
+				  $tmpUser =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+				return $tmpUser;
 			}
 			
 		}
