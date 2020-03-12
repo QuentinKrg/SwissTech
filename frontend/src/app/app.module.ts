@@ -19,6 +19,7 @@ import { AddToCartComponent } from './components/shared/add-to-cart/add-to-cart.
 import { PaginationComponent } from './components/shared/pagination/pagination.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { EditProfileComponent } from './components/my-profile/edit-profile/edit-profile.component';
+import { FiltersComponent } from './components/home/filters/filters.component';
 
 
 
@@ -36,7 +37,8 @@ import { EditProfileComponent } from './components/my-profile/edit-profile/edit-
     AddToCartComponent,
     PaginationComponent,
     MyProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,
