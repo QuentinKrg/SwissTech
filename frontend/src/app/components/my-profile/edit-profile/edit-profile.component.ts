@@ -25,7 +25,8 @@ export class EditProfileComponent implements OnInit {
   haveUser: String;
   usernameErrorMessage: String;
   isUserValid = true;
-  userInfos: Customer;
+  userInfos = new Customer;
+  userFormData: Customer[];
   
   constructor(
     private formBuilder: FormBuilder,
@@ -37,23 +38,12 @@ export class EditProfileComponent implements OnInit {
 
 
   ngOnInit() {
-    const currentUsername = this.authenticationService.currentUserValue.login;
-    this.user.username = currentUsername;
-    console.log(this.user);
-    
-    this._userService.getUserByUsername(this.user).then(
-      (data)=>{
-        console.log(data);
-      },
-      (error) =>{
-        this.usernameErrorMessage = "Nom d'utilisateur non disponible";
-        console.log(error);
-        this.submitted = false;
-        this.loading = false;
-        return;
-      });
 
-    console.log(this.userInfos);
+    const currentUsername = this.authenticationService.currentUserValue.login;
+    console.log(currentUsername);
+    
+    
+
     
     
     this.editRegisterForm = this.formBuilder.group({
@@ -105,6 +95,26 @@ export class EditProfileComponent implements OnInit {
         validator: CustomValidators.passwordMatchValidator
       });
 
+      this._userService.getCustomer(currentUsername).subscribe(
+        (data: Customer[])=>{
+          console.log(data);
+          
+          this.userFormData = data;
+          console.log(this.userFormData);
+          
+        },
+        (error) =>{
+          this.usernameErrorMessage = "Error ";
+          console.log(error);
+          this.submitted = false;
+          this.loading = false;
+          return;
+        });
+        
+        console.log(this.userFormData);
+        
+        const usernamevalue = <HTMLInputElement>document.getElementById("username");
+        
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
