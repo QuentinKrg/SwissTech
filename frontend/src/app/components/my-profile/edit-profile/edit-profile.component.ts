@@ -56,6 +56,7 @@ export class EditProfileComponent implements OnInit {
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
       username: [this.userFormData.Username, [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      myPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
       privatephone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       password: [
@@ -94,8 +95,13 @@ export class EditProfileComponent implements OnInit {
 
  this._userService.getCustomer(currentUsername).subscribe(
    (data= new Customer) =>{
-     this.userFormData = data;
-     this.editRegisterForm.value.username = data.Username;
+     this.f.titre.setValue(data.CustomerTitre);
+     this.f.firstname.setValue(data.CustomerName);
+     this.f.lastname.setValue(data.CustomerLastName);
+     this.f.birthday.setValue(data.CustomerBirthday);
+     this.f.email.setValue(data.CustomerEmail);
+     this.f.privatephone.setValue(data.CustomerPhone);
+     this.f.username.setValue(data.Username);
    },
    (error) =>{
      this.usernameErrorMessage = "Error ";
@@ -104,8 +110,9 @@ export class EditProfileComponent implements OnInit {
 
  this._userService.getShippingAddress(currentUsername).subscribe(
     (data= new Customer) =>{
-      this.shippingAddrData = data;
-      
+      this.f.shippingAddress.setValue(data.shippingAddress);
+      this.f.shippingCity.setValue(data.shippingCity);
+      this.f.shippingZip.setValue(data.shippingZip);
     },
     (error) =>{
       this.usernameErrorMessage = "Error ";
@@ -114,7 +121,9 @@ export class EditProfileComponent implements OnInit {
     
   this._userService.getBillingAddress(currentUsername).subscribe(
       (data= new Customer) =>{
-        this.billingAddrData = data;
+        this.f.billingAddress.setValue(data.billingAddress);
+        this.f.billingCity.setValue(data.billingCity);
+        this.f.billingZip.setValue(data.billingZip);
       },
       (error) =>{
         this.usernameErrorMessage = "Error ";
