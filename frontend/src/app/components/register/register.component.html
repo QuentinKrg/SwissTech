@@ -1,39 +1,9 @@
-<style>
-    h2 {
-        font-family: Poppins, sans-serif;
-        margin-bottom: 20px;
-        padding-top: 10px;
-        height: 50px;
-        align-items: center;
-        text-align: center;
-    }
-
-    h5 {
-        font-size: 1.25rem;
-        padding-top: 7px;
-        height: 50px;
-        margin-top: 20px;
-        border-top-style: outset;
-    }
-
-    h6 {
-        height: 30px;
-        padding-top: 10px;
-        margin-bottom: 20px;
-        border-top-style: outset;
-    }
-
-    i {
-        vertical-align: middle;
-    }
-</style>
-
 <div class="maindiv">
-    <h2>Créer un compte</h2>
+    <h2 class="pt-3 text-center">Créer un compte</h2>
     <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form">
 
         <div>
-            <h5>Mes coordonnées </h5>
+            <h5 class="border-top">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
                 <label for="titre">Titre</label>
@@ -80,7 +50,7 @@
 
 
             <!-- Adresse de livraison -->
-            <h6 style=" width: -webkit-fill-available;">
+            <h6 class="border-top pt-3">
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_027_location">
                     <path fill="currentColor" d="M16 3.1a7.04 7.04 0 017.03 7.04c0 4.47-4.66 11.77-7.03 15.75-4-6.74-7.03-11.9-7.03-15.75A7.04
@@ -125,7 +95,7 @@
                 </div>
             </div>
             <!-- Adresse de facturation -->
-            <h6 style=" width: -webkit-fill-available;">
+            <h6 class="border-top pt-3" >
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_017_postal_card">
                     <path fill="currentColor"
@@ -181,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <h5>Mes informations de contact</h5>
+            <h5 class="border-top">Mes informations de contact</h5>
             <div>
                 <!-- Email -->
                 <div class="form-group">
@@ -209,7 +179,7 @@
 
 
         <div>
-            <h5>Mes identifiants </h5>
+            <h5 class="border-top">Mes identifiants </h5>
             <!-- username -->
             <div class="form-group">
                 <label for="username">Nom d'utilisateur</label>
@@ -288,8 +258,7 @@
 
 
         <!-- Checkbox general condition-->
-        <div class="form-group" style=" border-top-style: outset;
-            padding-top: 5px;">
+        <div class="form-group border-top  pt-3" >
             <div class="custom-control custom-checkbox">
                 <input id="checkbox_register" type="checkbox" class="custom-control-input"
                     formControlName="generalConditions"
@@ -300,25 +269,23 @@
             </div>
         </div>
 
-
-        <div class="form-group text-center pt-2">
-            <div class="row w-50 text-center">
-                <div class="col w-50">
-                    <canvas id="myCanvas" width="180" height="45" style="border:1px solid #d3d3d3">
+        <div class="captcha">
+            <div class="row w-60 mx-auto text-center">
+                <div class="col-auto">
+                    <canvas id="myCanvas" width="180" height="45">
                         Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
                 </div>
-                <div class="col w-50">
-                    <button id="MyButton" type="button" class="btn btn-light align-baseline ml-3 h-20"
+                <div class="col-auto text-baseline">
+                    <button id="MyButton" type="button" class="btn btn-light align-baseline h-20"
                     (click)="onRefresh() ">
-                   <i class="fa fa-refresh align-baseline" style="font-size:38px;color:#1186e9;">
-                   </i>
+                   <h4 class="m-auto text-primary"><i class="fa fa-refresh align-baseline" ></i></h4>
                </button>
                 </div>
             </div>
                         
-            <div class="form-group">
+            <div class="form-group mw-42">
 
-                <input class="form-control mw-30" formControlName="userEnteredCaptcha" 
+                <input class="form-control" formControlName="userEnteredCaptcha" 
                     placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
                     submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
 
