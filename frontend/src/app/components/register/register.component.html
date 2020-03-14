@@ -126,26 +126,26 @@
                 <div class="row">
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="billingAddressCity">Ville</label>
-                            <input type="text" maxlength="100" formControlName="billingAddressCity" id="billingCity"
+                            <label for="billingCity">Ville</label>
+                            <input type="text" maxlength="100" formControlName="billingCity" id="billingCity"
                                 class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.billingAddressCity.errors ||f.billingAddressCity.touched && f.billingAddressCity.errors }" />
+                                [ngClass]="{ 'is-invalid': submitted && f.billingCity.errors ||f.billingCity.touched && f.billingCity.errors }" />
                         </div>
                     </div>
                     <!-- NPA-->
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="billingAddressZip">Code Postal</label>
-                            <input maxlength="4" formControlName="billingAddressZip" id="billingZip"
-                                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billingAddressZip.errors ||
-                                         f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern')
-                                         || f.billingAddressZip.touched && f.billingAddressZip.errors ||
-                                         f.billingAddressZip.touched && f.billingAddressZip.hasError('minLength')}" />
-                            <div class="invalid-feedback" *ngIf="f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern') ||
-                                     f.billingAddressZip.errors && f.billingAddressZip.hasError('pattern')">
+                            <label for="billingZip">Code Postal</label>
+                            <input maxlength="4" formControlName="billingZip" id="billingZip"
+                                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
+                                         f.billingZip.touched && f.billingZip.hasError('pattern')
+                                         || f.billingZip.touched && f.billingZip.errors ||
+                                         f.billingZip.touched && f.billingZip.hasError('minLength')}" />
+                            <div class="invalid-feedback" *ngIf="f.billingZip.touched && f.billingZip.hasError('pattern') ||
+                                     f.billingZip.errors && f.billingZip.hasError('pattern')">
                                 Uniquement des chiffres</div>
                             <div class="invalid-feedback"
-                                *ngIf="f.billingAddressZip.touched && f.billingAddressZip.value.length<4 && f.billingAddressZip.value.length!=0 ">
+                                *ngIf="f.billingZip.touched && f.billingZip.value.length<4 && f.billingZip.value.length!=0 ">
                                 Au moins 4 chiffres</div>
                         </div>
                     </div>

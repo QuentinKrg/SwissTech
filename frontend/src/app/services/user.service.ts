@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Customer } from '../models/customer';
 import { User } from '../models/user';
 import { resolve } from 'url';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,17 @@ export class UserService {
     );
   }
 
-  getCustomer(user: string) {
+  getCustomer(user: string){
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetCustomerByUsername&username=' + user);
   }
+  getShippingAddress(user: string){
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getShippingAddressByUser&username=' + user);
+  }
+  getBillingAddress(user: string){
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getBillingAddressByUser&username=' + user);
+  }
 
-  getUserByUsername(user: User) {
+  checkUserByUsername(user: User) {
     return new Promise(
       (resolve, reject) => {
         this.http.post<User[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=CheckUserByUsername', user).toPromise().then(

@@ -51,8 +51,8 @@ export class RegisterComponent implements OnInit {
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       checkbox_address: [''],
       billingAddress: ['', Validators.required],
-      billingAddressCity: ['', Validators.required],
-      billingAddressZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
+      billingCity: ['', Validators.required],
+      billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       confirmPassword: ['', [Validators.required]],
@@ -115,16 +115,16 @@ export class RegisterComponent implements OnInit {
       bilCityValue.value = shipCityValue.value;
 
       this.registerForm.get('billingAddress').disable();
-      this.registerForm.get('billingAddressCity').disable();
-      this.registerForm.get('billingAddressZip').disable();
+      this.registerForm.get('billingCity').disable();
+      this.registerForm.get('billingZip').disable();
     }
     else {//sinon vide les inputs et les activent
       bilAddressValue.value = '';
       bilCityValue.value = '';
       bilZipValue.value = '';
       this.registerForm.get('billingAddress').enable();
-      this.registerForm.get('billingAddressCity').enable();
-      this.registerForm.get('billingAddressZip').enable();
+      this.registerForm.get('billingCity').enable();
+      this.registerForm.get('billingZip').enable();
     }
 
   }
@@ -203,7 +203,7 @@ export class RegisterComponent implements OnInit {
   //live validation pour voir si le nom d'utilisateur est disponible et avertir l'utilisateur
   isUserAvailable(){
     this.user.username = this.registerForm.value.username;
-    this._userService.getUserByUsername(this.user).then(
+    this._userService.checkUserByUsername(this.user).then(
       ()=>{
         this.usernameErrorMessage = "";
         this.isUserValid = true;
@@ -245,7 +245,7 @@ export class RegisterComponent implements OnInit {
     console.log(this.user);
 
     //vérifie que le nom d'utilisateur est disponible
-    this._userService.getUserByUsername(this.user).then(
+    this._userService.checkUserByUsername(this.user).then(
       ()=>{
         //si crée un nouveau client
         this._userService.addCustomer(this.registerForm.value).then(

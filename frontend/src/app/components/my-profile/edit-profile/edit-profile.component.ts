@@ -25,8 +25,9 @@ export class EditProfileComponent implements OnInit {
   haveUser: String;
   usernameErrorMessage: String;
   isUserValid = true;
-  userInfos = new Customer;
-  userFormData: Customer;
+  userFormData=new Customer;
+  shippingAddrData= new Customer;
+  billingAddrData= new Customer;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -38,10 +39,9 @@ export class EditProfileComponent implements OnInit {
 
 
   ngOnInit() {
+    
+ 
 
-    
-    
-    
     this.editRegisterForm = this.formBuilder.group({
       titre: ['', Validators.required],
       firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
@@ -52,14 +52,12 @@ export class EditProfileComponent implements OnInit {
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       checkbox_address: [''],
       billingAddress: ['', Validators.required],
-      billingAddressCity: ['', Validators.required],
-      billingAddressZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
+      billingCity: ['', Validators.required],
+      billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      username: [this.userFormData.Username, [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       confirmPassword: ['', [Validators.required]],
       privatephone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
-      userEnteredCaptcha: ['', [Validators.required]],
-      generalConditions: ['', Validators.required],
       password: [
         null,
         Validators.compose([
@@ -92,23 +90,36 @@ export class EditProfileComponent implements OnInit {
       });
 
       const currentUsername = this.authenticationService.currentUserValue.login;
-      console.log(currentUsername);
-      this._userService.getCustomer(currentUsername).subscribe(
-        (data: any)=>{
-          console.log(data);
-          this.userFormData = data;
-        },
-        (error) =>{
-          this.usernameErrorMessage = "Error ";
-          console.log(error);
-          this.submitted = false;
-          this.loading = false;
-          return;
-        });
-        
-        console.log(this.userFormData);
-        
-        const usernamevalue = <HTMLInputElement>document.getElementById("username");
+ console.log(currentUsername);
+
+ this._userService.getCustomer(currentUsername).subscribe(
+   (data= new Customer) =>{
+     this.userFormData = data;
+     this.editRegisterForm.value.username = data.Username;
+   },
+   (error) =>{
+     this.usernameErrorMessage = "Error ";
+     console.log(error);
+   });
+
+ this._userService.getShippingAddress(currentUsername).subscribe(
+    (data= new Customer) =>{
+      this.shippingAddrData = data;
+      
+    },
+    (error) =>{
+      this.usernameErrorMessage = "Error ";
+      console.log(error);
+    });
+    
+  this._userService.getBillingAddress(currentUsername).subscribe(
+      (data= new Customer) =>{
+        this.billingAddrData = data;
+      },
+      (error) =>{
+        this.usernameErrorMessage = "Error ";
+        console.log(error);
+      });
         
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -132,16 +143,16 @@ export class EditProfileComponent implements OnInit {
       bilCityValue.value = shipCityValue.value;
 
       this.editRegisterForm.get('billingAddress').disable();
-      this.editRegisterForm.get('billingAddressCity').disable();
-      this.editRegisterForm.get('billingAddressZip').disable();
+      this.editRegisterForm.get('billingCity').disable();
+      this.editRegisterForm.get('billingZip').disable();
     }
     else {//sinon vide les inputs et les activent
       bilAddressValue.value = '';
       bilCityValue.value = '';
       bilZipValue.value = '';
       this.editRegisterForm.get('billingAddress').enable();
-      this.editRegisterForm.get('billingAddressCity').enable();
-      this.editRegisterForm.get('billingAddressZip').enable();
+      this.editRegisterForm.get('billingCity').enable();
+      this.editRegisterForm.get('billingZip').enable();
     }
 
   }
@@ -151,7 +162,7 @@ export class EditProfileComponent implements OnInit {
   //live validation pour voir si le nom d'utilisateur est disponible et avertir l'utilisateur
   isUserAvailable(){
     this.user.username = this.editRegisterForm.value.username;
-    this._userService.getUserByUsername(this.user).then(
+    this._userService.checkUserByUsername(this.user).then(
       ()=>{
         this.usernameErrorMessage = "";
         this.isUserValid = true;
@@ -185,7 +196,7 @@ export class EditProfileComponent implements OnInit {
     console.log(this.user);
 
     //vérifie que le nom d'utilisateur est disponible
-    this._userService.getUserByUsername(this.user).then(
+    this._userService.checkUserByUsername(this.user).then(
       ()=>{
         //si crée un nouveau client
         this._userService.addCustomer(this.editRegisterForm.value).then(

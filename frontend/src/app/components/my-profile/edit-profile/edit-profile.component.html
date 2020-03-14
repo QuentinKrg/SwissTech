@@ -7,7 +7,7 @@
             <!-- Titre-->
             <div class="form-group">
                 <label for="titre">Titre</label>
-                <select class="form-control" formControlName="titre" autofocus
+                <select value="{{userFormData.CustomerTitre}}" class="form-control" formControlName="titre" autofocus
                     [ngClass]="{ 'is-invalid': submitted && f.titre.errors || f.titre.touched && f.titre.errors}">
                     <option value="" selected disabled>Veuillez choisir</option>
                     <option value="Mme">Mme</option>
@@ -21,7 +21,7 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label for="firstname">Prénom</label>
-                        <input type="text" maxlength="100" formControlName="firstname" class="form-control"
+                        <input value="{{userFormData.CustomerName}}" type="text" maxlength="100" formControlName="firstname" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.firstname.errors || f.firstname.touched && f.firstname.errors}" />
                         <div class="invalid-feedback" *ngIf=" f.firstname.hasError('pattern')">
                             Uniquement des lettres et des espaces</div>
@@ -31,7 +31,7 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label for="lastname">Nom</label>
-                        <input type="text" maxlength="100" formControlName="lastname" class="form-control"
+                        <input value="{{userFormData.CustomerLastName}}" type="text" maxlength="100" formControlName="lastname" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.lastname.errors || f.lastname.touched && f.lastname.errors}" />
                         <div class="invalid-feedback" *ngIf="submitted && f.lastname.hasError('pattern')">
                             Uniquement des lettres et des espaces</div>
@@ -43,7 +43,7 @@
             <!-- Birthday date-->
             <div class="form-group">
                 <label for="birthday">Date de naissance</label>
-                <input onfocus="(this.type='date')" type="text" formControlName="birthday" class="form-control"
+                <input value="{{userFormData.CustomerBirthday}}"onfocus="(this.type='date')" type="text" formControlName="birthday" class="form-control"
                     placeholder=""
                     [ngClass]="{ 'is-invalid': submitted && f.birthday.errors || f.birthday.touched && f.birthday.errors}" />
             </div>
@@ -63,7 +63,7 @@
                 <!-- Adresse-->
                 <div class="form-group">
                     <label for="ShippingAddress">Rue, n°</label>
-                    <input id="shippingAddress" type="text" formControlName="shippingAddress" class="form-control"
+                    <input value="{{shippingAddrData.shippingAddress}}" id="shippingAddress" type="text" formControlName="shippingAddress" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.shippingAddress.errors || f.shippingAddress.touched && f.shippingAddress.errors}" />
                 </div>
                 <!-- Ville-->
@@ -71,7 +71,7 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="shippingCity">Ville</label>
-                            <input type="text" maxlength="100" formControlName="shippingCity" id="shippingCity"
+                            <input value="{{shippingAddrData.shippingCity}}" type="text" maxlength="100" formControlName="shippingCity" id="shippingCity"
                                 class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted && f.shippingCity.errors  || f.shippingCity.touched && f.shippingCity.errors}" />
                         </div>
@@ -80,7 +80,7 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="shippingZip">Code Postal</label>
-                            <input maxlength="4" formControlName="shippingZip" class="form-control" id="shippingZip"
+                            <input value="{{shippingAddrData.shippingZip}}" maxlength="4" formControlName="shippingZip" class="form-control" id="shippingZip"
                                 [ngClass]="{ 'is-invalid': submitted && f.shippingZip.errors ||
                                              f.shippingZip.errors && f.shippingZip.hasError('pattern') || f.shippingZip.touched && f.shippingZip.errors ||
                                              f.shippingZip.touched && f.shippingZip.hasError('minLength')}" />
@@ -119,33 +119,33 @@
                 <!-- Adresse-->
                 <div class="form-group">
                     <label for="billingAddress">Rue, n°</label>
-                    <input id="billingAddress" type="text" formControlName="billingAddress" class="form-control"
+                    <input value="{{billingAddrData.billingAddress}}" id="billingAddress" type="text" formControlName="billingAddress" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.billingAddress.errors ||f.billingAddress.touched && f.billingAddress.errors}" />
                 </div>
                 <!-- Ville-->
                 <div class="row">
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="billingAddressCity">Ville</label>
-                            <input type="text" maxlength="100" formControlName="billingAddressCity" id="billingCity"
+                            <label for="billingCity">Ville</label>
+                            <input value="{{billingAddrData.billingCity}}" type="text" maxlength="100" formControlName="billingCity" id="billingCity"
                                 class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.billingAddressCity.errors ||f.billingAddressCity.touched && f.billingAddressCity.errors }" />
+                                [ngClass]="{ 'is-invalid': submitted && f.billingCity.errors ||f.billingCity.touched && f.billingCity.errors }" />
                         </div>
                     </div>
                     <!-- NPA-->
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="billingAddressZip">Code Postal</label>
-                            <input maxlength="4" formControlName="billingAddressZip" id="billingZip"
-                                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billingAddressZip.errors ||
-                                         f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern')
-                                         || f.billingAddressZip.touched && f.billingAddressZip.errors ||
-                                         f.billingAddressZip.touched && f.billingAddressZip.hasError('minLength')}" />
-                            <div class="invalid-feedback" *ngIf="f.billingAddressZip.touched && f.billingAddressZip.hasError('pattern') ||
-                                     f.billingAddressZip.errors && f.billingAddressZip.hasError('pattern')">
+                            <label for="billingZip">Code Postal</label>
+                            <input value="{{billingAddrData.billingZip}}" maxlength="4" formControlName="billingZip" id="billingZip"
+                                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
+                                         f.billingZip.touched && f.billingZip.hasError('pattern')
+                                         || f.billingZip.touched && f.billingZip.errors ||
+                                         f.billingZip.touched && f.billingZip.hasError('minLength')}" />
+                            <div class="invalid-feedback" *ngIf="f.billingZip.touched && f.billingZip.hasError('pattern') ||
+                                     f.billingZip.errors && f.billingZip.hasError('pattern')">
                                 Uniquement des chiffres</div>
                             <div class="invalid-feedback"
-                                *ngIf="f.billingAddressZip.touched && f.billingAddressZip.value.length<4 && f.billingAddressZip.value.length!=0 ">
+                                *ngIf="f.billingZip.touched && f.billingZip.value.length<4 && f.billingZip.value.length!=0 ">
                                 Au moins 4 chiffres</div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@
             <!-- username -->
             <div class="form-group">
                 <label for="username">Nom d'utilisateur</label>
-                <input type="text" formControlName="username" class="form-control"  (keyup.tab)="isUserAvailable()" (blur)="isUserAvailable()"
+                <input value="{{this.userFormData.Username}}" type="text" formControlName="username" class="form-control"  (keyup.tab)="isUserAvailable()" (blur)="isUserAvailable()" id="username"
                     [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
                 <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
                     Uniquement des lettres et des chiffres

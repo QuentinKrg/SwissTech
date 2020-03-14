@@ -22,12 +22,12 @@ class Customer extends Entity
       {
 		
         // Récupération des données reçues
-		$titre = $this->jsonToProcess->titre;
-        $name = $this->jsonToProcess->firstname;
-        $lastname = $this->jsonToProcess->lastname;
-		$phone = $this->jsonToProcess->privatephone;
-        $email = $this->jsonToProcess->email;
-		$birthday = $this->jsonToProcess->birthday;
+		$titre = $this->jsonToProcess->CustomerTitre;
+        $name = $this->jsonToProcess->CustomerName;
+        $lastname = $this->jsonToProcess->CustomerLastName;
+		$phone = $this->jsonToProcess->CustomerPhone;
+        $email = $this->jsonToProcess->CustomerEmail;
+		$birthday = $this->jsonToProcess->CustomerBirthday;
 		$login = $this->jsonToProcess->username;
 		$password = $this->jsonToProcess->password;
 		$shippingAddress = $this->jsonToProcess->shippingAddress;
@@ -36,15 +36,15 @@ class Customer extends Entity
 		
 		if(isset($this->jsonToProcess->billingAddress)){//si la checkbox same address est utilisée, on ne reçoit pas de données de billing address
 		$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
-		$billingAddressCity = $this->jsonToProcess->billingAddressCity;
-		$billingAddressZip = $this->jsonToProcess->billingAddressZip;
+		$billingCity = $this->jsonToProcess->billingCity;
+		$billingZip = $this->jsonToProcess->billingZip;
 		} 
 		$sameAddress = $this->jsonToProcess->checkbox_address;
 		
 		if($sameAddress){//si same address active, on utilise donc les mêmes données de shipping address
 			$billingAddress = $shippingAddress;
-			$billingAddressCity = $city;
-			$billingAddressZip = $zip;
+			$billingCity = $city;
+			$billingZip = $zip;
 		}
 		
 		$sql = "SELECT * FROM t_users WHERE Username = '$login'";
@@ -90,7 +90,7 @@ class Customer extends Entity
 		//Insert Billing Address
 		$addBillingAddress = "INSERT INTO t_address
 							(Address , City , Zip , FK_AddressType , FK_Customer)
-							VALUES ('$billingAddress','$billingAddressCity','$billingAddressZip','2',
+							VALUES ('$billingAddress','$billingCity','$billingZip','2',
 							(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'))";
         $this->Query($addBillingAddress);
 	  }
@@ -116,11 +116,36 @@ class Customer extends Entity
 				$username = $_GET['username'];
 				  $sql = "SELECT * FROM t_users	
 					   INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-					   INNER JOIN t_address ON t_customers.id_customer = t_address.fk_customer WHERE username = '$username' LIMIT 1";
-				  $tmpUser =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-				return $tmpUser;
+					   WHERE username = '$username' LIMIT 1";
+				  $getCustomer =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+				return $getCustomer;
 			}
-			
 		}
+		
+	public function getShippingAddressByUser(){
+		if(isset($_GET['username'])){
+				$username = $_GET['username'];
+				   $sql = "SELECT Address as 'shippingAddress',City AS 'shippingCity', Zip AS 'shippingZip' , FK_AddressType, FK_Customer
+							FROM t_address 
+							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users	
+							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+								WHERE username = '$username' LIMIT 1) LIMIT 1";
+				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+				return $getShipAddr;
+		}
+	}
+	
+	public function getBillingAddressByUser(){
+		if(isset($_GET['username'])){
+				$username = $_GET['username'];
+				   $sql = "SELECT Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+							FROM t_address 
+							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users	
+							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+								WHERE username = '$username' LIMIT 1) LIMIT 1";
+				  $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+				return $getBillAddr;
+		}
+	}
 }
  ?>

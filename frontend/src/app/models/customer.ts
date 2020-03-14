@@ -1,23 +1,19 @@
 export class Customer {
     id: number;
-    titre: string;
-    firstname: string;
-    lastname: string;
-    birthday: Date;
+    CustomerTitre: string;
+    CustomerName: string;
+    CustomerLastName: string;
+    CustomerBirthday: Date;
     shippingAddress: string;
     shippingCity: string;
     shippingZip: number;
     billingAddress: string;
-    billingAddressCity: string;
-    billingAddressZip: number;
+    billingCity: string;
+    billingZip: number;
     checkbox_address: boolean;
+    Username: string;
     username: string;
     password: string;
-    email: string;
-    privatephone: string;
+    CustomerEmail: string;
+    CustomerPhone: string;
 }
-    
-    
-    
-    
-    
