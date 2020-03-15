@@ -219,12 +219,10 @@
                 <div>
                     <div class="form-group">
                         <label for="myPassword">Mot de passe actuel:</label>
-                        <input id="myPassword" formControlName="myPassword" type="password" class="form-control"
+                        <input (keyup.tab)="onPasswordTest()"
+                        (blur)="onPasswordTest()" id="myPassword" formControlName="myPassword" type="password" class="form-control"
                             [ngClass]="f.myPassword.touched && f.myPassword.invalid ? 'is-invalid' : ''">
-                        <label class="text-danger"
-                            *ngIf="f.myPassword.value.length < 1 || f.myPassword.hasError('required')">
-                            Confirmez votre mot de passe!
-                        </label>
+                        <p class="text-danger">{{passwordErrorMessage}}</p>
                     </div>
                 </div>
     

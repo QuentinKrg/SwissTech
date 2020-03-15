@@ -26,6 +26,8 @@ export class EditProfileComponent implements OnInit {
   usernameErrorMessage: String;
   isUserValid = true;
   usernameData;
+  passwordErrorMessage: String;
+  isPasswordCorrect =false;
   changeUsername = false;
   changePassword= false;
 
@@ -206,7 +208,27 @@ export class EditProfileComponent implements OnInit {
     );
   }
 
+  onPasswordTest() {
+    
+    this.editRegisterForm.value.myPassword = CryptoJS.SHA256(this.editRegisterForm.value.myPassword).toString();
+
+    this._userService.checkPassword(this.usernameData,this.editRegisterForm.value.myPassword).then(
+      () => {
+        this.passwordErrorMessage = "Mot de passe incorrect";
+        this.isPasswordCorrect = false;
+      },
+      (error) => {
+        this.passwordErrorMessage = "";
+        this.isPasswordCorrect = true;
+      }
+    );
+  }
+
   onSubmit() {
+
+    if(!this.isUserValid){
+      return;
+    }
 
     //Stop si le formulaire n'est pas valide
     if (this.editRegisterForm.invalid) {
@@ -216,10 +238,7 @@ export class EditProfileComponent implements OnInit {
     if (this.editRegisterForm.invalid) {
       return;
     }
-
-    //Récupère les identifiant pour le login
-    this.user.username = this.editRegisterForm.value.username;
-    this.user.password = this.editRegisterForm.value.password;
+    
     //Hash le mot de passe reçu avant l'envoyer au backend
     this.editRegisterForm.value.password = CryptoJS.SHA256(this.editRegisterForm.value.password).toString();
     //désactive le bouton d'enregistrement
@@ -228,20 +247,12 @@ export class EditProfileComponent implements OnInit {
     console.log(this.user);
 
     //vérifie que le nom d'utilisateur est disponible
-    this._userService.checkUserByUsername(this.user).then(
-      () => {
+    
         //si crée un nouveau client
         this._userService.addCustomer(this.editRegisterForm.value).then(
           () => {
             console.log('tout va bien');
-            //si tout va bien le client se connecte directement
-            this.authenticationService.login(this.user)
-              .subscribe(
-                () => {
-                  //puis est redirigé vers la page qu'il essayer d'acceder
-                  this.router.navigate([this.returnUrl]);
-                }
-              );
+            
           },
           //en cas d'erreur
           (error) => {
@@ -250,16 +261,6 @@ export class EditProfileComponent implements OnInit {
             this.loading = false;
             return;
           });
-      },
-      (error) => {
-        this.usernameErrorMessage = "Nom d'utilisateur non disponible";
-        console.log(error);
-        this.submitted = false;
-        this.loading = false;
-        return;
-      }
-
-    );
 
   }
 }

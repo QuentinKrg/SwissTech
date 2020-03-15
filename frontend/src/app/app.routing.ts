@@ -17,7 +17,8 @@ const routes: Routes = [
     { path: 'cart', component: ShoppingCartComponent},
     { path: 'myprofile', component: MyProfileComponent, canActivate: [AuthGuard], children: 
         [
-        { path: 'editprofile', component: EditProfileComponent, outlet: 'profilecontent1'},    
+        { path: 'editprofile', component: EditProfileComponent, outlet: 'profilecontent1'},
+        { path: '', component: EditProfileComponent, outlet: 'profilecontent1'},    
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 
     },

@@ -51,5 +51,19 @@ export class UserService {
       }
     );
   }
+  checkPassword(user: string,password: string) {
+    return new Promise(
+      (resolve, reject) => {
+        this.http.get<User[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=CheckPassword&username='+ user + '&password='+ password).toPromise().then(
+          () => {
+            resolve();
+          },
+          (error) => {
+            reject(error)
+          }
+        );
+      }
+    );
+  }
 
 }
