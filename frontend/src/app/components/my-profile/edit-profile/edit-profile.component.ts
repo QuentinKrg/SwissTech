@@ -25,10 +25,10 @@ export class EditProfileComponent implements OnInit {
   haveUser: String;
   usernameErrorMessage: String;
   isUserValid = true;
-  userFormData=new Customer;
-  shippingAddrData= new Customer;
-  billingAddrData= new Customer;
-  
+  usernameData;
+  changeUsername = false;
+  changePassword= false;
+
   constructor(
     private formBuilder: FormBuilder,
     private _userService: UserService,
@@ -39,9 +39,6 @@ export class EditProfileComponent implements OnInit {
 
 
   ngOnInit() {
-    
- 
-
     this.editRegisterForm = this.formBuilder.group({
       titre: ['', Validators.required],
       firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
@@ -55,7 +52,7 @@ export class EditProfileComponent implements OnInit {
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       email: ['', [Validators.required, Validators.email]],
-      username: [this.userFormData.Username, [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       myPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
       privatephone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
@@ -90,52 +87,85 @@ export class EditProfileComponent implements OnInit {
         validator: CustomValidators.passwordMatchValidator
       });
 
-      const currentUsername = this.authenticationService.currentUserValue.login;
- console.log(currentUsername);
+    const currentUsername = this.authenticationService.currentUserValue.login;
+    console.log(currentUsername);
 
- this._userService.getCustomer(currentUsername).subscribe(
-   (data= new Customer) =>{
-     this.f.titre.setValue(data.CustomerTitre);
-     this.f.firstname.setValue(data.CustomerName);
-     this.f.lastname.setValue(data.CustomerLastName);
-     this.f.birthday.setValue(data.CustomerBirthday);
-     this.f.email.setValue(data.CustomerEmail);
-     this.f.privatephone.setValue(data.CustomerPhone);
-     this.f.username.setValue(data.Username);
-   },
-   (error) =>{
-     this.usernameErrorMessage = "Error ";
-     console.log(error);
-   });
+    this._userService.getCustomer(currentUsername).subscribe(
+      (data = new Customer) => {
+        this.f.titre.setValue(data.CustomerTitre);
+        this.f.firstname.setValue(data.CustomerName);
+        this.f.lastname.setValue(data.CustomerLastName);
+        this.f.birthday.setValue(data.CustomerBirthday);
+        this.f.email.setValue(data.CustomerEmail);
+        this.f.privatephone.setValue(data.CustomerPhone);
+        this.usernameData = data.Username;
+        //this.f.username.setValue(data.Username);
+      },
+      (error) => {
+        this.usernameErrorMessage = "Error ";
+        console.log(error);
+      });
 
- this._userService.getShippingAddress(currentUsername).subscribe(
-    (data= new Customer) =>{
-      this.f.shippingAddress.setValue(data.shippingAddress);
-      this.f.shippingCity.setValue(data.shippingCity);
-      this.f.shippingZip.setValue(data.shippingZip);
-    },
-    (error) =>{
-      this.usernameErrorMessage = "Error ";
-      console.log(error);
-    });
-    
-  this._userService.getBillingAddress(currentUsername).subscribe(
-      (data= new Customer) =>{
+    this._userService.getShippingAddress(currentUsername).subscribe(
+      (data = new Customer) => {
+        this.f.shippingAddress.setValue(data.shippingAddress);
+        this.f.shippingCity.setValue(data.shippingCity);
+        this.f.shippingZip.setValue(data.shippingZip);
+      },
+      (error) => {
+        this.usernameErrorMessage = "Error ";
+        console.log(error);
+      });
+
+    this._userService.getBillingAddress(currentUsername).subscribe(
+      (data = new Customer) => {
         this.f.billingAddress.setValue(data.billingAddress);
         this.f.billingCity.setValue(data.billingCity);
         this.f.billingZip.setValue(data.billingZip);
       },
-      (error) =>{
+      (error) => {
         this.usernameErrorMessage = "Error ";
         console.log(error);
       });
-        
+
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    this.editRegisterForm.get('username').disable();
+    this.editRegisterForm.get('myPassword').disable();
+    this.editRegisterForm.get('password').disable();
+    this.editRegisterForm.get('confirmPassword').disable();
   }
 
   get f() { return this.editRegisterForm.controls; }
 
+  onUsernameChange() {
+    console.log(this.changeUsername);
+    if (!this.changeUsername) {
+      this.changeUsername = true;
+      this.editRegisterForm.get('username').enable();
+    } else {
+      this.changeUsername = false;
+      this.editRegisterForm.get('username').disable();
+    }
+    console.log(this.changeUsername);
+    return this.changeUsername;
+  }
+  onPasswordChange() {
+    console.log(this.changePassword);
+    if (!this.changePassword) {
+      this.changePassword = true;
+      this.editRegisterForm.get('myPassword').enable();
+      this.editRegisterForm.get('password').enable();
+      this.editRegisterForm.get('confirmPassword').enable();
+    } else {
+      this.changePassword = false;
+      this.editRegisterForm.get('myPassword').disable();
+      this.editRegisterForm.get('password').disable();
+      this.editRegisterForm.get('confirmPassword').disable();
+    }
+    console.log(this.changePassword);
+  }
   onSameAddressCheck() {//Fonction pour copier l'addresse livraison... uniquement l'affichage HTML
     //Recuperation des element input du form
     const bilAddressValue = <HTMLInputElement>document.getElementById("billingAddress");
@@ -165,24 +195,21 @@ export class EditProfileComponent implements OnInit {
     }
 
   }
-
-
-
   //live validation pour voir si le nom d'utilisateur est disponible et avertir l'utilisateur
-  isUserAvailable(){
+  isUserAvailable() {
     this.user.username = this.editRegisterForm.value.username;
     this._userService.checkUserByUsername(this.user).then(
-      ()=>{
+      () => {
         this.usernameErrorMessage = "";
         this.isUserValid = true;
       },
-      (error) =>{
+      (error) => {
         this.usernameErrorMessage = "Nom d'utilisateur non disponible";
         this.isUserValid = false;
       }
     );
   }
-  
+
   onSubmit() {
 
     //Stop si le formulaire n'est pas valide
@@ -206,7 +233,7 @@ export class EditProfileComponent implements OnInit {
 
     //vérifie que le nom d'utilisateur est disponible
     this._userService.checkUserByUsername(this.user).then(
-      ()=>{
+      () => {
         //si crée un nouveau client
         this._userService.addCustomer(this.editRegisterForm.value).then(
           () => {
@@ -228,15 +255,16 @@ export class EditProfileComponent implements OnInit {
             return;
           });
       },
-      (error) =>{
+      (error) => {
         this.usernameErrorMessage = "Nom d'utilisateur non disponible";
         console.log(error);
         this.submitted = false;
         this.loading = false;
         return;
       }
-      
+
     );
-    
+
   }
 }
+

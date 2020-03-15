@@ -95,7 +95,7 @@
                 </div>
             </div>
             <!-- Adresse de facturation -->
-            <h6 class="border-top pt-3" >
+            <h6 class="border-top pt-3">
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_017_postal_card">
                     <path fill="currentColor"
@@ -136,8 +136,8 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="billingZip">Code Postal</label>
-                            <input maxlength="4" formControlName="billingZip" id="billingZip"
-                                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
+                            <input maxlength="4" formControlName="billingZip" id="billingZip" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
                                          f.billingZip.touched && f.billingZip.hasError('pattern')
                                          || f.billingZip.touched && f.billingZip.errors ||
                                          f.billingZip.touched && f.billingZip.hasError('minLength')}" />
@@ -181,9 +181,27 @@
         <div>
             <h5 class="border-top">Mes identifiants </h5>
             <!-- username -->
-            <div class="form-group">
-                <label for="username">Nom d'utilisateur</label>
-                <input readonly type="text" formControlName="username" class="form-control"  (keyup.tab)="isUserAvailable()" (blur)="isUserAvailable()" id="username"
+
+            <label for="username">Nom d'utilisateur:</label>
+            <div class="row text-center align-middle p-3">
+                <div class="form-group col-sm d-inline">
+                    <h5 class="font-weight-bold">
+                        {{usernameData}}
+                    </h5>
+                </div>
+                <div class="col-sm d-inline">
+                    <button [ngClass]="changeUsername  ? 'text-danger' : 'text-success'" class="btn btn-light"
+                        (click)="onUsernameChange()">
+                        <a *ngIf="!changeUsername">Modifier</a>
+                        <a *ngIf="changeUsername">Ne pas modifier</a>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group" *ngIf="changeUsername">
+                <label for="username">Nouveau nom d'utilisateur:</label>
+                <input type="text" formControlName="username" class="form-control" (keyup.tab)="isUserAvailable()"
+                    (blur)="isUserAvailable()" id="username"
                     [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
                 <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
                     Uniquement des lettres et des chiffres
@@ -191,89 +209,96 @@
                 <p class="text-danger">{{usernameErrorMessage}}</p>
             </div>
 
-            <div >
-                <!-- My Password -->
-                <div class="form-group">
-                    <label for="myPassword">Mot de passe actuel:</label>
-                    <input id="myPassword" formControlName="myPassword" type="password"
-                        class="form-control"
-                        [ngClass]="f.myPassword.touched && f.myPassword.invalid ? 'is-invalid' : ''">
-                    <label class="text-danger"
-                        *ngIf="f.myPassword.value.length < 1 || f.myPassword.hasError('required')">
-                        Confirmez votre mot de passe!
-                    </label>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm">
-                    <!-- Password -->
+            <!-- My Password -->
+            <button [ngClass]="changePassword  ? 'text-danger' : 'text-success'" class="btn btn-block btn-light"
+                (click)="onPasswordChange()">
+                <a *ngIf="!changePassword">Modifier monmot de passe</a>
+                <a *ngIf="changePassword">Ne pas modifier mon mot de passe</a>
+            </button>
+            <div *ngIf="changePassword">
+                <div>
                     <div class="form-group">
-                        <label for="password">Nouveau mot de passe:</label>
-                        <input id="password" formControlName="password" type="password" class="form-control"
-                            [ngClass]="f.password.touched && f.password.invalid ? 'is-invalid' : ''">
-                        <label class="col"
-                            [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
-                            <i class="material-icons">{{ f.password.hasError('required') ||
-                    f.password.hasError('minlength') ? 'cancel' :
-                    'check_circle' }}</i>
-                            Au moins 8 caractères
-                        </label>
-                        <label class="col"
-                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
-                            <i class="material-icons">{{ f.password.hasError('required') ||
-                    f.password.hasError('hasNumber') ? 'cancel' :
-                    'check_circle' }}</i>
-                            Au moins un chiffre
-                        </label>
-                        <label class="col"
-                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
-
-                            <i class="material-icons">{{ f.password.hasError('required') ||
-                    f.password.hasError('hasCapitalCase') ? 'cancel' :
-                    'check_circle' }}</i>
-                            Au moins une majuscule
-                        </label>
-                        <label class="col"
-                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
-                            <i class="material-icons">{{ f.password.hasError('required') ||
-                    f.password.hasError('hasSmallCase') ? 'cancel' :
-                    'check_circle' }}</i>
-                            Au moins une minuscule
-                        </label>
-                        <label class="col"
-                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
-                            <i class="material-icons">{{ f.password.hasError('required') ||
-                    f.password.hasError('hasSpecialCharacters') ? 'cancel' :
-                    'check_circle' }}</i>
-                            Au moins un caractère spécial
-                        </label>
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <!-- Confirmation Password -->
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirmez le nouveau mot de passe:</label>
-                        <input id="confirmPassword" formControlName="confirmPassword" type="password"
-                            class="form-control"
-                            [ngClass]="f.confirmPassword.touched && f.confirmPassword.invalid ? 'is-invalid' : ''">
+                        <label for="myPassword">Mot de passe actuel:</label>
+                        <input id="myPassword" formControlName="myPassword" type="password" class="form-control"
+                            [ngClass]="f.myPassword.touched && f.myPassword.invalid ? 'is-invalid' : ''">
                         <label class="text-danger"
-                            *ngIf="f.confirmPassword.value.length < 1 || f.confirmPassword.hasError('required')">
+                            *ngIf="f.myPassword.value.length < 1 || f.myPassword.hasError('required')">
                             Confirmez votre mot de passe!
                         </label>
-                        <label class="text-danger"
-                            *ngIf="f.confirmPassword.value.length > 0 && f.confirmPassword.hasError('NoPassswordMatch')">
-                            Les mots de passe doivent être identiques
-                        </label>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col-sm">
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="password">Nouveau mot de passe:</label>
+                            <input id="password" formControlName="password" type="password" class="form-control"
+                                [ngClass]="f.password.touched && f.password.invalid ? 'is-invalid' : ''">
+                            <label class="col"
+                                [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
+                                <i class="material-icons">{{ f.password.hasError('required') ||
+                        f.password.hasError('minlength') ? 'cancel' :
+                        'check_circle' }}</i>
+                                Au moins 8 caractères
+                            </label>
+                            <label class="col"
+                                [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+                                <i class="material-icons">{{ f.password.hasError('required') ||
+                        f.password.hasError('hasNumber') ? 'cancel' :
+                        'check_circle' }}</i>
+                                Au moins un chiffre
+                            </label>
+                            <label class="col"
+                                [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+    
+                                <i class="material-icons">{{ f.password.hasError('required') ||
+                        f.password.hasError('hasCapitalCase') ? 'cancel' :
+                        'check_circle' }}</i>
+                                Au moins une majuscule
+                            </label>
+                            <label class="col"
+                                [ngClass]="f.password.hasError('required') || f.password.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
+                                <i class="material-icons">{{ f.password.hasError('required') ||
+                        f.password.hasError('hasSmallCase') ? 'cancel' :
+                        'check_circle' }}</i>
+                                Au moins une minuscule
+                            </label>
+                            <label class="col"
+                                [ngClass]="f.password.hasError('required') || f.password.hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                                <i class="material-icons">{{ f.password.hasError('required') ||
+                        f.password.hasError('hasSpecialCharacters') ? 'cancel' :
+                        'check_circle' }}</i>
+                                Au moins un caractère spécial
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <!-- Confirmation Password -->
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmez le nouveau mot de passe:</label>
+                            <input id="confirmPassword" formControlName="confirmPassword" type="password"
+                                class="form-control"
+                                [ngClass]="f.confirmPassword.touched && f.confirmPassword.invalid ? 'is-invalid' : ''">
+                            <label class="text-danger"
+                                *ngIf="f.confirmPassword.value.length < 1 || f.confirmPassword.hasError('required')">
+                                Confirmez votre mot de passe!
+                            </label>
+                            <label class="text-danger"
+                                *ngIf="f.confirmPassword.value.length > 0 && f.confirmPassword.hasError('NoPassswordMatch')">
+                                Les mots de passe doivent être identiques
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+           
 
-        <div class="form-group pb-3 mt-3 text-center" >
-            <button [disabled]="loading" class="btn btn-primary btn-lg w-60 " >
+        <div class="form-group pb-3 mt-3 text-center">
+            <button [disabled]="loading" class="btn btn-primary btn-lg w-60 ">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Inscrivez-vous
+                Enregistrer
             </button>
         </div>
     </form>
