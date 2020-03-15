@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { UserService } from 'src/app/services/user.service';
-import { Customer } from 'src/app/models/customer';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertService } from 'src/app/services/alert.service';
@@ -42,10 +41,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      titre: ['', Validators.required],
-      firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
-      lastname: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
-      birthday: ['', Validators.required],
+      CustomerTitre: ['', Validators.required],
+      CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
+      CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
+      CustomerBirthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
@@ -53,10 +52,10 @@ export class RegisterComponent implements OnInit {
       billingAddress: ['', Validators.required],
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
-      email: ['', [Validators.required, Validators.email]],
+      CustomerEmail: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       confirmPassword: ['', [Validators.required]],
-      privatephone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
+      CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       userEnteredCaptcha: ['', [Validators.required]],
       generalConditions: ['', Validators.required],
       password: [

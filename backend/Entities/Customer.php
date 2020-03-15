@@ -36,15 +36,15 @@ class Customer extends Entity
 		
 		if(isset($this->jsonToProcess->billingAddress)){//si la checkbox same address est utilisée, on ne reçoit pas de données de billing address
 		$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
-		$billingCity = $this->jsonToProcess->billingCity;
-		$billingZip = $this->jsonToProcess->billingZip;
+		$billingAddressCity = $this->jsonToProcess->billingCity;
+		$billingAddressZip = $this->jsonToProcess->billingAddressZip;
 		} 
 		$sameAddress = $this->jsonToProcess->checkbox_address;
 		
 		if($sameAddress){//si same address active, on utilise donc les mêmes données de shipping address
 			$billingAddress = $shippingAddress;
-			$billingCity = $city;
-			$billingZip = $zip;
+			$billingAddressCity = $city;
+			$billingAddressZip = $zip;
 		}
 		
 		$sql = "SELECT * FROM t_users WHERE Username = '$login'";
@@ -77,8 +77,9 @@ class Customer extends Entity
         //Requête sql pour la table users
 		//Insert
 		$adduser = "INSERT INTO t_users
-					(Username , Password , salt , Token , TokenValidity)
-					VALUES ('$login','$hashedPassword','monsalt','$token','$tokenValidity')";
+					(Username , Password , salt , Token , TokenValidity,FK_Customer)
+					VALUES ('$login','$hashedPassword','monsalt','$token','$tokenValidity',
+					(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname' AND CustomerBirthday ='$birthday'))";
         $this->Query($adduser);
 		
 		//Insert Shipping address
@@ -90,7 +91,7 @@ class Customer extends Entity
 		//Insert Billing Address
 		$addBillingAddress = "INSERT INTO t_address
 							(Address , City , Zip , FK_AddressType , FK_Customer)
-							VALUES ('$billingAddress','$billingCity','$billingZip','2',
+							VALUES ('$billingAddress','$billingAddressCity','$billingAddressZip','2',
 							(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'))";
         $this->Query($addBillingAddress);
 	  }
@@ -113,10 +114,10 @@ class Customer extends Entity
 	public function GetCustomerByUsername()
 		{
 			if(isset($_GET['username'])){
-				$username = $_GET['username'];
+				$currentUsername = $_GET['username'];
 				  $sql = "SELECT * FROM t_users	
 					   INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-					   WHERE username = '$username' LIMIT 1";
+					   WHERE Username = '$currentUsername' LIMIT 1";
 				  $getCustomer =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 				return $getCustomer;
 			}
@@ -124,12 +125,12 @@ class Customer extends Entity
 		
 	public function getShippingAddressByUser(){
 		if(isset($_GET['username'])){
-				$username = $_GET['username'];
+				$currentUsername = $_GET['username'];
 				   $sql = "SELECT Address as 'shippingAddress',City AS 'shippingCity', Zip AS 'shippingZip' , FK_AddressType, FK_Customer
 							FROM t_address 
 							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users	
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE username = '$username' LIMIT 1) LIMIT 1";
+								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
 				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 				return $getShipAddr;
 		}
@@ -137,12 +138,12 @@ class Customer extends Entity
 	
 	public function getBillingAddressByUser(){
 		if(isset($_GET['username'])){
-				$username = $_GET['username'];
+				$currentUsername = $_GET['username'];
 				   $sql = "SELECT Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
 							FROM t_address 
 							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users	
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE username = '$username' LIMIT 1) LIMIT 1";
+								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
 				  $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 				return $getBillAddr;
 		}

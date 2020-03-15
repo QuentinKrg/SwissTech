@@ -40,10 +40,10 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit() {
     this.editRegisterForm = this.formBuilder.group({
-      titre: ['', Validators.required],
-      firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
-      lastname: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
-      birthday: ['', Validators.required],
+      CustomerTitre: ['', Validators.required],
+      CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
+      CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
+      CustomerBirthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
@@ -51,11 +51,11 @@ export class EditProfileComponent implements OnInit {
       billingAddress: ['', Validators.required],
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
-      email: ['', [Validators.required, Validators.email]],
+      CustomerEmail: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       myPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
-      privatephone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
+      CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       password: [
         null,
         Validators.compose([
@@ -92,12 +92,12 @@ export class EditProfileComponent implements OnInit {
 
     this._userService.getCustomer(currentUsername).subscribe(
       (data = new Customer) => {
-        this.f.titre.setValue(data.CustomerTitre);
-        this.f.firstname.setValue(data.CustomerName);
-        this.f.lastname.setValue(data.CustomerLastName);
-        this.f.birthday.setValue(data.CustomerBirthday);
-        this.f.email.setValue(data.CustomerEmail);
-        this.f.privatephone.setValue(data.CustomerPhone);
+        this.f.CustomerTitre.setValue(data.CustomerTitre);
+        this.f.CustomerName.setValue(data.CustomerName);
+        this.f.CustomerLastName.setValue(data.CustomerLastName);
+        this.f.CustomerBirthday.setValue(data.CustomerBirthday);
+        this.f.CustomerEmail.setValue(data.CustomerEmail);
+        this.f.CustomerPhone.setValue(data.CustomerPhone);
         this.usernameData = data.Username;
         //this.f.username.setValue(data.Username);
       },
@@ -140,7 +140,6 @@ export class EditProfileComponent implements OnInit {
   get f() { return this.editRegisterForm.controls; }
 
   onUsernameChange() {
-    console.log(this.changeUsername);
     if (!this.changeUsername) {
       this.changeUsername = true;
       this.editRegisterForm.get('username').enable();
@@ -148,11 +147,9 @@ export class EditProfileComponent implements OnInit {
       this.changeUsername = false;
       this.editRegisterForm.get('username').disable();
     }
-    console.log(this.changeUsername);
     return this.changeUsername;
   }
   onPasswordChange() {
-    console.log(this.changePassword);
     if (!this.changePassword) {
       this.changePassword = true;
       this.editRegisterForm.get('myPassword').enable();
@@ -164,7 +161,6 @@ export class EditProfileComponent implements OnInit {
       this.editRegisterForm.get('password').disable();
       this.editRegisterForm.get('confirmPassword').disable();
     }
-    console.log(this.changePassword);
   }
   onSameAddressCheck() {//Fonction pour copier l'addresse livraison... uniquement l'affichage HTML
     //Recuperation des element input du form

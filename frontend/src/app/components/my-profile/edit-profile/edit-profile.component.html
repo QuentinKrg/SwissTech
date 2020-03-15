@@ -6,9 +6,9 @@
             <h5 class="border-top">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
-                <label for="titre">Titre</label>
-                <select class="form-control" formControlName="titre" autofocus
-                    [ngClass]="{ 'is-invalid': submitted && f.titre.errors || f.titre.touched && f.titre.errors}">
+                <label for="CustomerTitre">Titre</label>
+                <select class="form-control" formControlName="CustomerTitre" autofocus
+                    [ngClass]="{ 'is-invalid': submitted && f.CustomerTitre.errors || f.CustomerTitre.touched && f.CustomerTitre.errors}">
                     <option value="" selected disabled>Veuillez choisir</option>
                     <option value="Mme">Mme</option>
                     <option value="Mr">Mr</option>
@@ -20,20 +20,20 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="form-group">
-                        <label for="firstname">Prénom</label>
-                        <input type="text" maxlength="100" formControlName="firstname" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.firstname.errors || f.firstname.touched && f.firstname.errors}" />
-                        <div class="invalid-feedback" *ngIf=" f.firstname.hasError('pattern')">
+                        <label for="CustomerName">Prénom</label>
+                        <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
+                        <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
                             Uniquement des lettres et des espaces</div>
                     </div>
                 </div>
                 <!-- Last name-->
                 <div class="col-sm">
                     <div class="form-group">
-                        <label for="lastname">Nom</label>
-                        <input type="text" maxlength="100" formControlName="lastname" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.lastname.errors || f.lastname.touched && f.lastname.errors}" />
-                        <div class="invalid-feedback" *ngIf="submitted && f.lastname.hasError('pattern')">
+                        <label for="CustomerLastName">Nom</label>
+                        <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
+                        <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
                             Uniquement des lettres et des espaces</div>
                     </div>
                 </div>
@@ -42,10 +42,10 @@
 
             <!-- Birthday date-->
             <div class="form-group">
-                <label for="birthday">Date de naissance</label>
-                <input onfocus="(this.type='date')" type="text" formControlName="birthday" class="form-control"
+                <label for="CustomerBirthday">Date de naissance</label>
+                <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
                     placeholder=""
-                    [ngClass]="{ 'is-invalid': submitted && f.birthday.errors || f.birthday.touched && f.birthday.errors}" />
+                    [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
             </div>
 
 
@@ -155,22 +155,22 @@
             <div>
                 <!-- Email -->
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" formControlName="email" class="form-control" placeholder="exemple@domaine.com"
-                        [ngClass]="{ 'is-invalid': submitted && f.email.errors || f.email.touched && f.email.errors}" />
+                    <label for="CustomerEmail">E-mail</label>
+                    <input type="CustomerEmail" formControlName="CustomerEmail" class="form-control" placeholder="exemple@domaine.com"
+                        [ngClass]="{ 'is-invalid': submitted && f.CustomerEmail.errors || f.CustomerEmail.touched && f.CustomerEmail.errors}" />
                     <div class="invalid-feedback"
-                        *ngIf="submitted && f.email.hasError('email') || f.email.touched && f.email.hasError('email')">
+                        *ngIf="submitted && f.CustomerEmail.hasError('CustomerEmail') || f.CustomerEmail.touched && f.CustomerEmail.hasError('CustomerEmail')">
                         Le format de la saisie n'est pas valable
                     </div>
                 </div>
                 <!-- Private phone-->
                 <div class="form-group">
-                    <label for="privatephone">Téléphone privé</label>
-                    <input type="phone" formControlName="privatephone" class="form-control"
-                        placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.privatephone.errors || f.privatephone.touched && f.privatephone.errors || 
-                            f.privatephone.touched && f.privatephone.hasError('pattern')}" />
-                    <div class="invalid-feedback" *ngIf="submitted && f.privatephone.hasError('pattern') ||
-                             f.privatephone.touched && f.privatephone.hasError('pattern')">
+                    <label for="CustomerPhone">Téléphone privé</label>
+                    <input type="phone" formControlName="CustomerPhone" class="form-control"
+                        placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.CustomerPhone.errors || f.CustomerPhone.touched && f.CustomerPhone.errors || 
+                            f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')}" />
+                    <div class="invalid-feedback" *ngIf="submitted && f.CustomerPhone.hasError('pattern') ||
+                             f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')">
                         Le format de la saisie n'est pas valable
                     </div>
                 </div>
