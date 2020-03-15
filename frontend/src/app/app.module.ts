@@ -20,7 +20,8 @@ import { PaginationComponent } from './components/shared/pagination/pagination.c
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { EditProfileComponent } from './components/my-profile/edit-profile/edit-profile.component';
 import { FiltersComponent } from './components/home/filters/filters.component';
-
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 
 @NgModule({
@@ -38,7 +39,9 @@ import { FiltersComponent } from './components/home/filters/filters.component';
     PaginationComponent,
     MyProfileComponent,
     EditProfileComponent,
-    FiltersComponent
+    FiltersComponent,
+    CheckoutComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
