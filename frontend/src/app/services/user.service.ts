@@ -5,6 +5,7 @@ import { Customer } from '../models/customer';
 import { User } from '../models/user';
 import { resolve } from 'url';
 import { Observable } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,21 @@ export class UserService {
     return new Promise(
       (resolve, reject) => {
         return this.http.post<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=AddCustomer', customer).toPromise().then(
+          () => {
+            resolve();
+          },
+          (error) => {
+            reject(error)
+          }
+        );
+      }
+    );
+  }
+  updateCustomer(user: String, customer: Customer) {
+    customer.password = CryptoJS.SHA256(customer.password).toString();//Hash le mot de passe reçu avant l'envoyer au backend
+    return new Promise(
+      (resolve, reject) => {
+        return this.http.post<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=UpdateCustomer&username='+user, customer).toPromise().then(
           () => {
             resolve();
           },
@@ -51,10 +67,11 @@ export class UserService {
       }
     );
   }
-  checkPassword(user: string,password: string) {
+  checkPassword(user: User) {
+    user.password = CryptoJS.SHA256(user.password).toString();//Hash le mot de passe reçu avant l'envoyer au backend
     return new Promise(
       (resolve, reject) => {
-        this.http.get<User[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=CheckPassword&username='+ user + '&password='+ password).toPromise().then(
+        this.http.post<User[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=CheckPassword', user).toPromise().then(
           () => {
             resolve();
           },

@@ -9,6 +9,8 @@ import { CustomValidators } from '../../../helpers/CustomValidators';
 import { User } from 'src/app/models/user';
 import * as CryptoJS from 'crypto-js';
 import { Customer } from 'src/app/models/customer';
+import { Location } from '@angular/common';
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,8 +19,8 @@ import { Customer } from 'src/app/models/customer';
 })
 export class EditProfileComponent implements OnInit {
   editRegisterForm: FormGroup;
-  loading = false;
-  submitted = false;
+  loading;
+  submitted;
   returnUrl: string;
   ariaOneisExpended;
   user = new User;
@@ -30,6 +32,7 @@ export class EditProfileComponent implements OnInit {
   isPasswordCorrect =false;
   changeUsername = false;
   changePassword= false;
+  currentUsername = this.authenticationService.currentUserValue.login;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,10 +40,14 @@ export class EditProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
+    private location: Location
   ) { }
 
 
   ngOnInit() {
+    this.loading=false;
+    this.submitted = false;
+    
     this.editRegisterForm = this.formBuilder.group({
       CustomerTitre: ['', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
@@ -59,7 +66,7 @@ export class EditProfileComponent implements OnInit {
       confirmPassword: ['', [Validators.required]],
       CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       password: [
-        null,
+        '',
         Validators.compose([
           Validators.required,
           // check whether the entered password has a number
@@ -89,10 +96,15 @@ export class EditProfileComponent implements OnInit {
         validator: CustomValidators.passwordMatchValidator
       });
 
-    const currentUsername = this.authenticationService.currentUserValue.login;
-    console.log(currentUsername);
+      this.editRegisterForm.get('username').disable();
+    this.editRegisterForm.get('myPassword').disable();
+    this.editRegisterForm.get('password').disable();
+    this.editRegisterForm.get('confirmPassword').disable();
 
-    this._userService.getCustomer(currentUsername).subscribe(
+    
+    console.log(this.currentUsername);
+
+    this._userService.getCustomer(this.currentUsername).subscribe(
       (data = new Customer) => {
         this.f.CustomerTitre.setValue(data.CustomerTitre);
         this.f.CustomerName.setValue(data.CustomerName);
@@ -108,7 +120,7 @@ export class EditProfileComponent implements OnInit {
         console.log(error);
       });
 
-    this._userService.getShippingAddress(currentUsername).subscribe(
+    this._userService.getShippingAddress(this.currentUsername).subscribe(
       (data = new Customer) => {
         this.f.shippingAddress.setValue(data.shippingAddress);
         this.f.shippingCity.setValue(data.shippingCity);
@@ -119,7 +131,7 @@ export class EditProfileComponent implements OnInit {
         console.log(error);
       });
 
-    this._userService.getBillingAddress(currentUsername).subscribe(
+    this._userService.getBillingAddress(this.currentUsername).subscribe(
       (data = new Customer) => {
         this.f.billingAddress.setValue(data.billingAddress);
         this.f.billingCity.setValue(data.billingCity);
@@ -132,11 +144,6 @@ export class EditProfileComponent implements OnInit {
 
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-
-    this.editRegisterForm.get('username').disable();
-    this.editRegisterForm.get('myPassword').disable();
-    this.editRegisterForm.get('password').disable();
-    this.editRegisterForm.get('confirmPassword').disable();
   }
 
   get f() { return this.editRegisterForm.controls; }
@@ -207,19 +214,21 @@ export class EditProfileComponent implements OnInit {
       }
     );
   }
-
+ //live validation du mot de passe avant de le changer
   onPasswordTest() {
+    //Recupere le nom de l'utilisateur connecté
+    this.user.username =this.currentUsername;
+    //Recurpère le mot de passe saisi
+    this.user.password = this.editRegisterForm.value.myPassword;
     
-    this.editRegisterForm.value.myPassword = CryptoJS.SHA256(this.editRegisterForm.value.myPassword).toString();
-
-    this._userService.checkPassword(this.usernameData,this.editRegisterForm.value.myPassword).then(
+    this._userService.checkPassword(this.user).then(
       () => {
-        this.passwordErrorMessage = "Mot de passe incorrect";
-        this.isPasswordCorrect = false;
+        this.passwordErrorMessage = "";//Si pas de message d'erreur en retour, le mot de passe est valide
+        this.isPasswordCorrect = true;
       },
       (error) => {
-        this.passwordErrorMessage = "";
-        this.isPasswordCorrect = true;
+        this.passwordErrorMessage = "Mot de passe incorrect"; // si le mot de passe est invalide
+        this.isPasswordCorrect = false;
       }
     );
   }
@@ -239,8 +248,6 @@ export class EditProfileComponent implements OnInit {
       return;
     }
     
-    //Hash le mot de passe reçu avant l'envoyer au backend
-    this.editRegisterForm.value.password = CryptoJS.SHA256(this.editRegisterForm.value.password).toString();
     //désactive le bouton d'enregistrement
     this.loading = true;
     console.log(this.editRegisterForm.value);
@@ -249,11 +256,11 @@ export class EditProfileComponent implements OnInit {
     //vérifie que le nom d'utilisateur est disponible
     
         //si crée un nouveau client
-        this._userService.addCustomer(this.editRegisterForm.value).then(
+        this._userService.updateCustomer(this.currentUsername,this.editRegisterForm.value).then(
           () => {
             console.log('tout va bien');
-            
-          },
+            this.ngOnInit();
+          },  
           //en cas d'erreur
           (error) => {
             console.log(error);
