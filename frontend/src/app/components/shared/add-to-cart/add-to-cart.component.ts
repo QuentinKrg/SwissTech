@@ -21,7 +21,6 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit() {
     this.quantity = 1;
-    console.log
   }
 
   onAddProductToCart() {
@@ -48,8 +47,6 @@ export class AddToCartComponent implements OnInit {
       }
 
       this._dataService.updateCartItemCount(0);
-      console.log(cart);
-      console.log(this._dataService.getItemInACart(cart));
       this._dataService.updateCartItemCount(this._dataService.getItemInACart(cart));
       this._dataService.updateShoppingCart(cart);
       localStorage.setItem('Cart', JSON.stringify(cart));

@@ -33,7 +33,7 @@ export class ProductService {
   }
 
   getProductById(id:number) {
-    return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetById&id=' +id);
+    return this.http.get<Product>(environment.backendURL + 'start.php?' + 'c=Product&f=GetById&id=' +id);
   }
 
   updateProduct(product: Product) {

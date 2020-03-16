@@ -40,11 +40,4 @@ class Categories extends Entity
       // Fermeture de la connexion
       return $tmpResult;
     }
-
-    // Récupération d'un article avec son id
-    public function GetById()
-    {
-      $sql = "SELECT * FROM article WHERE id = '$this->idToProcess' LIMIT 1";
-      echo json_encode($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-    }
 }

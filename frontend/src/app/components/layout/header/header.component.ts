@@ -40,8 +40,8 @@ export class HeaderComponent implements OnInit {
     this.dataService.count.subscribe(count => this.cartCount = count);
     this.categoriesService.getAllMainGategories()
       .subscribe((data: Categories[]) =>{
-        this.mainCategories = data;
-    });
+        this.mainCategories = data;       
+    });   
     
     this.searchForm = this.formBuilder.group({
       search: ['', Validators.required]
@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit {
     }
     this.router.navigate(['search', query]);
     }
+    
   onSubmit() {
     
   }

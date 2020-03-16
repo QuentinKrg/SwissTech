@@ -21,7 +21,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             if( error.status === 404) {
                 // Si erreur = 404 -> redirection page 404
-                console.log("404");
                 
             }
 

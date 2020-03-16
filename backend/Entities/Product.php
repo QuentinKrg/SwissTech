@@ -56,6 +56,22 @@ class Product extends Entity
       $this->Query($sql);
     }
 
+    // Récupération d'un article avec son ID
+    public function GetById()
+    {
+      $sql = " SELECT id_Product,ProductName,ProductColor,ProductDescription,ProductUnitPrice,ImageName,ImagePath,ManufacturerName,CategoryName FROM t_products
+               INNER JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
+               INNER JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
+               INNER JOIN t_manufacturers ON t_products.FK_Manufacturer = t_manufacturers.id_Manufacturer
+               INNER JOIN t_categories ON t_products.FK_Category = t_categories.id_Category WHERE t_products.id_Product = $this->idToProcess";
+
+     // Execution de la requête
+     $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+     // Fermeture de la connexion
+     return $tmpResult;
+    }
+
     // Récupération de tous les articles
     public function GetAll()
     {
@@ -127,10 +143,5 @@ class Product extends Entity
       // Fermeture de la connexion
       return $tmpResult;
     }
-    // Récupération d'un article avec son id
-    public function GetById()
-    {
-      $sql = "SELECT * FROM article WHERE id = '$this->idToProcess' LIMIT 1";
-      echo json_encode($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-    }
+
 }

@@ -12,7 +12,6 @@ export class TokenInterceptor implements HttpInterceptor {
         // ajouter un header avec le token ssi disponible
         
         var currentUser = this.authenticationService.currentUserValue;
-        console.log(currentUser);
         if(currentUser && currentUser.token) {
             request = request.clone( {
                 setHeaders: {
@@ -23,7 +22,6 @@ export class TokenInterceptor implements HttpInterceptor {
                 
             });
         }
-        console.log(request);
         return next.handle(request);
     }
 }

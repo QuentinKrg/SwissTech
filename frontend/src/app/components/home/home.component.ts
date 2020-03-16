@@ -19,7 +19,6 @@ export class HomeComponent implements OnInit {
     this._productService.getRandoms(4)
       .subscribe((data: Product[]) =>{
         this.recommendationList = data;
-        console.log(data);
     });
   }
 
@@ -34,10 +33,10 @@ export class HomeComponent implements OnInit {
   monstreTest():void {
     this._productService.getTest()
       .subscribe(data => {
-        console.log(data+"test");
+
       },
       error => {
-        console.log(error + "dfdf");
+
       });
   }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { DataService } from 'src/app/services/data.service';
+import { Product } from 'src/app/models/product';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -11,16 +13,26 @@ export class ShoppingCartComponent implements OnInit {
 
   cart: ShoppingCart[];
   total: number = 0;
-  constructor(private dataService: DataService) { }
+  productsInTheCart: Product[] = new Array();
+
+  constructor(private _dataService: DataService,
+              private _productService: ProductService) { }
 
   ngOnInit() {
-    this.dataService.cart.subscribe(a => this.cart = a);
+    this._dataService.cart.subscribe(a => this.cart = a);
+    this.getCartProductItem(this.cart);
     this.getTotal();
   }
 
-  getCartProductItem() {
-    this.cart = JSON.parse(localStorage.getItem('Cart'));
+  getCartProductItem(shoppingCart: ShoppingCart[]) {
+    shoppingCart.forEach((productInCart,index) => {
+      this._productService.getProductById(productInCart.ProductId).subscribe((data: Product) => {
+        
+      });
+    });
   }
+
+
 
   onUpdateQuantity(type, productId) {
     if(type == 1) {
@@ -38,10 +50,13 @@ export class ShoppingCartComponent implements OnInit {
   getTotal()
   {
     this.total = 0;
-    this.cart.forEach((element) => {
-      this.total = this.total;
-    });
+    console.log(this.productsInTheCart);
+    
+    this.productsInTheCart.forEach(productElem => {
 
+      
+    });
+    
   }
 
 }
