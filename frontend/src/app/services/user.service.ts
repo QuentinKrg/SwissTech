@@ -28,7 +28,9 @@ export class UserService {
     );
   }
   updateCustomer(user: String, customer: Customer) {
-    customer.password = CryptoJS.SHA256(customer.password).toString();//Hash le mot de passe reçu avant l'envoyer au backend
+    if(customer.password!=null){
+      customer.password = CryptoJS.SHA256(customer.password).toString();//Hash le mot de passe reçu avant l'envoyer au backend
+    }
     return new Promise(
       (resolve, reject) => {
         return this.http.post<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=UpdateCustomer&username='+user, customer).toPromise().then(
@@ -82,5 +84,4 @@ export class UserService {
       }
     );
   }
-
 }

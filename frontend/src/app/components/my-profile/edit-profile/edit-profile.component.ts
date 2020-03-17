@@ -26,6 +26,8 @@ export class EditProfileComponent implements OnInit {
   user = new User;
   haveUser: String;
   usernameErrorMessage: String;
+  userUpdateDataMessage: String;
+  userUpdateData = false;
   isUserValid = true;
   usernameData;
   passwordErrorMessage: String;
@@ -40,7 +42,6 @@ export class EditProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private location: Location
   ) { }
 
 
@@ -95,17 +96,9 @@ export class EditProfileComponent implements OnInit {
       , {
         validator: CustomValidators.passwordMatchValidator
       });
-
-      this.editRegisterForm.get('username').disable();
-    this.editRegisterForm.get('myPassword').disable();
-    this.editRegisterForm.get('password').disable();
-    this.editRegisterForm.get('confirmPassword').disable();
-
-    
-    console.log(this.currentUsername);
-
+    //Appel au service qui retourne les infos personnelles du clients
     this._userService.getCustomer(this.currentUsername).subscribe(
-      (data = new Customer) => {
+      (data = new Customer) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         this.f.CustomerTitre.setValue(data.CustomerTitre);
         this.f.CustomerName.setValue(data.CustomerName);
         this.f.CustomerLastName.setValue(data.CustomerLastName);
@@ -113,13 +106,12 @@ export class EditProfileComponent implements OnInit {
         this.f.CustomerEmail.setValue(data.CustomerEmail);
         this.f.CustomerPhone.setValue(data.CustomerPhone);
         this.usernameData = data.Username;
-        //this.f.username.setValue(data.Username);
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
         console.log(error);
       });
-
+    //Service qui retourne l'adresse de livraison et assigne les données au formulaire
     this._userService.getShippingAddress(this.currentUsername).subscribe(
       (data = new Customer) => {
         this.f.shippingAddress.setValue(data.shippingAddress);
@@ -130,7 +122,7 @@ export class EditProfileComponent implements OnInit {
         this.usernameErrorMessage = "Error ";
         console.log(error);
       });
-
+    //Service qui retourne l'adresse de facturation et assigne les données au formulaire
     this._userService.getBillingAddress(this.currentUsername).subscribe(
       (data = new Customer) => {
         this.f.billingAddress.setValue(data.billingAddress);
@@ -151,24 +143,17 @@ export class EditProfileComponent implements OnInit {
   onUsernameChange() {
     if (!this.changeUsername) {
       this.changeUsername = true;
-      this.editRegisterForm.get('username').enable();
     } else {
       this.changeUsername = false;
-      this.editRegisterForm.get('username').disable();
     }
     return this.changeUsername;
+    
   }
   onPasswordChange() {
     if (!this.changePassword) {
       this.changePassword = true;
-      this.editRegisterForm.get('myPassword').enable();
-      this.editRegisterForm.get('password').enable();
-      this.editRegisterForm.get('confirmPassword').enable();
     } else {
       this.changePassword = false;
-      this.editRegisterForm.get('myPassword').disable();
-      this.editRegisterForm.get('password').disable();
-      this.editRegisterForm.get('confirmPassword').disable();
     }
   }
   onSameAddressCheck() {//Fonction pour copier l'addresse livraison... uniquement l'affichage HTML
@@ -234,7 +219,14 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit() {
-
+    if(!this.changePassword){
+      this.editRegisterForm.get('myPassword').disable();
+      this.editRegisterForm.get('password').disable();
+      this.editRegisterForm.get('confirmPassword').disable();
+    }
+    if(!this.changeUsername){
+      this.editRegisterForm.get('username').disable();
+    }
     if(!this.isUserValid){
       return;
     }
@@ -250,8 +242,6 @@ export class EditProfileComponent implements OnInit {
     
     //désactive le bouton d'enregistrement
     this.loading = true;
-    console.log(this.editRegisterForm.value);
-    console.log(this.user);
 
     //vérifie que le nom d'utilisateur est disponible
     
@@ -259,7 +249,19 @@ export class EditProfileComponent implements OnInit {
         this._userService.updateCustomer(this.currentUsername,this.editRegisterForm.value).then(
           () => {
             console.log('tout va bien');
+            if(this.editRegisterForm.value.username != null){
+              this.currentUsername = this.editRegisterForm.value.username;
+              let localStorageData = JSON.parse(localStorage.getItem('currentUser'));
+              localStorageData.login = this.currentUsername;
+              localStorage.setItem('currentUser', JSON.stringify(localStorageData));
+              console.log(localStorageData);              
+              this.authenticationService.currentUserValue.login = this.currentUsername;
+            }
+            console.log(this.currentUsername);
+            
             this.ngOnInit();
+            this.userUpdateData = true;
+            this.userUpdateDataMessage = 'Les modifications ont été sauvegardées';
           },  
           //en cas d'erreur
           (error) => {
@@ -268,7 +270,8 @@ export class EditProfileComponent implements OnInit {
             this.loading = false;
             return;
           });
-
+          this.changeUsername = false;
+          this.changePassword = false;
   }
 }
 

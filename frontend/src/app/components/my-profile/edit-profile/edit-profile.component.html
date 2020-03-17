@@ -300,10 +300,6 @@
                 Enregistrer
             </button>
         </div>
+            <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
     </form>
-
 </div>
-<p>
-    Form is {{editRegisterForm.valid ? 'Valid' : 'Invalid'}}
-</p>
-<pre>Form Values: {{editRegisterForm.value | json}}</pre>
