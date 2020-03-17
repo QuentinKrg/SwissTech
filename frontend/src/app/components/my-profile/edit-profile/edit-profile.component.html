@@ -1,8 +1,8 @@
 <div class="maindiv">
-    <h2 class="pt-3 text-center">Editer mon compte</h2>
+    <h2 class="pb-3 text-center">Editer mon compte</h2>
     <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
 
-        <div>
+        <div class="bg-white p-3">
             <h5 class="border-top">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
@@ -47,8 +47,8 @@
                     placeholder=""
                     [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
             </div>
-
-
+        </div>
+        <div class="bg-white p-3 mt-2">
             <!-- Adresse de livraison -->
             <h6 class="border-top pt-3">
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <!-- Adresse de facturation -->
-            <h6 class="border-top pt-3">
+            <h6 class="border-top pt-3 mt-2">
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_017_postal_card">
                     <path fill="currentColor"
@@ -151,6 +151,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="bg-white p-3 mt-2">
             <h5 class="border-top">Mes informations de contact</h5>
             <div>
                 <!-- Email -->
@@ -178,7 +180,7 @@
             </div>
         </div>
 
-        <div>
+        <div class="bg-white p-3 mt-2">
             <h5 class="border-top">Mes identifiants </h5>
             <!-- username -->
 
@@ -300,6 +302,6 @@
                 Enregistrer
             </button>
         </div>
-            <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
+        <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
     </form>
 </div>
