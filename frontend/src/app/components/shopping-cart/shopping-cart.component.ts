@@ -3,6 +3,8 @@ import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { DataService } from 'src/app/services/data.service';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
+import { async } from '@angular/core/testing';
+import { getLocaleFirstDayOfWeek } from '@angular/common';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -13,23 +15,31 @@ export class ShoppingCartComponent implements OnInit {
 
   cart: ShoppingCart[];
   total: number = 0;
-  productsInTheCart: Product[] = new Array();
+  productsInTheCart: Product[];
 
   constructor(private _dataService: DataService,
-              private _productService: ProductService) { }
+              private _productService: ProductService) { 
+                
+              }
 
-  ngOnInit() {
+  async ngOnInit() {
     this._dataService.cart.subscribe(a => this.cart = a);
-    this.getCartProductItem(this.cart);
-    this.getTotal();
+
+    this.productsInTheCart = await this.getCartProductItem(this.cart);
+    
+    this.getTotal();                    
   }
 
-  getCartProductItem(shoppingCart: ShoppingCart[]) {
-    shoppingCart.forEach((productInCart,index) => {
-      this._productService.getProductById(productInCart.ProductId).subscribe((data: Product) => {
-        
-      });
-    });
+
+  async getCartProductItem(shoppingCart: ShoppingCart[]) {
+    let tmpProduct: Product[] = [];
+    for (let i = 0; i < this.cart.length; i++) {
+      let product: Product;
+      product =  await this._productService.getProductById(this.cart[i].ProductId).toPromise();
+      tmpProduct.push(product);
+    }
+    
+    return this.productsInTheCart = tmpProduct;
   }
 
 
@@ -47,15 +57,23 @@ export class ShoppingCartComponent implements OnInit {
     this.getTotal();
   }
 
+
+
   getTotal()
   {
-    this.total = 0;
-    console.log(this.productsInTheCart);
     
-    this.productsInTheCart.forEach(productElem => {
-
+    this.productsInTheCart.forEach(element => {
+      console.log(element);
       
     });
+    
+    
+    
+
+    
+    
+    this.total = 0;    
+    
     
   }
 
