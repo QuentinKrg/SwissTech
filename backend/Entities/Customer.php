@@ -25,7 +25,7 @@ class Customer extends Entity
 		$phone = $this->jsonToProcess->CustomerPhone;
         $email = $this->jsonToProcess->CustomerEmail;
 		$birthday = $this->jsonToProcess->CustomerBirthday;
-		$login = $this->jsonToProcess->username;
+		$login = $this->jsonToProcess->Username;
 		$password = $this->jsonToProcess->password;
 		$shippingAddress = $this->jsonToProcess->shippingAddress;
 		$city = $this->jsonToProcess->shippingCity;
@@ -127,8 +127,8 @@ class Customer extends Entity
 					$billingAddressZip = $zip;
 				}
 				
-				if(isset($this->jsonToProcess->username)){
-					$login = $this->jsonToProcess->username;
+				if(isset($this->jsonToProcess->Username)){
+					$login = $this->jsonToProcess->Username;
 					$updateUser = "UPDATE 
 										t_users
 									SET 
@@ -192,7 +192,6 @@ class Customer extends Entity
 				$this->Query($updateBillingAddress);
 			}	
 		}
-    
 
 	public function CheckPassword(){
 		
@@ -234,7 +233,6 @@ class Customer extends Entity
 				return $getCustomer;
 			}
 		}
-		
 	public function getShippingAddressByUser(){
 		if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];

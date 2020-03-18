@@ -4,13 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { AlertService } from 'src/app/services/alert.service';
 import { CustomValidators } from '../../../helpers/CustomValidators';
 import { User } from 'src/app/models/user';
-import * as CryptoJS from 'crypto-js';
 import { Customer } from 'src/app/models/customer';
-import { Location } from '@angular/common';
-import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-edit-profile',
@@ -51,8 +47,8 @@ export class EditProfileComponent implements OnInit {
     
     this.editRegisterForm = this.formBuilder.group({
       CustomerTitre: ['', Validators.required],
-      CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
-      CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
+      CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
+      CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerBirthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
@@ -61,11 +57,11 @@ export class EditProfileComponent implements OnInit {
       billingAddress: ['', Validators.required],
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
-      CustomerEmail: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      CustomerEmail: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]],
+      CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
+      Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
       myPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
-      CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       password: [
         '',
         Validators.compose([
@@ -106,6 +102,8 @@ export class EditProfileComponent implements OnInit {
         this.f.CustomerEmail.setValue(data.CustomerEmail);
         this.f.CustomerPhone.setValue(data.CustomerPhone);
         this.usernameData = data.Username;
+        console.log(data);
+        
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
@@ -117,6 +115,8 @@ export class EditProfileComponent implements OnInit {
         this.f.shippingAddress.setValue(data.shippingAddress);
         this.f.shippingCity.setValue(data.shippingCity);
         this.f.shippingZip.setValue(data.shippingZip);
+        console.log(data);
+        
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
@@ -128,6 +128,8 @@ export class EditProfileComponent implements OnInit {
         this.f.billingAddress.setValue(data.billingAddress);
         this.f.billingCity.setValue(data.billingCity);
         this.f.billingZip.setValue(data.billingZip);
+        console.log(data);
+        
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
@@ -136,6 +138,7 @@ export class EditProfileComponent implements OnInit {
 
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    
   }
 
   get f() { return this.editRegisterForm.controls; }
@@ -187,7 +190,7 @@ export class EditProfileComponent implements OnInit {
   }
   //live validation pour voir si le nom d'utilisateur est disponible et avertir l'utilisateur
   isUserAvailable() {
-    this.user.username = this.editRegisterForm.value.username;
+    this.user.username = this.editRegisterForm.value.Username;
     this._userService.checkUserByUsername(this.user).then(
       () => {
         this.usernameErrorMessage = "";
@@ -225,7 +228,7 @@ export class EditProfileComponent implements OnInit {
       this.editRegisterForm.get('confirmPassword').disable();
     }
     if(!this.changeUsername){
-      this.editRegisterForm.get('username').disable();
+      this.editRegisterForm.get('Username').disable();
     }
     if(!this.isUserValid){
       return;
@@ -249,8 +252,8 @@ export class EditProfileComponent implements OnInit {
         this._userService.updateCustomer(this.currentUsername,this.editRegisterForm.value).then(
           () => {
             console.log('tout va bien');
-            if(this.editRegisterForm.value.username != null){
-              this.currentUsername = this.editRegisterForm.value.username;
+            if(this.editRegisterForm.value.Username != null){
+              this.currentUsername = this.editRegisterForm.value.Username;
               let localStorageData = JSON.parse(localStorage.getItem('currentUser'));
               localStorageData.login = this.currentUsername;
               localStorage.setItem('currentUser', JSON.stringify(localStorageData));
