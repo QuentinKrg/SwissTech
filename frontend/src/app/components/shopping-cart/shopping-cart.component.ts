@@ -5,6 +5,7 @@ import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
 import { async } from '@angular/core/testing';
 import { getLocaleFirstDayOfWeek } from '@angular/common';
+import { flatten } from '@angular/compiler';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -22,25 +23,37 @@ export class ShoppingCartComponent implements OnInit {
                 
               }
 
-  async ngOnInit() {
+   async ngOnInit() {
     this._dataService.cart.subscribe(a => this.cart = a);
 
-    this.productsInTheCart = await this.getCartProductItem(this.cart);
-    
+    this.getCartProductItem(this.cart);    
+
     this.getTotal();                    
   }
 
 
   async getCartProductItem(shoppingCart: ShoppingCart[]) {
-    let tmpProduct: Product[] = [];
+    this.productsInTheCart = [];
     for (let i = 0; i < this.cart.length; i++) {
       let product: Product;
-      product =  await this._productService.getProductById(this.cart[i].ProductId).toPromise();
-      tmpProduct.push(product);
-    }
-    
-    return this.productsInTheCart = tmpProduct;
+      product =  await this._productService.getProductById(shoppingCart[i].ProductId).toPromise();
+      
+      this.productsInTheCart.push(product);
+    }    
   }
+
+  getQuantityOfProduct(product: Product) {
+    let shoppingCart: ShoppingCart[];
+    let cartValue: ShoppingCart;
+    shoppingCart = this.cart.filter(a => a.ProductId === product.id);
+    
+    shoppingCart.forEach(element => {
+      cartValue = element;
+    });
+
+    return cartValue;
+  }
+
 
 
 
@@ -62,10 +75,11 @@ export class ShoppingCartComponent implements OnInit {
   getTotal()
   {
     
+    console.log(this.productsInTheCart);
     this.productsInTheCart.forEach(element => {
-      console.log(element);
       
     });
+    
     
     
     
