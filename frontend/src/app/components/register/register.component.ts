@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       CustomerEmail: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      Username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
       confirmPassword: ['', [Validators.required]],
       CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       userEnteredCaptcha: ['', [Validators.required]],
@@ -201,7 +201,7 @@ export class RegisterComponent implements OnInit {
 
   //live validation pour voir si le nom d'utilisateur est disponible et avertir l'utilisateur
   isUserAvailable(){
-    this.user.username = this.registerForm.value.username;
+    this.user.username = this.registerForm.value.Username;
     this._userService.checkUserByUsername(this.user).then(
       ()=>{
         this.usernameErrorMessage = "";
@@ -234,7 +234,7 @@ export class RegisterComponent implements OnInit {
     }
 
     //Récupère les identifiant pour le login
-    this.user.username = this.registerForm.value.username;
+    this.user.username = this.registerForm.value.Username;
     this.user.password = this.registerForm.value.password;
     //Hash le mot de passe reçu avant l'envoyer au backend
     this.registerForm.value.password = CryptoJS.SHA256(this.registerForm.value.password).toString();

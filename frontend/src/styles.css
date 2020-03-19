@@ -25,15 +25,51 @@ header {
     margin-top: 0.40rem; }
 
 .maindiv {
-  max-width: 650px;
+  max-width: 700px;
   padding-left: 3%;
   padding-right: 3%;
   padding-bottom: 3%;
-  margin: auto;
-  background-color: white; }
+  margin: auto; }
 
 .captcha {
   margin: auto;
   inline-size: fit-content; }
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 240px;
+  background-color: #0d2a46;
+  position: fixed;
+  height: 77%;
+  overflow: auto; }
+  .sidebar a {
+    display: block;
+    color: white;
+    padding: 16px;
+    text-decoration: none; }
+
+.sidebar a:hover {
+  background-color: #555;
+  color: white; }
+
+div.content {
+  margin-left: 240px;
+  height: 100%; }
+
+@media screen and (max-width: 800px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative; }
+    .sidebar a {
+      float: left; }
+
+  div.content {
+    margin-left: 0; } }
+@media screen and (max-width: 500px) {
+  .sidebar a {
+    text-align: center;
+    float: none; } }
 
 /*# sourceMappingURL=styles.css.map */

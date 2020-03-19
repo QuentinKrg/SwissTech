@@ -12,7 +12,6 @@ export class Customer {
     billingZip: number;
     checkbox_address: boolean;
     Username: string;
-    username: string;
     password: string;
     CustomerEmail: string;
     CustomerPhone: string;

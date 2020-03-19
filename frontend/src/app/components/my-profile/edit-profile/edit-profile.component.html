@@ -1,8 +1,8 @@
 <div class="maindiv">
-    <h2 class="pt-3 text-center">Editer mon compte</h2>
+    <h2 class="pb-3 text-center">Editer mon compte</h2>
     <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
 
-        <div>
+        <div class="bg-white p-4">
             <h5 class="border-top">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
@@ -47,8 +47,8 @@
                     placeholder=""
                     [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
             </div>
-
-
+        </div>
+        <div class="bg-white p-4 mt-2">
             <!-- Adresse de livraison -->
             <h6 class="border-top pt-3">
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <!-- Adresse de facturation -->
-            <h6 class="border-top pt-3">
+            <h6 class="border-top pt-4 mt-2">
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon_i_017_postal_card">
                     <path fill="currentColor"
@@ -151,6 +151,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="bg-white p-4 mt-2">
             <h5 class="border-top">Mes informations de contact</h5>
             <div>
                 <!-- Email -->
@@ -160,7 +162,7 @@
                         placeholder="exemple@domaine.com"
                         [ngClass]="{ 'is-invalid': submitted && f.CustomerEmail.errors || f.CustomerEmail.touched && f.CustomerEmail.errors}" />
                     <div class="invalid-feedback"
-                        *ngIf="submitted && f.CustomerEmail.hasError('CustomerEmail') || f.CustomerEmail.touched && f.CustomerEmail.hasError('CustomerEmail')">
+                        *ngIf="submitted && f.CustomerEmail.hasError('pattern') || f.CustomerEmail.touched && f.CustomerEmail.hasError('pattern')">
                         Le format de la saisie n'est pas valable
                     </div>
                 </div>
@@ -178,12 +180,15 @@
             </div>
         </div>
 
-        <div>
+        <div class="bg-white p-4 mt-2">
             <h5 class="border-top">Mes identifiants </h5>
             <!-- username -->
 
-            <label for="username">Nom d'utilisateur:</label>
-            <div class="row text-center align-middle p-3">
+            
+            <div class="row text-center p-3">
+                <div class="col-sm d-inline">
+                    <label for="Username">Nom d'utilisateur:</label>
+                </div>
                 <div class="form-group col-sm d-inline">
                     <h5 class="font-weight-bold">
                         {{usernameData}}
@@ -199,11 +204,11 @@
             </div>
 
             <div class="form-group" *ngIf="changeUsername">
-                <label for="username">Nouveau nom d'utilisateur:</label>
-                <input type="text" formControlName="username" class="form-control" (keyup.tab)="isUserAvailable()"
-                    (blur)="isUserAvailable()" id="username"
-                    [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
-                <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
+                <label for="Username">Nouveau nom d'utilisateur:</label>
+                <input type="text" formControlName="Username" class="form-control" (keyup.tab)="isUserAvailable()"
+                    (blur)="isUserAvailable()" id="Username"
+                    [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.Username.errors ||f.Username.touched && f.Username.errors || f.Username.hasError('pattern')}" />
+                <div *ngIf=" f.Username.hasError('pattern')" class="invalid-feedback">
                     Uniquement des lettres et des chiffres
                 </div>
                 <p class="text-danger">{{usernameErrorMessage}}</p>
@@ -300,6 +305,6 @@
                 Enregistrer
             </button>
         </div>
-            <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
+        <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
     </form>
 </div>

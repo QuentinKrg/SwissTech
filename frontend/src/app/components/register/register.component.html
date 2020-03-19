@@ -182,10 +182,10 @@
             <h5 class="border-top">Mes identifiants </h5>
             <!-- username -->
             <div class="form-group">
-                <label for="username">Nom d'utilisateur</label>
-                <input type="text" formControlName="username" class="form-control"  (keyup.tab)="isUserAvailable()" (blur)="isUserAvailable()"
-                    [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.username.errors ||f.username.touched && f.username.errors || f.username.hasError('pattern')}" />
-                <div *ngIf=" f.username.hasError('pattern')" class="invalid-feedback">
+                <label for="Username">Nom d'utilisateur</label>
+                <input type="text" formControlName="Username" class="form-control"  (keyup.tab)="isUserAvailable()" (blur)="isUserAvailable()"
+                    [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.Username.errors ||f.Username.touched && f.Username.errors || f.Username.hasError('pattern')}" />
+                <div *ngIf=" f.Username.hasError('pattern')" class="invalid-feedback">
                     Uniquement des lettres et des chiffres
                 </div>
                 <p class="text-danger">{{usernameErrorMessage}}</p>
