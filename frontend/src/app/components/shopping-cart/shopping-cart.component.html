@@ -23,24 +23,31 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let listOfProducts of productsInTheCart">
-                    <tr *ngFor="let product of listOfProducts">
+                <tbody *ngFor="let product of productsInTheCart">
+                    <tr>
                         <th scope="row" class="border-0">
                             <div class="p-2">
-                            <img src="/assets/images/products/{{product.ProductImagePath}}" alt="" width="70" class="img-fluid rounded shadow-sm">
-                            <div class="ml-3 d-inline-block align-middle">
-                                <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle">{{product.ProductName}}</a></h5><span class="text-muted font-weight-normal font-italic d-block">Catégorie: {{product.ProductCategory}}</span>
-                            </div>
+                                <img src="/assets/images/products/{{product.ImagePath}}" alt="" width="70" class="img-fluid rounded shadow-sm">
+                                <div class="ml-3 d-inline-block align-middle">
+                                    <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle">{{product.ProductName}}</a></h5><span class="text-muted font-weight-normal font-italic d-block">Catégorie: {{product.CategoryName}}</span>
+                                </div>
                             </div>
                         </th>
-                        <td class="border-0 align-middle"><strong>{{getQuantityOfProduct(product).Quantity}}</strong><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                        <td class="border-0 align-middle">
+                            <a class="mr-3" (click)="onRemoveProduct(product.id_Product)"><img src="/assets/images/icons/remove.svg" width="16"></a>
+                            <a class="mr-2" (click)="onUpdateQuantity(0, product.id_Product)"><img src="/assets/images/icons/minus.svg" width="16"></a>
+                            <strong class="mr-2"><span>{{getQuantityOfProduct(product).Quantity}}</span></strong>
+                            <a class="mr-1" (click)="onUpdateQuantity(1, product.id_Product)"><img src="/assets/images/icons/add.svg" width="16"alt=""></a>
+                        </td>
                         <td class="border-0 align-middle"><strong>CHF {{product.ProductUnitPrice}}</strong></td>
-                        <td class="border-0 align-middle"><strong>CHF {{product.ProductUnitPrice*getQuantityOfProduct(product).Quantity}}</strong></td>
+                        <td class="border-0 align-middle"><strong>CHF {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong></td>
                     </tr>
                 </tbody>
 
                 <tfoot>
-                    
+                    <div class="">
+                        <span>Sous-total : {{total.toFixed(2)}}</span>
+                    </div>
                 </tfoot>
             </ng-template>
 

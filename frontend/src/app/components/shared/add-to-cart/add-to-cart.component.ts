@@ -17,7 +17,7 @@ export class AddToCartComponent implements OnInit {
   ) { }
   quantity: number;
   @Input() productDetails: any;
-  @Input() isCartItem: boolean;
+  @Input() isCartItem: Boolean;
 
   ngOnInit() {
     this.quantity = 1;

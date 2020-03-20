@@ -1,4 +1,4 @@
-<ng-container *ngIf="isCartItem; else elseTemplate">
+<ng-container *ngIf="isCartItem == true; else elseTemplate">
     <input type="number" value="1" aria-label="Search" class="form-control d-none" [(ngModel)]="quantity" >
     <button class="add-to-cart btn" (click)="onAddProductToCart()">
         <img src="/assets/images/icons/add-cart.svg" height="22"/>

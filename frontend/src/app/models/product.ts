@@ -1,11 +1,11 @@
 export class Product {
-    id: number;
+    id_Product: number;
     ProductName: string;
     ProductColor: string;
     ProductDescription: string;
     ProductUnitPrice: number;
-    ProductImageName: string;
-    ProductImagePath: string;
-    ProductManufacturer: string;
-    ProductCategory: string;
+    ImageName: string;
+    ImagePath: string;
+    ManufacturerName: string;
+    CategoryName: string;
 }
