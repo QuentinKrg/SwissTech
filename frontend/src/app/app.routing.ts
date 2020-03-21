@@ -7,6 +7,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { EditProfileComponent } from './components/my-profile/edit-profile/edit-profile.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.component';
 
 
 
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'myprofile', component: MyProfileComponent, canActivate: [AuthGuard], children: 
         [
         { path: 'editprofile', component: EditProfileComponent, outlet: 'profilecontent1'},
+        { path: 'myorders', component: MyOrdersComponent, outlet: 'profilecontent1'},
         { path: '', component: EditProfileComponent, outlet: 'profilecontent1'},    
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 

@@ -22,6 +22,7 @@ import { EditProfileComponent } from './components/my-profile/edit-profile/edit-
 import { FiltersComponent } from './components/home/filters/filters.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
     EditProfileComponent,
     FiltersComponent,
     CheckoutComponent,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    MyOrdersComponent
   ],
   imports: [
     BrowserModule,

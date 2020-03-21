@@ -44,7 +44,6 @@ export class UserService {
       }
     );
   }
-
   getCustomer(user: string){
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetCustomerByUsername&username=' + user);
   }
@@ -54,7 +53,6 @@ export class UserService {
   getBillingAddress(user: string){
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getBillingAddressByUser&username=' + user);
   }
-
   checkUserByUsername(user: User) {
     return new Promise(
       (resolve, reject) => {
