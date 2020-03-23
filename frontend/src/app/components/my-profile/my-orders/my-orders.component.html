@@ -1,1 +1,6 @@
-<p>my-orders works!</p>
+<div class=""><!--Ici la / les commande s-->
+    Order One
+    <div *ngFor="let orderDetail of ordersDetails"><!--Ici le/ les produit s-->
+        {{orderDetail.id_order}}
+    </div>
+</div>
