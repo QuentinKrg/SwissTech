@@ -42,8 +42,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       CustomerTitre: ['', Validators.required],
-      CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
-      CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-Z -]*')]],
+      CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
+      CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerBirthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
@@ -52,8 +52,8 @@ export class RegisterComponent implements OnInit {
       billingAddress: ['', Validators.required],
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
-      CustomerEmail: ['', [Validators.required, Validators.email]],
-      Username: ['', [Validators.required, Validators.pattern('[a-zA-Z - 0-9 ]*')]],
+      CustomerEmail: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]],
+      Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
       confirmPassword: ['', [Validators.required]],
       CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       userEnteredCaptcha: ['', [Validators.required]],

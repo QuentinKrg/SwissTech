@@ -11,6 +11,7 @@ import { Order } from 'src/app/models/order';
 export class MyOrdersComponent implements OnInit {
   currentUsername = this.authenticationService.currentUserValue.login;
   myOrders: Order[];
+  ordersDetails: Order[];
 
   constructor(
     private _orderService: OrdersService,
@@ -32,7 +33,8 @@ export class MyOrdersComponent implements OnInit {
     //Service qui retourne l'adresse de facturation et assigne les données au formulaire
     this._orderService.getOrderDetailsByUsername(this.currentUsername)
     .subscribe((data: Order[]) => {
-        console.log(data);
+      this.ordersDetails = data;
+        console.log(this.ordersDetails);
         
       },
       (error) => {

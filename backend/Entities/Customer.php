@@ -34,7 +34,7 @@ class Customer extends Entity
 		if(isset($this->jsonToProcess->billingAddress)){//si la checkbox same address est utilisée, on ne reçoit pas de données de billing address
 		$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
 		$billingAddressCity = $this->jsonToProcess->billingCity;
-		$billingAddressZip = $this->jsonToProcess->billingAddressZip;
+		$billingAddressZip = $this->jsonToProcess->billingZip;
 		} 
 		$sameAddress = $this->jsonToProcess->checkbox_address;
 		
