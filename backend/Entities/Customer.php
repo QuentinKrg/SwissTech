@@ -1,8 +1,8 @@
 <?php
 /**
- * User: Quentin Krenger
- * Date: 21.01.2020
- * Time: 12:44
+ * User: Winston Meisen
+ * Date: 02.03.2020
+ * Time: 12:00
  */
 
 class Customer extends Entity
