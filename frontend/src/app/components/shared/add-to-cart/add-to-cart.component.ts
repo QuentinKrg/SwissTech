@@ -3,6 +3,7 @@ import { Product } from 'src/app/models/product';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { ProductService } from 'src/app/services/product.service';
 import { DataService } from 'src/app/services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -13,7 +14,8 @@ export class AddToCartComponent implements OnInit {
   
   constructor(
     private _productService: ProductService,
-    private _dataService: DataService
+    private _dataService: DataService,
+    private _router: Router
   ) { }
   quantity: number;
   @Input() productDetails: any;
@@ -26,7 +28,7 @@ export class AddToCartComponent implements OnInit {
   onAddProductToCart() {
     if(this.productDetails != null) {
       const tmpProduct = new ShoppingCart();
-      tmpProduct.ProductId = this.productDetails.id;
+      tmpProduct.id_Product = this.productDetails.id_Product;
       tmpProduct.Quantity = this.quantity;
 
       let cart: ShoppingCart[] = JSON.parse(localStorage.getItem('Cart'));
@@ -36,7 +38,7 @@ export class AddToCartComponent implements OnInit {
         cart=[];
         cart.push(tmpProduct);
       } else {
-        let currentProduct = cart.filter(a=> a.ProductId == tmpProduct.ProductId);
+        let currentProduct = cart.filter(a=> a.id_Product == tmpProduct.id_Product);
         if(currentProduct.length > 0) {
           currentProduct.filter(a => {
             a.Quantity = a.Quantity + 1;

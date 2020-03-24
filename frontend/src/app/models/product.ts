@@ -8,4 +8,5 @@ export class Product {
     ImagePath: string;
     ManufacturerName: string;
     CategoryName: string;
+   // OthersImages: string[];
 }

@@ -23,6 +23,7 @@ import { FiltersComponent } from './components/home/filters/filters.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.c
     FiltersComponent,
     CheckoutComponent,
     ShoppingCartComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,

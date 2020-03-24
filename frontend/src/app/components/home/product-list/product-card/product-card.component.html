@@ -1,17 +1,19 @@
 <div class="card">
     <div class="card-header">
         <a> 
-            <figcaption class="figure-caption">{{product.ProductCategory}}</figcaption>
+            <figcaption class="figure-caption">{{product.CategoryName}}</figcaption>
         </a>
     </div>
-    <img src='/assets/images/products/{{product.ProductImagePath}}' class="card-img-top" alt="...">
-    <div class="card-body">
-        <figcaption class="figure-caption">{{product.ProductManufacturer}}</figcaption>
-        <p class="card-text">{{product.ProductName}}</p>
-    </div>
+    <a [routerLink]="['/product-details', product.id_Product]">
+        <img src='/assets/images/products/{{product.ImagePath}}' class="card-img-top" alt="...">
+        <div class="card-body">
+            <figcaption class="figure-caption">{{product.ManufacturerName}}</figcaption>
+            <p class="card-text">{{product.ProductName}}</p>
+        </div>
+    </a>
+
     <div class="card-footer">
         <span class="float-left price-card-footer">CHF {{product.ProductUnitPrice}}</span>
-        <span><app-add-to-cart [productDetails]="product" [isCartItem]="true" class="float-right"></app-add-to-cart></span>
-        
+        <span><app-add-to-cart [productDetails]="product" [isCartItem]="true" class="float-right"></app-add-to-cart></span> 
     </div>
 </div>
