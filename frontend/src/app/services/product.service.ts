@@ -36,6 +36,10 @@ export class ProductService {
     return this.http.get<Product>(environment.backendURL + 'start.php?' + 'c=Product&f=GetById&id=' +id);
   }
 
+  getProductDetailsById(id:number) {
+    return this.http.get<Product>(environment.backendURL + 'start.php?' + 'c=Product&f=GetDetailsById&id=' +id);
+  }
+
   updateProduct(product: Product) {
     return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=Update',  product);
   }

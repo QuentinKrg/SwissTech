@@ -1,4 +1,4 @@
 export class ShoppingCart {
-    ProductId: number;
+    id_Product: number;
     Quantity: number;
 }

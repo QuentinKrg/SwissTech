@@ -25,6 +25,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.component';
 import { OrderComponent } from './components/my-profile/order/order.component';
 import { OrderDetailsComponent } from './components/my-profile/order-details/order-details.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { OrderDetailsComponent } from './components/my-profile/order-details/ord
     ShoppingCartComponent,
     MyOrdersComponent,
     OrderComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
