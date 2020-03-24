@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { OrdersService } from 'src/app/services/orders.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Order } from 'src/app/models/order';
@@ -17,13 +17,14 @@ export class MyOrdersComponent implements OnInit {
     private _orderService: OrdersService,
     private authenticationService: AuthenticationService
   ) { }
-
+  
   ngOnInit() {
 
     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
     this._orderService.getOrderByUsername(this.currentUsername)
     .subscribe((data: Order[]) => {
         this.myOrders = data;
+        this._orderService.emitOrderSubject(this.myOrders);
         console.log(this.myOrders);
       },
       (error) => {

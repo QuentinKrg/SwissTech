@@ -1,6 +1,8 @@
-<div class=""><!--Ici la / les commande s-->
-    Order One
-    <div *ngFor="let orderDetail of ordersDetails"><!--Ici le/ les produit s-->
-        {{orderDetail.id_order}}
-    </div>
-</div>
+<h2>Mes commandes</h2>
+<app-order *ngFor="let order of myOrders;
+    let i = index"
+    [indexOfOrder]="i"
+    [OrderID]="order.id_Order"
+    [OrderDate]="order.OrderDate"
+    [OrderStatus]="order.StatusName">
+</app-order>

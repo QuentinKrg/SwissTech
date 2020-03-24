@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class OrdersService {
-
+orderSubject = new Subject<any[]>();
  constructor(private http: HttpClient) { }
 
   getOrderByUsername(user: string){
@@ -17,5 +18,7 @@ export class OrdersService {
   getOrderDetailsByUsername(user: string){
     return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getProductsFromOrderByUser&username=' + user);
   }
-  
+  emitOrderSubject(order){
+    this.orderSubject.next(order.slice());
+  }
 }
