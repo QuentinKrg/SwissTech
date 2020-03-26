@@ -30,8 +30,14 @@ export class ShoppingCartComponent implements OnInit {
     this._dataService.cart.subscribe(a => this.cart = a);
 
     this.getCartProductItem(this.cart);
-    this.getTotal();  
-          
+
+    //this.getTotal();
+  }
+
+  ngAfterViewInit(){
+    setTimeout( ()=>{
+    this.getTotal();
+    }, 100)
   }
 
   // Récupération et stockage des produits en base données
@@ -41,7 +47,6 @@ export class ShoppingCartComponent implements OnInit {
       localStorage.setItem('ProductsInTheCart', JSON.stringify(this.productsInTheCart));
       
     }); 
-    this.getTotal();
   }
 
   // Récupération d'une quantité de produit dans le panier
