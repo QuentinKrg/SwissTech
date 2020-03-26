@@ -1,4 +1,10 @@
 <li>
     <ul><h4 >Commande : {{ OrderID }} --Date : {{OrderDate}}  --Status: {{OrderStatus}}</h4></ul>
-    <app-order-details></app-order-details>
+    <app-order-details *ngFor="let orderdetail of Orderdetails;
+    let i = index"
+    [indexOfOrderDetail]="i"
+    [ProductName]="orderdetail.ProductName"
+    [Quantity]="orderdetail.Quantity"
+    [CourantUnitPrice]="orderdetail.CourantUnitPrice"
+    [TotalPrice]="orderdetail.TotalPrice"></app-order-details>
 </li>

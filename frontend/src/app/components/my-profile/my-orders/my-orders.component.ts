@@ -11,36 +11,25 @@ import { Order } from 'src/app/models/order';
 export class MyOrdersComponent implements OnInit {
   currentUsername = this.authenticationService.currentUserValue.login;
   myOrders: Order[];
-  ordersDetails: Order[];
 
   constructor(
     private _orderService: OrdersService,
     private authenticationService: AuthenticationService
   ) { }
-  
+
   ngOnInit() {
 
     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
     this._orderService.getOrderByUsername(this.currentUsername)
     .subscribe((data: Order[]) => {
         this.myOrders = data;
-        this._orderService.emitOrderSubject(this.myOrders);
+        this._orderService.emitOrderDetailSubject(this.myOrders);
         console.log(this.myOrders);
       },
       (error) => {
         console.log(error);
       });
 
-    //Service qui retourne l'adresse de facturation et assigne les données au formulaire
-    this._orderService.getOrderDetailsByUsername(this.currentUsername)
-    .subscribe((data: Order[]) => {
-      this.ordersDetails = data;
-        console.log(this.ordersDetails);
-        
-      },
-      (error) => {
-        console.log(error);
-      });
+    
   }
-
 }

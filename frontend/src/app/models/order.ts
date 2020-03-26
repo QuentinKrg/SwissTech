@@ -5,6 +5,6 @@ OrderDate: Date;
 StatusName: string;
 ProductName: string;
 Quantity: number;
-ProductUnitPrice: Float32Array;
+CourantUnitPrice: Float32Array;
 TotalPrice: Float32Array;
 }

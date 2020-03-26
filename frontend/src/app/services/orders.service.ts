@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 
 export class OrdersService {
 orderSubject = new Subject<any[]>();
+orderDetailSubject = new Subject<any[]>();
  constructor(private http: HttpClient) { }
 
   getOrderByUsername(user: string){
@@ -20,5 +21,8 @@ orderSubject = new Subject<any[]>();
   }
   emitOrderSubject(order){
     this.orderSubject.next(order.slice());
+  }
+  emitOrderDetailSubject(order){
+    this.orderDetailSubject.next(order.slice());
   }
 }
