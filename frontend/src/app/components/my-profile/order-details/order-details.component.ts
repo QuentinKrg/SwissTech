@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-order-details',
@@ -6,7 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-details.component.css']
 })
 export class OrderDetailsComponent implements OnInit {
-
+  
+  @Input() indexOfOrderDetail: number;
+  @Input() ProductName: string;
+  @Input() Quantity: number;
+  @Input() CourantUnitPrice: Float32Array;
+  @Input() TotalPrice: Float32Array;
   constructor() { }
 
   ngOnInit() {

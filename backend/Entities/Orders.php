@@ -44,7 +44,7 @@ class Orders extends Entity
 		
 		if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
-				   $sql = "SELECT tp.ProductName, tpo.Quantity, tp.ProductUnitPrice,(tpo.Quantity * tp.ProductUnitPrice) AS TotalPrice 
+				   $sql = "SELECT tp.ProductName, tpo.Quantity, tpo.CourantUnitPrice,(tpo.Quantity * tpo.CourantUnitPrice) AS TotalPrice 
 								FROM t_products_orders tpo
 								INNER JOIN t_products tp ON tp.id_Product = tpo.FK_Product
 								INNER JOIN t_orders tor ON tor.id_Order = tpo.FK_Order
@@ -60,7 +60,7 @@ class Orders extends Entity
 						while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
 						  $orderDetails[$cr]['ProductName'] = $row['ProductName'];
 						  $orderDetails[$cr]['Quantity'] = $row['Quantity'];
-						  $orderDetails[$cr]['ProductUnitPrice'] = $row['ProductUnitPrice'];
+						  $orderDetails[$cr]['CourantUnitPrice'] = $row['CourantUnitPrice'];
 						  $orderDetails[$cr]['TotalPrice'] = $row['TotalPrice'];
 						  $cr++;
 						}

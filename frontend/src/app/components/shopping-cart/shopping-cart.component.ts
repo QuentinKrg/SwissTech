@@ -30,8 +30,8 @@ export class ShoppingCartComponent implements OnInit {
     this._dataService.cart.subscribe(a => this.cart = a);
 
     this.getCartProductItem(this.cart);
-    this.getTotal();  
-          
+    
+    this.getTotal();
   }
 
   // Récupération et stockage des produits en base données
@@ -39,9 +39,7 @@ export class ShoppingCartComponent implements OnInit {
     shoppingCart.forEach(async cartElement => {
       this.productsInTheCart.push(await this._productService.getProductById(cartElement.id_Product).toPromise());
       localStorage.setItem('ProductsInTheCart', JSON.stringify(this.productsInTheCart));
-      
     }); 
-    this.getTotal();
   }
 
   // Récupération d'une quantité de produit dans le panier
@@ -118,11 +116,13 @@ export class ShoppingCartComponent implements OnInit {
         if(cartElement.id_Product === productElement.id_Product) 
         {
           this.total += cartElement.Quantity*productElement.ProductUnitPrice;
+          console.log(this.total);
+          console.log(productElement.ProductUnitPrice);
+          
+          
         }
       });
     });
-    
-    
   }
 
 }
