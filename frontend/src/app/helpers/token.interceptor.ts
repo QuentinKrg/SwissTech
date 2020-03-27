@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
     
-    constructor(private authenticationService: AuthenticationService) {}
+    constructor(private _authenticationService: AuthenticationService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
         // ajouter un header avec le token ssi disponible
         
-        var currentUser = this.authenticationService.currentUserValue;
+        var currentUser = this._authenticationService.currentUserValue;
         if(currentUser && currentUser.token) {
             request = request.clone( {
                 setHeaders: {

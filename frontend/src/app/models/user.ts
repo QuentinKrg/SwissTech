@@ -7,4 +7,5 @@ export class User {
     token: string;
     tokenValidity: Date;
     role: string;
+    FK_Customer: number;
 }
