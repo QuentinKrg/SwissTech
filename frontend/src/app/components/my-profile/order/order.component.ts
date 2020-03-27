@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class OrderComponent implements OnInit {
   
+  Orderdetails: Order[];
   
   @Input() OrderStatus: string;
   @Input() OrderDate: string;
@@ -18,21 +19,22 @@ export class OrderComponent implements OnInit {
   
   
   currentUsername = this.authenticationService.currentUserValue.login;
-  Orderdetails: Order[];
+  
   constructor( private _orderService: OrdersService,
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    //Service qui retourne l'adresse de facturation et assigne les données au formulaire
-    this._orderService.getOrderDetailsByUsername(this.currentUsername)
+  }
+  getOrderDetails(orderid){
+    this._orderService.getOrderDetailsByOrderID(orderid)
     .subscribe((data: Order[]) => {
       this.Orderdetails = data;
-      this._orderService.emitOrderSubject(this.Orderdetails);
+      //this._orderService.emitOrderDetailSubject(this.Orderdetails);
         console.log(this.Orderdetails);
       },
       (error) => {
         console.log(error);
       });
-  }
 
+  }
 }

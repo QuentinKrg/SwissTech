@@ -11,6 +11,7 @@ import { Order } from 'src/app/models/order';
 export class MyOrdersComponent implements OnInit {
   currentUsername = this.authenticationService.currentUserValue.login;
   myOrders: Order[];
+  public curantOrderID: number;
 
   constructor(
     private _orderService: OrdersService,
@@ -23,13 +24,14 @@ export class MyOrdersComponent implements OnInit {
     this._orderService.getOrderByUsername(this.currentUsername)
     .subscribe((data: Order[]) => {
         this.myOrders = data;
-        this._orderService.emitOrderDetailSubject(this.myOrders);
+        //this._orderService.emitOrderSubject(this.myOrders);
         console.log(this.myOrders);
       },
       (error) => {
         console.log(error);
       });
 
-    
+  
   }
+  
 }

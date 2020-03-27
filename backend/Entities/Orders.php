@@ -39,17 +39,16 @@ class Orders extends Entity
 				return $tmpResult;
 			}
 		}
-	public function getProductsFromOrderByUser(){
+	public function getProductsFromOrderByOrderID(){
 		$orderDetails= [];
 		
-		if(isset($_GET['username'])){
-				$currentUsername = $_GET['username'];
-				   $sql = "SELECT tp.ProductName, tpo.Quantity, tpo.CourantUnitPrice,(tpo.Quantity * tpo.CourantUnitPrice) AS TotalPrice 
+		if(isset($_GET['orderid'])){
+				$currentID = $_GET['orderid'];
+				   $sql = "SELECT tp.ProductName, tpo.Quantity, tpo.CourantUnitPrice,(tpo.Quantity * tpo.CourantUnitPrice) AS TotalPrice, tpo.FK_Order
 								FROM t_products_orders tpo
 								INNER JOIN t_products tp ON tp.id_Product = tpo.FK_Product
 								INNER JOIN t_orders tor ON tor.id_Order = tpo.FK_Order
-								WHERE tpo.FK_Order = tor.id_Order
-								AND tor.FK_Customer = (SELECT fk_customer FROM t_users WHERE Username = '$currentUsername')";
+								WHERE tpo.FK_Order = '$currentID'";
 								
 				  $tmpResult=($this->Query($sql));
 				  
@@ -62,6 +61,7 @@ class Orders extends Entity
 						  $orderDetails[$cr]['Quantity'] = $row['Quantity'];
 						  $orderDetails[$cr]['CourantUnitPrice'] = $row['CourantUnitPrice'];
 						  $orderDetails[$cr]['TotalPrice'] = $row['TotalPrice'];
+						  $orderDetails[$cr]['FK_Order'] = $row['FK_Order'];
 						  $cr++;
 						}
 						// echo de la liste des articles

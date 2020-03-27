@@ -6,7 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./order-details.component.css']
 })
 export class OrderDetailsComponent implements OnInit {
-  
   @Input() indexOfOrderDetail: number;
   @Input() ProductName: string;
   @Input() Quantity: number;

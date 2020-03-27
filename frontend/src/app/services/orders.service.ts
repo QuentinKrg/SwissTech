@@ -16,8 +16,8 @@ orderDetailSubject = new Subject<any[]>();
   getOrderByUsername(user: string){
     return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=GetOrderByUsername&username=' + user);
   }
-  getOrderDetailsByUsername(user: string){
-    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getProductsFromOrderByUser&username=' + user);
+  getOrderDetailsByOrderID(orderid: number){
+    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getProductsFromOrderByOrderID&orderid=' + orderid);
   }
   emitOrderSubject(order){
     this.orderSubject.next(order.slice());
