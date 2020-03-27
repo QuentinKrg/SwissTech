@@ -51,7 +51,7 @@ class User extends Entity
         {
           $this->UpdateTokenValidity($login);
           // Envoie au format JSON du login, token, et role de l'utilisateur
-          return ['login'=>$login,'token'=>$userInDB['Token'],'role'=>$userInDB['RoleCode']];
+          return ['id'=>$userInDB['id_user'],'login'=>$login,'token'=>$userInDB['Token'],'role'=>$userInDB['RoleCode'],'FK_Customer'=>$userInDB['FK_Customer']];
         }
       }
 
@@ -65,7 +65,7 @@ class User extends Entity
       }
 
       // Envoie au format JSON du login, token, et role de l'utilisateur
-      return ['login'=>$login,'token'=>$userToken,'role'=>$userInDB['RoleCode']];
+      return ['id'=>$userInDB['id_user'],'login'=>$login,'token'=>$userToken,'role'=>$userInDB['RoleCode'],'FK_Customer'=>$userInDB['FK_Customer']];
     }
   }
 

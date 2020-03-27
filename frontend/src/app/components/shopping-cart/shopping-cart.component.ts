@@ -27,14 +27,15 @@ export class ShoppingCartComponent implements OnInit {
               }
 
    ngOnInit() {
+    // Récupérer les éléments présents dans le panier dans "cart" du service "dataService"
     this._dataService.cart.subscribe(a => this.cart = a);
 
+    // Récupérer les informations des articles grâce au panier
     this.getCartProductItem(this.cart);
-
-    //this.getTotal();
   }
 
   ngAfterViewInit(){
+    // Attendre avant d'appeler le total du panier
     setTimeout( ()=>{
     this.getTotal();
     }, 100)
@@ -48,10 +49,11 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  // Récupération d'une quantité de produit dans le panier
+  // Récupération d'une quantité de produit dans le panier avec un object product
   getQuantityOfProduct(product: Product) {
     let shoppingCart: ShoppingCart[];
     let cartValue: ShoppingCart;
+
     shoppingCart = this.cart.filter(a => a.id_Product === product.id_Product);
 
     shoppingCart.forEach(element => {
@@ -63,6 +65,7 @@ export class ShoppingCartComponent implements OnInit {
 
   // Mise à jour d'une quantité d'un produit
   onUpdateQuantity(type, productId) {
+    // Si le "type" est égale à 1 : ajout de +1 au produit sélectionné
     if(type == 1) {
       this.cart.forEach((element, index) => {
         if(element.id_Product == productId)
@@ -73,6 +76,7 @@ export class ShoppingCartComponent implements OnInit {
         }
       });
     } else {
+      // Sinon on enlève une quantité au produit sélectionné
       this.cart.forEach((element, index) => {
         if(element.id_Product == productId)
         {
@@ -82,10 +86,14 @@ export class ShoppingCartComponent implements OnInit {
         }
       });
     }
+
+    // Mise à jour des infromations du panier
     this._dataService.updateCartItemCount(0);
     this._dataService.updateCartItemCount(this._dataService.getItemInACart(this.cart));
     this._dataService.updateShoppingCart(this.cart);
     localStorage.setItem('Cart', JSON.stringify(this.cart));
+
+    // Mise à jour du total du panier
     this.getTotal();
   }
 
@@ -93,18 +101,22 @@ export class ShoppingCartComponent implements OnInit {
   onRemoveProduct(productId) {
     this.cart.forEach((element, index) => {
       if(element.id_Product === productId) {
+        // Le cart = le cart moins le produit sélectionné
         this.cart[index].Quantity = 0;
         this.cart = this.cart.filter(e => e.Quantity != 0);
-
       }
     });
 
+    // Mise à jour des infromations du panier
     this._dataService.updateCartItemCount(0);
     this._dataService.updateCartItemCount(this._dataService.getItemInACart(this.cart));
     this._dataService.updateShoppingCart(this.cart);
     localStorage.setItem('Cart', JSON.stringify(this.cart));
+
+    // Mise à jour du total du panier
     this.getTotal();
 
+    // Refresh du componenent actuel et redirection sur la page "cart"
     this._router.navigateByUrl('/ShoppingCartComponent', { skipLocationChange: true }).then(() => {
       this._router.navigate(['/cart']);
     });
@@ -114,8 +126,8 @@ export class ShoppingCartComponent implements OnInit {
   getTotal()
   {
     this.total = 0;
+    // Récupération des détails des produits
     let allProducts: Product[] = JSON.parse(localStorage.getItem('ProductsInTheCart'));
-
 
     this.cart.forEach(cartElement => {
       allProducts.forEach(productElement => {
@@ -124,8 +136,6 @@ export class ShoppingCartComponent implements OnInit {
           this.total += cartElement.Quantity*productElement.ProductUnitPrice;
           console.log(this.total);
           console.log(productElement.ProductUnitPrice);
-
-
         }
       });
     });

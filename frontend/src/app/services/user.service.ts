@@ -13,6 +13,7 @@ import * as CryptoJS from 'crypto-js';
 export class UserService {
 
   constructor(private http: HttpClient) { }
+
   addCustomer(customer: Customer) {
     return new Promise(
       (resolve, reject) => {
