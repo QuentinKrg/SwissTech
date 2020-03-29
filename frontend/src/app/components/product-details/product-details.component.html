@@ -34,7 +34,39 @@
                         <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
                             <form class="form pb-5" [formGroup]="addCommentForm" (ngSubmit)="onSubmit()">
                                 <textarea rows="2" class="form-control" formControlName="commentText" placeholder="Votre commentaire..."></textarea>
+                                <!-- CAPTCHA-->
+                                <div class="captcha mt-2 mr-0">
+                                    <div class="row w-60 mx-auto text-center">
+                                        <div class="col-auto">
+                                            <canvas id="myCanvas" width="180" height="45">
+                                                Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
+                                        </div>
+                                        <div class="col-auto text-baseline">
+                                            <button id="MyButton" type="button" class="btn btn-light align-baseline h-20"
+                                            (click)="onRefresh() ">
+                                        <h4 class="m-auto text-primary"><i class="fa fa-refresh align-baseline" ></i></h4>
+                                    </button>
+                                        </div>
+                                    </div>
+                                                
+                                    <div class="form-group mw-42">
+
+                                        <input class="form-control" formControlName="userEnteredCaptcha" 
+                                            placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
+                                            submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
+
+                                        <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
+                                        f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors" class="invalid-feedback">
+                                            Veuillez saisir les caractères de l'image
+                                        </div>
+
+                                        <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)" class="invalid-feedback">
+                                            Le captcha est invalide
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="margin-top-10">
+                                
                                 <button type="submit" class="btn btn-sm btn-primary pull-right">
                                     Soumettre
                                 </button>

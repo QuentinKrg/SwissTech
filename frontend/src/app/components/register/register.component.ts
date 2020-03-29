@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
       Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
       confirmPassword: ['', [Validators.required]],
       CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
-      userEnteredCaptcha: ['', [Validators.required]],
+      userEnteredCaptcha: ['', [Validators.required]],//CAPTCHA
       generalConditions: ['', Validators.required],
       password: [
         null,
@@ -88,8 +88,8 @@ export class RegisterComponent implements OnInit {
       , {
         validator: CustomValidators.passwordMatchValidator
       });
-    this.generateCaptchaImage();
-    this.userCaptcha = this.registerForm.value.userEnteredCaptcha;
+    this.generateCaptchaImage();//CAPTCHA
+    this.userCaptcha = this.registerForm.value.userEnteredCaptcha;//CAPTCHA
     console.log(this.captchaGenerated);
 
     // Récupérer l'url voulu dans l'URL or default
