@@ -64,7 +64,9 @@ export class ProductDetailsComponent implements OnInit {
     
     this.submitted = false;//CAPTCHA
     this.generateCaptchaImage();//CAPTCHA
+    this.onRefresh();
     this.userCaptcha = this.addCommentForm.value.userEnteredCaptcha;//CAPTCHA
+
   }
 // --------------------------------Captcha---------------------------------------------------
 get f() { return this.addCommentForm.controls; }
@@ -164,9 +166,5 @@ get f() { return this.addCommentForm.controls; }
     this._commentsService.addComment(tmpComment).subscribe(() => {
       this.ngOnInit();
     });
-
   }
-
-  
-
 }
