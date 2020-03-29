@@ -1,8 +1,9 @@
-<div >
-    <div class="" (click)="getOrderDetails(OrderID)" >
-        <h4 > Commande : {{ OrderID }} --Date : {{OrderDate}}  --Status: {{OrderStatus}}</h4>
+<div class="col">
+    <div class="row" (click)="getOrderDetails(OrderID)">
+        <h4 >
+             Commande : {{ OrderID }} --Date : {{OrderDate}}  --Status: {{OrderStatus}}</h4>
     </div>
-
+    <div>
     <app-order-details *ngFor="let orderdetail of Orderdetails;
         let i = index"
         [indexOfOrderDetail]="i"
@@ -11,5 +12,5 @@
         [CourantUnitPrice]="orderdetail.CourantUnitPrice"
         [TotalPrice]="orderdetail.TotalPrice">
     </app-order-details>
-
+    </div>Total: {{TotalOrder}}
 </div>

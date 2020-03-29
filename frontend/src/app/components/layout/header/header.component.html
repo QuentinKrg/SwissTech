@@ -27,8 +27,8 @@
                     <img class="icon" src="/assets/images/icons/shopping-cart.svg"/>
                     <span>{{cartCount}}</span>
                 </a>
-                <a class="nav-link">
-                    <img *ngIf="currentUser" routerLink="/myprofile" class="icon" title="Mon compte" src="/assets/images/icons/user.svg"/>
+                <a class="nav-link" routerLink="/myprofile">
+                    <img *ngIf="currentUser"  class="icon" title="Mon compte" src="/assets/images/icons/user.svg"/>
                     <a routerLink="/login" *ngIf="!currentUser">Se connecter</a>
                 </a>
                 <a class="nav-link" *ngIf="currentUser" title="Se déconnecter" (click)="logout()">

@@ -16,6 +16,7 @@ export class OrderComponent implements OnInit {
   @Input() OrderDate: string;
   @Input() indexOfOrder: number;
   @Input() OrderID: number;
+  @Input() TotalOrder: number;
   
   
   currentUsername = this.authenticationService.currentUserValue.login;
@@ -24,6 +25,7 @@ export class OrderComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
+        
   }
   getOrderDetails(orderid){
     this._orderService.getOrderDetailsByOrderID(orderid)

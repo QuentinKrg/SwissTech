@@ -16,10 +16,14 @@ class Orders extends Entity
 		$orders = [];
 			if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
-				  $sql = "SELECT id_Order, tor.OrderDate, tst.StatusName
-								FROM t_orders tor
-								INNER JOIN t_status tst ON tst.id_Status = tor.FK_Status
-								WHERE tor.FK_Customer = (SELECT fk_customer FROM t_users WHERE Username = '$currentUsername')";
+				  $sql = "SELECT id_Order, tor.OrderDate, tst.StatusName,
+								(SELECT SUM(tpo.Quantity * tp.ProductUnitPrice) FROM 
+								t_products_orders tpo
+								INNER JOIN t_products tp ON tp.id_Product = tpo.FK_Product
+								WHERE tpo.FK_Order = id_Order) TotalOrder
+									FROM t_orders tor
+									INNER JOIN t_status tst ON tst.id_Status = tor.FK_Status
+									WHERE tor.FK_Customer = (SELECT fk_customer FROM t_users WHERE Username = '$currentUsername')";
 				  $tmpResult =($this->Query($sql));
 				  
 				  if($tmpResult->rowCount() > 0) {
@@ -30,6 +34,7 @@ class Orders extends Entity
 						  $orders[$cr]['id_Order'] = $row['id_Order'];
 						  $orders[$cr]['OrderDate'] = $row['OrderDate'];
 						  $orders[$cr]['StatusName'] = $row['StatusName'];
+						  $orders[$cr]['TotalOrder'] = $row ['TotalOrder'];
 						  $cr++;
 						}
 						// echo de la liste des articles
