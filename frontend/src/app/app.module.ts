@@ -26,6 +26,10 @@ import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.c
 import { OrderComponent } from './components/my-profile/order/order.component';
 import { OrderDetailsComponent } from './components/my-profile/order-details/order-details.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ReviewComponent } from './components/checkout/review/review.component';
+import { ContactInformationComponent } from './components/checkout/contact-information/contact-information.component';
+import { ShippingMethodComponent } from './components/checkout/shipping-method/shipping-method.component';
+import { PaymentMethodComponent } from './components/checkout/payment-method/payment-method.component';
 
 
 @NgModule({
@@ -49,7 +53,11 @@ import { ProductDetailsComponent } from './components/product-details/product-de
     MyOrdersComponent,
     OrderComponent,
     OrderDetailsComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ReviewComponent,
+    ContactInformationComponent,
+    ShippingMethodComponent,
+    PaymentMethodComponent
   ],
   imports: [
     BrowserModule,

@@ -44,11 +44,9 @@
                     </tr>
                 </tbody>
 
-                <tfoot>
-                    <div class="">
-                        <span>Sous-total : {{total.toFixed(2)}} </span>
-                    </div>
-                </tfoot>
+                <div class="col-12">
+                    <span>Sous-total : {{total.toFixed(2)}} </span><a routerLink="/checkout/information" class="btn btn-primary float-right">PASSER LA COMMANDE</a> 
+                </div>
             </ng-template>
 
             <ng-template #noValue>

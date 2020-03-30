@@ -5,6 +5,6 @@ export class Comments {
     isActive: boolean;
     FK_Product: number;
     FK_Customer: number;
-    //CustomerName: string;
-    //CustomerLastName: string;
+    CustomerName: string;
+    CustomerLastName: string;
 }
