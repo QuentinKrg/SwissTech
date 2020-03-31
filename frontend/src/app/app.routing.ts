@@ -17,7 +17,7 @@ import { PaymentMethodComponent } from './components/checkout/payment-method/pay
 
 
 const routes: Routes = [
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'cart', component: ShoppingCartComponent},

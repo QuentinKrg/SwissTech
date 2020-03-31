@@ -1,6 +1,17 @@
-<p>contact-information works!</p>
 <!-- Choisir une adresse -->
 
 <!-- Nouvelle adresse -->
+<form class="form" [formGroup]="" (ngSubmit)="onSubmit()">
 
-<!-- Bouttons de navigations -->
+    <!-- Bouttons de navigations -->
+    <div class="form-group">
+        <a routerLink="/cart">
+            <span>Retour au panier</span>
+        </a>
+        <button class="btn btn-primary">
+            Continuer vers l'expédition
+        </button>
+    </div>
+</form>
+
+
