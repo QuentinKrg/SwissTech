@@ -134,8 +134,8 @@ export class ShoppingCartComponent implements OnInit {
         if(cartElement.id_Product === productElement.id_Product)
         {
           this.total += cartElement.Quantity*productElement.ProductUnitPrice;
-          console.log(this.total);
-          console.log(productElement.ProductUnitPrice);
+        // console.log(this.total);
+        // console.log(productElement.ProductUnitPrice);
         }
       });
     });

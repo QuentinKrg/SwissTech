@@ -1,1 +1,50 @@
-<p>review works!</p>
+<div class="row bg-light ">
+    <div class="col-md-12 ">
+        <!-- liste des articles -->
+        <tbody *ngFor="let product of allProducts">
+            <tr>
+                <th scope="row" class="border-0">
+                    <div class="p-2">
+                        <img src="/assets/images/products/{{product.ImagePath}}" alt="" width="70" class="img-fluid rounded shadow-sm">
+                        <div class="ml-3 d-inline-block align-middle">
+                            <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle"><span>{{getQuantityOfProduct(product).Quantity}}</span> x {{product.ProductName}}</a></h5><span class="text-muted font-weight-normal font-italic d-block">{{product.ManufacturerName}}</span>
+                        </div>
+                    </div>
+                </th>
+
+                <td class="border-0  text-right"><strong>CHF {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong></td>
+            </tr>
+        </tbody>
+        <!-- Sous-total / livraison -->
+        <tbody class="border-top">
+            <tr >
+                <th scope="row">
+                    Sous-total
+                </th>
+                <td class="text-right">
+                    <span>{{total.toFixed(2)}}</span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Livraison
+                </th>
+                <td class="text-right">
+                    Gratuit
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- Total -->
+        <tbody class="border-top">
+            <tr >
+                <th scope="row">
+                    Total
+                </th>
+                <td class="text-right">
+                    <span>{{total.toFixed(2)}}</span>
+                </td>
+            </tr>
+        </tbody>
+    </div>
+</div>
