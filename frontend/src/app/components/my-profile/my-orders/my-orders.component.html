@@ -1,4 +1,5 @@
-<h2>Mes commandes</h2>
+<h2 class="p-3 text-center">Mes commandes</h2>
+
 <app-order *ngFor="let order of myOrders;
     let i = index"
     [indexOfOrder]="i"
@@ -6,5 +7,4 @@
     [OrderDate]="order.OrderDate"
     [OrderStatus]="order.StatusName"
     [TotalOrder]="order.TotalOrder">
-    
 </app-order>

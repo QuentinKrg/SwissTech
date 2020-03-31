@@ -1,7 +1,12 @@
 
-<div class="row">
+<div class="row m-3 shadow-sm p-3 mb-5 bg-white rounded ">
     <div class="col-md">
-        {{ ProductName }}
+        <a [routerLink]="['/product-details', id_Product]">
+            <img src="/assets/images/products/{{ImagePath}}" alt="" width="70" class="img-fluid rounded shadow-sm">
+        </a>
+    </div>
+    <div class="col-md">
+        <a [routerLink]="['/product-details', id_Product]" class="text-dark d-inline-block align-middle">{{ProductName}}</a>
     </div>
     <div class="col-md">
         Qty : {{Quantity}}

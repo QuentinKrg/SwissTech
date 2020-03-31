@@ -25,7 +25,7 @@ export class OrderComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-        
+        this.getOrderDetails(this.OrderID)
   }
   getOrderDetails(orderid){
     this._orderService.getOrderDetailsByOrderID(orderid)

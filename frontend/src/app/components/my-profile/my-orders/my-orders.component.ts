@@ -12,7 +12,7 @@ export class MyOrdersComponent implements OnInit {
   currentUsername = this.authenticationService.currentUserValue.login;
   myOrders: Order[];
   public curantOrderID: number;
-
+  public isCollapsed = -1;
   constructor(
     private _orderService: OrdersService,
     private authenticationService: AuthenticationService

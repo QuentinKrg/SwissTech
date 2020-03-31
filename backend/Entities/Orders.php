@@ -49,10 +49,12 @@ class Orders extends Entity
 		
 		if(isset($_GET['orderid'])){
 				$currentID = $_GET['orderid'];
-				   $sql = "SELECT tp.ProductName, tpo.Quantity, tpo.CourantUnitPrice,(tpo.Quantity * tpo.CourantUnitPrice) AS TotalPrice, tpo.FK_Order
+				   $sql = "SELECT tp.id_Product, tp.ProductName, ti.ImagePath, tpo.Quantity, tpo.CourantUnitPrice,(tpo.Quantity * tpo.CourantUnitPrice) AS TotalPrice, tpo.FK_Order
 								FROM t_products_orders tpo
 								INNER JOIN t_products tp ON tp.id_Product = tpo.FK_Product
 								INNER JOIN t_orders tor ON tor.id_Order = tpo.FK_Order
+								INNER JOIN t_products_images tpi ON tpi.FK_Product = tp.id_Product
+								INNER JOIN t_images ti ON ti.id_Image = tpi.FK_Image
 								WHERE tpo.FK_Order = '$currentID'";
 								
 				  $tmpResult=($this->Query($sql));
@@ -62,7 +64,9 @@ class Orders extends Entity
 						// Sortir les données pour chaque "row"
 						$cr = 0;
 						while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+							$orderDetails[$cr]['id_Product'] = $row['id_Product'];
 						  $orderDetails[$cr]['ProductName'] = $row['ProductName'];
+						  $orderDetails[$cr]['ImagePath'] = $row['ImagePath'];
 						  $orderDetails[$cr]['Quantity'] = $row['Quantity'];
 						  $orderDetails[$cr]['CourantUnitPrice'] = $row['CourantUnitPrice'];
 						  $orderDetails[$cr]['TotalPrice'] = $row['TotalPrice'];

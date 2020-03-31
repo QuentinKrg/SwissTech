@@ -1,16 +1,28 @@
-<div class="col">
-    <div class="row" (click)="getOrderDetails(OrderID)">
-        <h4 >
-             Commande : {{ OrderID }} --Date : {{OrderDate}}  --Status: {{OrderStatus}}</h4>
+<div class="col shadow p-3 mb-5 bg-white rounded">
+    <div class="">
+        <div class="row border-0 text-center ">
+            <div class="col-md">
+                <h5>N° de commande: {{ OrderID }}</h5>
+            </div>
+            <div class="col-md">
+                <h5>Date : {{OrderDate | date: 'd/M/yyyy, HH:mm'}}</h5>
+            </div>
+            <div class="col-md">
+                <h5>Status: {{OrderStatus}}</h5> 
+            </div>
+            <div>
+                <app-order-details *ngFor="let orderdetail of Orderdetails;
+                    let i = index"
+                    [indexOfOrderDetail]="i"
+                    [id_Product]="orderdetail.id_Product"
+                    [ProductName]="orderdetail.ProductName"
+                    [ImagePath]="orderdetail.ImagePath"
+                    [Quantity]="orderdetail.Quantity"
+                    [CourantUnitPrice]="orderdetail.CourantUnitPrice"
+                    [TotalPrice]="orderdetail.TotalPrice">
+                </app-order-details>
+            </div>
     </div>
-    <div>
-    <app-order-details *ngFor="let orderdetail of Orderdetails;
-        let i = index"
-        [indexOfOrderDetail]="i"
-        [ProductName]="orderdetail.ProductName"
-        [Quantity]="orderdetail.Quantity"
-        [CourantUnitPrice]="orderdetail.CourantUnitPrice"
-        [TotalPrice]="orderdetail.TotalPrice">
-    </app-order-details>
-    </div>Total: {{TotalOrder}}
+    
+    <div class="text-right">Total: {{TotalOrder}}</div>
 </div>

@@ -7,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class OrderDetailsComponent implements OnInit {
   @Input() indexOfOrderDetail: number;
+  @Input() ImagePath: string;
+  @Input() id_Product: number;
   @Input() ProductName: string;
   @Input() Quantity: number;
   @Input() CourantUnitPrice: Float32Array;
