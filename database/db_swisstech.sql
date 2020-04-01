@@ -128,10 +128,20 @@ CREATE TABLE IF NOT EXISTS `t_comments` (
   KEY `FK_Comment_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Comment_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Comment_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_comments : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_comments : ~9 rows (environ)
 /*!40000 ALTER TABLE `t_comments` DISABLE KEYS */;
+INSERT INTO `t_comments` (`id_Comment`, `CommentValue`, `CommentDate`, `isActive`, `FK_Product`, `FK_Customer`) VALUES
+	(2, 'test', '2020-03-29 13:22:39', 1, 9, 25),
+	(3, 'un autre test', '2020-03-29 13:23:26', 1, 9, 25),
+	(4, 'test', '2020-03-29 13:28:28', 1, 9, 25),
+	(5, 'test ultime', '2020-03-29 13:34:15', 1, 9, 25),
+	(6, 'test', '2020-03-29 13:39:22', 1, 9, 25),
+	(7, 'test 6', '2020-03-29 13:49:14', 1, 9, 25),
+	(8, 'test 7', '2020-03-29 13:50:49', 1, 9, 25),
+	(9, 'test', '2020-03-29 15:35:40', 1, 11, 25),
+	(10, 'test 2', '2020-03-29 15:37:36', 1, 11, 25);
 /*!40000 ALTER TABLE `t_comments` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_customers
@@ -164,9 +174,9 @@ CREATE TABLE IF NOT EXISTS `t_images` (
   `ImageName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ImagePath` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_Image`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_images : ~6 rows (environ)
+-- Listage des données de la table db_swisstech.t_images : ~7 rows (environ)
 /*!40000 ALTER TABLE `t_images` DISABLE KEYS */;
 INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
 	(1, 'PS4 - std - black', 'ps4.png'),
@@ -174,7 +184,8 @@ INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
 	(3, 'Laptop HP 250 G7 - Noir', 'Laptop-HP-250-G7-Black.png'),
 	(4, 'iPad Silver 32 Go', 'ipad-wifi-select-silver32Go.png'),
 	(5, 'Macbook Pro - silver', 'macbook-pro-.png'),
-	(6, 'AirPods -std', 'img-article-temp.jpg');
+	(6, 'AirPods -std', 'img-article-temp.jpg'),
+	(7, 'Souris Logitehc B100', 'mouse.png');
 /*!40000 ALTER TABLE `t_images` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_manufacturers
@@ -219,13 +230,14 @@ CREATE TABLE IF NOT EXISTS `t_orders` (
   KEY `FK_Order_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Order_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_orders : ~2 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
 INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_Customer`) VALUES
 	(1, '2020-03-23 11:56:10', 1, 25),
-	(2, '2020-03-24 16:52:12', 6, 25);
+	(2, '2020-03-24 16:52:12', 6, 25),
+	(3, '2020-03-28 11:29:01', 3, 26);
 /*!40000 ALTER TABLE `t_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_parameters
@@ -301,9 +313,9 @@ CREATE TABLE IF NOT EXISTS `t_products_images` (
   KEY `FK_ProductImage_Product` (`FK_Product`),
   CONSTRAINT `FK_ProductImage_Image` FOREIGN KEY (`FK_Image`) REFERENCES `t_images` (`id_Image`),
   CONSTRAINT `FK_ProductImage_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_images : ~6 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_images : ~7 rows (environ)
 /*!40000 ALTER TABLE `t_products_images` DISABLE KEYS */;
 INSERT INTO `t_products_images` (`id_Product_Image`, `FK_Product`, `FK_Image`) VALUES
 	(1, 4, 1),
@@ -311,14 +323,15 @@ INSERT INTO `t_products_images` (`id_Product_Image`, `FK_Product`, `FK_Image`) V
 	(3, 9, 2),
 	(4, 6, 3),
 	(5, 11, 4),
-	(6, 14, 6);
+	(6, 14, 6),
+	(7, 13, 7);
 /*!40000 ALTER TABLE `t_products_images` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_products_orders
 CREATE TABLE IF NOT EXISTS `t_products_orders` (
   `id_Product_Order` int(11) NOT NULL AUTO_INCREMENT,
   `Quantity` int(4) NOT NULL,
-  `CourantUnitPrice` float DEFAULT NULL,
+  `CourantUnitPrice` decimal(6,2) DEFAULT NULL,
   `FK_Product` int(11) NOT NULL,
   `FK_Order` int(11) DEFAULT NULL,
   `FK_ShoppingCart` int(11) DEFAULT NULL,
@@ -329,14 +342,16 @@ CREATE TABLE IF NOT EXISTS `t_products_orders` (
   CONSTRAINT `FK_ProductOrder_Order` FOREIGN KEY (`FK_Order`) REFERENCES `t_orders` (`id_Order`),
   CONSTRAINT `FK_ProductOrder_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`),
   CONSTRAINT `FK_ProductOrder_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_orders : ~3 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_orders : ~5 rows (environ)
 /*!40000 ALTER TABLE `t_products_orders` DISABLE KEYS */;
 INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPrice`, `FK_Product`, `FK_Order`, `FK_ShoppingCart`) VALUES
-	(3, 2, 349, 9, 1, 1),
-	(4, 3, 419, 4, 1, NULL),
-	(5, 3, 9, 13, 2, NULL);
+	(3, 2, 349.00, 9, 1, 1),
+	(4, 3, 419.00, 4, 1, NULL),
+	(5, 3, 9.00, 13, 2, NULL),
+	(6, 1, 159.00, 12, 3, NULL),
+	(7, 3, 259.00, 10, 3, NULL);
 /*!40000 ALTER TABLE `t_products_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_roles
@@ -361,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `t_shoppingcart` (
   PRIMARY KEY (`id_ShoppingCart`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_shoppingcart : ~1 rows (environ)
+-- Listage des données de la table db_swisstech.t_shoppingcart : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_shoppingcart` DISABLE KEYS */;
 INSERT INTO `t_shoppingcart` (`id_ShoppingCart`, `ShoppingCartDate`) VALUES
 	(1, '2020-03-20 11:53:53');
@@ -409,8 +424,8 @@ CREATE TABLE IF NOT EXISTS `t_users` (
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddresse`, `FK_Role`, `FK_Customer`) VALUES
 	(29, 'chippo', 'f644e430863a66c3d1c698230bf841c87e9b77bddf7d85433fda5e7c20323fca', 'monsalt', 'da50a35e082371de4347082f4854fd99', '2020-03-17 17:58:10', 1, '', 1, 24),
-	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'd489073cdef2952717e2fcbb702b9600', '2020-03-26 10:21:27', 1, '', 1, 25),
-	(31, 'Cookie', 'aa8c7871d51afa07c158aabdd247d2259d0c5f5794e018a3ee98214c423ed4a7', 'monsalt', '3cbe6914f6d584cf195caded1c9c7f04', '2020-03-18 10:15:46', 1, '', 1, 26);
+	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '9431c288da4e48f0133cce56943dc0f1', '2020-04-01 08:00:29', 1, '', 1, 25),
+	(31, 'Cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '6857bc107d97310aab8131f1875d3715', '2020-03-28 11:32:00', 1, '', 1, 26);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
