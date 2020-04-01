@@ -27,6 +27,8 @@ export class EditProfileComponent implements OnInit {
   isUserValid = true;
   usernameData;
   passwordErrorMessage: String;
+  FormErrorMessage: String;
+  FormError= false;
   isPasswordCorrect =false;
   changeUsername = false;
   changePassword= false;
@@ -240,7 +242,13 @@ export class EditProfileComponent implements OnInit {
     }
     // Stop si le formulaire n'est pas correctement rempli
     if (this.editRegisterForm.invalid) {
+      this.userUpdateData = false;
+      this.FormError = true;
+      this.FormErrorMessage="Veuillez remplir correctement tous les champs marqués d'un *";
       return;
+    }else{
+      this.FormError = false;
+      this.FormErrorMessage = "";
     }
     
     //désactive le bouton d'enregistrement

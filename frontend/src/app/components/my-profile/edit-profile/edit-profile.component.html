@@ -2,11 +2,11 @@
     <h2 class="p-3 text-center">Editer mon compte</h2>
     <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
 
-        <div class="p-4">
+        <div class="p-4 shadow-sm">
             <h5 class="border-top">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
-                <label for="CustomerTitre">Titre</label>
+                <label for="CustomerTitre">Titre *</label>
                 <select class="form-control" formControlName="CustomerTitre" autofocus
                     [ngClass]="{ 'is-invalid': submitted && f.CustomerTitre.errors || f.CustomerTitre.touched && f.CustomerTitre.errors}">
                     <option value="" selected disabled>Veuillez choisir</option>
@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="form-group">
-                        <label for="CustomerName">Prénom</label>
+                        <label for="CustomerName">Prénom *</label>
                         <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
                         <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
@@ -30,7 +30,7 @@
                 <!-- Last name-->
                 <div class="col-sm">
                     <div class="form-group">
-                        <label for="CustomerLastName">Nom</label>
+                        <label for="CustomerLastName">Nom *</label>
                         <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
                         <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
@@ -42,13 +42,13 @@
 
             <!-- Birthday date-->
             <div class="form-group">
-                <label for="CustomerBirthday">Date de naissance</label>
+                <label for="CustomerBirthday">Date de naissance *</label>
                 <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
                     placeholder=""
                     [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
             </div>
         </div>
-        <div class=" p-4 mt-2">
+        <div class=" p-4 mt-2 shadow-sm">
             <!-- Adresse de livraison -->
             <h6 class="border-top pt-3">
                 <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
@@ -62,7 +62,7 @@
             <div>
                 <!-- Adresse-->
                 <div class="form-group">
-                    <label for="ShippingAddress">Rue, n°</label>
+                    <label for="ShippingAddress">Rue, n° *</label>
                     <input id="shippingAddress" type="text" formControlName="shippingAddress" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.shippingAddress.errors || f.shippingAddress.touched && f.shippingAddress.errors}" />
                 </div>
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="shippingCity">Ville</label>
+                            <label for="shippingCity">Ville *</label>
                             <input type="text" maxlength="100" formControlName="shippingCity" id="shippingCity"
                                 class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted && f.shippingCity.errors  || f.shippingCity.touched && f.shippingCity.errors}" />
@@ -79,7 +79,7 @@
                     <!-- NPA-->
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="shippingZip">Code Postal</label>
+                            <label for="shippingZip">Code Postal *</label>
                             <input maxlength="4" formControlName="shippingZip" class="form-control" id="shippingZip"
                                 [ngClass]="{ 'is-invalid': submitted && f.shippingZip.errors ||
                                              f.shippingZip.errors && f.shippingZip.hasError('pattern') || f.shippingZip.touched && f.shippingZip.errors ||
@@ -118,7 +118,7 @@
                 </div>
                 <!-- Adresse-->
                 <div class="form-group">
-                    <label for="billingAddress">Rue, n°</label>
+                    <label for="billingAddress">Rue, n° *</label>
                     <input id="billingAddress" type="text" formControlName="billingAddress" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.billingAddress.errors ||f.billingAddress.touched && f.billingAddress.errors}" />
                 </div>
@@ -126,7 +126,7 @@
                 <div class="row">
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="billingCity">Ville</label>
+                            <label for="billingCity">Ville *</label>
                             <input type="text" maxlength="100" formControlName="billingCity" id="billingCity"
                                 class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted && f.billingCity.errors ||f.billingCity.touched && f.billingCity.errors }" />
@@ -135,7 +135,7 @@
                     <!-- NPA-->
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="billingZip">Code Postal</label>
+                            <label for="billingZip">Code Postal *</label>
                             <input maxlength="4" formControlName="billingZip" id="billingZip" class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
                                          f.billingZip.touched && f.billingZip.hasError('pattern')
@@ -152,12 +152,12 @@
                 </div>
             </div>
         </div>
-        <div class=" p-4 mt-2">
+        <div class=" p-4 mt-2 shadow-sm">
             <h5 class="border-top">Mes informations de contact</h5>
             <div>
                 <!-- Email -->
                 <div class="form-group">
-                    <label for="CustomerEmail">E-mail</label>
+                    <label for="CustomerEmail">E-mail *</label>
                     <input type="CustomerEmail" formControlName="CustomerEmail" class="form-control"
                         placeholder="exemple@domaine.com"
                         [ngClass]="{ 'is-invalid': submitted && f.CustomerEmail.errors || f.CustomerEmail.touched && f.CustomerEmail.errors}" />
@@ -168,7 +168,7 @@
                 </div>
                 <!-- Private phone-->
                 <div class="form-group">
-                    <label for="CustomerPhone">Téléphone privé</label>
+                    <label for="CustomerPhone">Téléphone privé *</label>
                     <input type="phone" formControlName="CustomerPhone" class="form-control"
                         placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.CustomerPhone.errors || f.CustomerPhone.touched && f.CustomerPhone.errors || 
                             f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')}" />
@@ -180,14 +180,14 @@
             </div>
         </div>
 
-        <div class=" p-4 mt-2">
+        <div class=" p-4 mt-2 shadow-sm">
             <h5 class="border-top">Mes identifiants </h5>
             <!-- username -->
 
             
             <div class="row text-center p-3">
                 <div class="col-sm d-inline">
-                    <label for="Username">Nom d'utilisateur:</label>
+                    <label for="Username">Nom d'utilisateur: *</label>
                 </div>
                 <div class="form-group col-sm d-inline">
                     <h5 class="font-weight-bold">
@@ -195,8 +195,8 @@
                     </h5>
                 </div>
                 <div class="col-sm d-inline">
-                    <button type="button" [ngClass]="changeUsername  ? 'text-danger' : 'text-success'"
-                        class="btn btn-light" (click)="onUsernameChange()">
+                    <button type="button" class="btn btn-outline-secondary" 
+                    class="btn btn-outline-secondary"(click)="onUsernameChange()">
                         <a *ngIf="!changeUsername">Modifier</a>
                         <a *ngIf="changeUsername">Ne pas modifier</a>
                     </button>
@@ -204,7 +204,7 @@
             </div>
 
             <div class="form-group" *ngIf="changeUsername">
-                <label for="Username">Nouveau nom d'utilisateur:</label>
+                <label for="Username">Nouveau nom d'utilisateur: *</label>
                 <input type="text" formControlName="Username" class="form-control" (keyup.tab)="isUserAvailable()"
                     (blur)="isUserAvailable()" id="Username"
                     [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.Username.errors ||f.Username.touched && f.Username.errors || f.Username.hasError('pattern')}" />
@@ -216,15 +216,15 @@
 
             <!-- My Password -->
             <div>
-                <button type="button" [ngClass]="changePassword  ? 'text-danger' : 'text-success'"
-                    class="btn btn-light btn-block" (click)="onPasswordChange()">
+                <button type="button" class="btn btn-outline-secondary btn-block" 
+                     (click)="onPasswordChange()">
                     <a *ngIf="!changePassword">Modifier mon mot de passe</a>
                     <a *ngIf="changePassword">Ne pas modifier mon mot de passe</a>
                 </button>
                 <div *ngIf="changePassword">
                     <div>
                         <div class="form-group">
-                            <label for="myPassword">Mot de passe actuel:</label>
+                            <label for="myPassword">Mot de passe actuel: *</label>
                             <input (keyup.tab)="onPasswordTest()" (blur)="onPasswordTest()" id="myPassword"
                                 formControlName="myPassword" type="password" class="form-control"
                                 [ngClass]="f.myPassword.touched && f.myPassword.invalid ? 'is-invalid' : ''">
@@ -236,7 +236,7 @@
                         <div class="col-sm">
                             <!-- Password -->
                             <div class="form-group">
-                                <label for="password">Nouveau mot de passe:</label>
+                                <label for="password">Nouveau mot de passe: *</label>
                                 <input id="password" formControlName="password" type="password" class="form-control"
                                     [ngClass]="f.password.touched && f.password.invalid ? 'is-invalid' : ''">
                                 <label class="col"
@@ -280,7 +280,7 @@
                         <div class="col-sm">
                             <!-- Confirmation Password -->
                             <div class="form-group">
-                                <label for="confirmPassword">Confirmez le nouveau mot de passe:</label>
+                                <label for="confirmPassword">Confirmez le nouveau mot de passe: *</label>
                                 <input id="confirmPassword" formControlName="confirmPassword" type="password"
                                     class="form-control"
                                     [ngClass]="f.confirmPassword.touched && f.confirmPassword.invalid ? 'is-invalid' : ''">
@@ -306,5 +306,6 @@
             </button>
         </div>
         <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
+        <div *ngIf="FormError" class="p-3 mb-2 bg-danger text-white text-center">{{FormErrorMessage}}</div>
     </form>
 </div>

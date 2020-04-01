@@ -179,13 +179,13 @@ CREATE TABLE IF NOT EXISTS `t_images` (
 -- Listage des données de la table db_swisstech.t_images : ~7 rows (environ)
 /*!40000 ALTER TABLE `t_images` DISABLE KEYS */;
 INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
-	(1, 'PS4 - std - black', 'ps4.png'),
-	(2, 'Nintendo Switch - red-blue', 'Nintendo-Switch-.png'),
+	(1, 'PS4 - std - black', 'Sony-Playstation-4-Slim-1TB-Black.jpg'),
+	(2, 'Nintendo Switch - red-blue', 'Nintendo-Switch-.jpg'),
 	(3, 'Laptop HP 250 G7 - Noir', 'Laptop-HP-250-G7-Black.png'),
-	(4, 'iPad Silver 32 Go', 'ipad-wifi-select-silver32Go.png'),
-	(5, 'Macbook Pro - silver', 'macbook-pro-.png'),
+	(4, 'iPad Silver 32 Go', 'iPad-7th-Silver.jpg'),
+	(5, 'Macbook Pro - silver', 'Macbook-Pro-13.jpg'),
 	(6, 'AirPods -std', 'img-article-temp.jpg'),
-	(7, 'Souris Logitehc B100', 'mouse.png');
+	(7, 'Souris Logitehc B100', 'Logitech-Maus-B100.jpg');
 /*!40000 ALTER TABLE `t_images` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_manufacturers
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `t_orders` (
   CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_orders : ~2 rows (environ)
+-- Listage des données de la table db_swisstech.t_orders : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
 INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_Customer`) VALUES
 	(1, '2020-03-23 11:56:10', 1, 25),
@@ -376,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `t_shoppingcart` (
   PRIMARY KEY (`id_ShoppingCart`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_shoppingcart : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_shoppingcart : ~1 rows (environ)
 /*!40000 ALTER TABLE `t_shoppingcart` DISABLE KEYS */;
 INSERT INTO `t_shoppingcart` (`id_ShoppingCart`, `ShoppingCartDate`) VALUES
 	(1, '2020-03-20 11:53:53');
