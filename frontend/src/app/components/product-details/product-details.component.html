@@ -16,7 +16,7 @@
                 <p>Couleur : {{product.ProductColor}}</p>
 
                 <app-add-to-cart [productDetails]="product" [isCartItem]="false" class=""></app-add-to-cart>
-                
+
                 <!-- Spec + commentaires-->
                 <div class="mt-4">
                     <!-- Navigation -->
@@ -51,10 +51,10 @@
                                     </button>
                                         </div>
                                     </div>
-                                                
+
                                     <div class="form-group mw-42">
 
-                                        <input class="form-control" formControlName="userEnteredCaptcha" 
+                                        <input class="form-control" formControlName="userEnteredCaptcha"
                                             placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
                                             submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
 
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="margin-top-10">
-                                
+
                                 <button type="submit" class="btn btn-sm btn-primary pull-right">
                                     Soumettre
                                 </button>
@@ -83,11 +83,11 @@
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h5 class="">{{comment.CommentValue}}</h5>
                                                 <small>{{comment.CommentDate | date: 'dd/MM/yyyy à HH:mm'}}</small>
-                                            </div>                                            
+                                            </div>
                                             <small class="text-muted">{{comment.CustomerName}} {{comment.CustomerLastName}}</small>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </ng-template>
                             <ng-template #noValue>
                                 <p>Aucun commentaire ici, sois le premier à en rédiger un !</p>

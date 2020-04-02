@@ -24,9 +24,9 @@ const routes: Routes = [
     { path: 'product-details/:id', component: ProductDetailsComponent},
     { path: 'myprofile', component: MyProfileComponent, canActivate: [AuthGuard], children: 
         [
-        { path: 'editprofile', component: EditProfileComponent, outlet: 'profilecontent1'},
-        { path: 'myorders', component: MyOrdersComponent, outlet: 'profilecontent1'},
-        { path: '', component: EditProfileComponent, outlet: 'profilecontent1'},    
+        { path: 'editprofile', component: EditProfileComponent},
+        { path: 'myorders', component: MyOrdersComponent},
+        { path: '', component: EditProfileComponent},    
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 
     },
