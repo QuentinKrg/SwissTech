@@ -54,9 +54,8 @@ class Comments extends Entity
       if($this->jsonToProcess !=null)
       {
         // Récupération des données reçues
-        $CommentValue = $this->jsonToProcess->CommentValue;
-        //$CommentDate = $this->jsonToProcess->CommentDate;
-        //$isActive = $this->jsonToProcess->isActive;
+        $CommentValue = htmlspecialchars($this->jsonToProcess->CommentValue);
+
         $FK_Product = $this->jsonToProcess->FK_Product;
         $FK_Customer = $this->jsonToProcess->FK_Customer;
 
