@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { formatDate } from '@angular/common';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-product-details',
@@ -16,7 +17,8 @@ import { formatDate } from '@angular/common';
 })
 
 export class ProductDetailsComponent implements OnInit {
-
+  
+  currentUser: User;
   product: Product;
   productId: number;
   productsComments: Comments[] = [];
@@ -27,16 +29,18 @@ export class ProductDetailsComponent implements OnInit {
   captchaGenerated: string;
   submitted = false;
   // --------------------------------/Captcha---------------------------------------------------
-  constructor(private formBuilder: FormBuilder,
+  constructor(private _formBuilder: FormBuilder,
               private _productService: ProductService,
               private _route: ActivatedRoute,
               private _commentsService: CommentsService,
-              private _authenticationService: AuthenticationService,
-              private _userService: UserService) { 
+              private _authenticationService: AuthenticationService) { 
+                this._authenticationService.currentUser.subscribe(x => this.currentUser = x);
                 this.product = new Product();
               }
 
   ngOnInit() {
+    console.log(this.currentUser.role);
+    
     // Récupérer l'id passé dans l'URL
     this._route.params.subscribe(params => {
       this.productId = params['id'];
@@ -50,7 +54,7 @@ export class ProductDetailsComponent implements OnInit {
       
     });
 
-    this.addCommentForm = this.formBuilder.group({
+    this.addCommentForm = this._formBuilder.group({
       commentText: ['', Validators.required],
       userEnteredCaptcha: ['', [Validators.required]]//CAPTCHA
     });
@@ -63,11 +67,15 @@ export class ProductDetailsComponent implements OnInit {
     });
     
     this.submitted = false;//CAPTCHA
+    this.userCaptcha = this.addCommentForm.value.userEnteredCaptcha;//CAPTCHA
+  }
+
+  ngAfterViewInit(): void{
     this.generateCaptchaImage();//CAPTCHA
     this.onRefresh();
-    this.userCaptcha = this.addCommentForm.value.userEnteredCaptcha;//CAPTCHA
-
   }
+
+
 // --------------------------------Captcha---------------------------------------------------
 get f() { return this.addCommentForm.controls; }
   //fonction qui retourne un array de string, longeur selon paramètre
@@ -82,7 +90,6 @@ get f() { return this.addCommentForm.controls; }
   }
   //Genere le contenu à ajouter dans le canvas
   generateCaptchaImage() {
-
     this.captchaGenerated = this.generateText(6);//genere un string aléatoire avec n caractères
     const canvas = <HTMLCanvasElement>document.getElementById('myCanvas');//Crée une tag canvas pour HTML
     const ctx = canvas.getContext('2d');
@@ -138,6 +145,8 @@ get f() { return this.addCommentForm.controls; }
     return this.captchaIsValid;
   }
   // --------------------------------/Captcha---------------------------------------------------
+
+
   onSubmit() {
     // Stop si le formulaire n'est pas correctement rempli
     if(this.addCommentForm.invalid) {
@@ -155,11 +164,11 @@ get f() { return this.addCommentForm.controls; }
     let tmpComment: Comments = new Comments;
     tmpComment.CommentValue = this.addCommentForm.value.commentText;
     
-    tmpComment.CommentDate = new Date();
-    console.log(tmpComment.CommentDate);
+    //tmpComment.CommentDate = new Date();
+    //console.log(tmpComment.CommentDate);
     
     
-    tmpComment.isActive = true;
+    //tmpComment.isActive = true;
     tmpComment.FK_Customer = this._authenticationService.currentUserValue.FK_Customer;
     tmpComment.FK_Product = this.productId;
 

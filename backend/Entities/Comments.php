@@ -20,7 +20,7 @@ class Comments extends Entity
 
       $sql = "SELECT * FROM t_comments
               INNER JOIN t_customers ON t_comments.FK_Customer = t_customers.id_customer
-              WHERE t_comments.FK_Product = $this->idToProcess";
+              WHERE t_comments.FK_Product = $this->idToProcess ORDER BY t_comments.CommentDate DESC";
 
       $tmpResult = $this->Query($sql);
 
@@ -55,13 +55,13 @@ class Comments extends Entity
       {
         // Récupération des données reçues
         $CommentValue = $this->jsonToProcess->CommentValue;
-        $CommentDate = $this->jsonToProcess->CommentDate;
-        $isActive = $this->jsonToProcess->isActive;
+        //$CommentDate = $this->jsonToProcess->CommentDate;
+        //$isActive = $this->jsonToProcess->isActive;
         $FK_Product = $this->jsonToProcess->FK_Product;
         $FK_Customer = $this->jsonToProcess->FK_Customer;
 
-        $sql = "INSERT INTO t_comments (CommentValue, CommentDate, isActive, FK_Product, FK_Customer)
-        VALUES ('$CommentValue', '$CommentDate', '$isActive', '$FK_Product','$FK_Customer')";
+        $sql = "INSERT INTO t_comments (CommentValue, FK_Product, FK_Customer)
+        VALUES ('$CommentValue', '$FK_Product','$FK_Customer')";
         $this->Query($sql);
       }
     }
