@@ -31,6 +31,11 @@ import { ContactInformationComponent } from './components/checkout/contact-infor
 import { ShippingMethodComponent } from './components/checkout/shipping-method/shipping-method.component';
 import { PaymentMethodComponent } from './components/checkout/payment-method/payment-method.component';
 import { SidebarComponent } from './components/my-profile/sidebar/sidebar.component';
+import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
+import { ManageOrdersComponent } from './components/my-profile/admin-panel/manage-orders/manage-orders.component';
+import { ManageCustomersComponent } from './components/my-profile/admin-panel/manage-customers/manage-customers.component';
+import { ManageCommentsComponent } from './components/my-profile/admin-panel/manage-comments/manage-comments.component';
+import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
 
 
 @NgModule({
@@ -59,7 +64,12 @@ import { SidebarComponent } from './components/my-profile/sidebar/sidebar.compon
     ContactInformationComponent,
     ShippingMethodComponent,
     PaymentMethodComponent,
-    SidebarComponent
+    SidebarComponent,
+    ManageProductsComponent,
+    ManageOrdersComponent,
+    ManageCustomersComponent,
+    ManageCommentsComponent,
+    ManageAdminsComponent
   ],
   imports: [
     BrowserModule,

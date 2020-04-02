@@ -13,6 +13,11 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ContactInformationComponent } from './components/checkout/contact-information/contact-information.component';
 import { ShippingMethodComponent } from './components/checkout/shipping-method/shipping-method.component';
 import { PaymentMethodComponent } from './components/checkout/payment-method/payment-method.component';
+import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
+import { ManageCommentsComponent } from './components/my-profile/admin-panel/manage-comments/manage-comments.component';
+import { ManageCustomersComponent } from './components/my-profile/admin-panel/manage-customers/manage-customers.component';
+import { ManageOrdersComponent } from './components/my-profile/admin-panel/manage-orders/manage-orders.component';
+import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
 
 
 
@@ -26,7 +31,12 @@ const routes: Routes = [
         [
         { path: 'editprofile', component: EditProfileComponent},
         { path: 'myorders', component: MyOrdersComponent},
-        { path: '', component: EditProfileComponent},    
+        { path: 'manageproducts', component: ManageProductsComponent},
+        { path: 'manageorders', component: ManageOrdersComponent},
+        { path: 'managecustomers', component: ManageCustomersComponent},
+        { path: 'managecomments', component: ManageCommentsComponent},
+        { path: 'manageadmins', component: ManageAdminsComponent}, 
+        { path: '', component: EditProfileComponent},   
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 
     },
