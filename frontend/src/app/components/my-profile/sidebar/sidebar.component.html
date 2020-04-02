@@ -4,22 +4,24 @@
     <a routerLink="/myprofile/myorders">
         <i class="fas fa-clipboard-list"> </i> Mes commandes</a>
     <a href="#contact"><i class="fas fa-heart"> </i> Mes favoris</a>
-    <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i class="fas fa-user-shield"></i> <span class="d-none d-sm-inline"> Administration</span></a>
-    <div class="collapse" id="submenu1" aria-expanded="false">
-        <ul class="flex-column pl-2 nav">
-            <li class="nav-item  m-2"><a class="nav-link py-0" href="#"><span>Articles</span></a></li>
-        </ul>
-        <ul class="flex-column pl-2 nav">
-            <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Commandes</span></a></li>
-        </ul>
-        <ul class="flex-column pl-2 nav">
-            <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Clients</span></a></li>
-        </ul>
-        <ul class="flex-column pl-2 nav">
-            <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Commentaires</span></a></li>
-        </ul>
-        <ul class="flex-column pl-2 nav">
-            <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Administrateurs</span></a></li>
-        </ul>
+    <div *ngIf="currentUserRole== 'AD'">
+        <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i class="fas fa-user-shield"></i> <span class="d-none d-sm-inline"> Administration</span></a>
+        <div class="collapse" id="submenu1" aria-expanded="false">
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item  m-2"><a class="nav-link py-0" href="#"><span>Articles</span></a></li>
+            </ul>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Commandes</span></a></li>
+            </ul>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Clients</span></a></li>
+            </ul>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Commentaires</span></a></li>
+            </ul>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item m-2"><a class="nav-link py-0" href="#"><span>Administrateurs</span></a></li>
+            </ul>
+        </div>
     </div>
 </div>
