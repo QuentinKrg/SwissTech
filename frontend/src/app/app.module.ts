@@ -30,6 +30,7 @@ import { ReviewComponent } from './components/checkout/review/review.component';
 import { ContactInformationComponent } from './components/checkout/contact-information/contact-information.component';
 import { ShippingMethodComponent } from './components/checkout/shipping-method/shipping-method.component';
 import { PaymentMethodComponent } from './components/checkout/payment-method/payment-method.component';
+import { SidebarComponent } from './components/my-profile/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { PaymentMethodComponent } from './components/checkout/payment-method/pay
     ReviewComponent,
     ContactInformationComponent,
     ShippingMethodComponent,
-    PaymentMethodComponent
+    PaymentMethodComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

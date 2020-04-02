@@ -1,14 +1,6 @@
 <div class="container">
-    <div class="sidebar">
-        <a [routerLink]="['/myprofile',{ outlets: {profilecontent1: ['editprofile'] } }]">
-            <i class="fa fa-fw fa-user"></i> Editer mes informations</a>
-        <a [routerLink]="['/myprofile',{ outlets: {profilecontent1: ['myorders'] } }]">
-            <i class="fas fa-clipboard-list"> </i>  Mes commandes</a>
-        <a href="#contact">Mes favoris</a>
-        <a href="#about">About</a>
-    </div>
-
+    <app-sidebar></app-sidebar>
     <div class="content maindiv">
-        <router-outlet class="" name="profilecontent1"></router-outlet>
+        <router-outlet></router-outlet>
     </div>
 </div>

@@ -139,13 +139,13 @@ get f() { return this.addCommentForm.controls; }
   }
   // --------------------------------/Captcha---------------------------------------------------
   onSubmit() {
+    this.submitted = true;
     // Stop si le formulaire n'est pas correctement rempli
     if(this.addCommentForm.invalid) {
       return;
     }
     // ------------------------Captcha---------------------------------------
     //Stop si le captcha saisit ne match pas avec celui qui a été généré au moment du submit
-    this.submitted = true;
     if (this.isValid(this.addCommentForm.value.userEnteredCaptcha)) {
     } else {
       return;
