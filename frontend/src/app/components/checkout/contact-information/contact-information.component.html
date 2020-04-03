@@ -1,6 +1,6 @@
 
 <!-- Adresse client -->
-<p>Adresse de livraison</p>
+<h5>Adresse de livraison</h5>
 <div>
     <p>
         <span>{{currentUser?.CustomerName}} {{currentUser?.CustomerLastName}}</span><br>
@@ -9,14 +9,18 @@
     </p>
 </div>
 
+<!-- Mode d'expédition -->
+<h5>Mode d'expédition</h5>
+<p>Toutes les livraisons se font par la poste et sont <strong>gratuites</strong></p>
+
 <!-- Bouttons de navigations -->
 <div class="">
     <a routerLink="/cart">
         <span>Retour au panier</span>
     </a>
-    <button class="btn btn-primary">
+    <a routerLink="/checkout/payment" class="btn btn-primary">
         Continuer vers l'expédition
-    </button>
+    </a>
 </div>
 
 
