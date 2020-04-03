@@ -18,6 +18,7 @@ import { ManageCustomersComponent } from './components/my-profile/admin-panel/ma
 import { ManageOrdersComponent } from './components/my-profile/admin-panel/manage-orders/manage-orders.component';
 import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
 import { AdminGuard } from './helpers/admin.guard';
+import { ManageCustomerDetailsComponent } from './components/my-profile/admin-panel/manage-customers/manage-customer-details/manage-customer-details.component';
 
 
 
@@ -36,6 +37,7 @@ const routes: Routes = [
         { path: 'managecustomers', component: ManageCustomersComponent, canActivate: [AdminGuard]},
         { path: 'managecomments', component: ManageCommentsComponent, canActivate: [AdminGuard]},
         { path: 'manageadmins', component: ManageAdminsComponent, canActivate: [AdminGuard]}, 
+        { path: 'manage-customer-details/:id', component: ManageCustomerDetailsComponent, canActivate: [AdminGuard]},
         { path: '', component: EditProfileComponent},   
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 

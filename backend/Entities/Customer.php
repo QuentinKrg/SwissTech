@@ -223,6 +223,20 @@ class Customer extends Entity
 		}
 	  }
 
+// Récupération des détails d'un article avec son ID
+    public function GetCustomerById()
+    {
+      // TODO Récupération de toutes les images
+      $sql = " SELECT * FROM t_customers
+					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer
+					   WHERE id_customer = $this->idToProcess";
+
+       $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+       // Retour du résultat
+       return $tmpResult;
+    }
+
 	public function GetAllCustomers(){
 		$customers = [];
 
@@ -254,6 +268,7 @@ class Customer extends Entity
       // Fermeture de la connexion
       return $tmpResult;
 	}
+	
 	public function GetCustomerByUsername(){
 			if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
@@ -264,6 +279,7 @@ class Customer extends Entity
 				return $getCustomer;
 			}
 		}
+		
 	public function getShippingAddressByUser(){
 		if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];

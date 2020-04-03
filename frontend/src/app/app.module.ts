@@ -35,6 +35,7 @@ import { ManageOrdersComponent } from './components/my-profile/admin-panel/manag
 import { ManageCustomersComponent } from './components/my-profile/admin-panel/manage-customers/manage-customers.component';
 import { ManageCommentsComponent } from './components/my-profile/admin-panel/manage-comments/manage-comments.component';
 import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
+import { ManageCustomerDetailsComponent } from './components/my-profile/admin-panel/manage-customers/manage-customer-details/manage-customer-details.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { ManageAdminsComponent } from './components/my-profile/admin-panel/manag
     ManageOrdersComponent,
     ManageCustomersComponent,
     ManageCommentsComponent,
-    ManageAdminsComponent
+    ManageAdminsComponent,
+    ManageCustomerDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@
         <th scope="col">Titre</th>
         <th scope="col">Prénom</th>
         <th scope="col">Nom</th></tr>
-     <tr scope="row" class="table-row" routerLink="/myprofile/myorders" *ngFor="let customer of allCustomers;
+     <tr scope="row" class="table-row" [routerLink]="['/myprofile/manage-customer-details', customer.id_customer]" *ngFor="let customer of allCustomers;
      let i = index">
         <td >{{customer.id_customer}}</td>
         <td >{{customer.CustomerTitre}}</td>
