@@ -28,7 +28,6 @@ import { OrderDetailsComponent } from './components/my-profile/order-details/ord
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ReviewComponent } from './components/checkout/review/review.component';
 import { ContactInformationComponent } from './components/checkout/contact-information/contact-information.component';
-import { ShippingMethodComponent } from './components/checkout/shipping-method/shipping-method.component';
 import { PaymentMethodComponent } from './components/checkout/payment-method/payment-method.component';
 import { SidebarComponent } from './components/my-profile/sidebar/sidebar.component';
 import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
@@ -62,7 +61,6 @@ import { ManageAdminsComponent } from './components/my-profile/admin-panel/manag
     ProductDetailsComponent,
     ReviewComponent,
     ContactInformationComponent,
-    ShippingMethodComponent,
     PaymentMethodComponent,
     SidebarComponent,
     ManageProductsComponent,

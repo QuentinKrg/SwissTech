@@ -11,7 +11,6 @@ import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.c
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ContactInformationComponent } from './components/checkout/contact-information/contact-information.component';
-import { ShippingMethodComponent } from './components/checkout/shipping-method/shipping-method.component';
 import { PaymentMethodComponent } from './components/checkout/payment-method/payment-method.component';
 import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
 import { ManageCommentsComponent } from './components/my-profile/admin-panel/manage-comments/manage-comments.component';
@@ -43,7 +42,6 @@ const routes: Routes = [
     },
     { path:'checkout', component: CheckoutComponent, canActivate: [AuthGuard], children: [
         {path: 'information', component: ContactInformationComponent},
-        {path: 'shipping', component: ShippingMethodComponent},
         {path: 'payment', component: PaymentMethodComponent},
     ]},
 
