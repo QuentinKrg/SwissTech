@@ -18,6 +18,7 @@ import { ManageCommentsComponent } from './components/my-profile/admin-panel/man
 import { ManageCustomersComponent } from './components/my-profile/admin-panel/manage-customers/manage-customers.component';
 import { ManageOrdersComponent } from './components/my-profile/admin-panel/manage-orders/manage-orders.component';
 import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
+import { AdminGuard } from './helpers/admin.guard';
 
 
 
@@ -31,11 +32,11 @@ const routes: Routes = [
         [
         { path: 'editprofile', component: EditProfileComponent},
         { path: 'myorders', component: MyOrdersComponent},
-        { path: 'manageproducts', component: ManageProductsComponent},
-        { path: 'manageorders', component: ManageOrdersComponent},
-        { path: 'managecustomers', component: ManageCustomersComponent},
-        { path: 'managecomments', component: ManageCommentsComponent},
-        { path: 'manageadmins', component: ManageAdminsComponent}, 
+        { path: 'manageproducts', component: ManageProductsComponent, canActivate: [AdminGuard]},
+        { path: 'manageorders', component: ManageOrdersComponent, canActivate: [AdminGuard]},
+        { path: 'managecustomers', component: ManageCustomersComponent, canActivate: [AdminGuard]},
+        { path: 'managecomments', component: ManageCommentsComponent, canActivate: [AdminGuard]},
+        { path: 'manageadmins', component: ManageAdminsComponent, canActivate: [AdminGuard]}, 
         { path: '', component: EditProfileComponent},   
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 
