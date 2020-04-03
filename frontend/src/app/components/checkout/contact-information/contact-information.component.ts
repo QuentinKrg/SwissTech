@@ -17,8 +17,8 @@ export class ContactInformationComponent implements OnInit {
               private _authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this._userService.getCustomer(this.currentUsername).subscribe(data => {
-      this._userService.getShippingAddress(this.currentUsername).subscribe(moreData => {
+    this._userService.getCustomer(this.currentUsername).subscribe((data = new Customer) => {
+      this._userService.getShippingAddress(this.currentUsername).subscribe((moreData = new Customer) => {
         this.currentUser = Object.assign(data, moreData);      
       });      
     });
