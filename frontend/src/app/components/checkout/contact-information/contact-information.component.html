@@ -1,17 +1,23 @@
-<!-- Choisir une adresse -->
 
-<!-- Nouvelle adresse -->
-<form class="form" [formGroup]="" (ngSubmit)="onSubmit()">
+<!-- Adresse client -->
+<p>Adresse de livraison</p>
+<div>
+    <p>
+        <span>{{currentUser.CustomerName}} {{currentUser.CustomerLastName}}</span><br>
+        <span>{{currentUser.shippingAddress}}</span><br>
+        <span>{{currentUser.shippingCity}} {{currentUser.shippingZip}}</span><br>
+    </p>
+</div>
 
-    <!-- Bouttons de navigations -->
-    <div class="form-group">
-        <a routerLink="/cart">
-            <span>Retour au panier</span>
-        </a>
-        <button class="btn btn-primary">
-            Continuer vers l'expédition
-        </button>
-    </div>
-</form>
+<!-- Bouttons de navigations -->
+<div class="">
+    <a routerLink="/cart">
+        <span>Retour au panier</span>
+    </a>
+    <button class="btn btn-primary">
+        Continuer vers l'expédition
+    </button>
+</div>
+
 
 
