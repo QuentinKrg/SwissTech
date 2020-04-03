@@ -223,6 +223,37 @@ class Customer extends Entity
 		}
 	  }
 
+	public function GetAllCustomers(){
+		$customers = [];
+
+      $sql = " SELECT * FROM t_customers
+					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer";
+
+      $tmpResult = $this->Query($sql);
+
+      if($tmpResult->rowCount() > 0) {
+
+        // Sortir les données pour chaque "row"
+        $cr = 0;
+        while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+          $customers[$cr]['id_customer'] = $row['id_customer'];
+          $customers[$cr]['CustomerTitre'] = $row['CustomerTitre'];
+          $customers[$cr]['CustomerName'] = $row['CustomerName'];
+          $customers[$cr]['CustomerLastName'] = $row['CustomerLastName'];
+          $customers[$cr]['CustomerPhone'] = $row['CustomerPhone'];
+          $customers[$cr]['CustomerEmail'] = $row['CustomerEmail'];
+          $customers[$cr]['CustomerBirthday'] = $row['CustomerBirthday'];
+          $customers[$cr]['isActive'] = $row['isActive'];
+          $customers[$cr]['FK_Role'] = $row['FK_Role'];
+          $customers[$cr]['IpAddress'] = $row['IpAddress'];
+          $cr++;
+        }
+        // echo de la liste des customers
+        return $customers;
+      }
+      // Fermeture de la connexion
+      return $tmpResult;
+	}
 	public function GetCustomerByUsername(){
 			if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];

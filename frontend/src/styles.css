@@ -1,6 +1,9 @@
 i {
   vertical-align: middle; }
 
+.table-row {
+  cursor: pointer; }
+
 body {
   background-color: #f0efef; }
 

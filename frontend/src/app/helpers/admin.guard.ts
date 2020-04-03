@@ -22,13 +22,12 @@ export class AdminGuard implements CanActivate {
 
         console.log(this.currentUserRole);
 
-        if (this.currentUserRole = "AD") {
+        if (this.currentUserRole == "AD") {
             // authorised so return true
             return true;
         }else{
-
         // not logged in so redirect to login page with the return url
-        this._router.navigate(['/myprofile'], { queryParams: { returnUrl: state.url }});
+        this._router.navigate(['/myprofile']);
         return false;
         }
     }

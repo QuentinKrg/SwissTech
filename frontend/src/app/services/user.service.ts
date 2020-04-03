@@ -48,6 +48,9 @@ export class UserService {
   getCustomer(user: string){
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetCustomerByUsername&username=' + user);
   }
+  getAllCustomers(){
+    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetAllCustomers') ;
+  }
   getShippingAddress(user: string){
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getShippingAddressByUser&username=' + user);
   }
