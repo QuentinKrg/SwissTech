@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order';
 import { Subject } from 'rxjs';
+import { PaymentOrder } from '../models/paymentorder';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ orderDetailSubject = new Subject<any[]>();
   }
   emitOrderDetailSubject(order){
     this.orderDetailSubject.next(order.slice());
+  }
+  
+  addNewOrder(paymentInfo: PaymentOrder) {
+    return this.http.post<PaymentOrder>(environment.backendURL + 'start.php?' + 'c=Orders&f=addOrder', paymentInfo);
   }
 }
