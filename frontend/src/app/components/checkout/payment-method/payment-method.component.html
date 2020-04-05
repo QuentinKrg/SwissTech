@@ -1,3 +1,11 @@
+<script type="text/javascript">
+    $(function () {
+        $('#card').keyup(function () {                     
+            var text = $.trim($(this).val());
+            $(".trimmed").html(text);
+        });
+    }); 
+</script>
 <!-- Adresse de payement client -->
 <p>Adresse de livraison</p>
 <div>
@@ -11,69 +19,104 @@
 <!-- Choix méthode de Paiement-->
 <h5>Paiement</h5>
 <p class="mt-0">Toutes les transactions sont sécurisées et chiffrées.</p>
-
-<div id="accordion">
-    <div class="card">
-      <div class="card-header" id="headingCarte">
-        <h5 class="mb-0">
-          <input type="radio" id="card" name="payment" data-toggle="collapse" data-target="#collapseCarte" aria-expanded="true" aria-controls="collapseCarte" checked>
-          <label for="card" class="pl-1">Paiement par carte</label>
-        </h5>
-      </div>
-  
-      <div id="collapseCarte" class="collapse show" aria-labelledby="headingCarte" data-parent="#accordion">
-        <div class="card-body">
-            <div>
-                <!-- N° de carte-->
-                <div class="form-group">
-                    <input placeholder="N° de carte" id="cardNumber" type="text" formControlName="cardNumber" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors || f.cardNumber.touched && f.cardNumber.errors}" />
-                </div>
-                <!-- Nom sur la carte-->
-                <div class="form-group">
-                    <input placeholder="Nom sur la carte" id="cardName" type="text" formControlName="cardName" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f.cardName.errors || f.cardName.touched && f.cardName.errors}" />
-                </div>
-                <!-- Date d'expiration-->
-                <div class="row">
-                    <div class="col-sm">
+<form (ngSubmit)="onSubmit()" [formGroup]="creditCardForm" class="form">
+    <div id="accordion">
+        <div class="card">
+        <div class="card-header" id="headingCarte">
+            <h5 class="mb-0">
+            <input type="radio" id="card" name="payment" data-toggle="collapse" data-target="#collapseCarte" aria-expanded="true" aria-controls="collapseCarte" checked>
+            <label for="card" class="pl-1">Paiement par carte</label>
+            </h5>
+        </div>
+    
+        <div id="collapseCarte" class="collapse show" aria-labelledby="headingCarte" data-parent="#accordion">
+            <div class="card-body">
+                
+                    <div>
+                        <!-- Numéro sur la carte -->
                         <div class="form-group">
-                            <input placeholder="Date d'expiration (MM/AA)" type="date" maxlength="100" formControlName="expirationDate" id="expirationDate"
-                                class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.expirationDate.errors  || f.expirationDate.touched && f.expirationDate.errors}" />
+                            <input placeholder="Numéro de carte" id="cardNumber" type="text" formControlName="cardNumber" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors || f.cardNumber.touched && f.cardNumber.errors}" />
+                        </div>
+                        <!-- Nom sur la carte-->
+                        <div class="form-group">
+                            <input placeholder="Nom sur la carte" id="cardName" type="text" formControlName="cardName" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.cardName.errors || f.cardName.touched && f.cardName.errors}" />
+                        </div>
+                        <!-- Date d'expiration-->
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <select class="form-control" formControlName="expirationMonthDate" autofocus
+                                        [ngClass]="{ 'is-invalid': submitted && f.expirationMonthDate.errors || f.expirationMonthDate.touched && f.expirationMonthDate.errors}">
+                                        <option value="" selected disabled>Mois</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="03">04</option>
+                                        <option value="03">05</option>
+                                        <option value="03">06</option>
+                                        <option value="03">07</option>
+                                        <option value="03">08</option>
+                                        <option value="03">09</option>
+                                        <option value="03">10</option>
+                                        <option value="03">11</option>
+                                        <option value="03">12</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <select class="form-control" formControlName="expirationYearDate" autofocus
+                                        [ngClass]="{ 'is-invalid': submitted && f.expirationYearDate.errors || f.expirationYearDate.touched && f.expirationYearDate.errors}">
+                                        <option value="" selected disabled>Année</option>
+                                        <option value="2020">20</option>
+                                        <option value="2021">21</option>
+                                        <option value="2022">22</option>
+                                        <option value="2023">23</option>
+                                        <option value="2024">24</option>
+                                        <option value="2025">25</option>
+                                        <option value="2026">26</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Code de sécurité-->
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <input placeholder="Code de sécurité" minlength="3" maxlength="3" formControlName="securityCode" class="form-control" id="securityCode"
+                                        [ngClass]="{ 'is-invalid': submitted && f.securityCode.errors ||
+                                                    f.securityCode.errors && f.securityCode.hasError('pattern') || f.securityCode.touched && f.securityCode.errors ||
+                                                    f.securityCode.touched && f.securityCode.hasError('minLength')}" />
+                                    <div class="invalid-feedback"
+                                        *ngIf="f.securityCode.touched && f.securityCode.hasError('pattern') ">
+                                        Uniquement des chiffres</div>
+                                    <div class="invalid-feedback"
+                                        *ngIf="f.securityCode.touched && f.securityCode.value.length<4 && f.securityCode.value.length!=0 ">
+                                        Au moins 3 chiffres</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- Code de sécurité-->
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <input placeholder="Code de sécurité" minlength="3" maxlength="3" formControlName="securityCode" class="form-control" id="securityCode"
-                                [ngClass]="{ 'is-invalid': submitted && f.securityCode.errors ||
-                                             f.securityCode.errors && f.securityCode.hasError('pattern') || f.securityCode.touched && f.securityCode.errors ||
-                                             f.securityCode.touched && f.securityCode.hasError('minLength')}" />
-                            <div class="invalid-feedback"
-                                *ngIf="f.securityCode.touched && f.securityCode.hasError('pattern') ">
-                                Uniquement des chiffres</div>
-                            <div class="invalid-feedback"
-                                *ngIf="f.securityCode.touched && f.securityCode.value.length<4 && f.securityCode.value.length!=0 ">
-                                Au moins 4 chiffres</div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="headingFacture">
-        <h5 class="mb-0">
-          <input type="radio" id="bill" name="payment" data-toggle="collapse" data-target="#collapseFacture" aria-expanded="false" aria-controls="collapseFacture">
-          <label for="bill" class="pl-1">Paiement par facture</label>
-        </h5>
-      </div>
-      <div id="collapseFacture" class="collapse" aria-labelledby="headingFacture" data-parent="#accordion">
-        <div class="card-body">
-          Les informations du paiement vous seront transmis par mail (ou pas)
         </div>
-      </div>
+        <div class="card">
+        <div class="card-header" id="headingFacture">
+            <h5 class="mb-0">
+            <input type="radio" id="bill" name="payment" data-toggle="collapse" data-target="#collapseFacture" aria-expanded="false" aria-controls="collapseFacture">
+            <label for="bill" class="pl-1">Paiement par facture</label>
+            </h5>
+        </div>
+        <div id="collapseFacture" class="collapse" aria-labelledby="headingFacture" data-parent="#accordion">
+            <div class="card-body">
+            Les informations du paiement vous seront transmis par mail (ou pas)
+            </div>
+        </div>
+        </div>
+        <button [disabled]="loading" class="btn btn-primary mt-3">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Payer maintenant
+        </button>
     </div>
-</div>
+</form>

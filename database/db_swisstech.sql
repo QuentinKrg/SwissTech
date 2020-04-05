@@ -2,7 +2,7 @@
 -- Hôte :                        127.0.0.1
 -- Version du serveur:           10.4.11-MariaDB - mariadb.org binary distribution
 -- SE du serveur:                Win64
--- HeidiSQL Version:             10.3.0.5771
+-- HeidiSQL Version:             10.2.0.5599
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -119,8 +119,8 @@ INSERT INTO `t_categories` (`id_Category`, `CategoryName`, `isActive`, `FK_Categ
 CREATE TABLE IF NOT EXISTS `t_comments` (
   `id_Comment` int(11) NOT NULL AUTO_INCREMENT,
   `CommentValue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CommentDate` datetime NOT NULL,
-  `isActive` tinyint(1) NOT NULL,
+  `CommentDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `isActive` tinyint(1) NOT NULL DEFAULT 1,
   `FK_Product` int(11) NOT NULL,
   `FK_Customer` int(11) NOT NULL,
   PRIMARY KEY (`id_Comment`),
@@ -128,9 +128,9 @@ CREATE TABLE IF NOT EXISTS `t_comments` (
   KEY `FK_Comment_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Comment_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Comment_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_comments : ~9 rows (environ)
+-- Listage des données de la table db_swisstech.t_comments : ~23 rows (environ)
 /*!40000 ALTER TABLE `t_comments` DISABLE KEYS */;
 INSERT INTO `t_comments` (`id_Comment`, `CommentValue`, `CommentDate`, `isActive`, `FK_Product`, `FK_Customer`) VALUES
 	(2, 'test', '2020-03-29 13:22:39', 1, 9, 25),
@@ -141,7 +141,23 @@ INSERT INTO `t_comments` (`id_Comment`, `CommentValue`, `CommentDate`, `isActive
 	(7, 'test 6', '2020-03-29 13:49:14', 1, 9, 25),
 	(8, 'test 7', '2020-03-29 13:50:49', 1, 9, 25),
 	(9, 'test', '2020-03-29 15:35:40', 1, 11, 25),
-	(10, 'test 2', '2020-03-29 15:37:36', 1, 11, 25);
+	(10, 'test 2', '2020-03-29 15:37:36', 1, 11, 25),
+	(13, 'adieu', '2020-04-02 08:28:10', 1, 6, 25),
+	(14, 'test', '2020-04-02 08:44:27', 1, 14, 25),
+	(15, 'test', '2020-04-02 09:13:47', 1, 4, 25),
+	(16, 'gang gang', '2020-04-02 09:14:01', 1, 4, 25),
+	(17, 'test', '2020-04-02 09:14:53', 1, 4, 25),
+	(18, 'lololol', '2020-04-02 09:15:14', 1, 4, 25),
+	(19, 'monstre mdr', '2020-04-02 09:15:34', 1, 4, 25),
+	(20, 'gang epsic', '2020-04-02 09:16:17', 1, 4, 25),
+	(21, 'adieu pénis', '2020-04-02 09:19:40', 1, 4, 25),
+	(22, 'testtestsetset', '2020-04-02 09:25:20', 1, 7, 25),
+	(23, 'Boule de shit', '0000-00-00 00:00:00', 0, 7, 25),
+	(24, 'Boule de shit', '2020-04-02 11:30:34', 1, 7, 25),
+	(25, 'Boule de shit', '2020-04-02 11:30:54', 1, 7, 25),
+	(26, 'LAst tests', '2020-04-02 11:33:33', 1, 7, 25),
+	(27, 'monstre commentaire', '2020-04-02 11:49:02', 1, 13, 25),
+	(28, 'kikou', '2020-04-02 11:53:20', 1, 11, 25);
 /*!40000 ALTER TABLE `t_comments` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_customers
@@ -224,20 +240,23 @@ CREATE TABLE IF NOT EXISTS `t_orders` (
   `id_Order` int(11) NOT NULL AUTO_INCREMENT,
   `OrderDate` datetime NOT NULL DEFAULT current_timestamp(),
   `FK_Status` int(11) NOT NULL DEFAULT 1,
+  `FK_PaymentMethod` int(11) NOT NULL,
   `FK_Customer` int(11) NOT NULL,
   PRIMARY KEY (`id_Order`),
   KEY `FK_Order_Status` (`FK_Status`),
   KEY `FK_Order_Customer` (`FK_Customer`),
+  KEY `FK_Order_PaymentMethod` (`FK_PaymentMethod`),
   CONSTRAINT `FK_Order_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
+  CONSTRAINT `FK_Order_PaymentMethod` FOREIGN KEY (`FK_PaymentMethod`) REFERENCES `t_paymentmethod` (`id_paymentmethod`),
   CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_orders : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
-INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_Customer`) VALUES
-	(1, '2020-03-23 11:56:10', 1, 25),
-	(2, '2020-03-24 16:52:12', 6, 25),
-	(3, '2020-03-28 11:29:01', 3, 26);
+INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`, `FK_Customer`) VALUES
+	(1, '2020-03-23 11:56:10', 1, 1, 25),
+	(2, '2020-03-24 16:52:12', 6, 1, 25),
+	(3, '2020-03-28 11:29:01', 3, 1, 26);
 /*!40000 ALTER TABLE `t_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_parameters
@@ -258,6 +277,7 @@ CREATE TABLE IF NOT EXISTS `t_parameters` (
 CREATE TABLE IF NOT EXISTS `t_paymentcustomer` (
   `id_Payment` int(11) NOT NULL AUTO_INCREMENT,
   `CardNumber` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CardName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CardCode` int(3) NOT NULL,
   `ExpiringDate` date NOT NULL,
   `FK_Customer` int(11) NOT NULL,
@@ -269,6 +289,21 @@ CREATE TABLE IF NOT EXISTS `t_paymentcustomer` (
 -- Listage des données de la table db_swisstech.t_paymentcustomer : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_paymentcustomer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_paymentcustomer` ENABLE KEYS */;
+
+-- Listage de la structure de la table db_swisstech. t_paymentmethod
+CREATE TABLE IF NOT EXISTS `t_paymentmethod` (
+  `id_paymentmethod` int(11) NOT NULL AUTO_INCREMENT,
+  `MethodName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MethodCode` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id_paymentmethod`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table db_swisstech.t_paymentmethod : ~2 rows (environ)
+/*!40000 ALTER TABLE `t_paymentmethod` DISABLE KEYS */;
+INSERT INTO `t_paymentmethod` (`id_paymentmethod`, `MethodName`, `MethodCode`) VALUES
+	(1, 'Carte de crédit', 'CC'),
+	(2, 'Facture', 'FAC');
+/*!40000 ALTER TABLE `t_paymentmethod` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_products
 CREATE TABLE IF NOT EXISTS `t_products` (
@@ -376,7 +411,7 @@ CREATE TABLE IF NOT EXISTS `t_shoppingcart` (
   PRIMARY KEY (`id_ShoppingCart`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_shoppingcart : ~1 rows (environ)
+-- Listage des données de la table db_swisstech.t_shoppingcart : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_shoppingcart` DISABLE KEYS */;
 INSERT INTO `t_shoppingcart` (`id_ShoppingCart`, `ShoppingCartDate`) VALUES
 	(1, '2020-03-20 11:53:53');
@@ -424,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `t_users` (
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddresse`, `FK_Role`, `FK_Customer`) VALUES
 	(29, 'chippo', 'f644e430863a66c3d1c698230bf841c87e9b77bddf7d85433fda5e7c20323fca', 'monsalt', 'da50a35e082371de4347082f4854fd99', '2020-03-17 17:58:10', 1, '', 1, 24),
-	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '9431c288da4e48f0133cce56943dc0f1', '2020-04-01 08:00:29', 1, '', 1, 25),
+	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '47d0a1d5552d4cc41d29bcaeec3f28d7', '2020-04-03 12:03:51', 1, '', 2, 25),
 	(31, 'Cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '6857bc107d97310aab8131f1875d3715', '2020-03-28 11:32:00', 1, '', 1, 26);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
