@@ -16,7 +16,7 @@ class Orders extends Entity
 		$orders = [];
 			if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
-				  $sql = "SELECT id_Order, tor.OrderDate, tst.StatusName,
+				  $sql = "SELECT id_Order, tor.OrderDate, tst.StatusName,tpm.MethodName,
 								(SELECT SUM(tpo.Quantity * tp.ProductUnitPrice) FROM
 								t_products_orders tpo
 								INNER JOIN t_products tp ON tp.id_Product = tpo.FK_Product
