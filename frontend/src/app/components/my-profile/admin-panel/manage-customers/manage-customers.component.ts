@@ -14,6 +14,7 @@ allCustomers: Customer[];
 @Input() indexOfCustomer: number;
 @Input() id_customer: number;
 @Input() CustomerLastName: string;
+@Input() isActive: boolean;
 
   constructor(
     private _userService: UserService,) { }

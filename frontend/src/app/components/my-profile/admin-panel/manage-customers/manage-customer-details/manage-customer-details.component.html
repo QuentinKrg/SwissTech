@@ -1,2 +1,37 @@
-<p>manage-customer-details works!</p>
-{{customer.id_customer}}
+
+<div class="p-3 shadow">
+    <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th scope="col">Numéro de client</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">actif</th>
+            <th scope="col">Modifier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr >
+            <th scope="row">{{customer.id_customer}}</th>
+            <td>{{customer.CustomerTitre | titlecase}}</td>
+            <td>{{customer.CustomerName | titlecase}}</td>
+            <td>{{customer.CustomerLastName | titlecase}}</td>
+            <td> <div class="custom-control custom-checkbox">
+                <input [value]="customer.isActive" id="checkbox_register" type="checkbox" class="custom-control-input">
+                <label for="checkbox_register" class="custom-control-label">
+                </label>
+            </div></td>
+            <td><button type="button"  
+                class="btn btn-outline-secondary"(click)="onCustomerDataChange()">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row p-3 mt-3" *ngIf="changeCustomerData">
+        <label for="Username">Nouveau nom d'utilisateur: * {{customer.isActive}}</label>
+    </div>
+</div>
+
