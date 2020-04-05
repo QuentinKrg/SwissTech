@@ -14,6 +14,8 @@ allCustomers: Customer[];
 @Input() indexOfCustomer: number;
 @Input() id_customer: number;
 @Input() CustomerLastName: string;
+@Input() isActive: number;
+
 
   constructor(
     private _userService: UserService,) { }
@@ -24,6 +26,8 @@ allCustomers: Customer[];
       (data : Customer[]) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         this.allCustomers = data;
         console.log(this.allCustomers);
+       
+        
         
       },
       (error) => {

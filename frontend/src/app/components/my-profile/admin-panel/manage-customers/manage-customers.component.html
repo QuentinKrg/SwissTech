@@ -1,13 +1,21 @@
-<table class="table table-hover table-sm mt-3">
-    <tr><th scope="col">Numéro de client</th>
-        <th scope="col">Titre</th>
-        <th scope="col">Prénom</th>
-        <th scope="col">Nom</th></tr>
-     <tr scope="row" class="table-row" [routerLink]="['/myprofile/manage-customer-details', customer.id_customer]" *ngFor="let customer of allCustomers;
-     let i = index">
-        <td >{{customer.id_customer}}</td>
-        <td >{{customer.CustomerTitre}}</td>
-        <td>{{customer.CustomerName}}</td>
-        <td >{{customer.CustomerLastName}}</td>
-    </tr>
-</table>
+<div class="p-3">
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Numéro de client</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cursorPointer" [routerLink]="['/myprofile/manage-customer-details', customer.id_customer]"
+           *ngFor="let customer of allCustomers; let i = index">
+            <th scope="row">{{customer.id_customer}}</th>
+            <td>{{customer.CustomerTitre | titlecase}}</td>
+            <td>{{customer.CustomerName | titlecase}}</td>
+            <td>{{customer.CustomerLastName | titlecase}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>

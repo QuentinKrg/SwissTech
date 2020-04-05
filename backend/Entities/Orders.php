@@ -22,6 +22,7 @@ class Orders extends Entity
 								INNER JOIN t_products tp ON tp.id_Product = tpo.FK_Product
 								WHERE tpo.FK_Order = id_Order) TotalOrder
 									FROM t_orders tor
+									INNER JOIN t_paymentmethod tpm ON tpm.id_paymentmethod = tor.FK_PaymentMethod
 									INNER JOIN t_status tst ON tst.id_Status = tor.FK_Status
 									WHERE tor.FK_Customer = (SELECT fk_customer FROM t_users WHERE Username = '$currentUsername')";
 				  $tmpResult =($this->Query($sql));
@@ -35,6 +36,7 @@ class Orders extends Entity
 						  $orders[$cr]['OrderDate'] = $row['OrderDate'];
 						  $orders[$cr]['StatusName'] = $row['StatusName'];
 						  $orders[$cr]['TotalOrder'] = $row ['TotalOrder'];
+						  $orders[$cr]['MethodName'] = $row ['MethodName'];
 						  $cr++;
 						}
 						// echo de la liste des articles

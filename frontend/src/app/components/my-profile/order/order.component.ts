@@ -17,6 +17,7 @@ export class OrderComponent implements OnInit {
   @Input() indexOfOrder: number;
   @Input() OrderID: number;
   @Input() TotalOrder: number;
+  @Input() MethodName:string;
   
   
   currentUsername = this.authenticationService.currentUserValue.login;

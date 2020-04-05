@@ -11,6 +11,8 @@ import { Customer } from 'src/app/models/customer';
 export class ManageCustomerDetailsComponent implements OnInit {
   customer: Customer;
   customerId: number;
+  changeCustomerData= false;
+
   constructor(
     private _route: ActivatedRoute,
     private _userService: UserService) {
@@ -27,8 +29,15 @@ export class ManageCustomerDetailsComponent implements OnInit {
     .subscribe(data => {
       this.customer = data as Customer;
       console.log(this.customer);
-      
     });
   }
-
+  onCustomerDataChange() {
+    if (!this.changeCustomerData) {
+      this.changeCustomerData = true;
+    } else {
+      this.changeCustomerData = false;
+    }
+    return this.changeCustomerData;
+    
+  }
 }
