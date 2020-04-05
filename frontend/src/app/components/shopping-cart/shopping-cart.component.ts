@@ -29,16 +29,23 @@ export class ShoppingCartComponent implements OnInit {
    ngOnInit() {
     // Récupérer les éléments présents dans le panier dans "cart" du service "dataService"
     this._dataService.cart.subscribe(a => this.cart = a);
-
+    
     // Récupérer les informations des articles grâce au panier
-    this.getCartProductItem(this.cart);
+    if(this.cart.length > 0) {
+      this.getCartProductItem(this.cart);
+    }
+
   }
 
   ngAfterViewInit(){
     // Attendre avant d'appeler le total du panier
-    setTimeout( ()=>{
-    this.getTotal();
-    }, 100)
+    if(this.cart.length > 0) {
+      setTimeout( ()=>{
+        this.getTotal();
+        }, 100)
+    }
+    
+    
   }
 
   // Récupération et stockage des produits en base données

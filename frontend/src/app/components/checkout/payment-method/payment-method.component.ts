@@ -104,11 +104,16 @@ export class PaymentMethodComponent implements OnInit {
     
     
     this._orderService.addNewOrder(paymentOrder).subscribe(() => {
-      this.cart = null;
-
+      // Clear et update le cart
+      this.cart.length = 0;
+      this.cart = [];
       this._dataService.updateCartItemCount(0);
+      this._dataService.updateShoppingCart(this.cart);
       localStorage.removeItem('Cart');
       localStorage.removeItem('ProductsInTheCart');
+
+
+      // Redirection
       this._router.navigate(['/']);
     });
 
