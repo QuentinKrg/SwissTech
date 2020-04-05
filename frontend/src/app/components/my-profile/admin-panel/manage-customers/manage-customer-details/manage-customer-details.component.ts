@@ -12,6 +12,7 @@ export class ManageCustomerDetailsComponent implements OnInit {
   customer: Customer;
   customerId: number;
   changeCustomerData= false;
+
   constructor(
     private _route: ActivatedRoute,
     private _userService: UserService) {
@@ -28,7 +29,6 @@ export class ManageCustomerDetailsComponent implements OnInit {
     .subscribe(data => {
       this.customer = data as Customer;
       console.log(this.customer);
-      
     });
   }
   onCustomerDataChange() {

@@ -10,4 +10,5 @@ Quantity: number;
 CourantUnitPrice: Float32Array;
 TotalPrice: Float32Array;
 TotalOrder: number;
+MethodName: string;
 }
