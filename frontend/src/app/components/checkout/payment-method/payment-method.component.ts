@@ -48,11 +48,11 @@ export class PaymentMethodComponent implements OnInit {
     
     
     this.creditCardForm = this._formBuilder.group({
-        cardNumber: ['', [Validators.required, Validators.pattern('')]],
+        cardNumber: ['', [Validators.required, Validators.pattern('[0-9 ]*'), Validators.minLength(19), Validators.maxLength(19)]],
         cardName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
         expirationMonthDate: ['', Validators.required],
         expirationYearDate: ['', Validators.required],
-        securityCode: ['', [Validators.required, Validators.pattern('[0-9 ]*'), Validators.minLength(3), Validators.maxLength(3)]]
+        securityCode: ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(3), Validators.maxLength(3)]]
     });
     
     
@@ -67,13 +67,24 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   get f() { return this.creditCardForm.controls; }
+onFormatCardNumber(){
+  const numbvalue = <HTMLInputElement>document.getElementById("cardNumber");
+  console.log('test');
+  console.log(numbvalue);
+    if (numbvalue.value.length==4 || numbvalue.value.length==9 ||numbvalue.value.length==14){
+    numbvalue.value = numbvalue.value +" ";
+    }
+}
+  
+   
 
   onSubmit()
   {    
+    this.submitted=true;
     if(this.radioCard.checked && !this.radioBill.checked) {
       // Stop si le formulaire n'est pas correctement rempli
       // TODO modifié le test
-      if (!this.creditCardForm.invalid) {
+      if (this.creditCardForm.invalid) {
         console.log("test 1");
         this.formError = true;
         this.formErrorMessage="Veuillez remplir correctement tous les champs marqués d'un *";

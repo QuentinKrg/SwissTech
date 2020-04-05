@@ -35,12 +35,20 @@
                     <div>
                         <!-- Numéro sur la carte -->
                         <div class="form-group">
-                            <input placeholder="Numéro de carte" id="cardNumber" type="text" formControlName="cardNumber" class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors || f.cardNumber.touched && f.cardNumber.errors}" />
+                            <input (keyup)="onFormatCardNumber()" maxlength="19" onkeydown="if(event.keyCode==32) return false;" placeholder="Numéro de carte *" 
+                            id="cardNumber" type="text" formControlName="cardNumber" class="form-control" autofocus
+                                [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors || f.cardNumber.touched && f.cardNumber.errors ||
+                                 f.cardNumber.hasError('pattern')}" />
+                                <div *ngIf=" f.cardNumber.hasError('pattern')" class="invalid-feedback">
+                                    Uniquement des chiffres
+                                </div>
+                                <div class="invalid-feedback"
+                                *ngIf="f.cardNumber.touched && f.cardNumber.value.length<19 && f.cardNumber.value.length!=0 ">
+                                Au moins 16 chiffres</div>
                         </div>
                         <!-- Nom sur la carte-->
                         <div class="form-group">
-                            <input placeholder="Nom sur la carte" id="cardName" type="text" formControlName="cardName" class="form-control"
+                            <input placeholder="Nom sur la carte *" id="cardName" type="text" formControlName="cardName" class="form-control" autofocus
                                 [ngClass]="{ 'is-invalid': submitted && f.cardName.errors || f.cardName.touched && f.cardName.errors}" />
                         </div>
                         <!-- Date d'expiration-->
@@ -49,7 +57,7 @@
                                 <div class="form-group">
                                     <select class="form-control" formControlName="expirationMonthDate" autofocus
                                         [ngClass]="{ 'is-invalid': submitted && f.expirationMonthDate.errors || f.expirationMonthDate.touched && f.expirationMonthDate.errors}">
-                                        <option value="" selected disabled>Mois</option>
+                                        <option value="" selected disabled>Mois*</option>
                                         <option value="01">01</option>
                                         <option value="02">02</option>
                                         <option value="03">03</option>
@@ -69,7 +77,7 @@
                                 <div class="form-group">
                                     <select class="form-control" formControlName="expirationYearDate" autofocus
                                         [ngClass]="{ 'is-invalid': submitted && f.expirationYearDate.errors || f.expirationYearDate.touched && f.expirationYearDate.errors}">
-                                        <option value="" selected disabled>Année</option>
+                                        <option value="" selected disabled>Année*</option>
                                         <option value="2020">20</option>
                                         <option value="2021">21</option>
                                         <option value="2022">22</option>
@@ -83,21 +91,21 @@
                             <!-- Code de sécurité-->
                             <div class="col-sm">
                                 <div class="form-group">
-                                    <input placeholder="Code de sécurité" minlength="3" maxlength="3" formControlName="securityCode" class="form-control" id="securityCode"
+                                    <input placeholder="Code de sécurité *" minlength="3" maxlength="3" formControlName="securityCode" class="form-control" id="securityCode"
                                         [ngClass]="{ 'is-invalid': submitted && f.securityCode.errors ||
                                                     f.securityCode.errors && f.securityCode.hasError('pattern') || f.securityCode.touched && f.securityCode.errors ||
                                                     f.securityCode.touched && f.securityCode.hasError('minLength')}" />
                                     <div class="invalid-feedback"
-                                        *ngIf="f.securityCode.touched && f.securityCode.hasError('pattern') ">
+                                        *ngIf=" f.securityCode.hasError('pattern') ">
                                         Uniquement des chiffres</div>
                                     <div class="invalid-feedback"
-                                        *ngIf="f.securityCode.touched && f.securityCode.value.length<4 && f.securityCode.value.length!=0 ">
+                                        *ngIf="f.securityCode.touched && f.securityCode.value.length<3 && f.securityCode.value.length!=0 ">
                                         Au moins 3 chiffres</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                
+                    <div *ngIf="formError" class="p-3 mb-2 bg-danger text-white text-center">{{formErrorMessage}}</div>
             </div>
         </div>
         </div>
