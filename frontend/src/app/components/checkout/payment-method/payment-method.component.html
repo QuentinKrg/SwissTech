@@ -35,7 +35,7 @@
                     <div>
                         <!-- Numéro sur la carte -->
                         <div class="form-group">
-                            <input (keyup)="onFormatCardNumber()" maxlength="19" onkeydown="if(event.keyCode==32) return false;" placeholder="Numéro de carte *" 
+                            <input (keypress)="onFormatCardNumber()" maxlength="19" onkeydown="if(event.keyCode==32) return false;" placeholder="Numéro de carte *" 
                             id="cardNumber" type="text" formControlName="cardNumber" class="form-control" autofocus
                                 [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors || f.cardNumber.touched && f.cardNumber.errors ||
                                  f.cardNumber.hasError('pattern')}" />
