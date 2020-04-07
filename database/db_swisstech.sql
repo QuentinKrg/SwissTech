@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `t_comments` (
   KEY `FK_Comment_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Comment_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Comment_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_comments : ~23 rows (environ)
 /*!40000 ALTER TABLE `t_comments` DISABLE KEYS */;
@@ -157,7 +157,8 @@ INSERT INTO `t_comments` (`id_Comment`, `CommentValue`, `CommentDate`, `isActive
 	(25, 'Boule de shit', '2020-04-02 11:30:54', 1, 7, 25),
 	(26, 'LAst tests', '2020-04-02 11:33:33', 1, 7, 25),
 	(27, 'monstre commentaire', '2020-04-02 11:49:02', 1, 13, 25),
-	(28, 'kikou', '2020-04-02 11:53:20', 1, 11, 25);
+	(28, 'kikou', '2020-04-02 11:53:20', 1, 11, 25),
+	(29, 'pas foufou tout ça ', '2020-04-05 15:24:04', 1, 14, 25);
 /*!40000 ALTER TABLE `t_comments` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_customers
@@ -249,14 +250,23 @@ CREATE TABLE IF NOT EXISTS `t_orders` (
   CONSTRAINT `FK_Order_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Order_PaymentMethod` FOREIGN KEY (`FK_PaymentMethod`) REFERENCES `t_paymentmethod` (`id_paymentmethod`),
   CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_orders : ~3 rows (environ)
+-- Listage des données de la table db_swisstech.t_orders : ~5 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
 INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`, `FK_Customer`) VALUES
-	(1, '2020-03-23 11:56:10', 1, 1, 25),
-	(2, '2020-03-24 16:52:12', 6, 1, 25),
-	(3, '2020-03-28 11:29:01', 3, 1, 26);
+	(37, '2020-04-05 15:21:36', 1, 2, 25),
+	(38, '2020-04-05 15:24:47', 1, 2, 25),
+	(39, '2020-04-07 08:11:01', 1, 2, 25),
+	(40, '2020-04-07 08:13:58', 1, 1, 25),
+	(41, '2020-04-07 08:17:01', 1, 1, 25),
+	(42, '2020-04-07 08:37:50', 1, 1, 25),
+	(43, '2020-04-07 08:40:50', 1, 1, 25),
+	(44, '2020-04-07 08:41:35', 1, 1, 25),
+	(45, '2020-04-07 08:42:03', 1, 1, 25),
+	(46, '2020-04-07 08:42:26', 1, 1, 25),
+	(47, '2020-04-07 08:43:13', 1, 1, 25),
+	(48, '2020-04-07 08:56:13', 1, 1, 25);
 /*!40000 ALTER TABLE `t_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_parameters
@@ -281,13 +291,18 @@ CREATE TABLE IF NOT EXISTS `t_paymentcustomer` (
   `CardCode` int(3) NOT NULL,
   `ExpiringDate` date NOT NULL,
   `FK_Customer` int(11) NOT NULL,
+  `FK_Order` int(11) NOT NULL,
   PRIMARY KEY (`id_Payment`),
   KEY `FK_Payment_Customer` (`FK_Customer`),
-  CONSTRAINT `FK_Payment_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`)
+  KEY `FK_Payment_Order` (`FK_Order`),
+  CONSTRAINT `FK_Payment_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
+  CONSTRAINT `FK_Payment_Order` FOREIGN KEY (`FK_Order`) REFERENCES `t_orders` (`id_Order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_paymentcustomer : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_paymentcustomer` DISABLE KEYS */;
+INSERT INTO `t_paymentcustomer` (`id_Payment`, `CardNumber`, `CardName`, `CardCode`, `ExpiringDate`, `FK_Customer`, `FK_Order`) VALUES
+	(5, '7894 4567 4567 4569', 'Quentin Krenger', 132, '2024-03-01', 25, 48);
 /*!40000 ALTER TABLE `t_paymentcustomer` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_paymentmethod
@@ -377,16 +392,22 @@ CREATE TABLE IF NOT EXISTS `t_products_orders` (
   CONSTRAINT `FK_ProductOrder_Order` FOREIGN KEY (`FK_Order`) REFERENCES `t_orders` (`id_Order`),
   CONSTRAINT `FK_ProductOrder_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`),
   CONSTRAINT `FK_ProductOrder_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_orders : ~5 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_orders : ~6 rows (environ)
 /*!40000 ALTER TABLE `t_products_orders` DISABLE KEYS */;
 INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPrice`, `FK_Product`, `FK_Order`, `FK_ShoppingCart`) VALUES
-	(3, 2, 349.00, 9, 1, 1),
-	(4, 3, 419.00, 4, 1, NULL),
-	(5, 3, 9.00, 13, 2, NULL),
-	(6, 1, 159.00, 12, 3, NULL),
-	(7, 3, 259.00, 10, 3, NULL);
+	(51, 3, 1379.00, 7, 37, NULL),
+	(52, 2, 379.00, 11, 37, NULL),
+	(53, 2, 419.00, 4, 38, NULL),
+	(54, 1, 1379.00, 7, 39, NULL),
+	(55, 1, 379.00, 11, 40, NULL),
+	(56, 1, 299.00, 6, 41, NULL),
+	(57, 1, 349.00, 9, 42, NULL),
+	(58, 1, 419.00, 4, 43, NULL),
+	(59, 1, 419.00, 4, 46, NULL),
+	(60, 1, 419.00, 4, 47, NULL),
+	(61, 1, 9.00, 13, 48, NULL);
 /*!40000 ALTER TABLE `t_products_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_roles
@@ -444,7 +465,7 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   `Token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `TokenValidity` datetime NOT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT 1,
-  `IpAddresse` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `IpAddress` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `FK_Role` int(11) NOT NULL DEFAULT 1,
   `FK_Customer` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
@@ -457,9 +478,9 @@ CREATE TABLE IF NOT EXISTS `t_users` (
 
 -- Listage des données de la table db_swisstech.t_users : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
-INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddresse`, `FK_Role`, `FK_Customer`) VALUES
+INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddress`, `FK_Role`, `FK_Customer`) VALUES
 	(29, 'chippo', 'f644e430863a66c3d1c698230bf841c87e9b77bddf7d85433fda5e7c20323fca', 'monsalt', 'da50a35e082371de4347082f4854fd99', '2020-03-17 17:58:10', 1, '', 1, 24),
-	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '47d0a1d5552d4cc41d29bcaeec3f28d7', '2020-04-03 12:03:51', 1, '', 2, 25),
+	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b31d91c5b2a7afee6fc6296a77057d76', '2020-04-05 15:13:52', 1, '', 2, 25),
 	(31, 'Cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '6857bc107d97310aab8131f1875d3715', '2020-03-28 11:32:00', 1, '', 1, 26);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
