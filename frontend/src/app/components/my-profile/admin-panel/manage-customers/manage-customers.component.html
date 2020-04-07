@@ -1,21 +1,23 @@
 <div class="p-3">
+  <div class="table-responsive">
     <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Numéro de client</th>
-            <th scope="col">Titre</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="cursorPointer" [routerLink]="['/myprofile/manage-customer-details', customer.id_customer]"
-           *ngFor="let customer of allCustomers; let i = index">
-            <th scope="row">{{customer.id_customer}}</th>
-            <td>{{customer.CustomerTitre | titlecase}}</td>
-            <td>{{customer.CustomerName | titlecase}}</td>
-            <td>{{customer.CustomerLastName | titlecase}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <thead>
+        <tr>
+          <th scope="col">Numéro de client</th>
+          <th scope="col">Titre</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Nom</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cursorPointer" [routerLink]="['/myprofile/manage-customer-details', customer.id_customer]"
+         *ngFor="let customer of allCustomers; let i = index">
+          <th scope="row">{{customer.id_customer}}</th>
+          <td>{{customer.CustomerTitre | titlecase}}</td>
+          <td>{{customer.CustomerName | titlecase}}</td>
+          <td>{{customer.CustomerLastName | titlecase}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

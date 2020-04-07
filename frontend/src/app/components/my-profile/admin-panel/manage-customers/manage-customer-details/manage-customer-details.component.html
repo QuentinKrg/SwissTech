@@ -1,81 +1,116 @@
-
-<div class="p-3 shadow">
-    <table class="table table-hover text-center">
-        <thead>
-          <tr>
-            <th scope="col">Numéro de client</th>
-            <th scope="col">Titre</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
-            <th scope="col">actif</th>
-            <th scope="col">Modifier</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr >
-            <th scope="row">{{customer.id_customer}}</th>
-            <td>{{customer.CustomerTitre | titlecase}}</td>
-            <td>{{customer.CustomerName | titlecase}}</td>
-            <td>{{customer.CustomerLastName | titlecase}}</td>
-            <td> <div class="custom-control custom-checkbox">
-                <input [checked]="customer.isActive==1" id="checkbox_isActive" type="checkbox" class="custom-control-input">
-                <label for="checkbox_isActive" class="custom-control-label">
-                </label>
-            </div></td>
-            <td><button type="button"  
-                class="btn btn-outline-secondary"(click)="onCustomerDataChange()">
-                    <i class="fas fa-edit"></i>
-                </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="row p-3 mt-3" *ngIf="changeCustomerData">
-        <div class="p-4 shadow-sm">
-            <!-- Titre-->
-            <div class="form-group">
-                <label for="CustomerTitre">Titre *</label>
-                <select class="form-control" formControlName="CustomerTitre" autofocus
-                    [ngClass]="{ 'is-invalid': submitted && f.CustomerTitre.errors || f.CustomerTitre.touched && f.CustomerTitre.errors}">
-                    <option value="" selected disabled>Veuillez choisir</option>
-                    <option value="Mme">Mme</option>
-                    <option value="Mr">Mr</option>
-                    <option value="NB">Non binaire</option>
-                </select>
-            </div>
-
-            <!-- First name-->
-            <div class="row">
-                <div class="col-sm">
-                    <div class="form-group">
-                        <label for="CustomerName">Prénom *</label>
-                        <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
-                        <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
-                            Uniquement des lettres et des espaces</div>
-                    </div>
+<div class="text-right">
+    <button type="button" [ngClass]="customer.isActive  ? 'btn-danger' : 'btn-success'"
+    (click)="onUnableUser()" class="btn"> 
+    <a *ngIf="customer.isActive">Désactiver</a>
+    <a *ngIf="!customer.isActive">Activer</a></button>
+</div>
+<div class="p-3 shadow mb-4">
+    <h5>Aperçu</h5>
+    <div class="p-3">
+        Client ....
+    </div>
+    <div class="p-3">
+        Status: <a *ngIf="!customer.isActive">Désactivé</a>
+        <a *ngIf="customer.isActive">Activé</a>
+    </div>
+    <div class="p-3">
+        Client depuis 01.01.2000
+    </div >
+    <div class="p-3">
+        A commandé x fois
+    </div>
+    <div class="p-3">
+        Adresse IP
+    </div>
+</div>
+<div class="p-3 shadow mb-4">
+    <h5>Données personnelles</h5>
+    <div class="table-responsive">
+        <table class="table table-hover text-center">
+            <thead>
+              <tr>
+                <th scope="col">Numéro de client</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Date de naissance</th>
+                <th scope="col">Modifier</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr >
+                <th scope="row">{{customer.id_customer}}</th>
+                <td>{{customer.CustomerTitre | titlecase}}</td>
+                <td>{{customer.CustomerName | titlecase}}</td>
+                <td>{{customer.CustomerLastName | titlecase}}</td>
+                <td> {{customer.CustomerBirthday | date: 'dd/MM/yyyy' }}</td>
+                <td><button type="button"  
+                    class="btn btn-outline-secondary"(click)="onCustomerDataChange()">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row p-3 mt-3" *ngIf="changeCustomerData">
+            <div class="p-4 shadow-sm">
+                <!-- Titre-->
+                <div class="form-group">
+                    <label for="CustomerTitre">Titre *</label>
+                    <select class="form-control" formControlName="CustomerTitre" autofocus
+                        [ngClass]="{ 'is-invalid': submitted && f.CustomerTitre.errors || f.CustomerTitre.touched && f.CustomerTitre.errors}">
+                        <option value="" selected disabled>Veuillez choisir</option>
+                        <option value="Mme">Mme</option>
+                        <option value="Mr">Mr</option>
+                        <option value="NB">Non binaire</option>
+                    </select>
                 </div>
-                <!-- Last name-->
-                <div class="col-sm">
-                    <div class="form-group">
-                        <label for="CustomerLastName">Nom *</label>
-                        <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
-                        <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
-                            Uniquement des lettres et des espaces</div>
+    
+                <!-- First name-->
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="CustomerName">Prénom *</label>
+                            <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
+                            <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
+                                Uniquement des lettres et des espaces</div>
+                        </div>
                     </div>
+                    <!-- Last name-->
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="CustomerLastName">Nom *</label>
+                            <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
+                            <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
+                                Uniquement des lettres et des espaces</div>
+                        </div>
+                    </div>
+    
                 </div>
-
-            </div>
-
-            <!-- Birthday date-->
-            <div class="form-group">
-                <label for="CustomerBirthday">Date de naissance *</label>
-                <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
-                    placeholder=""
-                    [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
+    
+                <!-- Birthday date-->
+                <div class="form-group">
+                    <label for="CustomerBirthday">Date de naissance *</label>
+                    <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
+                        placeholder=""
+                        [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
+                </div>
             </div>
         </div>
     </div>
+    
 </div>
-
+<div class="p-3 shadow  mb-4">
+    <h5>Informations de contact</h5>
+    
+</div>
+<div class="p-3 shadow  mb-4">
+    <h5>Identifiants</h5>
+    
+</div>
+<div class="p-3 shadow  mb-4">
+    <h5>Commandes</h5>
+    
+</div>

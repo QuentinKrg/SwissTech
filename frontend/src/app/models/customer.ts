@@ -1,4 +1,5 @@
 export class Customer {
+    id_user:number;
     id_customer: number;
     CustomerTitre: string;
     CustomerName: string;

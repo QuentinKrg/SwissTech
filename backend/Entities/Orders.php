@@ -24,7 +24,8 @@ class Orders extends Entity
 									FROM t_orders tor
 									INNER JOIN t_paymentmethod tpm ON tpm.id_paymentmethod = tor.FK_PaymentMethod
 									INNER JOIN t_status tst ON tst.id_Status = tor.FK_Status
-									WHERE tor.FK_Customer = (SELECT fk_customer FROM t_users WHERE Username = '$currentUsername')";
+									WHERE tor.FK_Customer = (SELECT fk_customer FROM t_users WHERE Username = '$currentUsername')
+									ORDER BY id_order";
 				  $tmpResult =($this->Query($sql));
 
 				  if($tmpResult->rowCount() > 0) {

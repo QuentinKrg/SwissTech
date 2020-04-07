@@ -93,6 +93,7 @@ class User extends Entity
   // Création d'un token
   private function CreateToken($login)
   {
+	  
     // Création du token
     $token = md5(bin2hex(random_bytes(10)));
 
@@ -108,7 +109,23 @@ class User extends Entity
     $this->Query($sql);
     return $token;
   }
+  public function UpdateUserStatus(){
+	  $userID = $this->jsonToProcess->id_user;
+	  $userStatus = $this->jsonToProcess->isActive;
+	
+					//Update
+				$updateUserStatus = "UPDATE
+										t_users
+									SET
+										t_users.isActive = '$userStatus'
+									WHERE
+										t_users.id_user = '$userID'";
+				$this->Query($updateUserStatus);
+			
+			 
+	}
 }
+	
 
 
  ?>

@@ -13,6 +13,7 @@ allCustomers: Customer[];
 @Input() CustomerName: string;
 @Input() indexOfCustomer: number;
 @Input() id_customer: number;
+@Input() id_user: number;
 @Input() CustomerLastName: string;
 @Input() isActive: number;
 

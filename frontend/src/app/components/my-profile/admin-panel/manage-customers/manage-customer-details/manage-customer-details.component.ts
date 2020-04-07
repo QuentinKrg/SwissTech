@@ -40,4 +40,21 @@ export class ManageCustomerDetailsComponent implements OnInit {
     return this.changeCustomerData;
     
   }
+  onUnableUser(){
+    console.log(this.customer);
+    if(this.customer.isActive){
+      this.customer.isActive = false;
+    }else{
+    this.customer.isActive = true;
+    }
+    this._userService.updateUserStatus(this.customer)
+    .then(
+      () => {
+      },  
+      //en cas d'erreur
+      (error) => {
+        console.log(error);
+        return;
+      });
+  }
 }

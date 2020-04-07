@@ -251,6 +251,7 @@ class Customer extends Entity
         $cr = 0;
         while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
           $customers[$cr]['id_customer'] = $row['id_customer'];
+		  $customers[$cr]['id_user'] = $row['id_user'];
           $customers[$cr]['CustomerTitre'] = $row['CustomerTitre'];
           $customers[$cr]['CustomerName'] = $row['CustomerName'];
           $customers[$cr]['CustomerLastName'] = $row['CustomerLastName'];

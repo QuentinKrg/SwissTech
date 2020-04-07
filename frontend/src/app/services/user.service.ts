@@ -89,4 +89,19 @@ export class UserService {
       }
     );
   }
+  updateUserStatus(customer: Customer) {
+    
+    return new Promise(
+      (resolve, reject) => {
+        return this.http.post<Customer>(environment.backendURL + 'start.php?' + 'c=User&f=UpdateUserStatus',customer).toPromise().then(
+          () => {
+            resolve();
+          },
+          (error) => {
+            reject(error)
+          }
+        );
+      }
+    );
+  }
 }
