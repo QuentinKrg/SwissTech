@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order';
 import { Subject } from 'rxjs';
 import { PaymentOrder } from '../models/paymentorder';
+import { CreditCard } from '../models/creditcard';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,9 @@ orderDetailSubject = new Subject<any[]>();
   
   addNewOrder(paymentInfo: PaymentOrder) {
     return this.http.post<PaymentOrder>(environment.backendURL + 'start.php?' + 'c=Orders&f=addOrder', paymentInfo);
+  }
+
+  addCreditCard(creditCard: CreditCard) {
+    return this.http.post<CreditCard>(environment.backendURL + 'start.php?' + 'c=Orders&f=addCreditCard', creditCard);
   }
 }

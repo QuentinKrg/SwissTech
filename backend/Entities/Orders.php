@@ -123,5 +123,35 @@ class Orders extends Entity
     }
   }
 
+  // Ajout d'une carte de crédit
+  public function addCreditCard() {
+    if($this->jsonToProcess !=null)
+    {
+      $cardNumber = $this->jsonToProcess->cardNumber;
+      $cardName = $this->jsonToProcess->cardName;
+      $cardCode = $this->jsonToProcess->cardCode;
+      $expirationMonthDate = $this->jsonToProcess->expirationMonthDate;
+      $expirationYearDate = $this->jsonToProcess->expirationYearDate;
+      $id_client = $this->jsonToProcess->id_client;
+
+      // Récupérer l'id customer du client
+      $getFKCustomerByUserId = "SELECT t_users.FK_Customer FROM t_users WHERE t_users.id_user = '$id_client' LIMIT 1";
+      $FK_Customer = ($this->Query($getFKCustomerByUserId)->fetchColumn());
+
+      // Récupérer l'id de la commande crée à l'instant
+      $getOrderId ="SELECT t_orders.id_Order FROM t_orders WHERE t_orders.FK_Customer = '$FK_Customer'
+                    ORDER BY t_orders.OrderDate DESC LIMIT 1";
+      $orderId = ($this->Query($getOrderId)->fetchColumn());
+
+      // Date d'expiration
+      $dateToAdd = $expirationYearDate."-".$expirationMonthDate."-1";
+
+      // Insert dans la table "t_paymentcustomer" : CardNumber, CardName, CardCode, ExpirationdAte, FK_Customer, FK_Order
+      $sql = "INSERT INTO t_paymentcustomer (t_paymentcustomer.CardNumber,t_paymentcustomer.CardName,t_paymentcustomer.CardCode,t_paymentcustomer.ExpiringDate,t_paymentcustomer.FK_Customer,t_paymentcustomer.FK_Order)
+              VALUES ('$cardNumber', '$cardName', $cardCode, '$dateToAdd', $FK_Customer, $orderId)";
+      $this->Query($sql);
+    }
+  }
+
 }
  ?>

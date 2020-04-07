@@ -9,6 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { OrdersService } from 'src/app/services/orders.service';
 import { Router } from '@angular/router';
+import { CreditCard } from 'src/app/models/creditcard';
 
 @Component({
   selector: 'app-payment-method',
@@ -66,17 +67,17 @@ export class PaymentMethodComponent implements OnInit {
 
   }
 
+  // Retourne la validation du formulaire
   get f() { return this.creditCardForm.controls; }
-onFormatCardNumber(){
-  const numbvalue = <HTMLInputElement>document.getElementById("cardNumber");
-  console.log('test');
-  console.log(numbvalue);
-    if (numbvalue.value.length==4 || numbvalue.value.length==9 ||numbvalue.value.length==14){
-    numbvalue.value = numbvalue.value +" ";
-    }
-}
+
+  // Formatage de la carte de crédit
+  onFormatCardNumber(){
+    const numbvalue = <HTMLInputElement>document.getElementById("cardNumber");
+      if (numbvalue.value.length==4 || numbvalue.value.length==9 ||numbvalue.value.length==14){
+        numbvalue.value = numbvalue.value +" ";
+      }
+  }
   
-   
 
   onSubmit()
   {    
@@ -110,11 +111,29 @@ onFormatCardNumber(){
       paymentOrder.paymentMethodCode="FAC"; 
     }
 
+    
+
     // Panier du client
     paymentOrder.shoppingCart = this.cart;
     
-    
+    // Création de la commande
     this._orderService.addNewOrder(paymentOrder).subscribe(() => {
+
+
+      // Insertion des infortmation de la carte de crédit si besoin
+      if(this.radioCard.checked && this.creditCardForm.valid) {
+        
+        let creditCard = new CreditCard;
+        creditCard.cardNumber = this.creditCardForm.value.cardNumber;
+        creditCard.cardName = this.creditCardForm.value.cardName;
+        creditCard.cardCode = this.creditCardForm.value.securityCode;
+        creditCard.expirationMonthDate = this.creditCardForm.value.expirationMonthDate;
+        creditCard.expirationYearDate = this.creditCardForm.value.expirationYearDate;
+        creditCard.id_client = this.currentUserId;
+        
+        this._orderService.addCreditCard(creditCard).subscribe();
+      }
+
       // Clear et update le cart
       this.cart.length = 0;
       this.cart = [];
@@ -123,20 +142,15 @@ onFormatCardNumber(){
       localStorage.removeItem('Cart');
       localStorage.removeItem('ProductsInTheCart');
 
+      
 
       // Redirection
       this._router.navigate(['/']);
     });
 
     
-    // Enregister la méthode de paiement
 
 
-
-    // Enregister la commande et mettre avec le bon statuts etc
-
-
-    // Message de réussite et ensuite redirection vers la page d'accueil et vider le panier etc
   }
 
 }
