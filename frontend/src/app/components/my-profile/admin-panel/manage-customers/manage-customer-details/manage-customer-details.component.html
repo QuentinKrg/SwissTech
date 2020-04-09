@@ -1,8 +1,8 @@
 <div class="text-right">
-    <button type="button" [ngClass]="customer.isActive  ? 'btn-danger' : 'btn-success'"
-    (click)="onUnableUser()" class="btn"> 
-    <a *ngIf="customer.isActive">Désactiver</a>
-    <a *ngIf="!customer.isActive">Activer</a></button>
+    <button type="button" [ngClass]="customer.isActive==1  ? ' btn btn-danger' : 'btn btn-success'"
+    (click)="onUnableUser()"> 
+    <a *ngIf="customer.isActive==1">Désactiver</a>
+    <a *ngIf="customer.isActive==0">Activer</a></button>
 </div>
 <div class="p-3 shadow mb-4">
     <h5>Aperçu</h5>
@@ -10,8 +10,8 @@
         Client ....
     </div>
     <div class="p-3">
-        Status: <a *ngIf="!customer.isActive">Désactivé</a>
-        <a *ngIf="customer.isActive">Activé</a>
+        Status: <a *ngIf="customer.isActive==0">Désactivé</a>
+        <a *ngIf="customer.isActive==1">Activé</a>
     </div>
     <div class="p-3">
         Client depuis 01.01.2000

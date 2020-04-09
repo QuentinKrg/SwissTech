@@ -113,7 +113,7 @@ class User extends Entity
 	  $userID = $this->jsonToProcess->id_user;
 	  $userStatus = $this->jsonToProcess->isActive;
 	
-					//Update
+				//Update
 				$updateUserStatus = "UPDATE
 										t_users
 									SET

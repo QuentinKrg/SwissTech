@@ -16,5 +16,5 @@ export class Customer {
     password: string;
     CustomerEmail: string;
     CustomerPhone: string;
-    isActive: boolean;
+    isActive: number;
 }
