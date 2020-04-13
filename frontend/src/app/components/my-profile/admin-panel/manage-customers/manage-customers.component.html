@@ -32,6 +32,11 @@
           <td>
             <button type="button" class="btn btn-primary" (click)="openModal(editProfileModal, customer)" title="modifier"><i class="fas fa-edit"></i></button>
            </td>
+           <td><button type="button" [ngClass]="customer.isActive==1  ? ' btn btn-danger' : 'btn btn-success'"
+            (click)="onUnableUser(customer)"> 
+            <a *ngIf="customer.isActive==1">Désactiver</a>
+            <a *ngIf="customer.isActive==0">Activer</a></button>
+          </td>
         </tr>
       </tbody>
     </table>
