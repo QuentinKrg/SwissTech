@@ -255,6 +255,7 @@ class Customer extends Entity
           $customers[$cr]['CustomerTitre'] = $row['CustomerTitre'];
           $customers[$cr]['CustomerName'] = $row['CustomerName'];
           $customers[$cr]['CustomerLastName'] = $row['CustomerLastName'];
+		  $customers[$cr]['Username'] = $row['Username'];
           $customers[$cr]['CustomerPhone'] = $row['CustomerPhone'];
           $customers[$cr]['CustomerEmail'] = $row['CustomerEmail'];
           $customers[$cr]['CustomerBirthday'] = $row['CustomerBirthday'];

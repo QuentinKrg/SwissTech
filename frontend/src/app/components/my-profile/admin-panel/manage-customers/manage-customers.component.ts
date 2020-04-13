@@ -8,6 +8,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./manage-customers.component.css']
 })
 export class ManageCustomersComponent implements OnInit {
+
 allCustomers: Customer[];
 @Input() CustomerTitre: string;
 @Input() CustomerName: string;
@@ -18,18 +19,27 @@ allCustomers: Customer[];
 @Input() isActive: number;
 
 
+  filterValue: Array<any> = [];
   constructor(
-    private _userService: UserService,) { }
+    private _userService: UserService,) { 
+    
+    }
+
+    filterByText(initial: string) {
+    this.allCustomers = this.filterValue;
+      this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+    }
 
   ngOnInit() {
     //Appel au service qui retourne les infos personnelles du clients
+    this.getCustomers();
+  }
+  getCustomers(){
     this._userService.getAllCustomers().subscribe(
       (data : Customer[]) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         this.allCustomers = data;
-        console.log(this.allCustomers);
-       
-        
-        
+        this.filterValue = this.allCustomers;
+        console.log(this.filterValue);
       },
       (error) => {
         console.log(error);
