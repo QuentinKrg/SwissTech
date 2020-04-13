@@ -9,34 +9,40 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ManageCustomersComponent implements OnInit {
 
-allCustomers: Customer[];
-@Input() CustomerTitre: string;
-@Input() CustomerName: string;
-@Input() indexOfCustomer: number;
-@Input() id_customer: number;
-@Input() id_user: number;
-@Input() CustomerLastName: string;
-@Input() isActive: number;
+  allCustomers: Customer[];
+  @Input() CustomerTitre: string;
+  @Input() CustomerName: string;
+  @Input() indexOfCustomer: number;
+  @Input() id_customer: number;
+  @Input() id_user: number;
+  @Input() CustomerLastName: string;
+  @Input() isActive: number;
 
 
   filterValue: Array<any> = [];
   constructor(
-    private _userService: UserService,) { 
-    
-    }
+    private _userService: UserService, ) {
 
-    filterByText(initial: string) {
-    this.allCustomers = this.filterValue;
-      this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
-    }
+  }
+
+  //Fonction pour la recherche dans la liste des clients
+  filterByText(initial: string) {
+
+    this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
+    
+    //Fonction filter ciblant l'array retournée par la requette au backend, plus précisément le nom d'utilisateur.
+    //initial c'est la lettre tappée par l'admin dans le champ de recherche.
+    this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+  }
 
   ngOnInit() {
-    //Appel au service qui retourne les infos personnelles du clients
     this.getCustomers();
   }
-  getCustomers(){
+
+  getCustomers() {
+    //appel àla fonction qui retourne tous les clients de UserService
     this._userService.getAllCustomers().subscribe(
-      (data : Customer[]) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
+      (data: Customer[]) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         this.allCustomers = data;
         this.filterValue = this.allCustomers;
         console.log(this.filterValue);
