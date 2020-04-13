@@ -1,6 +1,15 @@
 <div class="p-3">
-  
-  <input  class="form-control" placeholder="Recherche" type="text" (keyup)="filterByText($event.target.value)">
+  <div class="row">
+    <div class="col-md-8">
+      <input  class="form-control" placeholder="Recherche" type="text" (keyup)="filterByText($event.target.value)">
+    </div>
+    <div class="col-md-4">
+      <input id="checkbox_status" type="checkbox" class="custom-control-input" (change)="filterByStatus()">
+      <label for="checkbox_status" class="custom-control-label">
+          active only
+      </label>
+    </div>
+  </div>
   <div class="table-responsive">
     <table class="table table-hover">
       <thead>
@@ -13,15 +22,59 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="cursorPointer" [routerLink]="['/myprofile/manage-customer-details', customer.id_customer]"
+        <tr class="cursorPointer"
          *ngFor="let customer of allCustomers; let i = index">
           <th scope="row">{{customer.id_customer}}</th>
           <td>{{customer.Username | titlecase}}</td>
           <td>{{customer.CustomerTitre | titlecase}}</td>
           <td>{{customer.CustomerName | titlecase}}</td>
           <td>{{customer.CustomerLastName | titlecase}}</td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="openModal(editProfileModal, customer)" title="modifier"><i class="fas fa-edit"></i></button>
+           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+<ng-template #editProfileModal let-modal>
+  <div class="modal-header">
+   <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
+   <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+   </button>
+  </div>
+  
+  <div class="modal-body">
+   <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+    <div class="form-group row">
+     <label for="firstname" class="col-sm-4 col-form-label">First Name</label>
+     <div class="col-sm-8">
+      <input type="text" class="form-control" formControlName="firstname" id="firstname">
+     </div>
+    </div>
+    <div class="form-group row">
+     <label for="lastname" class="col-sm-4 col-form-label">Last Name</label>
+     <div class="col-sm-8">
+      <input type="text" class="form-control" formControlName="lastname" id="lastname">
+     </div>
+    </div>
+    <div class="form-group row">
+     <label for="username" class="col-sm-4 col-form-label">Username</label>
+     <div class="col-sm-8">
+      <input type="text" class="form-control" formControlName="username" id="username">
+     </div>
+    </div>
+    <div class="form-group row">
+     <label for="email" class="col-sm-4 col-form-label">Email</label>
+     <div class="col-sm-8">
+      <input type="email" class="form-control" formControlName="email" id="email">
+     </div>
+    </div>
+    <div class="modal-footer">
+     <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+     <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+   </form>
+  </div>
+ </ng-template>

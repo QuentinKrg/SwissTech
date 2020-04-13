@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Customer } from 'src/app/models/customer';
 import { UserService } from 'src/app/services/user.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-manage-customers',
@@ -18,10 +20,13 @@ export class ManageCustomersComponent implements OnInit {
   @Input() CustomerLastName: string;
   @Input() isActive: number;
 
-
+  title = 'modal2';
+  editProfileForm: FormGroup;
+  element = <HTMLInputElement> document.getElementById("checkbox_status");
+  isChecked:boolean;
   filterValue: Array<any> = [];
   constructor(
-    private _userService: UserService, ) {
+    private _userService: UserService,private fb: FormBuilder, private modalService: NgbModal  ) {
 
   }
 
@@ -29,13 +34,35 @@ export class ManageCustomersComponent implements OnInit {
   filterByText(initial: string) {
 
     this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
-    
+
+    //condition permetant de rechercher dans les utilisateur actifs uniquement
+    if(this.isChecked){
+      this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
+     }else{
+      this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
+     }
     //Fonction filter ciblant l'array retournée par la requette au backend, plus précisément le nom d'utilisateur.
     //initial c'est la lettre tappée par l'admin dans le champ de recherche.
     this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
   }
+  filterByStatus() {
+    this.element = <HTMLInputElement> document.getElementById("checkbox_status");
+    this.isChecked = this.element.checked;
+   if(this.isChecked){
+    this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
+   }else{
+    this.allCustomers = this.filterValue;
+   }
+    
+  }
 
   ngOnInit() {
+    this.editProfileForm = this.fb.group({
+      firstname: [''],
+      lastname: [''],
+      username: [''],
+      email: ['']
+     });
     this.getCustomers();
   }
 
@@ -51,5 +78,22 @@ export class ManageCustomersComponent implements OnInit {
         console.log(error);
       });
   }
+  openModal(targetModal, user) {
+    this.modalService.open(targetModal, {
+     centered: true,
+     backdrop: 'static'
+    });
+   
+    this.editProfileForm.patchValue({
+     firstname: user.CustomerName,
+     lastname: user.CustomerLastName,
+     username: user.Username,
+     email: user.email
+    });
+   }
+   onSubmit() {
+    this.modalService.dismissAll();
+    console.log("res:", this.editProfileForm.getRawValue());
+   }
 
 }

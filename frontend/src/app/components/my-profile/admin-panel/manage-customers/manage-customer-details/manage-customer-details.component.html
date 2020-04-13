@@ -52,53 +52,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="row p-3 mt-3" *ngIf="changeCustomerData">
-            <div class="p-4 shadow-sm">
-                <!-- Titre-->
-                <div class="form-group">
-                    <label for="CustomerTitre">Titre *</label>
-                    <select class="form-control" formControlName="CustomerTitre" autofocus
-                        [ngClass]="{ 'is-invalid': submitted && f.CustomerTitre.errors || f.CustomerTitre.touched && f.CustomerTitre.errors}">
-                        <option value="" selected disabled>Veuillez choisir</option>
-                        <option value="Mme">Mme</option>
-                        <option value="Mr">Mr</option>
-                        <option value="NB">Non binaire</option>
-                    </select>
-                </div>
-    
-                <!-- First name-->
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label for="CustomerName">Prénom *</label>
-                            <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
-                            <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
-                                Uniquement des lettres et des espaces</div>
-                        </div>
-                    </div>
-                    <!-- Last name-->
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label for="CustomerLastName">Nom *</label>
-                            <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
-                            <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
-                                Uniquement des lettres et des espaces</div>
-                        </div>
-                    </div>
-    
-                </div>
-    
-                <!-- Birthday date-->
-                <div class="form-group">
-                    <label for="CustomerBirthday">Date de naissance *</label>
-                    <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
-                        placeholder=""
-                        [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
-                </div>
-            </div>
-        </div>
+         
     </div>
     
 </div>
