@@ -1,1 +1,59 @@
-<p>manage-orders works!</p>
+<!-- Navigation -->
+<small><a routerLink="/myprofile">Administration</a> / <a routerLink="/myprofile/manageorders">Gestion des commandes</a></small>
+<!-- Titre -->
+<h4 class="pb-3">Gestion des commandes</h4>
+<!-- Filtres de recherches -->
+<div class="row">
+    <!-- Recherche par nom d'utilisateur -->
+    <div class="col-md-6 col-sm-12">
+        <label class="control-label" for="selectUsername">Filtrer par nom d'utilisateur</label>
+        <input id="selectUsername" class="form-control" placeholder="Rechercher un nom d'utilisateur" type="text" (keyup)="filteredByText($event.target.value)">
+    </div>
+    <!-- Liste des status d'une commandes -->
+    <div class="col-md-6 col-sm-12">
+        <label class="control-label" for="selectStatus">Filtrer par statut</label>
+        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedOption" (change)="filteredByStatus()">
+            <option value="-1" selected>Tous</option>
+            <option *ngFor="let status of allStatus" id="optionSelected" [value]="status.id">{{status.StatusName}}</option>
+        </select>
+    </div>
+</div>
+<div class="row py-2">
+    <!-- Calendrier pour filter par date -->
+    <div class="col-md-4 col-sm-12" >
+        <label class="control-label" for="selectDate">Filtrer par date</label>
+        <input id="selectDate" #myDate class="form-control" placeholder="Choisir une date" type="date" (change)="filteredByDate(myDate.value)">
+    </div>
+</div>
+<!-- Tableau -->
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <!-- Label du tableau -->
+                <thead>
+                    <tr>
+                      <th scope="col">N° de commande</th>
+                      <th scope="col">Nom d'utilisateur</th>
+                      <th scope="col">Date de la commmande</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <!-- Données -->
+                  <tbody>
+                    <tr *ngFor="let order of allOrders">
+                        <th scope="row">{{order.id_Order}}</th>
+                        <td>{{ order.Username | titlecase }}</td>
+                        <td>{{ order.OrderDate |date: 'dd.MM.yyyy'  }}</td>
+                        <td><select  [ngModel]="order.StatusId" #mySelect  (change)='onOptionsSelected(mySelect.value, order.id_Order)' class="form-control">
+                            <option *ngFor="let status of allStatus" [value]="status.id">{{status.StatusName}}</option>
+                        </select></td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

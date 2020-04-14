@@ -37,6 +37,7 @@ import { ManageCustomersComponent } from './components/my-profile/admin-panel/ma
 import { ManageCommentsComponent } from './components/my-profile/admin-panel/manage-comments/manage-comments.component';
 import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
 import { ManageCustomerDetailsComponent } from './components/my-profile/admin-panel/manage-customers/manage-customer-details/manage-customer-details.component';
+import {DatePipe} from '@angular/common';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { ManageCustomerDetailsComponent } from './components/my-profile/admin-pa
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './manage-customers.component.html',
   styleUrls: ['./manage-customers.component.css']
 })
+
 export class ManageCustomersComponent implements OnInit {
 
   allCustomers: Customer[];
@@ -45,6 +46,7 @@ export class ManageCustomersComponent implements OnInit {
     //initial c'est la lettre tappée par l'admin dans le champ de recherche.
     this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
   }
+  
   filterByStatus() {
     this.element = <HTMLInputElement> document.getElementById("checkbox_status");
     this.isChecked = this.element.checked;
