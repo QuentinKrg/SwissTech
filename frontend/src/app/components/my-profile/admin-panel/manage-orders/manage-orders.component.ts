@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { OrdersService } from 'src/app/services/orders.service';
+import { Status } from 'src/app/models/status';
+import { Order } from 'src/app/models/order';
+import { AlertService } from 'src/app/services/alert.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-manage-orders',
@@ -6,10 +11,92 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage-orders.component.css']
 })
 export class ManageOrdersComponent implements OnInit {
+  
+  constructor(private _orderService: OrdersService,
+              private _alertService: AlertService,
+              private _datePipe: DatePipe) { }
 
-  constructor() { }
+  allStatus: Status[];
+  allOrders: Order[];
+  filterValue: Array<any> = [];
+  selectedOption: number = -1;
+  textToFilterWith : string = "";
+  dateToFilterWith: string = "";
 
   ngOnInit() {
+    this._orderService.getAllStatus().subscribe(data => this.allStatus = data);
+    this.getAllOrders();
   }
+
+  getAllOrders() {
+    this._orderService.getAllOrders().subscribe((data: Order[]) => {
+      this.allOrders = data;
+      this.filterValue = this.allOrders;
+    });
+  }
+
+  onOptionsSelected(statusValue: number, orderId: number){
+    let tmpOrder = new Order;
+    tmpOrder.id_Order = orderId;
+    tmpOrder.StatusId = statusValue;
+
+    this._orderService.updateOrder(tmpOrder).subscribe(
+      () => this._alertService.success("Le status de la commande n°" + orderId + " a bien été modifié."),
+      error => {this._alertService.error("Une erreur est survenue lors de la modification du status de la commande " + orderId +".")}
+    );
+
+    this.getAllOrders();
+  }
+
+  filteredByText(initial: string) {
+    this.allOrders = this.filterValue;
+
+    if(this.selectedOption != -1) {
+      this.allOrders = this.allOrders.filter(i => i.StatusId == this.selectedOption);
+    }
+
+    this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+
+    if(this.dateToFilterWith != "") {
+      this.allOrders = this.allOrders.filter(i => this._datePipe.transform(i.OrderDate, "yyyy-MM-dd").toString() == this.dateToFilterWith);
+    }
+    this.textToFilterWith = initial.toLocaleLowerCase();
+  }
+
+  filteredByStatus() {
+    this.allOrders = this.filterValue;
+    if(this.selectedOption == -1) {
+      this.allOrders = this.filterValue;
+    } else {
+      this.allOrders = this.allOrders.filter(i => i.StatusId === this.selectedOption);
+    }
+
+    if(this.dateToFilterWith != "") {
+      this.allOrders = this.allOrders.filter(i => this._datePipe.transform(i.OrderDate, "yyyy-MM-dd").toString() == this.dateToFilterWith);
+    }
+    this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(this.textToFilterWith) !== -1);
+  }
+
+  filteredByDate(value: string) {
+    this.allOrders = this.filterValue;
+    
+    if(value == null || value == "") {
+      this.allOrders = this.filterValue;
+    } else {
+      this.allOrders = this.allOrders.filter(i => this._datePipe.transform(i.OrderDate, "yyyy-MM-dd").toString() == value);
+      
+      this.dateToFilterWith = value;
+    }
+
+    if(this.selectedOption != -1) {
+      this.allOrders = this.allOrders.filter(i => i.StatusId == this.selectedOption);
+    }
+
+    this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(this.textToFilterWith) !== -1);
+    
+
+    
+  }
+
 
 }

@@ -154,5 +154,79 @@ class Orders extends Entity
     }
   }
 
+  // Récupération des toutes les commandes
+  public function getAllOrders() {
+    $orders = [];
+    $sql = "SELECT id_Order, tor.OrderDate, tst.StatusName, tst.id_Status,tpm.MethodName,usr.Username,
+            (SELECT SUM(tpo.Quantity * tp.ProductUnitPrice) FROM
+            t_products_orders tpo
+            INNER JOIN t_products tp ON tp.id_Product = tpo.FK_Product
+            WHERE tpo.FK_Order = id_Order) TotalOrder
+              FROM t_orders tor
+              INNER JOIN t_paymentmethod tpm ON tpm.id_paymentmethod = tor.FK_PaymentMethod
+              INNER JOIN t_status tst ON tst.id_Status = tor.FK_Status
+              INNER JOIN t_users usr ON tor.FK_Customer = usr.FK_Customer
+              ORDER BY id_order DESC";
+      $tmpResult =($this->Query($sql));
+
+      if($tmpResult->rowCount() > 0) {
+
+        // Sortir les données pour chaque "row"
+        $cr = 0;
+        while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+          $orders[$cr]['id_Order'] = $row['id_Order'];
+          $orders[$cr]['OrderDate'] = $row['OrderDate'];
+          $orders[$cr]['StatusName'] = $row['StatusName'];
+          $orders[$cr]['TotalOrder'] = $row ['TotalOrder'];
+          $orders[$cr]['MethodName'] = $row ['MethodName'];
+          $orders[$cr]['Username'] = $row ['Username'];
+          $orders[$cr]['StatusId'] = $row ['id_Status'];
+
+          $cr++;
+        }
+        // echo de la liste des articles
+        return $orders;
+      }
+
+    return $tmpResult;
+  }
+
+  // Récupération des tous les status des commandes
+  public function getAllStatus() {
+    $status = [];
+    $sql = "SELECT * FROM t_status";
+    $tmpResult = $this->Query($sql);
+
+    if($tmpResult->rowCount() > 0) {
+
+      // Sortir les données pour chaque "row"
+      $cr = 0;
+      while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+        $articles[$cr]['id'] = $row['id_Status'];
+        $articles[$cr]['StatusName'] = $row['StatusName'];
+        $cr++;
+      }
+      // echo de la liste des articles
+      return $articles;
+    }
+    // Fermeture de la connexion
+    return $tmpResult;
+  }
+
+  // Mise à jour d'une commande
+  public function updateOrder() {
+    if($this->jsonToProcess !=null)
+    {
+      $id_order = $this->jsonToProcess->id_Order;
+      $statusId = $this->jsonToProcess->StatusId;
+
+
+      $sql ="UPDATE t_orders
+             SET t_orders.FK_Status = '$statusId'
+             WHERE t_orders.id_Order = '$id_order'";
+      $this->Query($sql);
+    }
+  }
+
 }
  ?>

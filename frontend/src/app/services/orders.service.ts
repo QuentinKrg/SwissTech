@@ -5,6 +5,7 @@ import { Order } from '../models/order';
 import { Subject } from 'rxjs';
 import { PaymentOrder } from '../models/paymentorder';
 import { CreditCard } from '../models/creditcard';
+import { Status } from '../models/status';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,17 @@ orderDetailSubject = new Subject<any[]>();
 
   addCreditCard(creditCard: CreditCard) {
     return this.http.post<CreditCard>(environment.backendURL + 'start.php?' + 'c=Orders&f=addCreditCard', creditCard);
+  }
+
+  getAllOrders() {
+    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getAllOrders');
+  }
+
+  getAllStatus() {
+    return this.http.get<Status[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getAllStatus');
+  }
+
+  updateOrder(order: Order) {
+    return this.http.post<Order>(environment.backendURL + 'start.php?' + 'c=Orders&f=updateOrder', order);
   }
 }
