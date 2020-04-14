@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Customer } from 'src/app/models/customer';
 import { UserService } from 'src/app/services/user.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CustomValidators } from 'src/app/helpers/CustomValidators';
 
 @Component({
   selector: 'app-manage-customers',
@@ -21,7 +22,11 @@ export class ManageCustomersComponent implements OnInit {
   @Input() CustomerLastName: string;
   @Input() isActive: number;
 
-  title = 'modal2';
+  
+  usernameErrorMessage: String;
+  userUpdateDataMessage: String;
+  userUpdateData = false;
+  selectedUser: string;
   editProfileForm: FormGroup;
   element = <HTMLInputElement> document.getElementById("checkbox_status");
   isChecked:boolean;
@@ -60,10 +65,48 @@ export class ManageCustomersComponent implements OnInit {
 
   ngOnInit() {
     this.editProfileForm = this.fb.group({
-      firstname: [''],
-      lastname: [''],
-      username: [''],
-      email: ['']
+      CustomerTitre: ['', Validators.required],
+      CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
+      CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
+      CustomerBirthday: ['', Validators.required],
+      shippingAddress: ['', Validators.required],
+      shippingCity: ['', Validators.required],
+      shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
+      checkbox_address: [''],
+      billingAddress: ['', Validators.required],
+      billingCity: ['', Validators.required],
+      billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
+      CustomerEmail: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]],
+      CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
+      Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
+      myPassword: ['', [Validators.required]],
+      password: [
+        '',
+        Validators.compose([
+          Validators.required,
+          // check whether the entered password has a number
+          CustomValidators.patternValidator(/\d/, {
+            hasNumber: true
+          }),
+          // check whether the entered password has upper case letter
+          CustomValidators.patternValidator(/[A-Z]/, {
+            hasCapitalCase: true
+          }),
+          // check whether the entered password has a lower case letter
+          CustomValidators.patternValidator(/[a-z]/, {
+            hasSmallCase: true
+          }),
+          // check whether the entered password has a special character
+          CustomValidators.patternValidator(
+            /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+            {
+              hasSpecialCharacters: true
+            }
+          ),
+          Validators.minLength(8)
+        ])
+      ]
+    
      });
     this.getCustomers();
   }
@@ -84,18 +127,53 @@ export class ManageCustomersComponent implements OnInit {
     this.modalService.open(targetModal, {
      centered: true,
      backdrop: 'static'
+
     });
-   
+
+    this.selectedUser = user.Username;
+
     this.editProfileForm.patchValue({
-     firstname: user.CustomerName,
-     lastname: user.CustomerLastName,
-     username: user.Username,
-     email: user.email
+      CustomerTitre: user.CustomerTitre ,
+      CustomerName: user.CustomerName,
+      CustomerLastName: user.CustomerLastName,
+      CustomerBirthday: user.CustomerBirthday,
+      shippingAddress: user.shippingAddress,
+      shippingCity: user.shippingCity,
+      shippingZip: user.shippingZip,
+      checkbox_address: user.checkbox_address,
+      billingAddress: user.billingAddress,
+      billingCity: user.billingCity,
+      billingZip: user.billingZip,
+      CustomerEmail:  user.CustomerEmail,
+      CustomerPhone: user.CustomerPhone,
+      Username: user.Username
     });
    }
    onSubmit() {
+     console.log(this.selectedUser);
+     
     this.modalService.dismissAll();
+    console.log(this.editProfileForm.value);
+        
     console.log("res:", this.editProfileForm.getRawValue());
+
+    //update de l'utilisateur
+    this._userService.updateCustomer(this.selectedUser,this.editProfileForm.value).then(
+      () => {
+        console.log('tout va bien');
+        if(this.editProfileForm.value.Username != null){
+          this.selectedUser = this.editProfileForm.value.Username;
+        }
+        
+        this.ngOnInit();
+        this.userUpdateData = true;
+        this.userUpdateDataMessage = 'Les modifications ont été sauvegardées';
+      },  
+      //en cas d'erreur
+      (error) => {
+        console.log(error);
+        return;
+      });
    }
    onUnableUser(user){
     if(user.isActive==1){
