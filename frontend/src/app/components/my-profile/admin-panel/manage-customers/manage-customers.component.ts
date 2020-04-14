@@ -98,12 +98,8 @@ export class ManageCustomersComponent implements OnInit {
    onUnableUser(user){
     if(user.isActive==1){
       user.isActive = 0;
-      console.log('actif');
-      
     }else{
       user.isActive = 1;
-      console.log('inactif');
-      
     }
     this._userService.updateUserStatus(user)
     .then(
