@@ -57,7 +57,7 @@ export class ManageOrdersComponent implements OnInit {
 
     this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
 
-    if(this.dateToFilterWith != "") {
+    if(this.dateToFilterWith != "" || this.dateToFilterWith == null)  {
       this.allOrders = this.allOrders.filter(i => this._datePipe.transform(i.OrderDate, "yyyy-MM-dd").toString() == this.dateToFilterWith);
     }
     this.textToFilterWith = initial.toLocaleLowerCase();
@@ -71,7 +71,7 @@ export class ManageOrdersComponent implements OnInit {
       this.allOrders = this.allOrders.filter(i => i.StatusId === this.selectedOption);
     }
 
-    if(this.dateToFilterWith != "") {
+    if(this.dateToFilterWith != "" || this.dateToFilterWith == null) {
       this.allOrders = this.allOrders.filter(i => this._datePipe.transform(i.OrderDate, "yyyy-MM-dd").toString() == this.dateToFilterWith);
     }
     this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(this.textToFilterWith) !== -1);
@@ -79,9 +79,10 @@ export class ManageOrdersComponent implements OnInit {
 
   filteredByDate(value: string) {
     this.allOrders = this.filterValue;
-    
+
     if(value == null || value == "") {
       this.allOrders = this.filterValue;
+      this.dateToFilterWith = "";
     } else {
       this.allOrders = this.allOrders.filter(i => this._datePipe.transform(i.OrderDate, "yyyy-MM-dd").toString() == value);
       
