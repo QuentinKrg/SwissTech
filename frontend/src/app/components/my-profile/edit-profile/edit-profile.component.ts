@@ -256,7 +256,7 @@ export class EditProfileComponent implements OnInit {
 
     //vérifie que le nom d'utilisateur est disponible
     
-        //si crée un nouveau client
+        //update de l'utilisateur
         this._userService.updateCustomer(this.currentUsername,this.editRegisterForm.value).then(
           () => {
             console.log('tout va bien');

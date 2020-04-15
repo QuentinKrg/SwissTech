@@ -13,12 +13,10 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ContactInformationComponent } from './components/checkout/contact-information/contact-information.component';
 import { PaymentMethodComponent } from './components/checkout/payment-method/payment-method.component';
 import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
-import { ManageCommentsComponent } from './components/my-profile/admin-panel/manage-comments/manage-comments.component';
 import { ManageCustomersComponent } from './components/my-profile/admin-panel/manage-customers/manage-customers.component';
 import { ManageOrdersComponent } from './components/my-profile/admin-panel/manage-orders/manage-orders.component';
 import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
 import { AdminGuard } from './helpers/admin.guard';
-import { ManageCustomerDetailsComponent } from './components/my-profile/admin-panel/manage-customers/manage-customer-details/manage-customer-details.component';
 
 
 
@@ -35,9 +33,7 @@ const routes: Routes = [
         { path: 'manageproducts', component: ManageProductsComponent, canActivate: [AdminGuard]},
         { path: 'manageorders', component: ManageOrdersComponent, canActivate: [AdminGuard]},
         { path: 'managecustomers', component: ManageCustomersComponent, canActivate: [AdminGuard]},
-        { path: 'managecomments', component: ManageCommentsComponent, canActivate: [AdminGuard]},
         { path: 'manageadmins', component: ManageAdminsComponent, canActivate: [AdminGuard]}, 
-        { path: 'manage-customer-details/:id', component: ManageCustomerDetailsComponent, canActivate: [AdminGuard]},
         { path: '', component: EditProfileComponent},   
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 

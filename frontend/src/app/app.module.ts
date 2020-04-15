@@ -24,8 +24,6 @@ import { FiltersComponent } from './components/home/filters/filters.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { MyOrdersComponent } from './components/my-profile/my-orders/my-orders.component';
-import { OrderComponent } from './components/my-profile/order/order.component';
-import { OrderDetailsComponent } from './components/my-profile/order-details/order-details.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ReviewComponent } from './components/checkout/review/review.component';
 import { ContactInformationComponent } from './components/checkout/contact-information/contact-information.component';
@@ -34,9 +32,7 @@ import { SidebarComponent } from './components/my-profile/sidebar/sidebar.compon
 import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
 import { ManageOrdersComponent } from './components/my-profile/admin-panel/manage-orders/manage-orders.component';
 import { ManageCustomersComponent } from './components/my-profile/admin-panel/manage-customers/manage-customers.component';
-import { ManageCommentsComponent } from './components/my-profile/admin-panel/manage-comments/manage-comments.component';
 import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
-import { ManageCustomerDetailsComponent } from './components/my-profile/admin-panel/manage-customers/manage-customer-details/manage-customer-details.component';
 import {DatePipe} from '@angular/common';
 
 
@@ -59,8 +55,6 @@ import {DatePipe} from '@angular/common';
     CheckoutComponent,
     ShoppingCartComponent,
     MyOrdersComponent,
-    OrderComponent,
-    OrderDetailsComponent,
     ProductDetailsComponent,
     ReviewComponent,
     ContactInformationComponent,
@@ -69,9 +63,7 @@ import {DatePipe} from '@angular/common';
     ManageProductsComponent,
     ManageOrdersComponent,
     ManageCustomersComponent,
-    ManageCommentsComponent,
-    ManageAdminsComponent,
-    ManageCustomerDetailsComponent
+    ManageAdminsComponent
   ],
   imports: [
     BrowserModule,

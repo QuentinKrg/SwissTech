@@ -14,14 +14,6 @@ import { CustomValidators } from 'src/app/helpers/CustomValidators';
 export class ManageCustomersComponent implements OnInit {
 
   allCustomers: Customer[];
-  @Input() CustomerTitre: string;
-  @Input() CustomerName: string;
-  @Input() indexOfCustomer: number;
-  @Input() id_customer: number;
-  @Input() id_user: number;
-  @Input() CustomerLastName: string;
-  @Input() isActive: number;
-
   
   usernameErrorMessage: String;
   userUpdateDataMessage: String;
@@ -73,6 +65,8 @@ export class ManageCustomersComponent implements OnInit {
       shippingCity: ['', Validators.required],
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       checkbox_address: [''],
+      CustomerSince: [''],
+      IpAddress: [''],
       billingAddress: ['', Validators.required],
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
@@ -110,6 +104,7 @@ export class ManageCustomersComponent implements OnInit {
      });
     this.getCustomers();
   }
+  get f() { return this.editProfileForm.controls; }
 
   getCustomers() {
     //appel àla fonction qui retourne tous les clients de UserService
@@ -146,7 +141,9 @@ export class ManageCustomersComponent implements OnInit {
       billingZip: user.billingZip,
       CustomerEmail:  user.CustomerEmail,
       CustomerPhone: user.CustomerPhone,
-      Username: user.Username
+      Username: user.Username,
+      CustomerSince: user.CustomerSince,
+      IpAddress: user.IpAddress
     });
    }
    onSubmit() {

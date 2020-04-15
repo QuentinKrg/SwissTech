@@ -1,11 +1,72 @@
 <h2 class="p-3 text-center">Mes commandes</h2>
 
-<app-order *ngFor="let order of myOrders;
-    let i = index"
-    [indexOfOrder]="i"
-    [OrderID]="order.id_Order"
-    [OrderDate]="order.OrderDate"
-    [OrderStatus]="order.StatusName"
-    [TotalOrder]="order.TotalOrder"
-    [MethodName]="order.MethodName">
-</app-order>
+<!-- Tableau -->
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <!-- Label du tableau -->
+                <thead>
+                    <tr>
+                      <th scope="col">N° de commande</th>
+                      <th scope="col">Date de la commmande</th>
+                      <th scope="col">Total</th>
+                      <th scope="col">Payé par:</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <!-- Données -->
+                  <tbody>
+                    <tr *ngFor="let order of myOrders">
+                        <th scope="row">{{order.id_Order}}</th>
+                        <td>{{ order.OrderDate |date: 'dd.MM.yyyy'  }}</td>
+                        <td>{{ order.TotalOrder }}</td>
+                        <td>{{ order.MethodName }}</td>
+                        <td>{{ order.StatusName }}</td>
+                        <td><button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="fa fa-ellipsis-v"></i>
+                            <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" (click)="openModal(showOrderDetailsModal, order)">Details</a>
+                              <div class="dropdown-divider"></div>
+                            </a>
+                          </button></td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<ng-template #showOrderDetailsModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="showProfileLabel">Détails de la commande</h5>
+      <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <div class="modal-body p-3 ">
+        
+        <div *ngFor="let orderdetail of Orderdetails">
+            <div class="row m-3 shadow-sm p-3 mb-5 bg-white rounded ">
+                <div class="col-md">
+                    <a [routerLink]="['/product-details', orderdetail.id_Product]">
+                        <img src="/assets/images/products/{{orderdetail.ImagePath}}" alt="" width="100" class="img-fluid rounded shadow-sm">
+                    </a>
+                </div>
+                <div class="col-md">
+                    <a [routerLink]="['/product-details', orderdetail.id_Product]" class="text-dark d-inline-block align-middle">{{orderdetail.ProductName}}</a>
+                </div>
+                <div class="col-md">
+                    Qty : {{orderdetail.Quantity}}
+                </div>
+                <div class="col-md">
+                    Prix: {{orderdetail.CourantUnitPrice}}
+                </div>
+                <div class="col-md">
+                    {{orderdetail.TotalPrice}}
+                </div>
+            </div>
+        </div>
+    </div>
+  </ng-template>

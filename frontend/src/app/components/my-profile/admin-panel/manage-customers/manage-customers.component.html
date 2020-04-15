@@ -30,13 +30,15 @@
           <td>{{customer.CustomerTitre | titlecase}}</td>
           <td>{{customer.CustomerName | titlecase}}</td>
           <td>{{customer.CustomerLastName | titlecase}}</td>
-          <td><span class="p-1 mw-100 rounded"[ngClass]="customer.isActive==0  ? ' bg-danger text-white' : 'bg-success text-white'">
-              <span *ngIf="customer.isActive==1">  Actif  </span>
+          <td><span class="p-1 mw-100 rounded"
+              [ngClass]="customer.isActive==0  ? ' bg-danger text-white' : 'bg-success text-white'">
+              <span *ngIf="customer.isActive==1"> Actif </span>
               <span *ngIf="customer.isActive==0">inactif</span></span>
           </td>
           <td>
-            <button type="button" class="btn btn-light"  id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-ellipsis-v"></i>
+            <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              <i class="fa fa-ellipsis-v"></i>
               <a class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" (click)="openModal(showProfileModal, customer)">Aperçu du client</a>
                 <a class="dropdown-item" (click)="openModal(editProfileModal, customer)">Modifier les coordonnées</a>
@@ -125,7 +127,7 @@
         <div class="col-sm-8">
           <input type="shippingZip" class="form-control" formControlName="shippingZip" id="CustomerEmail">
         </div>
-      </div>  
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -135,80 +137,52 @@
 </ng-template>
 <ng-template #showProfileModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="showProfileLabel">Profile</h5>
+    <h5 class="modal-title" id="showProfileLabel">{{f.CustomerTitre.value}} {{f.CustomerName.value}} {{f.CustomerLastName.value}}</h5>
     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
-  <div class="modal-body">
-    <form [formGroup]="editProfileForm">
-      <div class="form-group row">
-        <label for="CustomerTitre" class="col-sm-4 col-form-label">Titre</label>
-        <div class="col-sm-8">
-          <select class="form-control" formControlName="CustomerTitre" autofocus>
-            <option value="" selected disabled>Veuillez choisir</option>
-            <option value="Mme">Mme</option>
-            <option value="Mr">Mr</option>
-            <option value="NB">Non binaire</option>
-          </select>
-        </div>
+  <div class="modal-body p-3">
+    <div class="row p-3">
+      <div class="col-sm-4">
+        Téléphone:
       </div>
-      <div class="form-group row">
-        <label for="CustomerName" class="col-sm-4 col-form-label">First Name</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" formControlName="CustomerName" id="CustomerName">
-        </div>
+      <div class="col-sm-8">
+        {{f.CustomerPhone.value}}
       </div>
-      <div class="form-group row">
-        <label for="CustomerLastName" class="col-sm-4 col-form-label">Last Name</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" formControlName="CustomerLastName" id="CustomerLastName">
-        </div>
+    </div>
+    <div class="row p-3">
+      <div class="col-sm-4">
+        Email:
       </div>
-      <div class="form-group row">
-        <label for="CustomerName" class="col-sm-4 col-form-label">Date de naissance *</label>
-        <div class="col-sm-8">
-          <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
-            placeholder="" />
-        </div>
+      <div class="col-sm-8">
+        {{f.CustomerEmail.value}}
       </div>
-      <div class="form-group row">
-        <label for="Username" class="col-sm-4 col-form-label">Username</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" formControlName="Username" id="Username">
-        </div>
+    </div>
+    <div class="row p-3">
+      <div class="col-sm-4">
+        Date de naissance:
       </div>
-      <div class="form-group row">
-        <label for="CustomerEmail" class="col-sm-4 col-form-label">Email</label>
-        <div class="col-sm-8">
-          <input type="CustomerEmail" class="form-control" formControlName="CustomerEmail" id="CustomerEmail">
-        </div>
+      <div class="col-sm-8">
+        {{f.CustomerBirthday.value}}
       </div>
-      <div class="form-group row">
-        <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
-        <div class="col-sm-8">
-          <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="CustomerEmail">
-        </div>
+    </div>
+    <div class="row p-3">
+      <div class="col-sm-4">
+        Client depuis:
       </div>
-      <div class="form-group row">
-        <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
-        <div class="col-sm-5">
-          <input type="shippingCity" class="form-control" formControlName="shippingCity" id="CustomerEmail">
-        </div>
-        <div class="col-sm-3">
-          <input type="shippingZip" class="form-control" formControlName="shippingZip" id="CustomerEmail">
-        </div>
+      <div class="col-sm-8">
+        {{f.CustomerSince.value}}
       </div>
-      <div class="form-group row">
-        <label for="shippingZip" class="col-sm-4 col-form-label">NPA</label>
-        <div class="col-sm-8">
-          <input type="shippingZip" class="form-control" formControlName="shippingZip" id="CustomerEmail">
-        </div>
-      </div>  
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+    </div>
+    <div class="row p-3">
+      <div class="col-sm-4">
+        Adresse IP:
       </div>
-    </form>
+      <div class="col-sm-8">
+        {{f.IpAddress.value}}
+      </div>
+    </div>
   </div>
 </ng-template>

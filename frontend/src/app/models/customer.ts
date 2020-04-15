@@ -16,5 +16,7 @@ export class Customer {
     password: string;
     CustomerEmail: string;
     CustomerPhone: string;
+    CustomerSince:Date;
     isActive: number;
+    IpAddress:string;
 }

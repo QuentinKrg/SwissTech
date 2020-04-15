@@ -262,6 +262,7 @@ class Customer extends Entity
           $customers[$cr]['isActive'] = $row['isActive'];
           $customers[$cr]['FK_Role'] = $row['FK_Role'];
           $customers[$cr]['IpAddress'] = $row['IpAddress'];
+		  $customers[$cr]['CustomerSince'] = $row['CustomerSince'];
           $cr++;
         }
         // echo de la liste des customers
