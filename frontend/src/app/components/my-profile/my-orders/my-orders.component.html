@@ -1,5 +1,13 @@
 <h2 class="p-3 text-center">Mes commandes</h2>
 
+<div class="row py-2">
+    <!-- Calendrier pour filter par date -->
+    <div class="col-md-4 col-sm-12">
+        <label class="control-label" for="selectDate">Filtrer par date</label>
+        <input id="selectDate" #myDate class="form-control" placeholder="Choisir une date" type="date"
+            (change)="filteredByDate(myDate.value)">
+    </div>
+</div>
 <!-- Tableau -->
 <div class="row">
     <div class="col-12">
@@ -8,54 +16,81 @@
                 <!-- Label du tableau -->
                 <thead>
                     <tr>
-                      <th scope="col">N° de commande</th>
-                      <th scope="col">Date de la commmande</th>
-                      <th scope="col">Total</th>
-                      <th scope="col">Payé par:</th>
-                      <th scope="col">Status</th>
+                        <th scope="col">N° de commande</th>
+                        <th scope="col">Date de la commmande</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Payé par:</th>
+                        <th scope="col">Status</th>
                     </tr>
-                  </thead>
-                  <!-- Données -->
-                  <tbody>
-                    <tr *ngFor="let order of myOrders">
+                </thead>
+                <!-- Données -->
+                <tbody>
+                    <tr *ngFor="let order of myOrders  | slice: pageSize | slice: 0:itemsPerPage">
                         <th scope="row">{{order.id_Order}}</th>
                         <td>{{ order.OrderDate |date: 'dd.MM.yyyy'  }}</td>
                         <td>{{ order.TotalOrder }}</td>
                         <td>{{ order.MethodName }}</td>
                         <td>{{ order.StatusName }}</td>
-                        <td><button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="fa fa-ellipsis-v"></i>
-                            <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <a class="dropdown-item" (click)="openModal(showOrderDetailsModal, order)">Details</a>
-                              <div class="dropdown-divider"></div>
-                            </a>
-                          </button></td>
+                        <td><button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item"
+                                        (click)="openModal(showOrderDetailsModal, order)">Details</a>
+                                    <div class="dropdown-divider"></div>
+                                </a>
+                            </button></td>
                     </tr>
-                  </tbody>
+                </tbody>
             </table>
+            <div class="row justify-content-between">
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <a>{{itemsPerPage}} par page...</a>
+                                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item"
+                                        (click)="changePagesize(5)">5
+                                    </a>
+                                    <a class="dropdown-item"
+                                        (click)="changePagesize(10)">10
+                                    </a>
+                                    <a class="dropdown-item"
+                                        (click)="changePagesize(20)">20
+                                    </a>
+                                </a>
+                            </button>
+                </div>
+                <div class="col-sm-8">
+                    <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages [pageSize]="itemsPerPage"
+                        [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <ng-template #showOrderDetailsModal let-modal>
     <div class="modal-header">
-      <h5 class="modal-title" id="showProfileLabel">Détails de la commande</h5>
-      <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <h5 class="modal-title" id="showProfileLabel">Détails de la commande</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-  
+
     <div class="modal-body p-3 ">
-        
+
         <div *ngFor="let orderdetail of Orderdetails">
             <div class="row m-3 shadow-sm p-3 mb-5 bg-white rounded ">
                 <div class="col-md">
                     <a [routerLink]="['/product-details', orderdetail.id_Product]">
-                        <img src="/assets/images/products/{{orderdetail.ImagePath}}" alt="" width="100" class="img-fluid rounded shadow-sm">
+                        <img src="/assets/images/products/{{orderdetail.ImagePath}}" alt="" width="100"
+                            class="img-fluid rounded shadow-sm">
                     </a>
                 </div>
                 <div class="col-md">
-                    <a [routerLink]="['/product-details', orderdetail.id_Product]" class="text-dark d-inline-block align-middle">{{orderdetail.ProductName}}</a>
+                    <a [routerLink]="['/product-details', orderdetail.id_Product]"
+                        class="text-dark d-inline-block align-middle">{{orderdetail.ProductName}}</a>
                 </div>
                 <div class="col-md">
                     Qty : {{orderdetail.Quantity}}
@@ -69,4 +104,4 @@
             </div>
         </div>
     </div>
-  </ng-template>
+</ng-template>

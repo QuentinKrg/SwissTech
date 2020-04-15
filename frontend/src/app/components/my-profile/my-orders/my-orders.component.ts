@@ -3,6 +3,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Order } from 'src/app/models/order';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-orders',
@@ -14,27 +15,49 @@ export class MyOrdersComponent implements OnInit {
   myOrders: Order[];
   Orderdetails: Order[];
   selectedOrder: string;
+  filterValue: Array<any> = [];
+  dateToFilterWith: string = "";
+  selectedOption: number = -1;
+  textToFilterWith : string = "";
+  currentPage = 1;
+  itemsPerPage = 10;
+  pageSize: number;
+  collectionSize: number;
 
   public curantOrderID: number;
   public isCollapsed = -1;
   constructor(
     private _orderService: OrdersService,
     private authenticationService: AuthenticationService,
-     private modalService: NgbModal
+     private modalService: NgbModal,
+     private _datePipe: DatePipe
   ) { }
 
+  
   ngOnInit() {
 
-    //Service qui retourne l'adresse de livraison et assigne les données au formulaire
-    this._orderService.getOrderByUsername(this.currentUsername)
-    .subscribe((data: Order[]) => {
-        this.myOrders = data;
-      },
-      (error) => {
-        console.log(error);
-      });
-  }
+     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
+     this._orderService.getOrderByUsername(this.currentUsername)
+     .subscribe((data: Order[]) => {
+         this.myOrders = data;
+         this.myOrders = this.myOrders;
+         this.collectionSize = this.myOrders.length;
 
+         this.filterValue = this.myOrders;
+       },
+       (error) => {
+         console.log(error);
+       });
+  }
+  onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage*(pageNum - 1);
+  }
+  
+  changePagesize(num) {
+  this.itemsPerPage =  num;
+  console.log(num);
+  
+}
   openModal(targetModal, order) {
     this.modalService.open(targetModal, {
      centered: true,
@@ -58,4 +81,24 @@ export class MyOrdersComponent implements OnInit {
         console.log(error);
       });
   }
+  filteredByDate(value: string) {
+    this.myOrders = this.filterValue;
+
+    if(value == null || value == "") {
+      this.myOrders = this.filterValue;
+      this.dateToFilterWith = "";
+    } else {
+      this.myOrders = this.myOrders.filter(i => this._datePipe.transform(i.OrderDate, "yyyy-MM-dd").toString() == value);
+      
+      this.dateToFilterWith = value;
+    }
+
+    if(this.selectedOption != -1) {
+      this.myOrders = this.myOrders.filter(i => i.StatusId == this.selectedOption);
+    }
+    
+
+    
+  }
+
 }
