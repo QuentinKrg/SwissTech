@@ -22,16 +22,28 @@ export class ManageOrdersComponent implements OnInit {
   selectedOption: number = -1;
   textToFilterWith : string = "";
   dateToFilterWith: string = "";
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSize: number;
+  collectionSize: number;
 
   ngOnInit() {
     this._orderService.getAllStatus().subscribe(data => this.allStatus = data);
     this.getAllOrders();
+    
   }
-
+  onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage*(pageNum - 1);
+  }
+  
+  changePagesize(num) {
+  this.itemsPerPage =  num;
+  }
   getAllOrders() {
     this._orderService.getAllOrders().subscribe((data: Order[]) => {
       this.allOrders = data;
       this.filterValue = this.allOrders;
+      this.collectionSize = this.allOrders.length;
     });
   }
 

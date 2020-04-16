@@ -14,6 +14,10 @@ import { CustomValidators } from 'src/app/helpers/CustomValidators';
 export class ManageCustomersComponent implements OnInit {
 
   allCustomers: Customer[];
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSize: number;
+  collectionSize: number;
   
   usernameErrorMessage: String;
   userUpdateDataMessage: String;
@@ -54,7 +58,14 @@ export class ManageCustomersComponent implements OnInit {
    }
     
   }
-
+  onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage*(pageNum - 1);
+  }
+  
+  changePagesize(num) {
+  this.itemsPerPage =  num;
+  
+}
   ngOnInit() {
     this.editProfileForm = this.fb.group({
       CustomerTitre: ['', Validators.required],
@@ -112,6 +123,7 @@ export class ManageCustomersComponent implements OnInit {
       (data: Customer[]) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         this.allCustomers = data;
         this.filterValue = this.allCustomers;
+        this.collectionSize = this.allCustomers.length;
         console.log(this.filterValue);
       },
       (error) => {

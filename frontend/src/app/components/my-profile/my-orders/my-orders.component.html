@@ -43,8 +43,8 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="row justify-content-between">
-                <div class="col-sm-3">
+            <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
+                <div class="col-sm-3" >
                     <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <a>{{itemsPerPage}} par page...</a>
@@ -64,7 +64,6 @@
                 <div class="col-sm-8">
                     <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages [pageSize]="itemsPerPage"
                         [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
-
                 </div>
             </div>
         </div>

@@ -19,7 +19,6 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserRole = this.currentUser.role;
-    console.log(this.currentUserRole);
     
   }
 

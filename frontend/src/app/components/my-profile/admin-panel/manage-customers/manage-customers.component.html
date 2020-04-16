@@ -1,5 +1,5 @@
 <div class="p-3">
-  <div class="row">
+  <div class="row pb-2">
     <div class="col-md-8">
       <input class="form-control" placeholder="Rechercher un nom d'utilisateur" type="text"
         (keyup)="filterByText($event.target.value)">
@@ -11,48 +11,74 @@
       </label>
     </div>
   </div>
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Numéro de client</th>
-          <th scope="col">Nom d'utilisateur</th>
-          <th scope="col">Titre</th>
-          <th scope="col">Prénom</th>
-          <th scope="col">Nom</th>
-          <th scope="col">Statut</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="cursorPointer" *ngFor="let customer of allCustomers; let i = index">
-          <th scope="row">{{customer.id_customer}}</th>
-          <td>{{customer.Username | titlecase}}</td>
-          <td>{{customer.CustomerTitre | titlecase}}</td>
-          <td>{{customer.CustomerName | titlecase}}</td>
-          <td>{{customer.CustomerLastName | titlecase}}</td>
-          <td><span class="p-1 mw-100 rounded"
-              [ngClass]="customer.isActive==0  ? ' bg-danger text-white' : 'bg-success text-white'">
-              <span *ngIf="customer.isActive==1"> Actif </span>
-              <span *ngIf="customer.isActive==0">inactif</span></span>
-          </td>
-          <td>
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Numéro de client</th>
+              <th scope="col">Nom d'utilisateur</th>
+              <th scope="col">Titre</th>
+              <th scope="col">Prénom</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cursorPointer"
+              *ngFor="let customer of allCustomers | slice: pageSize | slice: 0:itemsPerPage ; let i = index">
+              <th scope="row">{{customer.id_customer}}</th>
+              <td>{{customer.Username | titlecase}}</td>
+              <td>{{customer.CustomerTitre | titlecase}}</td>
+              <td>{{customer.CustomerName | titlecase}}</td>
+              <td>{{customer.CustomerLastName | titlecase}}</td>
+              <td><span class="p-1 mw-100 rounded"
+                  [ngClass]="customer.isActive==0  ? ' bg-danger text-white' : 'bg-success text-white'">
+                  <span *ngIf="customer.isActive==1"> Actif </span>
+                  <span *ngIf="customer.isActive==0">inactif</span></span>
+              </td>
+              <td>
+                <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-ellipsis-v"></i>
+                  <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" (click)="openModal(showProfileModal, customer)">Aperçu du client</a>
+                    <a class="dropdown-item" (click)="openModal(editProfileModal, customer)">Modifier les
+                      coordonnées</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" (click)="onUnableUser(customer)">
+                      <a *ngIf="customer.isActive==1">Désactiver</a>
+                      <a *ngIf="customer.isActive==0">Activer</a>
+                    </a>
+                  </a>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
+          <div class="col-sm-3">
             <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">
-              <i class="fa fa-ellipsis-v"></i>
+              <a>{{itemsPerPage}} par page...</a>
               <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" (click)="openModal(showProfileModal, customer)">Aperçu du client</a>
-                <a class="dropdown-item" (click)="openModal(editProfileModal, customer)">Modifier les coordonnées</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" (click)="onUnableUser(customer)">
-                  <a *ngIf="customer.isActive==1">Désactiver</a>
-                  <a *ngIf="customer.isActive==0">Activer</a>
+                <a class="dropdown-item" (click)="changePagesize(5)">5
+                </a>
+                <a class="dropdown-item" (click)="changePagesize(10)">10
+                </a>
+                <a class="dropdown-item" (click)="changePagesize(20)">20
                 </a>
               </a>
             </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+          <div class="col-sm-8">
+            <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages [pageSize]="itemsPerPage"
+              [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <ng-template #editProfileModal let-modal>
@@ -137,7 +163,8 @@
 </ng-template>
 <ng-template #showProfileModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="showProfileLabel">{{f.CustomerTitre.value}} {{f.CustomerName.value}} {{f.CustomerLastName.value}}</h5>
+    <h5 class="modal-title" id="showProfileLabel">{{f.CustomerTitre.value}} {{f.CustomerName.value}}
+      {{f.CustomerLastName.value}}</h5>
     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

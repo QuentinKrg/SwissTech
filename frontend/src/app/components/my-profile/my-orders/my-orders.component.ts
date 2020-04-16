@@ -18,9 +18,8 @@ export class MyOrdersComponent implements OnInit {
   filterValue: Array<any> = [];
   dateToFilterWith: string = "";
   selectedOption: number = -1;
-  textToFilterWith : string = "";
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 5;
   pageSize: number;
   collectionSize: number;
 
@@ -55,9 +54,7 @@ export class MyOrdersComponent implements OnInit {
   
   changePagesize(num) {
   this.itemsPerPage =  num;
-  console.log(num);
-  
-}
+  }
   openModal(targetModal, order) {
     this.modalService.open(targetModal, {
      centered: true,
