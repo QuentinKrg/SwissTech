@@ -48,6 +48,7 @@
                         <td><select  [ngModel]="order.StatusId" #mySelect  (change)='onOptionsSelected(mySelect.value, order.id_Order)' class="form-control">
                             <option *ngFor="let status of allStatus" [value]="status.id">{{status.StatusName}}</option>
                         </select></td>
+                        <td><a class="btn btn-light" (click)="openModal(showOrderDetails, order)">Détails</a></td>
                     </tr>
                   </tbody>
             </table>
@@ -77,6 +78,45 @@
         </div>
     </div>
 </div>
+<ng-template #showOrderDetails let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="showOrderDetails">Détails de la commande n° {{selectedOrder.id_Order}}</h5>
+      <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <div class="modal-body">
+        <div class="table table-responsive table-borderless">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                      <th scope="col">Produit</th>
+                      <th scope="col">Quantité</th>
+                      <th scope="col">Montant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let details of orderDetails">
+                        <td>{{details.ProductName}}</td>
+                        <td>{{details.Quantity}}x</td>
+                        <td>{{details.TotalPrice}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-4"><span>Total : {{selectedOrder.TotalOrder}}.-</span></div>
+            <div class="col-6"><span>Méthode de paiement : {{selectedOrder.MethodName}}</span></div>
+        </div>
+        
+    </div>
+    <div class="modal-footer ">
+        <div class="row">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Fermer</button>
+        </div>
+    </div>
+  </ng-template>
 
 
 

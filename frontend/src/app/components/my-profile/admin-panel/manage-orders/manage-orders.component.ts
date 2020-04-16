@@ -4,6 +4,7 @@ import { Status } from 'src/app/models/status';
 import { Order } from 'src/app/models/order';
 import { AlertService } from 'src/app/services/alert.service';
 import { DatePipe } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-manage-orders',
@@ -14,7 +15,8 @@ export class ManageOrdersComponent implements OnInit {
   
   constructor(private _orderService: OrdersService,
               private _alertService: AlertService,
-              private _datePipe: DatePipe) { }
+              private _datePipe: DatePipe,
+              private _modalService: NgbModal) { }
 
   allStatus: Status[];
   allOrders: Order[];
@@ -26,6 +28,8 @@ export class ManageOrdersComponent implements OnInit {
   itemsPerPage = 5;
   pageSize: number;
   collectionSize: number;
+  selectedOrder: Order = new Order;
+  orderDetails: Order[] = [];
 
   ngOnInit() {
     this._orderService.getAllStatus().subscribe(data => this.allStatus = data);
@@ -107,8 +111,15 @@ export class ManageOrdersComponent implements OnInit {
 
     this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(this.textToFilterWith) !== -1);
     
+  }
 
-    
+  openModal(targetModal, order) {
+    this._modalService.open(targetModal, {
+     centered: true,
+     backdrop: 'static'
+    });
+    this.selectedOrder = order;
+    this._orderService.getOrderDetailsByOrderID(this.selectedOrder.id_Order).subscribe(data => { this.orderDetails = data});
   }
 
 
