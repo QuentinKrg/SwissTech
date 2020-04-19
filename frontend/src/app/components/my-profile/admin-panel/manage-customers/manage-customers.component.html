@@ -173,10 +173,10 @@
   <div class="modal-body p-3">
     <div class="row p-3">
       <div class="col-sm-4">
-        Téléphone:
+        Nom d'utilisateur:
       </div>
       <div class="col-sm-8">
-        {{f.CustomerPhone.value}}
+        {{f.Username.value}}
       </div>
     </div>
     <div class="row p-3">
@@ -189,12 +189,13 @@
     </div>
     <div class="row p-3">
       <div class="col-sm-4">
-        Date de naissance:
+        Téléphone:
       </div>
       <div class="col-sm-8">
-        {{f.CustomerBirthday.value}}
+        {{f.CustomerPhone.value}}
       </div>
     </div>
+    
     <div class="row p-3">
       <div class="col-sm-4">
         Client depuis:
@@ -211,5 +212,13 @@
         {{f.IpAddress.value}}
       </div>
     </div>
+    <div class="row p-3">
+      <div class="col-sm-4">
+        Date de naissance:
+      </div>
+      <div class="col-sm-8">
+        {{f.CustomerBirthday.value}}
+      </div>
+    </div>  
   </div>
 </ng-template>

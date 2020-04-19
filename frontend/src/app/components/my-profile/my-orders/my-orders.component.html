@@ -31,39 +31,31 @@
                         <td>{{ order.TotalOrder }}</td>
                         <td>{{ order.MethodName }}</td>
                         <td>{{ order.StatusName }}</td>
-                        <td><button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-ellipsis-v"></i>
-                                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item"
-                                        (click)="openModal(showOrderDetailsModal, order)">Details</a>
-                                    <div class="dropdown-divider"></div>
-                                </a>
-                            </button></td>
+                        <td>
+                            <a class="btn btn-light" (click)="openModal(showOrderDetailsModal, order)">Détails</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
             <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
-                <div class="col-sm-3" >
+                <div class="col-sm-3">
                     <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <a>{{itemsPerPage}} par page...</a>
-                                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item"
-                                        (click)="changePagesize(5)">5
-                                    </a>
-                                    <a class="dropdown-item"
-                                        (click)="changePagesize(10)">10
-                                    </a>
-                                    <a class="dropdown-item"
-                                        (click)="changePagesize(20)">20
-                                    </a>
-                                </a>
-                            </button>
+                        aria-haspopup="true" aria-expanded="false">
+                        <a>{{itemsPerPage}} par page...</a>
+                        <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" (click)="changePagesize(5)">5
+                            </a>
+                            <a class="dropdown-item" (click)="changePagesize(10)">10
+                            </a>
+                            <a class="dropdown-item" (click)="changePagesize(20)">20
+                            </a>
+                        </a>
+                    </button>
                 </div>
                 <div class="col-sm-8">
-                    <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages [pageSize]="itemsPerPage"
-                        [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+                    <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages
+                        [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)">
+                    </ngb-pagination>
                 </div>
             </div>
         </div>
@@ -78,29 +70,41 @@
     </div>
 
     <div class="modal-body p-3 ">
-
-        <div *ngFor="let orderdetail of Orderdetails">
-            <div class="row m-3 shadow-sm p-3 mb-5 bg-white rounded ">
-                <div class="col-md">
-                    <a [routerLink]="['/product-details', orderdetail.id_Product]">
-                        <img src="/assets/images/products/{{orderdetail.ImagePath}}" alt="" width="100"
-                            class="img-fluid rounded shadow-sm">
-                    </a>
-                </div>
-                <div class="col-md">
-                    <a [routerLink]="['/product-details', orderdetail.id_Product]"
-                        class="text-dark d-inline-block align-middle">{{orderdetail.ProductName}}</a>
-                </div>
-                <div class="col-md">
-                    Qty : {{orderdetail.Quantity}}
-                </div>
-                <div class="col-md">
-                    Prix: {{orderdetail.CourantUnitPrice}}
-                </div>
-                <div class="col-md">
-                    {{orderdetail.TotalPrice}}
-                </div>
-            </div>
+        <div class="table table-responsive table-borderless">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Montant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let details of Orderdetails">
+                        <td class="align-middle">
+                            <div class="row">
+                                <div class="col-sm-3 ">
+                                    <a [routerLink]="['/product-details', details.id_Product]">
+                                        <img src="/assets/images/products/{{details.ImagePath}}" alt="" width="100"
+                                            class="img-fluid rounded shadow-sm">
+                                    </a>
+                                </div>
+                                <div class="col-sm d-flex align-items-center">
+                                    <a [routerLink]="['/product-details', details.id_Product]" 
+                                    class="text-dark d-inline-block ">
+                                        {{ details.ProductName}}</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle text-center">{{details.Quantity}}x</td>
+                        <td class="align-middle text-center">{{details.TotalPrice}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-3"><div class="row float-left pl-3"><h6>Total : </h6> {{selectedOrder.TotalOrder}}.-</div></div>
+            <div class="col-8"><div class="row float-right pr-3"><h6>Méthode de paiement : </h6> {{selectedOrder.MethodName}}</div></div>
         </div>
     </div>
-</ng-template>
+</ng-template>  

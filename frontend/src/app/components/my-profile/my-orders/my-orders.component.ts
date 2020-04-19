@@ -14,7 +14,7 @@ export class MyOrdersComponent implements OnInit {
   currentUsername = this.authenticationService.currentUserValue.login;
   myOrders: Order[];
   Orderdetails: Order[];
-  selectedOrder: string;
+  selectedOrder: Order = new Order;
   filterValue: Array<any> = [];
   dateToFilterWith: string = "";
   selectedOption: number = -1;
@@ -62,9 +62,9 @@ export class MyOrdersComponent implements OnInit {
      size: 'lg'
     });
 
-    this.selectedOrder = order.id_Order;
+    this.selectedOrder = order;
     
-    this.getOrderDetails(this.selectedOrder);
+    this.getOrderDetails(this.selectedOrder.id_Order);
    }
    
   getOrderDetails(orderid){
