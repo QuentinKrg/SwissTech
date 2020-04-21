@@ -16,7 +16,7 @@ export class ProductService {
     return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=TestMBAD');
   }
  
-  getProducts() {
+  getAllProducts() {
     return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAll');
   }
 

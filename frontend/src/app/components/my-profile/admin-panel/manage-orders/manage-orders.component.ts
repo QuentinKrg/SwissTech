@@ -41,8 +41,9 @@ export class ManageOrdersComponent implements OnInit {
   }
   
   changePagesize(num) {
-  this.itemsPerPage =  num;
+    this.itemsPerPage =  num;
   }
+  
   getAllOrders() {
     this._orderService.getAllOrders().subscribe((data: Order[]) => {
       this.allOrders = data;
@@ -57,11 +58,14 @@ export class ManageOrdersComponent implements OnInit {
     tmpOrder.StatusId = statusValue;
 
     this._orderService.updateOrder(tmpOrder).subscribe(
-      () => this._alertService.success("Le status de la commande n°" + orderId + " a bien été modifié."),
+      () => {
+        this._alertService.success("Le status de la commande n°" + orderId + " a bien été modifié.");
+        this.getAllOrders();
+      },
       error => {this._alertService.error("Une erreur est survenue lors de la modification du status de la commande " + orderId +".")}
     );
 
-    this.getAllOrders();
+    
   }
 
   filteredByText(initial: string) {

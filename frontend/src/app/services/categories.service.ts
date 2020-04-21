@@ -16,4 +16,8 @@ export class CategoriesService {
   getAllMainGategories() {
     return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllMain');
   }
+
+  getAllCategoriesWithThisTopCategory(id: number) {
+    return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllCategoriesWithCategory&id='+id);
+  }
 }

@@ -1,1 +1,93 @@
-<p>manage-products works!</p>
+<!-- Navigation -->
+<small><a routerLink="/myprofile">Administration</a> / <a routerLink="/myprofile/manageorders">Gestion des articles</a></small>
+<!-- Titre -->
+<h4 class="pb-3">Gestion des articles</h4>
+<!-- Filtres de recherches -->
+<div class="row">
+    <!-- Recherche par nom d'article -->
+    <div class="col-md-6 col-sm-12">
+        <label class="control-label" for="selectProduct">Filtrer par nom de article</label>
+        <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text">
+    </div>
+    <!-- L'article est il artif ou non -->
+    <div class="col-md-6 col-sm-12" >
+        <label class="control-label" for="selectDate">Filtrer par état</label>
+        <select  class="form-control" id="selectStatus">
+            <option value="-1" selected>Les deux</option>
+            <option value="1">Actif</option>
+            <option value="0">Innactif</option>
+        </select>
+    </div>
+</div>
+<div class="row py-2">
+    <!-- Liste des catégories des articles -->
+    <div class="col-md-4 col-sm-12">
+        <label class="control-label" for="selectStatus">Filtrer par catégories</label>
+        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedMainCategory" (change)="filteredByCategories()">
+            <option value="-1" selected>Toutes</option>
+            <option *ngFor="let cat of allMainCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
+        </select>
+    </div>
+    <!-- Liste des sous-catégories des articles -->
+    <div class="col-md-4 col-sm-12" *ngIf="allSubCategories.length != 0">
+        <label class="control-label" for="selectStatus">Filtrer par sous-catégories</label>
+        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubCategory" >
+            <option value="-1" selected>Toutes</option>
+            <option *ngFor="let cat of allSubCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
+        </select>
+    </div>
+    <!-- Liste des sous-sous-catégories des articles -->
+    <div class="col-md-4 col-sm-12" *ngIf="allSubSubCategories.length != 0">
+        <label class="control-label" for="selectStatus">Filtrer par sous-sous-catégories</label>
+        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubSubCategory">
+            <option value="-1" selected>Toutes</option>
+            <option *ngFor="let cat of allMainCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
+        </select>
+    </div>
+</div>
+<!-- Tableau -->
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <!-- Label du tableau -->
+                <thead>
+                    <tr>
+                      <th scope="col">N° de l'article</th>
+                      <th scope="col">Nom de l'article</th>
+                      <th scope="col">Catégorie</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <!-- Données -->
+                  <tbody>
+                    <tr *ngFor="let product of allProducts">
+                        <th scope="row">{{product.id_Product}}</th>
+                        <td>{{product.ProductName}}</td>
+                        <td>{{product.CategoryName}}</td>
+                        <td>
+                            <span class="p-1 mw-100 rounded" [ngClass]="product.isActive==false  ? ' bg-danger text-white' : 'bg-success text-white'">
+                            <span *ngIf="product.isActive==true"> Actif </span>
+                            <span *ngIf="product.isActive==false">inactif</span>
+                            </span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v"></i>
+                            <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" >Aperçu de l'article</a>
+                              <a class="dropdown-item" >Modifier l'article</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" >
+                                <a>Désactiver</a>
+                                <a>Activer</a>
+                              </a>
+                            </a>
+                          </button></td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>
