@@ -138,19 +138,37 @@ export class ManageCustomersComponent implements OnInit {
     });
 
     this.selectedUser = user.Username;
-
+    //Service qui retourne l'adresse de livraison et assigne les données au formulaire
+    this._userService.getShippingAddress(this.selectedUser).subscribe(
+      (data = new Customer) => {
+        this.f.shippingAddress.setValue(data.shippingAddress);
+        this.f.shippingCity.setValue(data.shippingCity);
+        this.f.shippingZip.setValue(data.shippingZip);
+        console.log(data);
+        
+      },
+      (error) => {
+        this.usernameErrorMessage = "Error ";
+        console.log(error);
+      });
+    //Service qui retourne l'adresse de facturation et assigne les données au formulaire
+    this._userService.getBillingAddress(this.selectedUser).subscribe(
+      (data = new Customer) => {
+        this.f.billingAddress.setValue(data.billingAddress);
+        this.f.billingCity.setValue(data.billingCity);
+        this.f.billingZip.setValue(data.billingZip);
+        console.log(data);
+        
+      },
+      (error) => {
+        this.usernameErrorMessage = "Error ";
+        console.log(error);
+      });
     this.editProfileForm.patchValue({
       CustomerTitre: user.CustomerTitre ,
       CustomerName: user.CustomerName,
       CustomerLastName: user.CustomerLastName,
       CustomerBirthday: user.CustomerBirthday,
-      shippingAddress: user.shippingAddress,
-      shippingCity: user.shippingCity,
-      shippingZip: user.shippingZip,
-      checkbox_address: user.checkbox_address,
-      billingAddress: user.billingAddress,
-      billingCity: user.billingCity,
-      billingZip: user.billingZip,
       CustomerEmail:  user.CustomerEmail,
       CustomerPhone: user.CustomerPhone,
       Username: user.Username,
