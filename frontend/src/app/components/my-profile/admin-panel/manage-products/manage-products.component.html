@@ -7,12 +7,12 @@
     <!-- Recherche par nom d'article -->
     <div class="col-md-6 col-sm-12">
         <label class="control-label" for="selectProduct">Filtrer par nom de article</label>
-        <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text">
+        <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text" (keyup)="filteredByText($event.target.value)">
     </div>
     <!-- L'article est il artif ou non -->
     <div class="col-md-6 col-sm-12" >
         <label class="control-label" for="selectDate">Filtrer par état</label>
-        <select  class="form-control" id="selectStatus">
+        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
             <option value="-1" selected>Les deux</option>
             <option value="1">Actif</option>
             <option value="0">Innactif</option>
@@ -31,7 +31,7 @@
     <!-- Liste des sous-catégories des articles -->
     <div class="col-md-4 col-sm-12" *ngIf="allSubCategories.length != 0">
         <label class="control-label" for="selectStatus">Filtrer par sous-catégories</label>
-        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubCategory" >
+        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubCategory" (change)="filteredByCategories()">
             <option value="-1" selected>Toutes</option>
             <option *ngFor="let cat of allSubCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
         </select>
@@ -39,9 +39,9 @@
     <!-- Liste des sous-sous-catégories des articles -->
     <div class="col-md-4 col-sm-12" *ngIf="allSubSubCategories.length != 0">
         <label class="control-label" for="selectStatus">Filtrer par sous-sous-catégories</label>
-        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubSubCategory">
+        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubSubCategory" (change)="filteredByCategories()">
             <option value="-1" selected>Toutes</option>
-            <option *ngFor="let cat of allMainCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
+            <option *ngFor="let cat of allSubSubCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
         </select>
     </div>
 </div>
@@ -79,9 +79,11 @@
                               <a class="dropdown-item" >Aperçu de l'article</a>
                               <a class="dropdown-item" >Modifier l'article</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" >
-                                <a>Désactiver</a>
-                                <a>Activer</a>
+                              <a class="dropdown-item" >Gérer les commentaires</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" (click)="onChangeProductStatus(product)">
+                                <a *ngIf="product.isActive==true">Désactiver</a>
+                                <a *ngIf="product.isActive==false">Activer</a>
                               </a>
                             </a>
                           </button></td>

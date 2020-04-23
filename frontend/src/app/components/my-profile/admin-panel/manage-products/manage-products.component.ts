@@ -29,8 +29,12 @@ export class ManageProductsComponent implements OnInit {
   allSubSubCategories: Categories[] = [];
   selectedSubSubCategory: number = -1;
 
+  selectedStatus: number = -1;
+
   allProducts: Product[];
   filterValue: Array<any> = [];
+
+  textToFilterWith : string = "";
 
   ngOnInit() {
     this._categoriesService.getAllMainGategories().subscribe((data) => {this.allMainCategories = data});
@@ -48,34 +52,114 @@ export class ManageProductsComponent implements OnInit {
     );
   }
 
-  filteredByCategories() {
-    if(this.selectedMainCategory != -1)
-    {
-      // Filtrages par main catégories
-
+  onChangeProductStatus(product: Product) {
+    if(product.isActive == true) {
+      product.isActive = false;
+    } else {
+      product.isActive = true;
     }
 
-    if(this.selectedMainCategory != -1 && this.selectedSubCategory == -1)
+    this._productService.updateProductStatus(product).subscribe(() => {
+      
+    },  
+    //en cas d'erreur
+    (error) => {
+      console.log(error);
+      return;
+    });
+  }
+
+  filteredByStatus() {
+    this.allProducts = this.filterValue;
+    if(this.selectedStatus == -1) {
+      this.allProducts = this.filterValue;
+    } else if (this.selectedStatus == 0) {
+      this.allProducts = this.allProducts.filter(p => p.isActive == false);
+    } else if (this.selectedStatus == 1) {
+      this.allProducts = this.allProducts.filter(p => p.isActive == true);
+    }
+
+    this.filteredByCategories();
+
+  }
+
+  filteredByText(initial: string) {
+    this.allProducts = this.filterValue;
+    this.filteredByStatus();
+    this.filteredByCategories();
+
+    this.allProducts = this.allProducts.filter(i => i.ProductName.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+    this.textToFilterWith = initial.toLocaleLowerCase();
+  }
+
+  filteredByCategories() {
+    this.allProducts = this.filterValue;
+
+    // Filter avec le texte
+    this.allProducts = this.allProducts.filter(i => i.ProductName.toLowerCase().indexOf(this.textToFilterWith) !== -1);
+
+    
+    // Si aucune catégorie principale n'est choisie
+    if(this.selectedMainCategory == -1) {
+      this.allSubCategories = [];
+      this.allSubSubCategories = [];
+      this.selectedSubCategory = -1;
+      this.selectedSubSubCategory = -1;
+      this.allProducts = this.filterValue;
+    }
+
+    
+    // Si une catégorie principale est choisie
+    if(this.selectedMainCategory != -1 )
     {
+      // Filtrages par main catégories
+      this.allProducts = this.allProducts.filter(p => p.Categories.find(cat => cat.id === this.selectedMainCategory));
+
       // Récupération des sous-catégories
+      this.allSubCategories = [];
+      this.allSubSubCategories = [];
       this._categoriesService.getAllCategoriesWithThisTopCategory(this.selectedMainCategory).subscribe(
         (data: Categories[]) => {this.allSubCategories = data}
       );
     }
 
+    // Si une sous-catégories est choisie
     if(this.selectedMainCategory != -1 && this.selectedSubCategory != -1) 
     {
       // Filtrage par sous catégories
-    }
+      this.allProducts = this.allProducts.filter(p => p.Categories.find(cat => cat.id === this.selectedSubCategory));
 
-    if(this.selectedMainCategory != -1 && this.selectedSubCategory != -1 && this.selectedSubSubCategory == -1)
-    {
       // Récupération des sous-sous catégories
+      this.allSubSubCategories = [];
+      this._categoriesService.getAllCategoriesWithThisTopCategory(this.selectedSubCategory).subscribe(
+        (data: Categories[]) => {this.allSubSubCategories = data;}
+      );
     }
 
-    if(this.selectedMainCategory != -1 && this.selectedSubCategory != -1 && this.selectedSubSubCategory != -1) {
-      // Filtrage par sous-sous catégories
+
+    if(this.selectedMainCategory != -1 && this.selectedSubCategory == -1) 
+    {
+      this.allSubSubCategories = [];
+      this.selectedSubSubCategory = -1;
     }
+
+    // Si une sous-sous-catégorie est  choisie
+    if(this.selectedMainCategory != -1 && this.selectedSubCategory != -1 && this.selectedSubSubCategory != -1)
+    {
+      // Filtrage par sous-sous catégories
+      this.allProducts = this.allProducts.filter(p => p.Categories.find(cat => cat.id === this.selectedSubSubCategory));
+    }
+
+    // Refiltrage par texte
+    this.allProducts = this.allProducts.filter(i => i.ProductName.toLowerCase().indexOf(this.textToFilterWith) !== -1);
+
+    // refiltrage par status 
+    if (this.selectedStatus == 0) {
+      this.allProducts = this.allProducts.filter(p => p.isActive == false);
+    } else if (this.selectedStatus == 1) {
+      this.allProducts = this.allProducts.filter(p => p.isActive == true);
+    }
+
   }
 
 }

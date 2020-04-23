@@ -43,4 +43,8 @@ export class ProductService {
   updateProduct(product: Product) {
     return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=Update',  product);
   }
+
+  updateProductStatus(product: Product) {
+    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateProductStatus',  product);
+  }
 }

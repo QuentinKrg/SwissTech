@@ -212,4 +212,22 @@ class Product extends Entity
       return $tmpResult;
     }
 
+    public function UpdateProductStatus(){
+      if($this->jsonToProcess !=null)
+      {
+        $productID = $this->jsonToProcess->id_Product;
+    	  $productStatus = $this->jsonToProcess->isActive;
+
+
+  			//Update
+  			$updateProductStatus = "UPDATE
+  									t_products
+  								SET
+  									t_products.isActive = '$productStatus'
+  								WHERE
+  									t_products.id_Product = '$productID'";
+  			$this->Query($updateProductStatus);
+      }
+  	}
+
 }
