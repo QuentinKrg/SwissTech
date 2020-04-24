@@ -64,4 +64,23 @@ class Comments extends Entity
         $this->Query($sql);
       }
     }
+
+    // Mise à jour du statut d'un commentaire
+    public function UpdateCommentStatus(){
+      if($this->jsonToProcess !=null)
+      {
+        $commentId = $this->jsonToProcess->id_Comment;
+    	  $commentStatus = $this->jsonToProcess->isActive;
+
+
+  			//Update
+  			$updateCommentStatus = "UPDATE
+  									t_comments
+  								SET
+  									t_comments.isActive = '$commentStatus'
+  								WHERE
+  									t_comments.id_Comment = '$commentId'";
+  			$this->Query($updateCommentStatus);
+      }
+  	}
 }

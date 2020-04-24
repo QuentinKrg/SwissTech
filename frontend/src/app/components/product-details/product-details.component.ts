@@ -172,6 +172,7 @@ get f() { return this.addCommentForm.controls; }
 
     this._commentsService.addComment(tmpComment).subscribe(() => {
       this.ngOnInit();
+      this.generateCaptchaImage();
     });
   }
 }

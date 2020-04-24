@@ -81,7 +81,7 @@
                                     <div class="list-group" *ngIf="comment.isActive == true">
                                         <div class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="">{{comment.CommentValue}}</h5>
+                                                <h5 class="text-break">{{comment.CommentValue}}</h5>
                                                 <small>{{comment.CommentDate | date: 'dd/MM/yyyy à HH:mm'}}</small>
                                             </div>
                                             <small class="text-muted">{{comment.CustomerName}} {{comment.CustomerLastName}}</small>

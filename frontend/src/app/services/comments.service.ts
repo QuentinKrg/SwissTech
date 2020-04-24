@@ -20,4 +20,8 @@ export class CommentsService {
     return this.http.post<Comments>(environment.backendURL + 'start.php?' + 'c=Comments&f=addComment', comment);
   }
 
+  updateCommentStatus(comment: Comments) {
+    return this.http.post<Comments[]>(environment.backendURL + 'start.php?' + 'c=Comments&f=UpdateCommentStatus',  comment);
+  }
+
 }

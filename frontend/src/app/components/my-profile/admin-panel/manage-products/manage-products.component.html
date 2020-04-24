@@ -7,7 +7,7 @@
     <!-- Recherche par nom d'article -->
     <div class="col-md-6 col-sm-12">
         <label class="control-label" for="selectProduct">Filtrer par nom de article</label>
-        <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text" (keyup)="filteredByText($event.target.value)">
+        <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text" [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
     </div>
     <!-- L'article est il artif ou non -->
     <div class="col-md-6 col-sm-12" >
@@ -29,7 +29,7 @@
         </select>
     </div>
     <!-- Liste des sous-catégories des articles -->
-    <div class="col-md-4 col-sm-12" *ngIf="allSubCategories.length != 0">
+    <div class="col-md-4 col-sm-12" *ngIf="allSubCategories.length > 0">
         <label class="control-label" for="selectStatus">Filtrer par sous-catégories</label>
         <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubCategory" (change)="filteredByCategories()">
             <option value="-1" selected>Toutes</option>
@@ -37,7 +37,7 @@
         </select>
     </div>
     <!-- Liste des sous-sous-catégories des articles -->
-    <div class="col-md-4 col-sm-12" *ngIf="allSubSubCategories.length != 0">
+    <div class="col-md-4 col-sm-12" *ngIf="allSubSubCategories.length > 0">
         <label class="control-label" for="selectStatus">Filtrer par sous-sous-catégories</label>
         <select  class="form-control" id="selectStatus" [(ngModel)]="selectedSubSubCategory" (change)="filteredByCategories()">
             <option value="-1" selected>Toutes</option>
@@ -45,51 +45,111 @@
         </select>
     </div>
 </div>
-<!-- Tableau -->
-<div class="row">
-    <div class="col-12">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <!-- Label du tableau -->
-                <thead>
-                    <tr>
-                      <th scope="col">N° de l'article</th>
-                      <th scope="col">Nom de l'article</th>
-                      <th scope="col">Catégorie</th>
-                      <th scope="col">Status</th>
-                    </tr>
-                  </thead>
-                  <!-- Données -->
-                  <tbody>
-                    <tr *ngFor="let product of allProducts">
-                        <th scope="row">{{product.id_Product}}</th>
-                        <td>{{product.ProductName}}</td>
-                        <td>{{product.CategoryName}}</td>
-                        <td>
-                            <span class="p-1 mw-100 rounded" [ngClass]="product.isActive==false  ? ' bg-danger text-white' : 'bg-success text-white'">
-                            <span *ngIf="product.isActive==true"> Actif </span>
-                            <span *ngIf="product.isActive==false">inactif</span>
-                            </span>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v"></i>
-                            <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <a class="dropdown-item" >Aperçu de l'article</a>
-                              <a class="dropdown-item" >Modifier l'article</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" >Gérer les commentaires</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" (click)="onChangeProductStatus(product)">
-                                <a *ngIf="product.isActive==true">Désactiver</a>
-                                <a *ngIf="product.isActive==false">Activer</a>
-                              </a>
-                            </a>
-                          </button></td>
-                    </tr>
-                  </tbody>
-            </table>
-        </div>
+<div class="row justify-content-end py-2 text-right">     
+    <!-- Ajout d'un article / Reset des filtres de recherche-->
+    <div class="col-md-4 col-sm-12">
+        <button class="btn btn-success">Ajouter un article</button>
+        <button class="btn btn-danger ml-1" (click)="clearAllFilters()">Clear</button>
     </div>
 </div>
+<!-- Tableau -->
+<div class="row" *ngIf="allProducts"> 
+    <div class="col-12">
+        <div *ngIf="allProducts.length > 0; then asProducts else noProduct"></div>
+        <ng-template #asProducts>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <!-- Label du tableau -->
+                    <thead>
+                        <tr>
+                        <th scope="col">N° de l'article</th>
+                        <th scope="col">Nom de l'article</th>
+                        <th scope="col">Catégorie</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <!-- Données -->
+                    <tbody *ngIf="allProducts.length > 0 && allProducts != null">
+                        <tr *ngFor="let product of allProducts">
+                            <th scope="row">{{product.id_Product}}</th>
+                            <td><a [routerLink]="['/product-details', product.id_Product]" class="text-dark d-inline-block">{{product.ProductName}}</a></td>
+                            <td>{{product.CategoryName}}</td>
+                            <td>
+                                <span class="p-1 mw-100 rounded" [ngClass]="product.isActive==false  ? ' bg-danger text-white' : 'bg-success text-white'">
+                                <span *ngIf="product.isActive==true"> Actif </span>
+                                <span *ngIf="product.isActive==false">inactif</span>
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" >Aperçu de l'article</a>
+                                <a class="dropdown-item" >Modifier l'article</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="openModalComments(showProductsComments, product)">Gérer les commentaires</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="onChangeProductStatus(product)">
+                                    <a *ngIf="product.isActive==true">Désactiver</a>
+                                    <a *ngIf="product.isActive==false">Activer</a>
+                                </a>
+                                </a>
+                            </button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-template>
+        <ng-template #noProduct>
+            <p>Aucuns articles ne corresponts à cette recherche</p>
+        </ng-template>
+    </div>
+</div>
+
+<!-- Modal commentaires-->
+<ng-template #showProductsComments let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="showOrderDetails">Détails de la commande n° {{selectedProduct.ProductName}}</h5>
+      <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div *ngIf="productComments != null;then asComments else noComments"></div>
+    <div class="modal-body">
+        <ng-template #asComments>
+            <div class="table table-responsive table-borderless">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                          <th scope="col">Date</th>
+                          <th scope="col">Commentaire</th>
+                          <th scope="col">Utilisateur</th>
+                          <th scope="col">Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let comment of productComments">
+                            <td>{{comment.CommentDate}}</td>
+                            <td>{{comment.CommentValue}}</td>
+                            <td>{{comment.CustomerName}} {{comment.CustomerLastName}}</td>
+                            <td><a [ngClass]="comment.isActive==false  ? ' btn btn-success text-white ' : 'btn btn-danger text-white'" (click)="onChangeCommentStatus(comment)">
+                                <span *ngIf="comment.isActive == true">Désactiver</span>
+                                <span *ngIf="comment.isActive == false">Activer</span>
+                            </a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>            
+        </ng-template>
+        <ng-template #noComments>
+            <p>Aucun commentaire sur cette article</p>
+        </ng-template>
+    </div>
+    <div class="modal-footer ">
+        <div class="row">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Fermer</button>
+        </div>
+    </div>
+  </ng-template>

@@ -5,6 +5,8 @@ import { AlertService } from 'src/app/services/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Categories } from 'src/app/models/categories';
 import { Product } from 'src/app/models/product';
+import { Comments } from 'src/app/models/comments';
+import { CommentsService } from 'src/app/services/comments.service';
 
 @Component({
   selector: 'app-manage-products',
@@ -17,6 +19,7 @@ export class ManageProductsComponent implements OnInit {
     private _categoriesService: CategoriesService,
     private _productService: ProductService,
     private _alertService: AlertService,
+    private _commentsService: CommentsService,
     private _modalService: NgbModal
   ) { }
 
@@ -35,12 +38,14 @@ export class ManageProductsComponent implements OnInit {
   filterValue: Array<any> = [];
 
   textToFilterWith : string = "";
+  filterText: string = "";
+
+  selectedProduct: Product = new Product;
+  productComments: Comments[] = [];
 
   ngOnInit() {
     this._categoriesService.getAllMainGategories().subscribe((data) => {this.allMainCategories = data});
     this.getAllProducts();
-    
-    
   }
 
   getAllProducts() {
@@ -60,6 +65,23 @@ export class ManageProductsComponent implements OnInit {
     }
 
     this._productService.updateProductStatus(product).subscribe(() => {
+      
+    },  
+    //en cas d'erreur
+    (error) => {
+      console.log(error);
+      return;
+    });
+  }
+
+  onChangeCommentStatus(comment: Comments) {
+    if(comment.isActive == true) {
+      comment.isActive = false;
+    } else {
+      comment.isActive = true;
+    }
+
+    this._commentsService.updateCommentStatus(comment).subscribe(() => {
       
     },  
     //en cas d'erreur
@@ -160,6 +182,30 @@ export class ManageProductsComponent implements OnInit {
       this.allProducts = this.allProducts.filter(p => p.isActive == true);
     }
 
+  }
+
+  clearAllFilters() {
+    this.allProducts = this.filterValue;
+    this.selectedMainCategory = -1;
+    this.allSubCategories = [];
+    this.selectedSubCategory = -1;
+    this.allSubSubCategories = [];
+    this.selectedSubSubCategory = -1;
+    this.textToFilterWith = "";
+    this.selectedStatus = -1;
+    this.filterText = '';
+  }
+
+  openModalComments(targetModal, product) {
+    this._modalService.open(targetModal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+    this.selectedProduct = product;
+    this._commentsService.getAllProductsComments(this.selectedProduct.id_Product).subscribe(data => { this.productComments = data});
+    
   }
 
 }
