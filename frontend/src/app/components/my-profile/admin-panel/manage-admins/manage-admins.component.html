@@ -39,17 +39,20 @@
 <!-- Modal pour l'ajout d'administrateur-->
 <ng-template #showAddAdminUser let-modal>
     <div class="modal-header">
-        <h5>Ajout d'administrateur</h5>
-      <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <div class="row">
+            <div class="col-12"><h3>Ajout d'administrateur</h3></div>
+            <div class="col-12"><h5><small>Tout utilisateur n'étant pas actif ne se trouvera pas dans cette liste. Se rendre sur <a routerLink="/myprofile/managecustomers" (click)="modal.dismiss()">gestion des utilisateurs</a> pour toutes modifications.</small></h5></div>
+        </div>       
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div class="row">
             <!-- Recherche par nom d'article -->
             <div class="col-md-6 col-sm-12">
-                <label class="control-label" for="selectProduct">Filtrer par nom de article</label>
-                <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text" [(ngModel)]="filterText" (keyup)="filteredByText()">
+                <label class="control-label" for="selectProduct">Filtrer par nom d'utilisateur</label>
+                <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'utilisateur" type="text" [(ngModel)]="filterText" (keyup)="filteredByText()">
             </div>
         </div>
         <div *ngIf="allStandartUsers.length > 0; then asUser else noUser"></div>
@@ -59,7 +62,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">N° de l'utilisateur</th>
-                                <th scope="col">Username</th>
+                                <th scope="col">Nom d'utilisateur</th>
                                 <th scope="col">Prénom / Nom</th>
                                 <th scope="col"></th>
                             </tr>
