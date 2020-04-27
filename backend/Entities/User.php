@@ -9,6 +9,7 @@ class User extends Entity
   }
   public function Login() {
 
+	 
     // Vérifier que l'on a bien reçu des données
     if($this->jsonToProcess !=null)
     {
@@ -16,6 +17,7 @@ class User extends Entity
       $login = $this->jsonToProcess->username;
       $password = $this->jsonToProcess->password;
 
+	 
       // Récupération des données de l'utilsateur
       $userInDB = $this->GetUserByUsername($login);
 
@@ -63,10 +65,31 @@ class User extends Entity
       {
         return http_response_code(408);
       }
-
+	  
+	  $this->UpdateIpAddress($login);  
+	
       // Envoie au format JSON du login, token, et role de l'utilisateur
       return ['id'=>$userInDB['id_user'],'login'=>$login,'token'=>$userToken,'role'=>$userInDB['RoleCode'],'FK_Customer'=>$userInDB['FK_Customer']];
     }
+  }
+  public function UpdateIpAddress($login){
+		if (!empty($_SERVER['HTTP_CLIENT_IP']))   
+		  {
+			$ip_address = $_SERVER['HTTP_CLIENT_IP'];
+		  }
+		//whether ip is from proxy
+		elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))  
+		  {
+			$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		  }
+		//whether ip is from remote address
+		else
+		  {
+			$ip_address = $_SERVER['REMOTE_ADDR'];
+		  }
+	  
+		$sql ="UPDATE t_users SET IpAddress ='$ip_address' WHERE  Username ='$login'";
+		$this->Query($sql);
   }
 
 
