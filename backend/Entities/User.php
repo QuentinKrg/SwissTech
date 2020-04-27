@@ -93,7 +93,7 @@ class User extends Entity
   // Création d'un token
   private function CreateToken($login)
   {
-	  
+
     // Création du token
     $token = md5(bin2hex(random_bytes(10)));
 
@@ -109,23 +109,78 @@ class User extends Entity
     $this->Query($sql);
     return $token;
   }
+
+  public function GetAllUsers() {
+
+    // Variable
+    $allUser = [];
+    // Requête
+    $sql="SELECT * FROM t_users INNER JOIN t_roles ON t_users.FK_Role = t_roles.id_role INNER JOIN t_customers ON t_customers.id_customer = t_users.FK_Customer";
+    // Execution
+    $tmpResult = $this->Query($sql);
+
+    // Stockage + retour
+    if($tmpResult->rowCount() > 0) {
+      // Sortir les données pour chaque "row"
+      $cr = 0;
+      while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+        $allUser[$cr]['id'] = $row['id_user'];
+        $allUser[$cr]['login'] = $row['Username'];
+        $allUser[$cr]['username'] = $row['CustomerName']." ".$row['CustomerLastName'];
+        $allUser[$cr]['role'] = $row['RoleCode'];
+        $allUser[$cr]['isActive'] = $row['isActive'];
+        $cr++;
+      }
+
+      return $allUser;
+    }
+
+
+  }
+
+  // Mise à jour du role d'un utilisateur
+  public function UpdateUserRole() {
+    if($this->jsonToProcess !=null)
+    {
+      $userID = $this->jsonToProcess->id;
+      $userRoleCode = $this->jsonToProcess->role;
+      $FK_Role = -1;
+
+      // Définir l'id du role de l'utilisateur
+      switch ($userRoleCode) {
+        case 'AD':
+          $FK_Role = 2;
+          break;
+        case 'ST':
+          $FK_Role = 1;
+          break;
+      }
+
+      // Requête
+      $sql="UPDATE t_users SET t_users.FK_Role = '$FK_Role' WHERE t_users.id_user = '$userID'";
+      $this->Query($sql);
+    }
+  }
+
+  // Mise à jour du statut d'un utilisateur
   public function UpdateUserStatus(){
-	  $userID = $this->jsonToProcess->id_user;
-	  $userStatus = $this->jsonToProcess->isActive;
-	
-				//Update
-				$updateUserStatus = "UPDATE
-										t_users
-									SET
-										t_users.isActive = '$userStatus'
-									WHERE
-										t_users.id_user = '$userID'";
-				$this->Query($updateUserStatus);
-			
-			 
+    if($this->jsonToProcess !=null)
+    {
+      $userID = $this->jsonToProcess->id_user;
+  	  $userStatus = $this->jsonToProcess->isActive;
+
+  			//Update
+  			$updateUserStatus = "UPDATE
+  									t_users
+  								SET
+  									t_users.isActive = '$userStatus'
+  								WHERE
+  									t_users.id_user = '$userID'";
+  			$this->Query($updateUserStatus);
+    }
 	}
 }
-	
+
 
 
  ?>

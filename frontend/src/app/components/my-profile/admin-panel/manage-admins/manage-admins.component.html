@@ -1,1 +1,90 @@
-<p>manage-admins works!</p>
+<!-- Navigation -->
+<small><a routerLink="/myprofile">Administration</a> / <a routerLink="/myprofile/manageadmins">Gestion des administrateurs</a></small>
+<!-- Titre -->
+<h4 class="pb-3">Gestion des administrateurs</h4>
+<div class="row py-2">
+    <!-- Ajout d'un admin / Reset des filtres-->
+    <div class="col-md-12 col-sm-12 text-left">
+        <button class="btn btn-success" (click)="openModal(showAddAdminUser)">Ajouter un administrateur</button>
+    </div>
+</div>
+<!-- Tableau -->
+<div class="row"> 
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <!-- Label du tableau -->
+                <thead>
+                    <tr>
+                        <th scope="col">N° de l'utilisateur</th>
+                        <th scope="col">Nom d'utilisateur</th>
+                        <th scope="col">Prénom / Nom</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <!-- Données -->
+                <tbody >
+                    <tr *ngFor="let user of allAdminUsers">
+                        <th scope="row">{{user.id}}</th>
+                        <td>{{user.login}}</td>
+                        <td>{{user.username}}</td>
+                        <td><a class="btn btn-danger text-white" (click)="updateUserRole(user)"> Retirer des admins
+                        </a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Modal pour l'ajout d'administrateur-->
+<ng-template #showAddAdminUser let-modal>
+    <div class="modal-header">
+        <h5>Ajout d'administrateur</h5>
+      <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <!-- Recherche par nom d'article -->
+            <div class="col-md-6 col-sm-12">
+                <label class="control-label" for="selectProduct">Filtrer par nom de article</label>
+                <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text" [(ngModel)]="filterText" (keyup)="filteredByText()">
+            </div>
+        </div>
+        <div *ngIf="allStandartUsers.length > 0; then asUser else noUser"></div>
+            <ng-template #asUser>
+                <div class="table table-responsive table-borderless">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">N° de l'utilisateur</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Prénom / Nom</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of allStandartUsers">
+                                <td>{{user.id}}</td>
+                                <td>{{user.login}}</td>
+                                <td>{{user.username}}</td>
+                                <td><a class="btn btn-success text-white" (click)="updateUserRole(user)"> Ajouter aux administrateurs
+                                </a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>     
+            </ng-template>     
+            <ng-template #noUser>
+                <p>Aucun utilisateur n'a été trouvé</p>
+            </ng-template>
+              
+    </div>
+    
+    <div class="modal-footer ">
+        <div class="row">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Fermer</button>
+        </div>
+    </div>
+  </ng-template>

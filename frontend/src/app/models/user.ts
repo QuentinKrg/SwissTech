@@ -7,5 +7,6 @@ export class User {
     token: string;
     tokenValidity: Date;
     role: string;
+    isActive: boolean;
     FK_Customer: number;
 }

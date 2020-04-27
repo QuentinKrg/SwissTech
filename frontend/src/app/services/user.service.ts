@@ -14,6 +14,14 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getAllUsers() {
+    return this.http.get<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=GetAllUsers');
+  }
+
+  updateUserRole(user: User) {
+    return this.http.post<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=UpdateUserRole',  user);
+  }
+
   addCustomer(customer: Customer) {
     return new Promise(
       (resolve, reject) => {

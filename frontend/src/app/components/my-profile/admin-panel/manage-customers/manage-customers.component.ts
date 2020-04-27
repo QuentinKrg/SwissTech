@@ -32,40 +32,6 @@ export class ManageCustomersComponent implements OnInit {
 
   }
 
-  //Fonction pour la recherche dans la liste des clients
-  filterByText(initial: string) {
-
-    this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
-
-    //condition permetant de rechercher dans les utilisateur actifs uniquement
-    if(this.isChecked){
-      this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
-     }else{
-      this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
-     }
-    //Fonction filter ciblant l'array retournée par la requette au backend, plus précisément le nom d'utilisateur.
-    //initial c'est la lettre tappée par l'admin dans le champ de recherche.
-    this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
-  }
-  
-  filterByStatus() {
-    this.element = <HTMLInputElement> document.getElementById("checkbox_status");
-    this.isChecked = this.element.checked;
-   if(this.isChecked){
-    this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
-   }else{
-    this.allCustomers = this.filterValue;
-   }
-    
-  }
-  onPageChange(pageNum: number): void {
-    this.pageSize = this.itemsPerPage*(pageNum - 1);
-  }
-  
-  changePagesize(num) {
-  this.itemsPerPage =  num;
-  
-}
   ngOnInit() {
     this.editProfileForm = this.fb.group({
       CustomerTitre: ['', Validators.required],
@@ -115,6 +81,42 @@ export class ManageCustomersComponent implements OnInit {
      });
     this.getCustomers();
   }
+
+  //Fonction pour la recherche dans la liste des clients
+  filterByText(initial: string) {
+
+    this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
+
+    //condition permetant de rechercher dans les utilisateur actifs uniquement
+    if(this.isChecked){
+      this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
+     }else{
+      this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
+     }
+    //Fonction filter ciblant l'array retournée par la requette au backend, plus précisément le nom d'utilisateur.
+    //initial c'est la lettre tappée par l'admin dans le champ de recherche.
+    this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+  }
+  
+  filterByStatus() {
+    this.element = <HTMLInputElement> document.getElementById("checkbox_status");
+    this.isChecked = this.element.checked;
+   if(this.isChecked){
+    this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
+   }else{
+    this.allCustomers = this.filterValue;
+   }
+    
+  }
+  onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage*(pageNum - 1);
+  }
+  
+  changePagesize(num) {
+  this.itemsPerPage =  num;
+  
+}
+  
   get f() { return this.editProfileForm.controls; }
 
   getCustomers() {

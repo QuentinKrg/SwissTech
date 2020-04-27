@@ -208,8 +208,6 @@ class Product extends Entity
         // echo de la liste des articles
         return $articles;
       }
-      // Fermeture de la connexion
-      return $tmpResult;
     }
 
     // Mise à jour du statut d'un article
