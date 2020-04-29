@@ -229,4 +229,10 @@ class Product extends Entity
       }
   	}
 
+    // Récupération d'une image
+    public function TryToGetImage()
+    {
+      var_dump($this->jsonToProcess);
+    }
+
 }

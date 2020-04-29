@@ -48,7 +48,7 @@
 <div class="row justify-content-end py-2 text-right">     
     <!-- Ajout d'un article / Reset des filtres de recherche-->
     <div class="col-md-4 col-sm-12">
-        <button class="btn btn-success">Ajouter un article</button>
+        <button class="btn btn-success" (click)="openModalAddProduct(showAddProduct)">Ajouter un article</button>
         <button class="btn btn-danger ml-1" (click)="clearAllFilters()">Clear</button>
     </div>
 </div>
@@ -107,6 +107,88 @@
         </ng-template>
     </div>
 </div>
+<!-- Modal pour l'ajout d'article-->
+<ng-template #showAddProduct let-modal>
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-12"><h3>Ajout d'article</h3></div>
+        </div>       
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addProductGroup" (ngSubmit)="onSubmitAdd()" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col-md-6 col-sm-12">
+                    <label for="productName">Nom de l'article</label>
+                    <input class="form-control" type="text" name="productName" id="productName" placeholder="Ex: PS4 Pro 2020">
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label for="productColor">Couleur</label>
+                    <select  class="form-control" id="productColor" >
+                        <option value="-1" selected disabled>Choisir une couleur</option>
+                        <option value="Bleu">Bleu</option>
+                        <option value="Vert">Vert</option>
+                        <option value="Rouge">Rouge</option>
+                        <option value="Jaune">Jaune</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Rose">Rose</option>
+                        <option value="Blanc">Blanc</option>
+                        <option value="Noir">Noir</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label for="productSize">Taille (cm)</label>
+                    <input class="form-control" type="number" name="productSize" id="productSize" placeholder="Ex: 256cm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 col-sm-11">
+                    <label class="control-label" for="selectStatus">Catégorie</label>
+                    <select  class="form-control" id="selectStatus" formControlName="ProductCategory" (change)="updateCategory()">
+                        <option value="-1" selected disabled>Choisir une catégorie</option>
+                        <option *ngFor="let cat of allCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-1 col-sm-1" style="margin-top: 30px;">
+                    <button class="btn btn-danger form-control " class="btn btn-info" id="clearBtn" (click)="clearCategory()">X</button>
+                </div>
+                <div class="form-group col-md-4 col-sm-12">
+                    <label class="control-label" for="productBrand">Marque</label>
+                    <select  class="form-control" id="productBrand" (change)="filteredByCategories()">
+                        <option value="0" selected disabled>Choisir une marque</option>
+                        <option *ngFor="let cat of allMainCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label" for="productPrice">Prix (CHF)</label>
+                    <input class="form-control" type="number" min="0.05" max="1000000" step="0.05" name="productName" id="productName" placeholder="Prix">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8 col-sm-12">
+                    <label for="productDescription">Description</label>
+                    <textarea class="form-control" id="productDescription" rows="3" placeholder="Description de l'article"></textarea>  
+                </div>
+                <div class="form-group col-md-4 col-sm-12">
+                    <label for="fileToUpload">Image</label>
+                    <input type="file" name="fileToUpload" (change)="handleFileInput($event.target.files)" class="form-control-file" id="fileToUpload">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-12">
+                    <button class="btn btn-info">Ajouter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer ">
+        <div class="row">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Fermer</button>
+        </div>
+    </div>
+  </ng-template>
 
 <!-- Modal commentaires-->
 <ng-template #showProductsComments let-modal>

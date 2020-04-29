@@ -7,6 +7,9 @@ import { Categories } from 'src/app/models/categories';
 import { Product } from 'src/app/models/product';
 import { Comments } from 'src/app/models/comments';
 import { CommentsService } from 'src/app/services/comments.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { CustomValidators } from 'src/app/helpers/CustomValidators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-manage-products',
@@ -20,9 +23,11 @@ export class ManageProductsComponent implements OnInit {
     private _productService: ProductService,
     private _alertService: AlertService,
     private _commentsService: CommentsService,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private _formBuilder: FormBuilder,
+    private _http: HttpClient
   ) { }
-
+  // Filtres
   allMainCategories: Categories[] = [];
   selectedMainCategory: number = -1;
 
@@ -40,10 +45,26 @@ export class ManageProductsComponent implements OnInit {
   textToFilterWith : string = "";
   filterText: string = "";
 
+  // Ajout d'un article
+  allCategories: Categories[] = [];
+  addProductGroup: FormGroup;
+  fileToUpload: File = null;
+  // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
 
   ngOnInit() {
+    this.addProductGroup = this._formBuilder.group({
+      ProductName: ['', Validators.required],
+      ProductColor: ['', Validators.required],
+      ProductSize: ['', Validators.required],
+      ProductCategory: ['', Validators.required],
+      ProductBrand: ['', Validators.required],
+      ProductPrice: ['', Validators.required],
+      ProductImage: ['', Validators.required],
+      ProductDescription: ['', Validators.required],
+
+     });
     this._categoriesService.getAllMainGategories().subscribe((data) => {this.allMainCategories = data});
     this.getAllProducts();
   }
@@ -194,6 +215,46 @@ export class ManageProductsComponent implements OnInit {
     this.textToFilterWith = "";
     this.selectedStatus = -1;
     this.filterText = '';
+  }
+
+  updateCategory() {
+    if(this.addProductGroup.value.ProductCategory != -1) {
+      this._categoriesService.getAllCategoriesWithThisTopCategory(this.addProductGroup.value.ProductCategory).subscribe(
+        (data: Categories[]) => {this.allCategories = data}
+      );
+    }
+    console.log(this.addProductGroup.value.ProductCategory);
+    
+  }
+
+  clearCategory() {
+    this.addProductGroup.value.ProductCategory = -1;
+    this.allCategories = this.allMainCategories;
+  }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);   
+  }
+
+  onSubmitAdd() {
+    const formData = new FormData();
+    formData.append('file', this.fileToUpload);
+    this._http.post('http://localhost/SwissTech/backend/start.php?c=Product&f=TryToGetImage', formData).subscribe(res => {
+      console.log(res);
+      
+    })
+    
+  }
+  openModalAddProduct(targetModal) {
+    this._modalService.open(targetModal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+    this.allCategories = this.allMainCategories;
+
+
   }
 
   openModalComments(targetModal, product) {
