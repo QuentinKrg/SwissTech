@@ -50,25 +50,44 @@ class Product extends Entity
       }
     }
 
-    // Suppression d'un article
-    public function Delete()
-    {
-      $sql = "DELETE FROM article WHERE id = '$this->idToProcess' LIMIT 1";
-
-      $this->Query($sql);
-    }
 
     // Mise à jour d'un article
-    public function Update()
+    public function UpdateProduct()
     {
 
-      $id = $this->jsonToProcess->id;
-      $name = $this->jsonToProcess->Name;
-      $price = $this->jsonToProcess->Price;
+      if($this->jsonToProcess !=null)
+      {
+        // Récupération des valeurs pour l'article
+        $productId = $this->jsonToProcess->id_Product;
+        $productName = $this->jsonToProcess->ProductName;
+        $productColor = $this->jsonToProcess->ProductColor;
+        $productSize = $this->jsonToProcess->ProductSize;
+        $productDescription = $this->jsonToProcess->ProductDescription;
+        $productUnitPrice = $this->jsonToProcess->ProductUnitPrice;
+        $FK_Category = $this->jsonToProcess->CategoryId;
+        $FK_Manufacturer = $this->jsonToProcess->ManufacturerId;
+        // Valeur pour l'image
+        $imagePath = $this->jsonToProcess->ImagePath;
 
-      $sql = "UPDATE article SET Name = '$name', Price = '$price' WHERE id = '$id'";
+        // update d'un article
+        $updateProduct = "UPDATE t_products SET
+                          t_products.ProductName = '$productName',
+                          t_products.ProductColor = '$productColor',
+                          t_products.ProductSize = '$productSize',
+                          t_products.ProductDescription = '$productDescription',
+                          t_products.ProductUnitPrice = '$productUnitPrice',
+                          t_products.FK_Category = '$FK_Category',
+                          t_products.FK_Manufacturer = '$FK_Manufacturer'
+                          WHERE t_products.id_Product = '$productId'";
+        $this->Query($updateProduct);
 
-      $this->Query($sql);
+        // Ajout de la relation article - images
+        $updateProductImage = "UPDATE t_products_images SET
+                                t_products_images.FK_Product = '$productId',
+                                t_products_images.FK_Image = (SELECT t_images.id_Image FROM t_images WHERE t_images.ImagePath = '$imagePath' ORDER BY t_images.id_Image DESC LIMIT 1)
+                                WHERE t_products_images.FK_Product = '$productId'";
+        $this->Query($updateProductImage);
+      }
     }
 
     // Récupération d'un article avec son ID
@@ -107,7 +126,7 @@ class Product extends Entity
     {
       $articles = [];
 
-      $sql = "SELECT id_Product, ProductName, ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
+      $sql = "SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName, ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
                LEFT JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
                LEFT JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
                LEFT JOIN t_manufacturers ON t_products.FK_Manufacturer = t_manufacturers.id_Manufacturer
@@ -165,10 +184,13 @@ class Product extends Entity
           $articles[$cr]['ProductColor'] = $row['ProductColor'];
           $articles[$cr]['ProductDescription'] = $row['ProductDescription'];
           $articles[$cr]['ProductUnitPrice'] = $row['ProductUnitPrice'];
+          $articles[$cr]['ProductSize'] = $row['ProductSize'];
           $articles[$cr]['ImageName'] = $row['ImageName'];
           $articles[$cr]['ImagePath'] = $row['ImagePath'];
+          $articles[$cr]['ManufacturerId'] = $row['ManufacturerId'];
           $articles[$cr]['ManufacturerName'] = $row['ManufacturerName'];
           $articles[$cr]['isActive'] = $row['productIsActive'];
+          $articles[$cr]['CategoryId'] = $row['CategoryId'];
           $articles[$cr]['CategoryName'] = $row['CategoryName'];
           $articles[$cr]['Categories'] = $categories;
           $cr++;

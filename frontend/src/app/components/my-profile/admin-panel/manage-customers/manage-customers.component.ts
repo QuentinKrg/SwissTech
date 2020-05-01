@@ -132,6 +132,7 @@ export class ManageCustomersComponent implements OnInit {
         console.log(error);
       });
   }
+  
   openModal(targetModal, user) {
     this.modalService.open(targetModal, {
      centered: true,

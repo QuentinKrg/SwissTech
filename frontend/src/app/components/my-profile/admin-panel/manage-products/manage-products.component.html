@@ -86,8 +86,8 @@
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-ellipsis-v"></i>
                                 <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" >Aperçu de l'article</a>
-                                <a class="dropdown-item" >Modifier l'article</a>
+                                <a class="dropdown-item" (click)="openModalPreview(showPreview, product)">Aperçu de l'article</a>
+                                <a class="dropdown-item" (click)="openModalEdit(showEditProduct, product)">Modifier l'article</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" (click)="openModalComments(showProductsComments, product)">Gérer les commentaires</a>
                                 <div class="dropdown-divider"></div>
@@ -107,6 +107,21 @@
         </ng-template>
     </div>
 </div>
+<!-- Modal d'aperçu -->
+<ng-template #showPreview let-modal>
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-12"><h5><small>Aperçu de :</small> {{selectedProductPreview.ProductName}} </h5></div>
+        </div>       
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="row">
+        <app-product-card [productData]="selectedProductPreview" class="col-12"></app-product-card>
+    </div>   
+</ng-template>
+
 <!-- Modal pour l'ajout d'article-->
 <ng-template #showAddProduct let-modal>
     <div class="modal-header">
@@ -185,10 +200,94 @@
     </div>
     <div class="modal-footer ">
         <div class="row">
-            <button type="button" class="btn btn-secondary" (click)="closeModalAddProduct(showAddProduct)">Fermer</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal(showAddProduct)">Fermer</button>
         </div>
     </div>
-  </ng-template>
+</ng-template>
+
+<!-- Modal pour la modification d'article -->
+<ng-template #showEditProduct let-modal>
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-12"><h3>Modification d'article</h3></div>
+        </div>       
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addProductGroup" (ngSubmit)="onSubmitEdit()" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col-md-6 col-sm-12">
+                    <label for="productName">Nom de l'article</label>
+                    <input class="form-control" type="text" name="productName"  formControlName="ProductName" id="productName" placeholder="Ex: PS4 Pro 2020">
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label for="productColor">Couleur</label>
+                    <select  class="form-control" id="productColor" formControlName="ProductColor">
+                        <option value="-1" selected disabled>Choisir une couleur</option>
+                        <option value="Bleu">Bleu</option>
+                        <option value="Vert">Vert</option>
+                        <option value="Rouge">Rouge</option>
+                        <option value="Jaune">Jaune</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Rose">Rose</option>
+                        <option value="Blanc">Blanc</option>
+                        <option value="Noir">Noir</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label for="productSize">Taille (cm)</label>
+                    <input class="form-control" type="number" name="productSize" id="productSize" formControlName="ProductSize" placeholder="Ex: 256cm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 col-sm-11">
+                    <label class="control-label" for="selectStatus">Catégorie</label>
+                    <select  class="form-control" id="selectStatus" formControlName="ProductCategory" (change)="updateCategory()">
+                        <option value="-1" selected disabled>Choisir une catégorie</option>
+                        <option *ngFor="let cat of allCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-1 col-sm-1" style="margin-top: 30px;">
+                    <a class="btn btn-info form-control text-white" id="clearBtn" (click)="clearCategory()">X</a>
+                </div>
+                <div class="form-group col-md-4 col-sm-12">
+                    <label class="control-label" for="productBrand">Marque</label>
+                    <select  class="form-control" id="productBrand" formControlName="ProductBrand">
+                        <option value="-1" selected disabled>Choisir une marque</option>
+                        <option *ngFor="let brand of allManufacturer" id="optionSelected" [value]="brand.id_Manufacturer">{{brand.ManufacturerName}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label class="control-label" for="productPrice">Prix (CHF)</label>
+                    <input class="form-control" type="number" min="0.05" max="1000000" step="0.05" name="productPrice" formControlName="ProductPrice" id="productPrice" placeholder="Prix">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8 col-sm-12">
+                    <label for="productDescription">Description</label>
+                    <textarea class="form-control" id="productDescription" rows="3" formControlName="ProductDescription" placeholder="Description de l'article"></textarea>  
+                </div>
+                <div class="form-group col-md-4 col-sm-12">
+                    <label for="fileToUpload">Image</label>
+                    <input type="file" name="fileToUpload" (change)="handleFileInput($event.target.files)"  formControlName="ProductImage" class="form-control-file" id="fileToUpload">
+                    <img src="../assets/images/products/{{imagePathToShow}}" alt="{{imagePathToShow}}" height="100" width="100">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-12">
+                    <button class="btn btn-info">Modifier</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer ">
+        <div class="row">
+            <button type="button" class="btn btn-secondary" (click)="closeModal(showEditProduct)">Fermer</button>
+        </div>
+    </div>
+</ng-template>
 
 <!-- Modal commentaires-->
 <ng-template #showProductsComments let-modal>
@@ -208,7 +307,7 @@
                           <th scope="col">Date</th>
                           <th scope="col">Commentaire</th>
                           <th scope="col">Utilisateur</th>
-                          <th scope="col">Statut</th>
+                          <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>

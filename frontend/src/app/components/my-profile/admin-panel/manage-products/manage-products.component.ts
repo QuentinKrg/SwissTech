@@ -44,16 +44,22 @@ export class ManageProductsComponent implements OnInit {
   textToFilterWith : string = "";
   filterText: string = "";
 
-  // Ajout d'un article
+  // Preview d'un article
+  selectedProductPreview: Product = null;
+
+  // Ajout et modification d'un article
   allCategories: Categories[] = [];
   addProductGroup: FormGroup;
   fileToUpload: File = null;
-  allManufacturer: Manufacturer[] = [];
+  allManufacturer: Manufacturer[] = []; 
+  imagePathToShow: string = ""; 
+  editedProductId: number = -1;
 
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
 
+  // on Init
   ngOnInit() {
     this.addProductGroup = this._formBuilder.group({
       ProductName: ['', Validators.required],
@@ -70,6 +76,7 @@ export class ManageProductsComponent implements OnInit {
     this.getAllProducts();
   }
 
+  // Récupération des produits
   getAllProducts() {
     this._productService.getAllProducts().subscribe(
       (data: Product[]) => {
@@ -79,13 +86,15 @@ export class ManageProductsComponent implements OnInit {
     );
   }
 
+  // Action au changement de status d'un article
   onChangeProductStatus(product: Product) {
+    // Changement de status
     if(product.isActive == true) {
       product.isActive = false;
     } else {
       product.isActive = true;
     }
-
+    // Update
     this._productService.updateProductStatus(product).subscribe(() => {
       
     },  
@@ -96,23 +105,7 @@ export class ManageProductsComponent implements OnInit {
     });
   }
 
-  onChangeCommentStatus(comment: Comments) {
-    if(comment.isActive == true) {
-      comment.isActive = false;
-    } else {
-      comment.isActive = true;
-    }
-
-    this._commentsService.updateCommentStatus(comment).subscribe(() => {
-      
-    },  
-    //en cas d'erreur
-    (error) => {
-      console.log(error);
-      return;
-    });
-  }
-
+  // Filtrer les articles par status 
   filteredByStatus() {
     this.allProducts = this.filterValue;
     if(this.selectedStatus == -1) {
@@ -124,9 +117,9 @@ export class ManageProductsComponent implements OnInit {
     }
 
     this.filteredByCategories();
-
   }
 
+  // Filtrer les articles avec le texte 
   filteredByText(initial: string) {
     this.allProducts = this.filterValue;
     this.filteredByStatus();
@@ -136,6 +129,7 @@ export class ManageProductsComponent implements OnInit {
     this.textToFilterWith = initial.toLocaleLowerCase();
   }
 
+  // Filtrer les articles par catégories
   filteredByCategories() {
     this.allProducts = this.filterValue;
 
@@ -203,9 +197,9 @@ export class ManageProductsComponent implements OnInit {
     } else if (this.selectedStatus == 1) {
       this.allProducts = this.allProducts.filter(p => p.isActive == true);
     }
-
   }
 
+  // Reset de tous les filtres
   clearAllFilters() {
     this.allProducts = this.filterValue;
     this.selectedMainCategory = -1;
@@ -218,6 +212,10 @@ export class ManageProductsComponent implements OnInit {
     this.filterText = '';
   }
 
+  /*
+    AJOUT ET MODIFICATION D'UN ARTICLE
+  */
+  // Mise à jour de la liste des catégories pour l'ajout d'article
   updateCategory() {
     if(this.addProductGroup.value.ProductCategory != -1) {
       this._categoriesService.getAllCategoriesWithThisTopCategory(this.addProductGroup.value.ProductCategory).subscribe(
@@ -231,18 +229,34 @@ export class ManageProductsComponent implements OnInit {
         }
       );
     };
-    
   }
 
+  // Reset de la liste des catégories
   clearCategory() {
     this.allCategories = this.allMainCategories;
-    this.addProductGroup.value.ProductCategory = -1;
+    this.addProductGroup.value.ProductCategory = "-1";
   }
 
+  // Récupérer l'image du produit
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);   
   }
 
+  // ouverture du modal
+  openModalAddProduct(targetModal) {
+    this._modalService.open(targetModal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+    this.allCategories = this.allMainCategories;
+    this._productService.getAllManufacturer().subscribe( (data: Manufacturer[]) => {
+      this.allManufacturer = data;
+    });
+  }
+
+  // Action pour la création d'un article
   onSubmitAdd() {
     const formData = new FormData();
     formData.append('image', this.fileToUpload);
@@ -263,35 +277,105 @@ export class ManageProductsComponent implements OnInit {
         () => {
           console.log("ok");
         },
-        (error) => {
-
-        }
+        (error) => {}
       );
     });
-    
+
+    this._modalService.dismissAll();
+    this.addProductGroup.reset();
+    this.ngOnInit();
   }
 
-  openModalAddProduct(targetModal) {
+  // Ouverture du modal de modification
+  openModalEdit(targetModal, product: Product) {
     this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
       size: 'lg',
       scrollable: true
     });
-    this.allCategories = this.allMainCategories;
+
+    this._categoriesService.getAllCategoriesWithThisTopCategory(product.CategoryId).subscribe(
+      (data: Categories[]) => {
+        if(data != null) {
+          this.allCategories = data;         
+        } else {
+          this.allCategories = product.Categories.filter(cat => cat.id == product.CategoryId);
+        };
+      }
+    );
+
     this._productService.getAllManufacturer().subscribe( (data: Manufacturer[]) => {
       this.allManufacturer = data;
     });
 
-    this.addProductGroup.value.ProductCategory = -1;
+    this.addProductGroup.patchValue({
+      ProductName: product.ProductName,
+      ProductColor: product.ProductColor,
+      ProductSize: product.ProductSize,
+      ProductCategory: product.CategoryId,
+      ProductBrand: product.ManufacturerId,
+      ProductPrice: product.ProductUnitPrice,
+      ProductDescription: product.ProductDescription
+
+    });
+    this.editedProductId = product.id_Product;
+    this.imagePathToShow = product.ImagePath;
   }
 
-  closeModalAddProduct(targetModal) {
+  //  Action pour la modification d'un article
+  onSubmitEdit() {
+    if(this.fileToUpload != null) {
+      const formData = new FormData();
+      formData.append('image', this.fileToUpload);
+      this._productService.uploadProductImage(formData).subscribe(() => {});
+    }
+    let productToUpdate: Product = new Product;
+    productToUpdate.id_Product = this.editedProductId;
+    productToUpdate.ProductName = this.addProductGroup.value.ProductName;
+    productToUpdate.ProductUnitPrice = this.addProductGroup.value.ProductPrice;
+    productToUpdate.ProductDescription = this.addProductGroup.value.ProductDescription;
+    productToUpdate.ProductColor = this.addProductGroup.value.ProductColor;
+    if(this.fileToUpload != null) {
+      productToUpdate.ImagePath = this.fileToUpload.name;
+    } else {
+      productToUpdate.ImagePath = this.imagePathToShow;
+    }
+    
+    productToUpdate.ManufacturerId = this.addProductGroup.value.ProductBrand;
+    productToUpdate.ProductSize = this.addProductGroup.value.ProductSize;
+    productToUpdate.CategoryId = this.addProductGroup.value.ProductCategory;
+
+    this._productService.updateProduct(productToUpdate).subscribe(
+      () => {
+        console.log("ok");
+      },
+      (error) => {}
+    );
+
+    this._modalService.dismissAll();
+    this.addProductGroup.reset();
+    this.ngOnInit();
+  }
+
+  // Fermeture d'un modal
+  closeModal(targetModal) {
     this._modalService.dismissAll(targetModal);
     this.addProductGroup.reset();
     this.ngOnInit();
   }
 
+  // ouverture du modal d'aperçu d'article
+  openModalPreview(targetModal, product) {
+    this._modalService.open(targetModal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'md'
+    });
+    this.selectedProductPreview = product;
+  }  
+
+  // ouverture du modal pour la gestion des commentaires
   openModalComments(targetModal, product) {
     this._modalService.open(targetModal, {
       centered: true,
@@ -301,7 +385,23 @@ export class ManageProductsComponent implements OnInit {
     });
     this.selectedProduct = product;
     this._commentsService.getAllProductsComments(this.selectedProduct.id_Product).subscribe(data => { this.productComments = data});
-
   }
 
+  // Action au changement de status d'un commentaire
+  onChangeCommentStatus(comment: Comments) {
+    // Changement de status
+    if(comment.isActive == true) {
+      comment.isActive = false;
+    } else {
+      comment.isActive = true;
+    }
+    // Update
+    this._commentsService.updateCommentStatus(comment).subscribe(() => {
+    },  
+    //en cas d'erreur
+    (error) => {
+      console.log(error);
+      return;
+    });
+  }
 }
