@@ -1,14 +1,20 @@
 <div class="sidebar">
-    <a class="nav-link collapsed text-truncate" href="#submenu2" data-toggle="collapse" data-target="#submenu2" routerLink="/myprofile/editprofile"> <span class="d-none d-sm-inline"><i class="fa fa-fw fa-user"></i> Editer mes informations</span></a>
-    <div class="collapse" id="submenu2" aria-expanded="true">
+    <a routerLink="/myprofile/editprofile" class="nav-item">
+        <span class="d-none d-sm-inline">
+            <i class="fa fa-fw fa-user"></i> Aperçu
+        </span></a>
+    <div class="pl-2" id="submenu2">
         <ul class="flex-column pl-2 nav">
-            <li class="nav-item  m-2"><a class="nav-link py-0" routerLink="/myprofile/editpersonalinfos"><span>Mes coordonnées</span></a></li>
+            <li class="nav-item  m-2"><a class="nav-link py-0" routerLink="/myprofile/editpersonalinfos"><span>Mes
+                        coordonnées</span></a></li>
         </ul>
         <ul class="flex-column pl-2 nav">
-            <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/editaddress"><span>Mes adresses</span></a></li>
+            <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/editaddress"><span>Mes
+                        adresses</span></a></li>
         </ul>
         <ul class="flex-column pl-2 nav">
-            <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/editlogininfos"><span>Mes identifiants</span></a></li>
+            <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/editlogininfos"><span>Mes
+                        identifiants</span></a></li>
         </ul>
     </div>
     <a routerLink="/myprofile/myorders">
@@ -17,20 +23,25 @@
     <a href="#contact"><i class="fas fa-heart"> </i> Mes favoris
     </a>
     <div *ngIf="currentUserRole== 'AD'">
-        <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i class="fas fa-user-shield"></i> <span class="d-none d-sm-inline"> Administration</span></a>
+        <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i
+                class="fas fa-user-shield"></i> <span class="d-none d-sm-inline"> Administration</span></a>
         <div class="collapse" id="submenu1" aria-expanded="false">
             <ul class="flex-column pl-2 nav">
-                <li class="nav-item  m-2"><a class="nav-link py-0" routerLink="/myprofile/manageproducts"><span>Articles</span></a></li>
+                <li class="nav-item  m-2"><a class="nav-link py-0"
+                        routerLink="/myprofile/manageproducts"><span>Articles</span></a></li>
             </ul>
             <ul class="flex-column pl-2 nav">
-                <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/manageorders"><span>Commandes</span></a></li>
+                <li class="nav-item m-2"><a class="nav-link py-0"
+                        routerLink="/myprofile/manageorders"><span>Commandes</span></a></li>
             </ul>
             <ul class="flex-column pl-2 nav">
-                <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/managecustomers"><span>Clients</span></a></li>
+                <li class="nav-item m-2"><a class="nav-link py-0"
+                        routerLink="/myprofile/managecustomers"><span>Clients</span></a></li>
             </ul>
-            <ul  class="flex-column pl-2 nav">
-                <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/manageadmins"><span>Administrateurs</span>
-                </a></li>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item m-2"><a class="nav-link py-0"
+                        routerLink="/myprofile/manageadmins"><span>Administrateurs</span>
+                    </a></li>
             </ul>
         </div>
     </div>
