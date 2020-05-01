@@ -9,7 +9,7 @@ import { Comments } from 'src/app/models/comments';
 import { CommentsService } from 'src/app/services/comments.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CustomValidators } from 'src/app/helpers/CustomValidators';
-import { HttpClient } from '@angular/common/http';
+import { Manufacturer } from 'src/app/models/Manufacturer';
 
 @Component({
   selector: 'app-manage-products',
@@ -24,8 +24,7 @@ export class ManageProductsComponent implements OnInit {
     private _alertService: AlertService,
     private _commentsService: CommentsService,
     private _modalService: NgbModal,
-    private _formBuilder: FormBuilder,
-    private _http: HttpClient
+    private _formBuilder: FormBuilder
   ) { }
   // Filtres
   allMainCategories: Categories[] = [];
@@ -49,6 +48,8 @@ export class ManageProductsComponent implements OnInit {
   allCategories: Categories[] = [];
   addProductGroup: FormGroup;
   fileToUpload: File = null;
+  allManufacturer: Manufacturer[] = [];
+
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
@@ -56,10 +57,10 @@ export class ManageProductsComponent implements OnInit {
   ngOnInit() {
     this.addProductGroup = this._formBuilder.group({
       ProductName: ['', Validators.required],
-      ProductColor: ['', Validators.required],
+      ProductColor: ['-1', Validators.required],
       ProductSize: ['', Validators.required],
-      ProductCategory: ['', Validators.required],
-      ProductBrand: ['', Validators.required],
+      ProductCategory: ['-1', Validators.required],
+      ProductBrand: ['-1', Validators.required],
       ProductPrice: ['', Validators.required],
       ProductImage: ['', Validators.required],
       ProductDescription: ['', Validators.required],
@@ -220,16 +221,22 @@ export class ManageProductsComponent implements OnInit {
   updateCategory() {
     if(this.addProductGroup.value.ProductCategory != -1) {
       this._categoriesService.getAllCategoriesWithThisTopCategory(this.addProductGroup.value.ProductCategory).subscribe(
-        (data: Categories[]) => {this.allCategories = data}
+        (data: Categories[]) => {
+          if(data != null) {
+            let previousCat: Categories;
+            previousCat = this.allCategories.find(cat => cat.id == this.addProductGroup.value.ProductCategory);
+            this.allCategories = data;
+            this.allCategories.push(previousCat);
+          };
+        }
       );
-    }
-    console.log(this.addProductGroup.value.ProductCategory);
+    };
     
   }
 
   clearCategory() {
-    this.addProductGroup.value.ProductCategory = -1;
     this.allCategories = this.allMainCategories;
+    this.addProductGroup.value.ProductCategory = -1;
   }
 
   handleFileInput(files: FileList) {
@@ -238,13 +245,32 @@ export class ManageProductsComponent implements OnInit {
 
   onSubmitAdd() {
     const formData = new FormData();
-    formData.append('file', this.fileToUpload);
-    this._http.post('http://localhost/SwissTech/backend/start.php?c=Product&f=TryToGetImage', formData).subscribe(res => {
-      console.log(res);
-      
-    })
+    formData.append('image', this.fileToUpload);
+    
+    this._productService.uploadProductImage(formData).subscribe(() => {
+
+      let productToAdd: Product = new Product;
+      productToAdd.ProductName = this.addProductGroup.value.ProductName;
+      productToAdd.ProductUnitPrice = this.addProductGroup.value.ProductPrice;
+      productToAdd.ProductDescription = this.addProductGroup.value.ProductDescription;
+      productToAdd.ProductColor = this.addProductGroup.value.ProductColor;
+      productToAdd.ImagePath = this.fileToUpload.name;
+      productToAdd.ManufacturerId = this.addProductGroup.value.ProductBrand;
+      productToAdd.ProductSize = this.addProductGroup.value.ProductSize;
+      productToAdd.CategoryId = this.addProductGroup.value.ProductCategory;
+
+      this._productService.addProduct(productToAdd).subscribe(
+        () => {
+          console.log("ok");
+        },
+        (error) => {
+
+        }
+      );
+    });
     
   }
+
   openModalAddProduct(targetModal) {
     this._modalService.open(targetModal, {
       centered: true,
@@ -253,8 +279,17 @@ export class ManageProductsComponent implements OnInit {
       scrollable: true
     });
     this.allCategories = this.allMainCategories;
+    this._productService.getAllManufacturer().subscribe( (data: Manufacturer[]) => {
+      this.allManufacturer = data;
+    });
 
+    this.addProductGroup.value.ProductCategory = -1;
+  }
 
+  closeModalAddProduct(targetModal) {
+    this._modalService.dismissAll(targetModal);
+    this.addProductGroup.reset();
+    this.ngOnInit();
   }
 
   openModalComments(targetModal, product) {
@@ -266,7 +301,7 @@ export class ManageProductsComponent implements OnInit {
     });
     this.selectedProduct = product;
     this._commentsService.getAllProductsComments(this.selectedProduct.id_Product).subscribe(data => { this.productComments = data});
-    
+
   }
 
 }

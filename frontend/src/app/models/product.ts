@@ -6,10 +6,13 @@ export class Product {
     ProductColor: string;
     ProductDescription: string;
     ProductUnitPrice: number;
+    ProductSize: number;
     ImageName: string;
     ImagePath: string;
+    ManufacturerId: number;
     ManufacturerName: string;
     isActive: boolean;
     CategoryName: string;
+    CategoryId: number;
     Categories: Categories[];
 }

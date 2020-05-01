@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Manufacturer } from '../models/Manufacturer';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class ProductService {
   }
 
   addProduct(product: Product) {
-    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=AddProtected',  product);
+    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=AddProduct',  product);
   }
 
   getProductById(id:number) {
@@ -46,5 +47,13 @@ export class ProductService {
 
   updateProductStatus(product: Product) {
     return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateProductStatus',  product);
+  }
+
+  uploadProductImage(formData: FormData) {
+    return this.http.post('http://localhost/SwissTech/backend/start.php?c=Product&f=UploadImage', formData);
+  }
+
+  getAllManufacturer() {
+    return this.http.get<Manufacturer[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAllManufacturer');
   }
 }

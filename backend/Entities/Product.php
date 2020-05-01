@@ -19,20 +19,35 @@ class Product extends Entity
     }
 
     // Ajout d'un article : doit avoir un token
-    public function AddProtected()
+    public function AddProduct()
     {
-
       if($this->jsonToProcess !=null)
       {
-        // Récupération des données reçues
-        $name = $this->jsonToProcess->Name;
-        $price = $this->jsonToProcess->Price;
+        // Récupération des valeurs pour l'article
+        $productName = $this->jsonToProcess->ProductName;
+        $productColor = $this->jsonToProcess->ProductColor;
+        $productSize = $this->jsonToProcess->ProductSize;
+        $productDescription = $this->jsonToProcess->ProductDescription;
+        $productUnitPrice = $this->jsonToProcess->ProductUnitPrice;
+        $FK_Category = $this->jsonToProcess->CategoryId;
+        $FK_Manufacturer = $this->jsonToProcess->ManufacturerId;
+        // Valeur pour l'image
+        $imagePath = $this->jsonToProcess->ImagePath;
 
-        // Requête sql
-        $sql = "INSERT INTO t_products (ProductName, ProductUnitPrice) VALUES ('$name', '$price')";
+        // Ajout d'un article
+        $addProduct = "INSERT INTO t_products (ProductName, ProductColor, ProductSize, ProductDescription, ProductUnitPrice, FK_Category, FK_Manufacturer)
+                        VALUES ('$productName','$productColor','$productSize','$productDescription','$productUnitPrice','$FK_Category','$FK_Manufacturer')";
+        $this->Query($addProduct);
 
-        $this->Query($sql);
-        }
+        // Récupération de l'id de l'article qui vient d'être ajouté
+        $getLastProductAddedId = "SELECT t_products.id_Product FROM t_products ORDER BY  t_products.id_Product DESC LIMIT 1";
+        $productId = ($this->Query($getLastProductAddedId)->fetchColumn());
+
+        // Ajout de la relation article - images
+        $addProductImage = "INSERT INTO t_products_images (FK_Product, FK_Image)
+                            VALUES ('$productId', (SELECT t_images.id_Image FROM t_images WHERE t_images.ImagePath = '$imagePath' ORDER BY t_images.id_Image DESC LIMIT 1))";
+        $this->Query($addProductImage);
+      }
     }
 
     // Suppression d'un article
@@ -210,6 +225,28 @@ class Product extends Entity
       }
     }
 
+    // Récupération de tous les Manufacturer
+    public function GetAllManufacturer() {
+      $manufacturers = [];
+
+      $sql = "SELECT * FROM t_manufacturers";
+
+      $tmpResult = $this->Query($sql);
+
+      if($tmpResult->rowCount() > 0) {
+
+        // Sortir les données pour chaque "row"
+        $cr = 0;
+        while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+          $manufacturers[$cr]['id_Manufacturer'] = $row['id_Manufacturer'];
+          $manufacturers[$cr]['ManufacturerName'] = $row['ManufacturerName'];
+          $cr++;
+        }
+        // echo de la liste des articles
+        return $manufacturers;
+      }
+    }
+
     // Mise à jour du statut d'un article
     public function UpdateProductStatus(){
       if($this->jsonToProcess !=null)
@@ -229,10 +266,51 @@ class Product extends Entity
       }
   	}
 
-    // Récupération d'une image
-    public function TryToGetImage()
+    // Création d'un article
+    public function UploadImage()
     {
-      var_dump($this->jsonToProcess);
+      if($_FILES != null)
+      {
+        $target_dir = "C:/xampp/htdocs/SwissTech/frontend/src/assets/images/products/";
+        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $imageFileName = strtolower(pathinfo($target_file,PATHINFO_FILENAME));
+        $fileName = $_FILES["image"]["name"];
+
+        // Vérifier si l'image existe déjà
+        if(file_exists($target_file))
+        {
+          $uploadOk = 0;
+        }
+
+        // Définir une taille limite pour les images si plus grande que 500 KB
+        if($_FILES["image"]["size"] > 500000)
+        {
+          $uploadOk = 0;
+        }
+
+        // Définir les types de fichiers voulues (png, jpg, jpeg, gif)
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif")
+        {
+          $uploadOk = 0;
+        }
+
+        // Résultats
+        if ($uploadOk == 0) {
+          // Retourner une erreur
+        } else {
+          if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file))
+          {
+            // Ajout des informations de l'image en DB
+            $sql = "INSERT INTO t_images (t_images.ImageName, t_images.ImagePath)
+                    VALUES ( '$imageFileName','$fileName')";
+            $this->Query($sql);
+          } else {
+            // Retourner une erreur
+          }
+        }
+      }
     }
 
 }

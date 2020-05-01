@@ -62,8 +62,6 @@ class Categories extends Entity
           // echo de la liste des articles
           return $MainCategories;
         }
-        // Fermeture de la connexion
-        return $tmpResult;
 
       }
     }
