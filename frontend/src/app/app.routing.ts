@@ -17,6 +17,9 @@ import { ManageCustomersComponent } from './components/my-profile/admin-panel/ma
 import { ManageOrdersComponent } from './components/my-profile/admin-panel/manage-orders/manage-orders.component';
 import { ManageProductsComponent } from './components/my-profile/admin-panel/manage-products/manage-products.component';
 import { AdminGuard } from './helpers/admin.guard';
+import { EditAddressComponent } from './components/my-profile/edit-profile/edit-address/edit-address.component';
+import { EditLoginInfosComponent } from './components/my-profile/edit-profile/edit-login-infos/edit-login-infos.component';
+import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
 
 
 
@@ -29,6 +32,9 @@ const routes: Routes = [
     { path: 'myprofile', component: MyProfileComponent, canActivate: [AuthGuard], children: 
         [
         { path: 'editprofile', component: EditProfileComponent},
+        { path: 'editaddress', component: EditAddressComponent},
+        { path: 'editlogininfos', component: EditLoginInfosComponent},
+        { path: 'editpersonalinfos', component: EditPersonalInfosComponent},
         { path: 'myorders', component: MyOrdersComponent},
         { path: 'manageproducts', component: ManageProductsComponent, canActivate: [AdminGuard]},
         { path: 'manageorders', component: ManageOrdersComponent, canActivate: [AdminGuard]},

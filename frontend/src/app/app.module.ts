@@ -34,6 +34,9 @@ import { ManageOrdersComponent } from './components/my-profile/admin-panel/manag
 import { ManageCustomersComponent } from './components/my-profile/admin-panel/manage-customers/manage-customers.component';
 import { ManageAdminsComponent } from './components/my-profile/admin-panel/manage-admins/manage-admins.component';
 import {DatePipe} from '@angular/common';
+import { EditAddressComponent } from './components/my-profile/edit-profile/edit-address/edit-address.component';
+import { EditLoginInfosComponent } from './components/my-profile/edit-profile/edit-login-infos/edit-login-infos.component';
+import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
 
 
 @NgModule({
@@ -63,7 +66,10 @@ import {DatePipe} from '@angular/common';
     ManageProductsComponent,
     ManageOrdersComponent,
     ManageCustomersComponent,
-    ManageAdminsComponent
+    ManageAdminsComponent,
+    EditAddressComponent,
+    EditLoginInfosComponent,
+    EditPersonalInfosComponent
   ],
   imports: [
     BrowserModule,

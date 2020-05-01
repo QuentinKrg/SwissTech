@@ -5,6 +5,7 @@ export class Customer {
     CustomerName: string;
     CustomerLastName: string;
     CustomerBirthday: Date;
+    id_Address:number;
     shippingAddress: string;
     shippingCity: string;
     shippingZip: number;
