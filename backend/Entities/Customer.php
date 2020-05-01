@@ -100,31 +100,49 @@ class Customer extends Entity
 		if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
 			if($this->jsonToProcess !=null){
-
-				// Récupération des données reçues
-				$titre = $this->jsonToProcess->CustomerTitre;
-				$name = $this->jsonToProcess->CustomerName;
-				$lastname = $this->jsonToProcess->CustomerLastName;
-				$phone = $this->jsonToProcess->CustomerPhone;
-				$email = $this->jsonToProcess->CustomerEmail;
-				$birthday = $this->jsonToProcess->CustomerBirthday;
-				$shippingAddress = $this->jsonToProcess->shippingAddress;
-				$city = $this->jsonToProcess->shippingCity;
-				$zip = $this->jsonToProcess->shippingZip;
-
+				
+				if(isset($this->jsonToProcess->CustomerName)){
+					// Récupération des données reçues
+					$titre = $this->jsonToProcess->CustomerTitre;
+					$name = $this->jsonToProcess->CustomerName;
+					$lastname = $this->jsonToProcess->CustomerLastName;
+					$phone = $this->jsonToProcess->CustomerPhone;
+					$email = $this->jsonToProcess->CustomerEmail;
+					$birthday = $this->jsonToProcess->CustomerBirthday;
+				}
+				
+				if(isset($this->jsonToProcess->shippingAddress)){
+					$shippingAddress = $this->jsonToProcess->shippingAddress;
+					$city = $this->jsonToProcess->shippingCity;
+					$zip = $this->jsonToProcess->shippingZip;
+					//UPDATE Shipping address
+					$updateShippingAddress = "UPDATE
+												t_address
+											SET
+												t_address.Address = '$shippingAddress',
+												t_address.City = '$city',
+												t_address.ZIP = '$zip'
+																	WHERE t_address.FK_Customer = (SELECT FK_Customer FROM t_users WHERE Username ='$currentUsername' )
+																	AND FK_AddressType = 1";
+					$this->Query($updateShippingAddress);
+				}
 
 
 				if(isset($this->jsonToProcess->billingAddress)){//si la checkbox same address est utilisée, on ne reçoit pas de données de billing address
-				$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
-				$billingAddressCity = $this->jsonToProcess->billingCity;
-				$billingAddressZip = $this->jsonToProcess->billingZip;
-				}
-				$sameAddress = $this->jsonToProcess->checkbox_address;
-
-				if($sameAddress){//si same address active, on utilise donc les mêmes données de shipping address
-					$billingAddress = $shippingAddress;
-					$billingAddressCity = $city;
-					$billingAddressZip = $zip;
+					$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
+					$billingAddressCity = $this->jsonToProcess->billingCity;
+					$billingAddressZip = $this->jsonToProcess->billingZip;
+					
+					//UPDATE Billing Address
+					$updateBillingAddress = "UPDATE
+												t_address
+											SET
+												t_address.Address = '$billingAddress',
+												t_address.City = '$billingAddressCity',
+												t_address.ZIP = '$billingAddressZip'
+																	WHERE t_address.FK_Customer = (SELECT FK_Customer FROM t_users WHERE Username ='$currentUsername' )
+																	AND FK_AddressType = 2";
+					$this->Query($updateBillingAddress);
 				}
 
 				if(isset($this->jsonToProcess->Username)){
@@ -152,44 +170,27 @@ class Customer extends Entity
 				$this->Query($updatePassword);
 				}
 
+				if(isset($this->jsonToProcess->CustomerName)){
 				// Requête sql pour la table customers
 				//Update
-				$updatecustomerAndUser = "UPDATE
-										t_customers,
-										t_users
-									SET
-										t_customers.CustomerTitre = '$titre',
-										t_customers.CustomerName = '$name',
-										t_customers.CustomerLastName = '$lastname',
-										t_customers.CustomerPhone = '$phone',
-										t_customers.CustomerEmail= '$email',
-										t_customers.CustomerBirthday = '$birthday'
-															WHERE t_users.FK_Customer = t_customers.id_customer
-															AND t_users.username = '$currentUsername'
-															";
-				$this->Query($updatecustomerAndUser);
-
-				//UPDATE Shipping address
-				$updateShippingAddress = "UPDATE
-											t_address
+					$updatecustomerAndUser = "UPDATE
+											t_customers,
+											t_users
 										SET
-											t_address.Address = '$shippingAddress',
-											t_address.City = '$city',
-											t_address.ZIP = '$zip'
-																WHERE t_address.FK_Customer = (SELECT FK_Customer FROM t_users WHERE Username ='$currentUsername' )
-																AND FK_AddressType = 1";
-				$this->Query($updateShippingAddress);
+											t_customers.CustomerTitre = '$titre',
+											t_customers.CustomerName = '$name',
+											t_customers.CustomerLastName = '$lastname',
+											t_customers.CustomerPhone = '$phone',
+											t_customers.CustomerEmail= '$email',
+											t_customers.CustomerBirthday = '$birthday'
+																WHERE t_users.FK_Customer = t_customers.id_customer
+																AND t_users.username = '$currentUsername'
+																";
+					$this->Query($updatecustomerAndUser);
+				}
+				
 
-				//UPDATE Billing Address
-				$updateBillingAddress = "UPDATE
-											t_address
-										SET
-											t_address.Address = '$billingAddress',
-											t_address.City = '$billingAddressCity',
-											t_address.ZIP = '$billingAddressZip'
-																WHERE t_address.FK_Customer = (SELECT FK_Customer FROM t_users WHERE Username ='$currentUsername' )
-																AND FK_AddressType = 2";
-				$this->Query($updateBillingAddress);
+				
 			}
 		}
 
@@ -285,26 +286,57 @@ class Customer extends Entity
 		
 	public function getShippingAddressByUser(){
 		if(isset($_GET['username'])){
+			$shippingAddress = [];
 				$currentUsername = $_GET['username'];
-				   $sql = "SELECT t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+				   $sql = "SELECT id_Address, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 							FROM t_address
 							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
-				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+								WHERE Username = '$currentUsername' LIMIT 1)";
+				 $getShipAddr=($this->Query($sql));
+				 if($getShipAddr->rowCount() > 0) {
+
+					// Sortir les données pour chaque "row"
+					$cr = 0;
+					while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
+					  $shippingAddress[$cr]['id_Address'] = $row['id_Address'];
+					  $shippingAddress[$cr]['shippingAddress'] = $row['shippingAddress'];
+					  $shippingAddress[$cr]['shippingCity'] = $row['shippingCity'];
+					  $shippingAddress[$cr]['shippingZip'] = $row['shippingZip'];
+
+					  $cr++;
+					}
+					// echo de la liste des articles
+					return $shippingAddress;
+				  }
 				return $getShipAddr;
 		}
 	}
 
 	public function getBillingAddressByUser(){
 		if(isset($_GET['username'])){
+			$billingAddress = [];
 				$currentUsername = $_GET['username'];
 				   $sql = "SELECT Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
 							FROM t_address
 							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
-				  $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+								WHERE Username = '$currentUsername' LIMIT 1)";
+				  $getBillAddr=($this->Query($sql));
+				  if($getBillAddr->rowCount() > 0) {
+
+					// Sortir les données pour chaque "row"
+					$cr = 0;
+					while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
+					  $billingAddress[$cr]['billingAddress'] = $row['billingAddress'];
+					  $billingAddress[$cr]['billingCity'] = $row['billingCity'];
+					  $billingAddress[$cr]['billingZip'] = $row['billingZip'];
+
+					  $cr++;
+					}
+					// echo de la liste des articles
+					return $billingAddress;
+				  }
 				return $getBillAddr;
 		}
 	}

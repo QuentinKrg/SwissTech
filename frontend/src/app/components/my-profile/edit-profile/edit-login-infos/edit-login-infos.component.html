@@ -1,0 +1,159 @@
+<h2 class="p-3 text-center">Editer mon compte</h2>
+<form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
+
+    <div class=" p-4 mt-2 shadow-sm">
+        <h5 class="border-top">Mes identifiants </h5>
+        <!-- username -->
+
+
+        <div class="row text-center p-3">
+            <div class="col-sm d-inline">
+                <label for="Username">Nom d'utilisateur:</label>
+            </div>
+            <div class="form-group col-sm d-inline">
+                <h5 class="font-weight-bold">
+                    {{usernameData}}
+                </h5>
+            </div>
+            <div class="col-sm d-inline">
+                <button type="button" class="btn btn-outline-secondary" (click)="openModal(EditUsernameModal);onUsernameChange()">
+                    <a>Modifier</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- My Password -->
+        <div>
+            <button type="button" class="btn btn-outline-secondary btn-block" (click)="openModal(EditPasswordModal);onPasswordChange()">
+                <a>Modifier mon mot de passe</a>
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<ng-template #EditUsernameModal let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title" id="showProfileLabel">
+            Modifier mon nom d'utilisateur
+        </h6>
+        <button type="button" class="close" (click)="modal.dismiss();onUsernameChange()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body p-3 ">
+        <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
+                <label for="Username">Nouveau nom d'utilisateur: *</label>
+                <input type="text" formControlName="Username" class="form-control" (keyup.tab)="isUserAvailable()"
+                    (blur)="isUserAvailable()" id="Username"
+                    [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.Username.errors ||f.Username.touched && f.Username.errors || f.Username.hasError('pattern')}" />
+                <div *ngIf=" f.Username.hasError('pattern')" class="invalid-feedback">
+                    Uniquement des lettres et des chiffres
+                </div>
+                <p class="text-danger">{{usernameErrorMessage}}</p>
+            <div class="form-group pb-2 mt-3 text-center">
+                <button [disabled]="loading" class="btn btn-primary btn-lg w-60 ">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Enregistrer
+                </button>
+            </div>
+            <div *ngIf="FormError" class="p-3 mb-2 bg-danger text-white text-center">{{FormErrorMessage}}</div>
+        </form>
+    </div>
+</ng-template>
+<ng-template #EditPasswordModal let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title" id="showProfileLabel">
+            Modifier mon nom d'utilisateur
+        </h6>
+        <button type="button" class="close" (click)="modal.dismiss();onPasswordChange()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body p-3 ">
+        <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
+            <div>
+                <div class="form-group">
+                    <label for="myPassword">Mot de passe actuel: *</label>
+                    <input (keyup.tab)="onPasswordTest()" (blur)="onPasswordTest()" id="myPassword"
+                        formControlName="myPassword" type="password" class="form-control"
+                        [ngClass]="f.myPassword.touched && f.myPassword.invalid ? 'is-invalid' : ''">
+                    <p class="text-danger">{{passwordErrorMessage}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm">
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Nouveau mot de passe: *</label>
+                        <input id="password" formControlName="password" type="password" class="form-control"
+                            [ngClass]="f.password.touched && f.password.invalid ? 'is-invalid' : ''">
+                        <label class="col"
+                            [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
+                            <i class="material-icons">{{ f.password.hasError('required') ||
+            f.password.hasError('minlength') ? 'cancel' :
+            'check_circle' }}</i>
+                            Au moins 8 caractères
+                        </label>
+                        <label class="col"
+                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+                            <i class="material-icons">{{ f.password.hasError('required') ||
+            f.password.hasError('hasNumber') ? 'cancel' :
+            'check_circle' }}</i>
+                            Au moins un chiffre
+                        </label>
+                        <label class="col"
+                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+
+                            <i class="material-icons">{{ f.password.hasError('required') ||
+            f.password.hasError('hasCapitalCase') ? 'cancel' :
+            'check_circle' }}</i>
+                            Au moins une majuscule
+                        </label>
+                        <label class="col"
+                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
+                            <i class="material-icons">{{ f.password.hasError('required') ||
+            f.password.hasError('hasSmallCase') ? 'cancel' :
+            'check_circle' }}</i>
+                            Au moins une minuscule
+                        </label>
+                        <label class="col"
+                            [ngClass]="f.password.hasError('required') || f.password.hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                            <i class="material-icons">{{ f.password.hasError('required') ||
+            f.password.hasError('hasSpecialCharacters') ? 'cancel' :
+            'check_circle' }}</i>
+                            Au moins un caractère spécial
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <!-- Confirmation Password -->
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmez le nouveau mot de passe: *</label>
+                        <input id="confirmPassword" formControlName="confirmPassword" type="password"
+                            class="form-control"
+                            [ngClass]="f.confirmPassword.touched && f.confirmPassword.invalid ? 'is-invalid' : ''">
+                        <label class="text-danger"
+                            *ngIf="f.confirmPassword.value.length < 1 || f.confirmPassword.hasError('required')">
+                            Confirmez votre mot de passe!
+                        </label>
+                        <label class="text-danger"
+                            *ngIf="f.confirmPassword.value.length > 0 && f.confirmPassword.hasError('NoPassswordMatch')">
+                            Les mots de passe doivent être identiques
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group pb-2 mt-3 text-center">
+                <button [disabled]="loading" class="btn btn-primary btn-lg w-60 ">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Enregistrer
+                </button>
+            </div>
+            <div *ngIf="FormError" class="p-3 mb-2 bg-danger text-white text-center">{{FormErrorMessage}}</div>
+        </form>
+    </div>
+</ng-template>
