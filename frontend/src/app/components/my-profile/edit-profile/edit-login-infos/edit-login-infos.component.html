@@ -1,3 +1,4 @@
+<small><a routerLink="/myprofile/editprofile">Aperçu</a> / <a routerLink="/myprofile/editlogininfos">Mes identifiants</a></small>
 <h2 class="p-3 text-center">Editer mon compte</h2>
 <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
 
@@ -74,18 +75,16 @@
 
     <div class="modal-body p-3 ">
         <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
-            <div>
-                <div class="form-group">
-                    <label for="myPassword">Mot de passe actuel: *</label>
-                    <input (keyup.tab)="onPasswordTest()" (blur)="onPasswordTest()" id="myPassword"
-                        formControlName="myPassword" type="password" class="form-control"
-                        [ngClass]="f.myPassword.touched && f.myPassword.invalid ? 'is-invalid' : ''">
-                    <p class="text-danger">{{passwordErrorMessage}}</p>
-                </div>
-            </div>
 
-            <div class="row">
+            <div class="col">
                 <div class="col-sm">
+                    <div class="form-group">
+                        <label for="myPassword">Mot de passe actuel: *</label>
+                        <input (keyup.tab)="onPasswordTest()" (blur)="onPasswordTest()" id="myPassword"
+                            formControlName="myPassword" type="password" class="form-control"
+                            [ngClass]="f.myPassword.touched && f.myPassword.invalid ? 'is-invalid' : ''">
+                        <p class="text-danger">{{passwordErrorMessage}}</p>
+                    </div>
                     <!-- Password -->
                     <div class="form-group">
                         <label for="password">Nouveau mot de passe: *</label>

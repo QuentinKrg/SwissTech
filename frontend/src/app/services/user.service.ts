@@ -63,11 +63,19 @@ export class UserService {
     return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetAllCustomers') ;
   }
   getShippingAddress(user: string){
-    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getShippingAddressByUser&username=' + user);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getShippingAddressByUser&username=' + user);
+  }
+  getAllShippingsAddress(user: string){
+    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllShippingsAddressByUser&username=' + user);
   }
   getBillingAddress(user: string){
-    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getBillingAddressByUser&username=' + user);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getBillingAddressByUser&username=' + user);
   }
+
+  getAllBillingsAddress(user: string){
+    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllBillingsAddressByUser&username=' + user);
+  }
+
   checkUserByUsername(user: User) {
     return new Promise(
       (resolve, reject) => {

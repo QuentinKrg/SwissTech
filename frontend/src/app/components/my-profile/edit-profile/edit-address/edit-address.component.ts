@@ -60,7 +60,7 @@ export class EditAddressComponent implements OnInit {
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
     });
     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
-    this._userService.getShippingAddress(this.currentUsername).subscribe(
+    this._userService.getAllShippingsAddress(this.currentUsername).subscribe(
       (data: Customer[]) => {
         this.myShipAddr= data;
         this.myShipAddr = this.myShipAddr;
@@ -72,7 +72,7 @@ export class EditAddressComponent implements OnInit {
         console.log(error);
       });
     //Service qui retourne l'adresse de facturation et assigne les données au formulaire
-    this._userService.getBillingAddress(this.currentUsername).subscribe(
+    this._userService.getAllBillingsAddress(this.currentUsername).subscribe(
       (data : Customer[]) => {
         this.myBillAddr = data;
         this.myBillAddr = this.myBillAddr;

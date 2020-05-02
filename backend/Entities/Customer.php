@@ -286,29 +286,15 @@ class Customer extends Entity
 		
 	public function getShippingAddressByUser(){
 		if(isset($_GET['username'])){
-			$shippingAddress = [];
+			
 				$currentUsername = $_GET['username'];
-				   $sql = "SELECT id_Address, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+				   $sql = "SELECT t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 							FROM t_address
 							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE Username = '$currentUsername' LIMIT 1)";
-				 $getShipAddr=($this->Query($sql));
-				 if($getShipAddr->rowCount() > 0) {
-
-					// Sortir les données pour chaque "row"
-					$cr = 0;
-					while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
-					  $shippingAddress[$cr]['id_Address'] = $row['id_Address'];
-					  $shippingAddress[$cr]['shippingAddress'] = $row['shippingAddress'];
-					  $shippingAddress[$cr]['shippingCity'] = $row['shippingCity'];
-					  $shippingAddress[$cr]['shippingZip'] = $row['shippingZip'];
-
-					  $cr++;
-					}
-					// echo de la liste des articles
-					return $shippingAddress;
-				  }
+								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
+				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+				 
 				return $getShipAddr;
 		}
 	}
@@ -321,24 +307,68 @@ class Customer extends Entity
 							FROM t_address
 							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE Username = '$currentUsername' LIMIT 1)";
-				  $getBillAddr=($this->Query($sql));
-				  if($getBillAddr->rowCount() > 0) {
-
-					// Sortir les données pour chaque "row"
-					$cr = 0;
-					while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
-					  $billingAddress[$cr]['billingAddress'] = $row['billingAddress'];
-					  $billingAddress[$cr]['billingCity'] = $row['billingCity'];
-					  $billingAddress[$cr]['billingZip'] = $row['billingZip'];
-
-					  $cr++;
-					}
-					// echo de la liste des articles
-					return $billingAddress;
-				  }
+								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
+				  $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+				 
 				return $getBillAddr;
 		}
 	}
-}
+	public function getAllShippingsAddressByUser(){
+			if(isset($_GET['username'])){
+				$shippingAddress = [];
+					$currentUsername = $_GET['username'];
+					   $sql = "SELECT t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+								FROM t_address
+								WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
+									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+									WHERE Username = '$currentUsername' LIMIT 1)";
+					 $getShipAddr=($this->Query($sql));
+					 if($getShipAddr->rowCount() > 0) {
+
+						// Sortir les données pour chaque "row"
+						$cr = 0;
+						while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
+						  $shippingAddress[$cr]['shippingAddress'] = $row['shippingAddress'];
+						  $shippingAddress[$cr]['shippingCity'] = $row['shippingCity'];
+						  $shippingAddress[$cr]['shippingZip'] = $row['shippingZip'];
+
+						  $cr++;
+						}
+						// echo de la liste des articles
+						return $shippingAddress;
+					  }
+					return $getShipAddr;
+			}
+		}
+
+		public function getAllBillingsAddressByUser(){
+			if(isset($_GET['username'])){
+				$billingAddress = [];
+					$currentUsername = $_GET['username'];
+					   $sql = "SELECT Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+								FROM t_address
+								WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
+									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+									WHERE Username = '$currentUsername' LIMIT 1)";
+					  $getBillAddr=($this->Query($sql));
+					  if($getBillAddr->rowCount() > 0) {
+
+						// Sortir les données pour chaque "row"
+						$cr = 0;
+						while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
+						  $billingAddress[$cr]['billingAddress'] = $row['billingAddress'];
+						  $billingAddress[$cr]['billingCity'] = $row['billingCity'];
+						  $billingAddress[$cr]['billingZip'] = $row['billingZip'];
+
+						  $cr++;
+						}
+						// echo de la liste des articles
+						return $billingAddress;
+					  }
+					return $getBillAddr;
+			}
+		}
+	}
+
+	
  ?>

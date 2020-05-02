@@ -102,7 +102,7 @@ export class EditLoginInfosComponent implements OnInit {
     this.modalService.open(targetModal, {
      centered: true,
      backdrop: 'static',
-     size: 'lg'
+     size: 'md'
     });
     
    }

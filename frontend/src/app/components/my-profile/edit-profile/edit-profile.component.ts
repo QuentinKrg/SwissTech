@@ -54,6 +54,7 @@ export class EditProfileComponent implements OnInit {
       CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerBirthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
+      CustomerSince: [''],
       shippingCity: ['', Validators.required],
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
       checkbox_address: [''],
@@ -104,8 +105,9 @@ export class EditProfileComponent implements OnInit {
         this.f.CustomerBirthday.setValue(data.CustomerBirthday);
         this.f.CustomerEmail.setValue(data.CustomerEmail);
         this.f.CustomerPhone.setValue(data.CustomerPhone);
+        this.f.Username.setValue(data.Username);
+        this.f.CustomerSince.setValue(data.CustomerSince);
         this.usernameData = data.Username;
-        console.log(data);
         
       },
       (error) => {
@@ -114,9 +116,12 @@ export class EditProfileComponent implements OnInit {
       });
     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
     this._userService.getShippingAddress(this.currentUsername).subscribe(
-      (data: Customer[]) => {
+      (data: Customer) => {
         console.log(data);
         
+        this.f.shippingAddress.setValue(data.shippingAddress);
+        this.f.shippingCity.setValue(data.shippingCity);
+        this.f.shippingZip.setValue(data.shippingZip);
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
@@ -124,9 +129,10 @@ export class EditProfileComponent implements OnInit {
       });
     //Service qui retourne l'adresse de facturation et assigne les données au formulaire
     this._userService.getBillingAddress(this.currentUsername).subscribe(
-      (data: Customer[]) => {
-        console.log(data);
-        
+      (data: Customer) => {
+        this.f.billingAddress.setValue(data.billingAddress);
+        this.f.billingCity.setValue(data.billingCity);
+        this.f.billingZip.setValue(data.billingZip);
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
