@@ -27,6 +27,8 @@ export class ManageCustomersComponent implements OnInit {
   element = <HTMLInputElement> document.getElementById("checkbox_status");
   isChecked:boolean;
   filterValue: Array<any> = [];
+  filterText: string = "";
+  selectedStatus: number = -1
   constructor(
     private _userService: UserService,private fb: FormBuilder, private modalService: NgbModal  ) {
 
@@ -82,32 +84,39 @@ export class ManageCustomersComponent implements OnInit {
     this.getCustomers();
   }
 
-  //Fonction pour la recherche dans la liste des clients
-  filterByText(initial: string) {
+  // Filtrer les articles par status 
+  filteredByStatus() {
+    if(this.filterText == "") {
+      this.allCustomers = this.filterValue;
 
-    this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
+      if(this.selectedStatus == -1) {
+        this.allCustomers = this.filterValue;
+      } else if (this.selectedStatus == 0) {
+        this.allCustomers = this.allCustomers.filter(p => p.isActive == 0);
+      } else if (this.selectedStatus == 1) {
+        this.allCustomers = this.allCustomers.filter(p => p.isActive == 1);
+      }
+    } else if (this.filterText != "") {
+      this.filteredByText(this.filterText);
 
-    //condition permetant de rechercher dans les utilisateur actifs uniquement
-    if(this.isChecked){
-      this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
-     }else{
-      this.allCustomers = this.filterValue;// réinitialise si on efface la recherche
-     }
-    //Fonction filter ciblant l'array retournée par la requette au backend, plus précisément le nom d'utilisateur.
-    //initial c'est la lettre tappée par l'admin dans le champ de recherche.
-    this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+      if(this.selectedStatus == -1) {
+        this.filteredByText(this.filterText);
+      } else if (this.selectedStatus == 0) {
+        this.allCustomers = this.allCustomers.filter(p => p.isActive == 0);
+      } else if (this.selectedStatus == 1) {
+        this.allCustomers = this.allCustomers.filter(p => p.isActive == 1);
+      }
+    }
   }
-  
-  filterByStatus() {
-    this.element = <HTMLInputElement> document.getElementById("checkbox_status");
-    this.isChecked = this.element.checked;
-   if(this.isChecked){
-    this.allCustomers = this.allCustomers.filter(i => i.isActive == 1);
-   }else{
+
+  // Filtrer les articles avec le texte 
+  filteredByText(initial: string) {
     this.allCustomers = this.filterValue;
-   }
-    
+    this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+    this.filterText = initial.toLocaleLowerCase();
+
   }
+
   onPageChange(pageNum: number): void {
     this.pageSize = this.itemsPerPage*(pageNum - 1);
   }
@@ -142,7 +151,7 @@ export class ManageCustomersComponent implements OnInit {
 
     this.selectedUser = user.Username;
     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
-    this._userService.getShippingAddress(this.selectedUser).subscribe(
+   /* this._userService.getShippingAddress(this.selectedUser).subscribe(
       (data = new Customer) => {
         this.f.shippingAddress.setValue(data.shippingAddress);
         this.f.shippingCity.setValue(data.shippingCity);
@@ -166,7 +175,7 @@ export class ManageCustomersComponent implements OnInit {
       (error) => {
         this.usernameErrorMessage = "Error ";
         console.log(error);
-      });
+      }); */  
     this.editProfileForm.patchValue({
       CustomerTitre: user.CustomerTitre ,
       CustomerName: user.CustomerName,
