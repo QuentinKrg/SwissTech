@@ -20,6 +20,7 @@ import { AdminGuard } from './helpers/admin.guard';
 import { EditAddressComponent } from './components/my-profile/edit-profile/edit-address/edit-address.component';
 import { EditLoginInfosComponent } from './components/my-profile/edit-profile/edit-login-infos/edit-login-infos.component';
 import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
+import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-panel.component';
 
 
 
@@ -36,13 +37,18 @@ const routes: Routes = [
         { path: 'editlogininfos', component: EditLoginInfosComponent},
         { path: 'editpersonalinfos', component: EditPersonalInfosComponent},
         { path: 'myorders', component: MyOrdersComponent},
-        { path: 'manageproducts', component: ManageProductsComponent, canActivate: [AdminGuard]},
-        { path: 'manageorders', component: ManageOrdersComponent, canActivate: [AdminGuard]},
-        { path: 'managecustomers', component: ManageCustomersComponent, canActivate: [AdminGuard]},
-        { path: 'manageadmins', component: ManageAdminsComponent, canActivate: [AdminGuard]}, 
         { path: '', component: EditProfileComponent},   
         { path: 'myprofile', redirectTo: 'myprofile' }
         ] 
+    },
+    { path: 'admin', component: MyProfileComponent, canActivate: [AdminGuard], children:
+        [
+        { path: 'manageproducts', component: ManageProductsComponent},
+        { path: 'manageorders', component: ManageOrdersComponent},
+        { path: 'managecustomers', component: ManageCustomersComponent},
+        { path: 'manageadmins', component: ManageAdminsComponent}, 
+        { path: '', component: AdminPanelComponent},
+        ]
     },
     { path:'checkout', component: CheckoutComponent, canActivate: [AuthGuard], children: [
         {path: 'information', component: ContactInformationComponent},

@@ -37,6 +37,7 @@ import {DatePipe} from '@angular/common';
 import { EditAddressComponent } from './components/my-profile/edit-profile/edit-address/edit-address.component';
 import { EditLoginInfosComponent } from './components/my-profile/edit-profile/edit-login-infos/edit-login-infos.component';
 import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
+import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-panel.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { EditPersonalInfosComponent } from './components/my-profile/edit-profile
     ManageAdminsComponent,
     EditAddressComponent,
     EditLoginInfosComponent,
-    EditPersonalInfosComponent
+    EditPersonalInfosComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,

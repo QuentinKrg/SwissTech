@@ -18,17 +18,21 @@ export class AdminGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         
         this._authenticationService.currentUser.subscribe(x => this.currentUser = x);
-        this.currentUserRole = this.currentUser.role;
-
-        console.log(this.currentUserRole);
-
-        if (this.currentUserRole == "AD") {
-            // authorised so return true
-            return true;
+        if(this.currentUser != null) {
+            this.currentUserRole = this.currentUser.role;
+            if (this.currentUserRole == "AD") {
+                // authorised so return true
+                return true;
+            }
+            else{
+                // N'est pas administrateur donc est redirigé vers la page
+                this._router.navigate(['']);
+                return false;
+            }
         }else{
-        // not logged in so redirect to login page with the return url
-        this._router.navigate(['/myprofile']);
-        return false;
+            // N'est pas administrateur donc est redirigé vers la page
+            this._router.navigate(['']);
+            return false;
         }
     }
 }

@@ -24,23 +24,23 @@
     </a>
     <div *ngIf="currentUserRole== 'AD'">
         <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i
-                class="fas fa-user-shield"></i> <span class="d-none d-sm-inline"> Administration</span></a>
+                class="fas fa-user-shield"></i> <span class="d-none d-sm-inline" routerLink="/admin"> Administration</span></a>
         <div class="collapse" id="submenu1" aria-expanded="false">
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item  m-2"><a class="nav-link py-0"
-                        routerLink="/myprofile/manageproducts"><span>Articles</span></a></li>
+                        routerLink="/admin/manageproducts"><span>Articles</span></a></li>
             </ul>
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item m-2"><a class="nav-link py-0"
-                        routerLink="/myprofile/manageorders"><span>Commandes</span></a></li>
+                        routerLink="/admin/manageorders"><span>Commandes</span></a></li>
             </ul>
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item m-2"><a class="nav-link py-0"
-                        routerLink="/myprofile/managecustomers"><span>Clients</span></a></li>
+                        routerLink="/admin/managecustomers"><span>Clients</span></a></li>
             </ul>
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item m-2"><a class="nav-link py-0"
-                        routerLink="/myprofile/manageadmins"><span>Administrateurs</span>
+                        routerLink="/admin/manageadmins"><span>Administrateurs</span>
                     </a></li>
             </ul>
         </div>
