@@ -15,4 +15,5 @@ export class Product {
     CategoryName: string;
     CategoryId: number;
     Categories: Categories[];
+    LockedBy: String;
 }

@@ -211,12 +211,15 @@
         <div class="row">
             <div class="col-12"><h3>Modification d'article</h3></div>
         </div>       
-        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+        <button type="button" class="close" (click)="modal.dismiss();onReleaseLock()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
         <form [formGroup]="addProductGroup" (ngSubmit)="onSubmitEdit()" enctype="multipart/form-data">
+            <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
+                <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()" aria-label="">Déverrouiller quand même
+            </button> </div>
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="productName">Nom de l'article</label>
@@ -277,14 +280,14 @@
             </div>
             <div class="form-row">
                 <div class="col-12">
-                    <button class="btn btn-info">Modifier</button>
+                    <button [disabled]="isLocked" class="btn btn-info">Modifier</button>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer ">
         <div class="row">
-            <button type="button" class="btn btn-secondary" (click)="closeModal(showEditProduct)">Fermer</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal(showEditProduct);onReleaseLock()">Fermer</button>
         </div>
     </div>
 </ng-template>

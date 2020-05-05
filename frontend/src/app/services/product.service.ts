@@ -10,7 +10,7 @@ import { Manufacturer } from '../models/Manufacturer';
 export class ProductService {
 
   constructor(private http: HttpClient) {
-
+    setInterval(()=> { this.CleanupLocks().subscribe(); }, 60000);
   }
 
   getTest(){
@@ -55,5 +55,27 @@ export class ProductService {
 
   getAllManufacturer() {
     return this.http.get<Manufacturer[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAllManufacturer');
+  }
+
+  CheckLock(id:number) {
+    return this.http.get<Product>(environment.backendURL + 'start.php?' + 'c=Product&f=LockCheck&id=' +id);
+  }
+  UpdateLock(id:number) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateLock&id=' +id);
+  }
+  AddLock(id:number, username: string) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=AddLock&id=' +id+'&username='+username);
+  }
+  ReleaseLock(id:number, username: string) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=ReleaseLock&id=' +id+'&username='+username);
+  }
+  ForceReleaseLock(id:number) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=ForceReleaseLock&id=' +id);
+  }
+  CleanupLocks() {
+    console.log('clean');
+    
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=CleanupLocks');
+    
   }
 }

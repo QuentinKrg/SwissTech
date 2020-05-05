@@ -334,5 +334,69 @@ class Product extends Entity
         }
       }
     }
+	public function LockCheck(){
+		$sql = " SELECT LockedBy FROM t_lock_product
+					WHERE FK_Product = $this->idToProcess";
 
+       $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+       // Retour du résultat
+       return $tmpResult;
+	}
+	public function UpdateLock(){
+		
+		$sql = "UPDATE  	t_lock_product 
+  			SET
+  					t_lock_product.LockTime = NOW()
+  			WHERE
+  					t_lock_product.FK_Product = $this->idToProcess";
+				
+		$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+       // Retour du résultat
+       return $tmpResult;
+	}
+	public function AddLock(){
+		if(isset($_GET['username'])){
+			$username= $_GET['username'];
+			$sql = "INSERT INTO t_lock_product (LockedBy, Fk_Product)
+                        VALUES ('$username', $this->idToProcess)";
+				
+			$tmpResult = ($this->Query($sql));
+
+		   // Retour du résultat
+		   return $tmpResult;
+		}
+		
+	}
+	public function ReleaseLock(){
+		if(isset($_GET['username'])){
+			$username= $_GET['username'];
+			$sql = "DELETE FROM t_lock_product WHERE FK_Product= $this->idToProcess AND LockedBy= '$username'";
+				
+			$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+		   // Retour du résultat
+		   return $tmpResult;
+		}
+		
+	}
+	public function ForceReleaseLock(){
+		
+			$sql = "DELETE FROM t_lock_product WHERE FK_Product= $this->idToProcess";
+				
+			$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+		   // Retour du résultat
+		   return $tmpResult;
+		
+	}
+	public function CleanupLocks(){
+	    $sql = "DELETE FROM t_lock_product WHERE TIME_TO_SEC(LockTime)+600 <= TIME_TO_SEC(NOW())";
+				
+		$tmpResult = ($this->Query($sql));
+
+	   // Retour du résultat
+	   return $tmpResult;
+	}
 }
