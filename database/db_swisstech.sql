@@ -2,7 +2,7 @@
 -- Hôte :                        127.0.0.1
 -- Version du serveur:           10.4.11-MariaDB - mariadb.org binary distribution
 -- SE du serveur:                Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             10.3.0.5771
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,15 +29,18 @@ CREATE TABLE IF NOT EXISTS `t_address` (
   KEY `FK_Address_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Address_AddressType` FOREIGN KEY (`FK_AddressType`) REFERENCES `t_addresstypes` (`id_AddressType`),
   CONSTRAINT `FK_Address_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_address : ~4 rows (environ)
+-- Listage des données de la table db_swisstech.t_address : ~7 rows (environ)
 /*!40000 ALTER TABLE `t_address` DISABLE KEYS */;
 INSERT INTO `t_address` (`id_Address`, `Address`, `City`, `ZIP`, `FK_AddressType`, `FK_Customer`) VALUES
 	(13, 'Couloir 7 , 717', 'Lausanne', 1004, 1, 24),
 	(14, 'Couloir 7 , 717', 'Lausanne', 1004, 2, 24),
-	(15, 'Rue de test, 9', 'Test Ville', 1000, 1, 25),
-	(16, 'Rue de test, 10', 'Test Ville', 1000, 2, 25);
+	(15, 'Rue de livraison 30', 'Livre ville', 1000, 1, 25),
+	(16, 'Rue de livraison 344', 'Livre ville', 1000, 2, 25),
+	(25, 'test 1', 'Montreux', 1820, 1, 26),
+	(26, 'test 2', 'Montreux', 1820, 2, 26),
+	(29, 'address 3 livre', 'test', 1234, 1, 25);
 /*!40000 ALTER TABLE `t_address` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_addresstypes
@@ -130,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `t_comments` (
   CONSTRAINT `FK_Comment_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_comments : ~23 rows (environ)
+-- Listage des données de la table db_swisstech.t_comments : ~26 rows (environ)
 /*!40000 ALTER TABLE `t_comments` DISABLE KEYS */;
 INSERT INTO `t_comments` (`id_Comment`, `CommentValue`, `CommentDate`, `isActive`, `FK_Product`, `FK_Customer`) VALUES
 	(2, 'test', '2020-03-29 13:22:39', 1, 9, 25),
@@ -150,7 +153,7 @@ INSERT INTO `t_comments` (`id_Comment`, `CommentValue`, `CommentDate`, `isActive
 	(18, 'lololol', '2020-04-02 09:15:14', 1, 4, 25),
 	(19, 'monstre mdr', '2020-04-02 09:15:34', 1, 4, 25),
 	(20, 'gang epsic', '2020-04-02 09:16:17', 1, 4, 25),
-	(21, 'adieu pénis', '2020-04-02 09:19:40', 1, 4, 25),
+	(21, 'adieu pénis', '2020-04-02 09:19:40', 0, 4, 25),
 	(22, 'testtestsetset', '2020-04-02 09:25:20', 1, 7, 25),
 	(23, 'Boule de shit', '0000-00-00 00:00:00', 0, 7, 25),
 	(24, 'Boule de shit', '2020-04-02 11:30:34', 1, 7, 25),
@@ -181,8 +184,8 @@ CREATE TABLE IF NOT EXISTS `t_customers` (
 /*!40000 ALTER TABLE `t_customers` DISABLE KEYS */;
 INSERT INTO `t_customers` (`id_customer`, `CustomerTitre`, `CustomerName`, `CustomerLastName`, `CustomerPhone`, `CustomerEmail`, `CustomerBirthday`, `FK_ShoppingCart`, `CustomerSince`) VALUES
 	(24, 'Mme', 'Chippo', 'Lata', '+4171237654', 'lapute@gmail.com', '1890-01-01', NULL, '2020-03-18'),
-	(25, 'Mme', 'Test ', 'Testttt', '+41 9999 9999 99', 'testttt@swisstchstore.com', '1999-01-01', NULL, '2020-03-18'),
-	(26, 'Mr', 'cookie', 'Lechat', '234565453423', 'cookier@gmail.com', '2012-01-01', NULL, '2020-03-18');
+	(25, 'Mr', 'Testnew', 'nomTest', '+41768018510', 'winstonforti@gmail.com', '2000-01-01', NULL, '2020-03-18'),
+	(26, 'Mr', 'Test prénom', 'Test Nom', '987567890', 'asdas@test.com', '0000-00-00', NULL, '2020-03-18');
 /*!40000 ALTER TABLE `t_customers` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_images
@@ -204,6 +207,21 @@ INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
 	(6, 'AirPods -std', 'img-article-temp.jpg'),
 	(7, 'Souris Logitehc B100', 'Logitech-Maus-B100.jpg');
 /*!40000 ALTER TABLE `t_images` ENABLE KEYS */;
+
+-- Listage de la structure de la table db_swisstech. t_lock_product
+CREATE TABLE IF NOT EXISTS `t_lock_product` (
+  `id_lock` int(11) NOT NULL AUTO_INCREMENT,
+  `LockedBy` varchar(50) NOT NULL DEFAULT '',
+  `lockTime` time NOT NULL DEFAULT curtime(),
+  `FK_Product` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_lock`),
+  KEY `FK_product` (`FK_Product`),
+  CONSTRAINT `FK_product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4;
+
+-- Listage des données de la table db_swisstech.t_lock_product : ~3 rows (environ)
+/*!40000 ALTER TABLE `t_lock_product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_lock_product` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_manufacturers
 CREATE TABLE IF NOT EXISTS `t_manufacturers` (
@@ -250,9 +268,9 @@ CREATE TABLE IF NOT EXISTS `t_orders` (
   CONSTRAINT `FK_Order_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Order_PaymentMethod` FOREIGN KEY (`FK_PaymentMethod`) REFERENCES `t_paymentmethod` (`id_paymentmethod`),
   CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_orders : ~5 rows (environ)
+-- Listage des données de la table db_swisstech.t_orders : ~17 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
 INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`, `FK_Customer`) VALUES
 	(37, '2020-04-05 15:21:36', 1, 2, 25),
@@ -265,8 +283,13 @@ INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`
 	(44, '2020-04-07 08:41:35', 1, 1, 25),
 	(45, '2020-04-07 08:42:03', 1, 1, 25),
 	(46, '2020-04-07 08:42:26', 1, 1, 25),
-	(47, '2020-04-07 08:43:13', 1, 1, 25),
-	(48, '2020-04-07 08:56:13', 1, 1, 25);
+	(47, '2020-04-07 08:43:13', 3, 1, 25),
+	(48, '2020-04-07 08:56:13', 1, 1, 25),
+	(49, '2020-04-07 10:10:01', 6, 1, 25),
+	(50, '2020-04-07 10:30:24', 5, 2, 25),
+	(51, '2020-04-08 12:23:13', 1, 1, 25),
+	(52, '2020-04-14 14:54:11', 2, 2, 24),
+	(53, '2020-04-14 14:54:41', 4, 2, 24);
 /*!40000 ALTER TABLE `t_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_parameters
@@ -297,12 +320,14 @@ CREATE TABLE IF NOT EXISTS `t_paymentcustomer` (
   KEY `FK_Payment_Order` (`FK_Order`),
   CONSTRAINT `FK_Payment_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Payment_Order` FOREIGN KEY (`FK_Order`) REFERENCES `t_orders` (`id_Order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_paymentcustomer : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_paymentcustomer : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_paymentcustomer` DISABLE KEYS */;
 INSERT INTO `t_paymentcustomer` (`id_Payment`, `CardNumber`, `CardName`, `CardCode`, `ExpiringDate`, `FK_Customer`, `FK_Order`) VALUES
-	(5, '7894 4567 4567 4569', 'Quentin Krenger', 132, '2024-03-01', 25, 48);
+	(5, '7894 4567 4567 4569', 'Quentin Krenger', 132, '2024-03-01', 25, 48),
+	(6, '2345 6789 0555 5555', 'test test', 0, '2023-02-01', 25, 49),
+	(7, '8789 8776 6555 6777', 'Winston Meisen', 0, '2020-01-01', 25, 51);
 /*!40000 ALTER TABLE `t_paymentcustomer` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_paymentmethod
@@ -343,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `t_products` (
 INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductColor`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `isActive`, `FK_Category`, `FK_Manufacturer`) VALUES
 	(4, 'PS4 Pro 1 TB ', 'Noir', '30cm', '1 Contrôleur compris', 419.00, 1, 44, 17),
 	(6, 'Ordinateur portable 250 G7 ', 'Noir/Gris', '50cm', '-Processeur Celeron 3867U - Mémoire vive intégrée: 4GB - Disque dûr: 500GB - Ecran 15.6"', 299.00, 1, 23, 2),
-	(7, 'MacBook Pro 13" 2019 Touch Bar', 'Argenté', '40cm', '- Processeur: Intel Core i5-8xxx - Mémoire vive intégrée: 8GB - Disque dûr: 128 GB - Ecran: 13.3"', 1379.00, 1, 23, 3),
+	(7, 'MacBook Pro 13" 2019 Touch Bar', 'Argenté', '40cm', '<ul><li>Processeur: Intel Core i5-8xxx&nbsp;</li><li> Mémoire vive intégrée: 8GB&nbsp;</li><li> Disque dûr: 128 GB&nbsp;</li><li> Ecran: 13.3"</li></ul>', 1379.00, 1, 23, 3),
 	(8, 'Ordinateur portabe V130-15', 'Noir', '50cm', '-Processeur: Intel Core i3-7020U - Mémoire vive: 4GB - Disque dûr: 256 GB - Ecran: 15.6 " ', 369.00, 1, 23, 5),
 	(9, 'Nintendo Switch  ', 'Rouge/Bleu', '20cm', 'Modèle révisé HAC-001-01 avec révision du matériel 2019', 349.00, 1, 44, 20),
 	(10, 'Xbox One S All-Digital Edition 1 To', 'Blanc', '30cm', 'Edition standard', 259.00, 1, 44, 9),
@@ -392,9 +417,9 @@ CREATE TABLE IF NOT EXISTS `t_products_orders` (
   CONSTRAINT `FK_ProductOrder_Order` FOREIGN KEY (`FK_Order`) REFERENCES `t_orders` (`id_Order`),
   CONSTRAINT `FK_ProductOrder_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`),
   CONSTRAINT `FK_ProductOrder_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_orders : ~6 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_orders : ~17 rows (environ)
 /*!40000 ALTER TABLE `t_products_orders` DISABLE KEYS */;
 INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPrice`, `FK_Product`, `FK_Order`, `FK_ShoppingCart`) VALUES
 	(51, 3, 1379.00, 7, 37, NULL),
@@ -407,7 +432,16 @@ INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPri
 	(58, 1, 419.00, 4, 43, NULL),
 	(59, 1, 419.00, 4, 46, NULL),
 	(60, 1, 419.00, 4, 47, NULL),
-	(61, 1, 9.00, 13, 48, NULL);
+	(61, 1, 9.00, 13, 48, NULL),
+	(62, 1, 279.00, 14, 49, NULL),
+	(63, 1, 379.00, 11, 50, NULL),
+	(64, 1, 349.00, 9, 50, NULL),
+	(65, 1, 1379.00, 7, 51, NULL),
+	(66, 1, 279.00, 14, 51, NULL),
+	(67, 1, 419.00, 4, 51, NULL),
+	(68, 2, 379.00, 11, 52, NULL),
+	(69, 1, 279.00, 14, 53, NULL),
+	(70, 2, 349.00, 9, 53, NULL);
 /*!40000 ALTER TABLE `t_products_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_roles
@@ -479,9 +513,9 @@ CREATE TABLE IF NOT EXISTS `t_users` (
 -- Listage des données de la table db_swisstech.t_users : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddress`, `FK_Role`, `FK_Customer`) VALUES
-	(29, 'chippo', 'f644e430863a66c3d1c698230bf841c87e9b77bddf7d85433fda5e7c20323fca', 'monsalt', 'da50a35e082371de4347082f4854fd99', '2020-03-17 17:58:10', 1, '', 1, 24),
-	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'b31d91c5b2a7afee6fc6296a77057d76', '2020-04-05 15:13:52', 1, '', 2, 25),
-	(31, 'Cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '6857bc107d97310aab8131f1875d3715', '2020-03-28 11:32:00', 1, '', 1, 26);
+	(29, 'chippo', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'efc3f3700ba72944df12368f2caf8909', '2020-05-04 21:15:39', 1, '::1', 2, 24),
+	(30, 'test', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', '6247bc4243c031d78dd1e968ea2d6a21', '2020-05-02 17:21:54', 1, '::1', 2, 25),
+	(31, 'cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '6857bc107d97310aab8131f1875d3715', '2020-03-28 11:32:00', 0, '', 1, 26);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
