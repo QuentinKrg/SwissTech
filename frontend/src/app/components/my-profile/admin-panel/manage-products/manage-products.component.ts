@@ -34,6 +34,7 @@ export class ManageProductsComponent implements OnInit {
   //Lock
   isLocked= false;
   LockedBy: String;
+  loading= false;
   // Filtres
   allMainCategories: Categories[] = [];
   selectedMainCategory: number = -1;
@@ -82,6 +83,7 @@ export class ManageProductsComponent implements OnInit {
     });
     this._categoriesService.getAllMainGategories().subscribe((data) => { this.allMainCategories = data });
     this.getAllProducts();
+  this.loading=false;
   }
 
   // Récupération des produits
@@ -391,12 +393,12 @@ export class ManageProductsComponent implements OnInit {
     this.onAcquireLock();
   }
   //  Action pour la modification d'un article
-  async onSubmitEdit() {
-
+  onSubmitEdit() {
+    this.loading=true;
     this.onCheckLock();
     
     setTimeout(()=> { 
-
+      
       if(this.isLocked){
         return;
       }
@@ -428,12 +430,12 @@ export class ManageProductsComponent implements OnInit {
         },
         (error) => { }
       );
-  
+      
       this.onReleaseLock();
       this._modalService.dismissAll();
       this.addProductGroup.reset();
       this.ngOnInit();
-    }, 500);
+    }, 1000);
   }
 
   // Fermeture d'un modal

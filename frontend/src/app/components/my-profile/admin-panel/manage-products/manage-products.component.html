@@ -280,7 +280,9 @@
             </div>
             <div class="form-row">
                 <div class="col-12">
-                    <button [disabled]="isLocked" class="btn btn-info">Modifier</button>
+                    <button [disabled]="isLocked || loading" class="btn btn-info">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Modifier</button>
                 </div>
             </div>
         </form>
