@@ -86,27 +86,19 @@ export class ManageCustomersComponent implements OnInit {
 
   // Filtrer les articles par status 
   filteredByStatus() {
-    if(this.filterText == "") {
+    this.allCustomers = this.filterValue;
+
+    if(this.selectedStatus == -1) {
       this.allCustomers = this.filterValue;
-
-      if(this.selectedStatus == -1) {
-        this.allCustomers = this.filterValue;
-      } else if (this.selectedStatus == 0) {
-        this.allCustomers = this.allCustomers.filter(p => p.isActive == 0);
-      } else if (this.selectedStatus == 1) {
-        this.allCustomers = this.allCustomers.filter(p => p.isActive == 1);
-      }
-    } else if (this.filterText != "") {
-      this.filteredByText(this.filterText);
-
-      if(this.selectedStatus == -1) {
-        this.filteredByText(this.filterText);
-      } else if (this.selectedStatus == 0) {
-        this.allCustomers = this.allCustomers.filter(p => p.isActive == 0);
-      } else if (this.selectedStatus == 1) {
-        this.allCustomers = this.allCustomers.filter(p => p.isActive == 1);
-      }
+    } else if (this.selectedStatus == 0) {
+      this.allCustomers = this.allCustomers.filter(p => p.isActive == 0);
+    } else if (this.selectedStatus == 1) {
+      this.allCustomers = this.allCustomers.filter(p => p.isActive == 1);
     }
+
+    // Filter avec le texte
+    this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(this.filterText) !== -1);
+    
   }
 
   // Filtrer les articles avec le texte 
@@ -114,7 +106,7 @@ export class ManageCustomersComponent implements OnInit {
     this.allCustomers = this.filterValue;
     this.allCustomers = this.allCustomers.filter(i => i.Username.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
     this.filterText = initial.toLocaleLowerCase();
-
+    this.filteredByStatus();
   }
 
   onPageChange(pageNum: number): void {
