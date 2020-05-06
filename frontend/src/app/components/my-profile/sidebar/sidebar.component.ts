@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from 'src/app/models/user';
+import { faClipboardList,faUser,faHeart,faUserShield } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,11 @@ import { User } from 'src/app/models/user';
 export class SidebarComponent implements OnInit {
   currentUser: User;
   currentUserRole: string;
-
+  //icones
+  faClipboardList=faClipboardList;
+  faUser=faUser;
+  faHeart=faHeart;
+  faUserShield=faUserShield;
   constructor(
     private authenticationService: AuthenticationService
   ) {

@@ -7,6 +7,7 @@ import { CategoriesService } from 'src/app/services/categories.service';
 import { Categories } from 'src/app/models/categories';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { DataService } from 'src/app/services/data.service';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
   mainCategories: Categories[];
   cartCount: number = 0;
   
-  
+  //icones
+  faShoppingCart=faShoppingCart;
 
   
   constructor(

@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomValidators } from 'src/app/helpers/CustomValidators';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-manage-customers',
@@ -12,7 +13,9 @@ import { CustomValidators } from 'src/app/helpers/CustomValidators';
 })
 
 export class ManageCustomersComponent implements OnInit {
-
+  //icones
+  faEllipsisV=faEllipsisV;
+  
   allCustomers: Customer[];
   currentPage = 1;
   itemsPerPage = 5;

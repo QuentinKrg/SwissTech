@@ -24,8 +24,10 @@
             <div class="col-sm-11 col-md-4 order-2 w-auto ml-auto pr-0">
                 <span class="d-flex float-right">
                 <a class="nav-link" routerLink="/cart">
-                    <img class="icon" src="/assets/images/icons/shopping-cart.svg"/>
-                    <span>{{cartCount}}</span>
+                    <fa-layers size="2x">
+                        <fa-icon  [icon]="faShoppingCart" class="text-dark"></fa-icon>
+                        <fa-layers-counter  content="{{cartCount}}" class="h1"></fa-layers-counter>
+                    </fa-layers>
                 </a>
                 <a class="nav-link" routerLink="/myprofile">
                     <img *ngIf="currentUser"  class="icon" title="Mon compte" src="/assets/images/icons/user.svg"/>

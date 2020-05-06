@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { UserService } from 'src/app/services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,6 +16,9 @@ import * as CryptoJS from 'crypto-js';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  //icones
+  faSyncAlt=faSyncAlt;
+  
   registerForm: FormGroup;
   loading = false;
   submitted = false;

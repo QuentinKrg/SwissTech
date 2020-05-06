@@ -1,7 +1,7 @@
 <div class="sidebar">
     <a routerLink="/myprofile/editprofile" class="nav-item">
         <span class="d-none d-sm-inline">
-            <i class="fa fa-fw fa-user"></i> Aperçu
+            <fa-icon [icon]="faUser"></fa-icon> Aperçu 
         </span></a>
     <div class="pl-2" id="submenu2">
         <ul class="flex-column pl-2 nav">
@@ -18,13 +18,13 @@
         </ul>
     </div>
     <a routerLink="/myprofile/myorders">
-        <i class="fas fa-clipboard-list"> </i> Mes commandes
+        <fa-icon [icon]="faClipboardList"></fa-icon> Mes commandes
     </a>
-    <a href="#contact"><i class="fas fa-heart"> </i> Mes favoris
+    <a href="#contact"><fa-icon [icon]="faHeart"></fa-icon> Mes favoris
     </a>
     <div *ngIf="currentUserRole== 'AD'">
-        <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i
-                class="fas fa-user-shield"></i> <span class="d-none d-sm-inline" routerLink="/admin"> Administration</span></a>
+        <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1">
+            <fa-icon [icon]="faUserShield"></fa-icon> <span class="d-none d-sm-inline" routerLink="/admin"> Administration</span></a>
         <div class="collapse" id="submenu1" aria-expanded="false">
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item  m-2"><a class="nav-link py-0"

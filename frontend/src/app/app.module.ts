@@ -38,7 +38,7 @@ import { EditAddressComponent } from './components/my-profile/edit-profile/edit-
 import { EditLoginInfosComponent } from './components/my-profile/edit-profile/edit-login-infos/edit-login-infos.component';
 import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
 import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-panel.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -79,7 +79,8 @@ import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-p
     HttpClientModule,
     appRoutingModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

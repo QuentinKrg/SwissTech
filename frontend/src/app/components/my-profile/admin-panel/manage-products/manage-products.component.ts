@@ -8,9 +8,10 @@ import { Product } from 'src/app/models/product';
 import { Comments } from 'src/app/models/comments';
 import { CommentsService } from 'src/app/services/comments.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { CustomValidators } from 'src/app/helpers/CustomValidators';
 import { Manufacturer } from 'src/app/models/Manufacturer';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-manage-products',
@@ -28,6 +29,9 @@ export class ManageProductsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private authenticationService: AuthenticationService
   ) { }
+  //icones
+  faEllipsisV=faEllipsisV;
+
   //utilisateur actuel
   currentUsername = this.authenticationService.currentUserValue.login;
 
@@ -435,7 +439,7 @@ export class ManageProductsComponent implements OnInit {
       this._modalService.dismissAll();
       this.addProductGroup.reset();
       this.ngOnInit();
-    }, 1000);
+    }, 500);
   }
 
   // Fermeture d'un modal
