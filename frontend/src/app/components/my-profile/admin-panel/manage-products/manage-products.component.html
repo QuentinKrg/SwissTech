@@ -216,7 +216,8 @@
         </button>
     </div>
     <div class="modal-body">
-        <form [formGroup]="addProductGroup" (ngSubmit)="onSubmitEdit()" enctype="multipart/form-data">
+        
+        <form [formGroup]="addProductGroup" (ngSubmit)="onSubmitEdit()" enctype="multipart/form-data"> 
             <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
                 <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()" aria-label="">Déverrouiller quand même
             </button> </div>

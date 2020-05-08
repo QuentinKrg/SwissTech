@@ -63,6 +63,7 @@ export class ManageProductsComponent implements OnInit {
   // Ajout et modification d'un article
   allCategories: Categories[] = [];
   addProductGroup: FormGroup;
+  updateProductGroup: FormGroup;
   fileToUpload: File = null;
   allManufacturer: Manufacturer[] = [];
   imagePathToShow: string = "";
@@ -74,6 +75,7 @@ export class ManageProductsComponent implements OnInit {
 
   // on Init
   ngOnInit() {
+
     this.addProductGroup = this._formBuilder.group({
       ProductName: ['', Validators.required],
       ProductColor: ['-1', Validators.required],
@@ -87,7 +89,7 @@ export class ManageProductsComponent implements OnInit {
     });
     this._categoriesService.getAllMainGategories().subscribe((data) => { this.allMainCategories = data });
     this.getAllProducts();
-  this.loading=false;
+    this.loading=false;
   }
 
   // Récupération des produits
@@ -95,7 +97,7 @@ export class ManageProductsComponent implements OnInit {
     this._productService.getAllProducts().subscribe(
       (data: Product[]) => {
         this.allProducts = data;
-        this.filterValue = this.allProducts;
+        this.filterValue = this.allProducts;       
       }
     );
   }
@@ -271,9 +273,9 @@ export class ManageProductsComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', this.fileToUpload);
 
-    this._productService.uploadProductImage(formData).subscribe(() => {
+    this._productService.uploadProductImage(formData).subscribe(() => {});
 
-      let productToAdd: Product = new Product;
+    let productToAdd: Product = new Product;
       productToAdd.ProductName = this.addProductGroup.value.ProductName;
       productToAdd.ProductUnitPrice = this.addProductGroup.value.ProductPrice;
       productToAdd.ProductDescription = this.addProductGroup.value.ProductDescription;
@@ -283,17 +285,21 @@ export class ManageProductsComponent implements OnInit {
       productToAdd.ProductSize = this.addProductGroup.value.ProductSize;
       productToAdd.CategoryId = this.addProductGroup.value.ProductCategory;
 
+      console.log(productToAdd);
+      
+
       this._productService.addProduct(productToAdd).subscribe(
         () => {
           console.log("ok");
         },
-        (error) => { }
+        (error) => { console.log(error);
+         }
       );
-    });
-
     this._modalService.dismissAll();
     this.addProductGroup.reset();
     this.ngOnInit();
+    
+
   }
 
   // Ouverture du modal de modification
@@ -336,6 +342,7 @@ export class ManageProductsComponent implements OnInit {
     this.onCheckLock();
 
   }
+
   onAcquireLock() {
       this._productService.AddLock(this.editedProductId, this.currentUsername).subscribe((data) => {
       },
@@ -344,6 +351,7 @@ export class ManageProductsComponent implements OnInit {
         });
         console.log('libre pour edition');
   }
+
  onCheckLock() {
     this._productService.CheckLock(this.editedProductId).subscribe((data: Product) => {
       //Récupère le nom d'utilisateur si présent pour cet article
@@ -380,6 +388,7 @@ export class ManageProductsComponent implements OnInit {
       console.log(error);
     });
   }
+
   onReleaseLock() {
     this._productService.ReleaseLock(this.editedProductId, this.currentUsername).subscribe((data) => {
     },
@@ -387,6 +396,7 @@ export class ManageProductsComponent implements OnInit {
         console.log(error);
       });
   }
+
   onForceReleaseLock() {
     this._productService.ForceReleaseLock(this.editedProductId).subscribe(() => {
     },
@@ -396,6 +406,7 @@ export class ManageProductsComponent implements OnInit {
     this.isLocked = false;
     this.onAcquireLock();
   }
+  
   //  Action pour la modification d'un article
   onSubmitEdit() {
     this.loading=true;

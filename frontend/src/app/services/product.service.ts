@@ -50,7 +50,7 @@ export class ProductService {
   }
 
   uploadProductImage(formData: FormData) {
-    return this.http.post('http://localhost/SwissTech/backend/start.php?c=Product&f=UploadImage', formData);
+    return this.http.post(environment.backendURL+'start.php?'+'c=Product&f=UploadImage', formData);
   }
 
   getAllManufacturer() {

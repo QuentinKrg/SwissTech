@@ -5,6 +5,12 @@
  * Time: 12:44
  */
 
+ // include de la classe rss
+ include("RSS.php");
+
+ // aller chercher le fichier php qui contient le code permettant de rafraichir le flux RSS
+ include_once("./UpdateRss.php");
+
 class Product extends Entity
 {
 
@@ -47,6 +53,19 @@ class Product extends Entity
         $addProductImage = "INSERT INTO t_products_images (FK_Product, FK_Image)
                             VALUES ('$productId', (SELECT t_images.id_Image FROM t_images WHERE t_images.ImagePath = '$imagePath' ORDER BY t_images.id_Image DESC LIMIT 1))";
         $this->Query($addProductImage);
+
+        //--- RSS ---//
+        $rssTitle = $productName;
+        $rssLink = $productId;
+        $rssGuid = time();
+        $rssDescription = $productDescription;
+
+        // Ajout
+        $rssEntity = new RSS();
+        $rssEntity->AddRss($rssTitle,$rssLink,$rssGuid,$rssDescription);
+
+        // Mise à jour du fichier
+        update_fluxRSS($rssEntity);
       }
     }
 
@@ -87,6 +106,18 @@ class Product extends Entity
                                 t_products_images.FK_Image = (SELECT t_images.id_Image FROM t_images WHERE t_images.ImagePath = '$imagePath' ORDER BY t_images.id_Image DESC LIMIT 1)
                                 WHERE t_products_images.FK_Product = '$productId'";
         $this->Query($updateProductImage);
+
+        //--- RSS ---//
+        $rssTitle = $productName;
+        $rssLink = $productId;
+        $rssDescription = $productDescription;
+
+        // Update
+        $rssEntity = new RSS();
+        $rssEntity->UpdateRss($rssTitle, $rssLink, $rssDescription);
+
+        // Mise à jour du fichier
+        update_fluxRSS($rssEntity);
       }
     }
 
@@ -344,13 +375,13 @@ class Product extends Entity
        return $tmpResult;
 	}
 	public function UpdateLock(){
-		
-		$sql = "UPDATE  	t_lock_product 
+
+		$sql = "UPDATE  	t_lock_product
   			SET
   					t_lock_product.LockTime = NOW()
   			WHERE
   					t_lock_product.FK_Product = $this->idToProcess";
-				
+
 		$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
        // Retour du résultat
@@ -361,39 +392,39 @@ class Product extends Entity
 			$username= $_GET['username'];
 			$sql = "INSERT INTO t_lock_product (LockedBy, Fk_Product)
                         VALUES ('$username', $this->idToProcess)";
-				
+
 			$tmpResult = ($this->Query($sql));
 
 		   // Retour du résultat
 		   return $tmpResult;
 		}
-		
+
 	}
 	public function ReleaseLock(){
 		if(isset($_GET['username'])){
 			$username= $_GET['username'];
 			$sql = "DELETE FROM t_lock_product WHERE FK_Product= $this->idToProcess AND LockedBy= '$username'";
-				
+
 			$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
 		   // Retour du résultat
 		   return $tmpResult;
 		}
-		
+
 	}
 	public function ForceReleaseLock(){
-		
+
 			$sql = "DELETE FROM t_lock_product WHERE FK_Product= $this->idToProcess";
-				
+
 			$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
 		   // Retour du résultat
 		   return $tmpResult;
-		
+
 	}
 	public function CleanupLocks(){
 	    $sql = "DELETE FROM t_lock_product WHERE TIME_TO_SEC(LockTime)+600 <= TIME_TO_SEC(NOW())";
-				
+
 		$tmpResult = ($this->Query($sql));
 
 	   // Retour du résultat
