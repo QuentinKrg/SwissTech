@@ -5,8 +5,8 @@ import { UserService } from 'src/app/services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Customer } from 'src/app/models/customer';
-import { CustomValidators } from 'src/app/helpers/CustomValidators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { faMapMarkerAlt, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-edit-address',
@@ -14,11 +14,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./edit-address.component.css']
 })
 export class EditAddressComponent implements OnInit {
+  //icones
+  faMapMarkerAlt=faMapMarkerAlt;
+  faFileInvoice=faFileInvoice;
+
   myShipAddr: Customer[];
   myBillAddr: Customer[];
   selectedAddress: Customer = new Customer;
   editShippingAddrForm: FormGroup;
   editBillingAddrForm: FormGroup;
+  AddAddrForm: FormGroup;
   loading;
   submitted;
   returnUrl: string;
@@ -49,6 +54,12 @@ export class EditAddressComponent implements OnInit {
     this.loading=false;
     this.submitted = false;
     
+    this.AddAddrForm = this.formBuilder.group({
+      addressType:['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      zip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
+    });
     this.editShippingAddrForm = this.formBuilder.group({
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
@@ -59,6 +70,17 @@ export class EditAddressComponent implements OnInit {
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
     });
+    this.getAllBillingsAddress();
+    this.getAllShippingsAddress();
+
+    // Récupérer l'url voulu dans l'URL or default
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+  get f() { return this.editShippingAddrForm.controls; }
+  get f2() { return this.editBillingAddrForm.controls; }
+  get f3() { return this.AddAddrForm.controls; }
+
+  getAllShippingsAddress(){
     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
     this._userService.getAllShippingsAddress(this.currentUsername).subscribe(
       (data: Customer[]) => {
@@ -71,6 +93,8 @@ export class EditAddressComponent implements OnInit {
         this.usernameErrorMessage = "Error ";
         console.log(error);
       });
+  }
+  getAllBillingsAddress(){
     //Service qui retourne l'adresse de facturation et assigne les données au formulaire
     this._userService.getAllBillingsAddress(this.currentUsername).subscribe(
       (data : Customer[]) => {
@@ -83,14 +107,7 @@ export class EditAddressComponent implements OnInit {
         this.usernameErrorMessage = "Error ";
         console.log(error);
       });
-
-    // Récupérer l'url voulu dans l'URL or default
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
-  get f() { return this.editShippingAddrForm.controls; }
-  get f2() { return this.editBillingAddrForm.controls; }
-
-
 openModal(targetModal, addr) {
   this.modalService.open(targetModal, {
    centered: true,
@@ -105,6 +122,13 @@ openModal(targetModal, addr) {
         this.f2.billingCity.setValue(addr.billingCity);
         this.f2.billingZip.setValue(addr.billingZip);
         
+ }
+ openModalAddAddress(targetModal){
+  this.modalService.open(targetModal, {
+    centered: true,
+    backdrop: 'static',
+    size: 'md'
+   });
  }
  onSubmitShippingAddresse() {
   
@@ -206,5 +230,37 @@ onSubmitBillingAddresse() {
         this.changePassword = false;
 
         this.modalService.dismissAll();
+}
+onSubmitAddAddresse(){
+  console.log('test');
+  console.log(this.AddAddrForm.value);
+  
+  this._userService.addAddress(this.currentUsername, this.AddAddrForm.value).subscribe(
+    () => {
+      this.modalService.dismissAll();
+      this.ngOnInit();
+    },(error)=>{
+      console.log(error);
+      
+    });
+}
+onDisableShipAddress(id){
+  
+  this._userService.disableAddress(id).subscribe(
+    (data) => { 
+      this.getAllShippingsAddress();
+    },
+    (error) => {
+      console.log(error);
+    });
+}
+onDisableBillAddress(id){
+  this._userService.disableAddress(id).subscribe(
+    (data) => { 
+      this.getAllBillingsAddress();
+    },
+    (error) => {
+      console.log(error);
+    });
 }
 }

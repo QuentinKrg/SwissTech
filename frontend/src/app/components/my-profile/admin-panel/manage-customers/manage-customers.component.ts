@@ -16,17 +16,22 @@ export class ManageCustomersComponent implements OnInit {
   //icones
   faEllipsisV=faEllipsisV;
   
+  selectedAddress:Customer;
+  myShipAddr: Customer[];
+  myBillAddr: Customer[];
   allCustomers: Customer[];
   currentPage = 1;
   itemsPerPage = 5;
   pageSize: number;
   collectionSize: number;
-  
+  editShipAddress:boolean;
+  editBillAddress:boolean;
   usernameErrorMessage: String;
   userUpdateDataMessage: String;
   userUpdateData = false;
   selectedUser: string;
   editProfileForm: FormGroup;
+  editAddressForm: FormGroup;
   element = <HTMLInputElement> document.getElementById("checkbox_status");
   isChecked:boolean;
   filterValue: Array<any> = [];
@@ -38,22 +43,28 @@ export class ManageCustomersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.editShipAddress =false;
+    this.editBillAddress =false;
+
+    this.editAddressForm= this.fb.group({
+      shippingID:[''],
+      shippingAddress: ['', Validators.required],
+      shippingCity: ['', Validators.required],
+      shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
+      billingID:[''],
+      billingAddress: ['', Validators.required],
+      billingCity: ['', Validators.required],
+      billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
+    });
     this.editProfileForm = this.fb.group({
       CustomerTitre: ['', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerBirthday: ['', Validators.required],
-      shippingAddress: ['', Validators.required],
-      shippingCity: ['', Validators.required],
-      shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
-      checkbox_address: [''],
       CustomerSince: [''],
       IpAddress: [''],
-      billingAddress: ['', Validators.required],
-      billingCity: ['', Validators.required],
-      billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
-      CustomerEmail: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]],
       CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
+      CustomerEmail: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]],
       Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
       myPassword: ['', [Validators.required]],
       password: [
@@ -85,6 +96,14 @@ export class ManageCustomersComponent implements OnInit {
     
      });
     this.getCustomers();
+     this.editAddressForm.get('shippingID').disable();
+     this.editAddressForm.get('billingID').disable();
+      this.editAddressForm.get('shippingAddress').disable();
+      this.editAddressForm.get('shippingCity').disable();
+      this.editAddressForm.get('shippingZip').disable();
+      this.editAddressForm.get('billingAddress').disable();
+      this.editAddressForm.get('billingCity').disable();
+      this.editAddressForm.get('billingZip').disable();
   }
 
   // Filtrer les articles par status 
@@ -136,21 +155,16 @@ export class ManageCustomersComponent implements OnInit {
         console.log(error);
       });
   }
-  
-  openModal(targetModal, user) {
-    this.modalService.open(targetModal, {
-     centered: true,
-     backdrop: 'static'
-
-    });
-
-    this.selectedUser = user.Username;
+  closeModal(){
+    this.modalService.dismissAll();
+    this.ngOnInit();
+  }
+  getAllShippingsAddress(){
     //Service qui retourne l'adresse de livraison et assigne les données au formulaire
-   /* this._userService.getShippingAddress(this.selectedUser).subscribe(
-      (data = new Customer) => {
-        this.f.shippingAddress.setValue(data.shippingAddress);
-        this.f.shippingCity.setValue(data.shippingCity);
-        this.f.shippingZip.setValue(data.shippingZip);
+    this._userService.getAllShippingsAddress(this.selectedUser).subscribe(
+      (data: Customer[]) => {
+        this.myShipAddr= data;
+        this.myShipAddr = this.myShipAddr;
         console.log(data);
         
       },
@@ -158,19 +172,31 @@ export class ManageCustomersComponent implements OnInit {
         this.usernameErrorMessage = "Error ";
         console.log(error);
       });
+  }
+  getAllBillingsAddress(){
     //Service qui retourne l'adresse de facturation et assigne les données au formulaire
-    this._userService.getBillingAddress(this.selectedUser).subscribe(
-      (data = new Customer) => {
-        this.f.billingAddress.setValue(data.billingAddress);
-        this.f.billingCity.setValue(data.billingCity);
-        this.f.billingZip.setValue(data.billingZip);
+    this._userService.getAllBillingsAddress(this.selectedUser).subscribe(
+      (data : Customer[]) => {
+        this.myBillAddr = data;
+        this.myBillAddr = this.myBillAddr;
         console.log(data);
         
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
         console.log(error);
-      }); */  
+      });
+  }
+  openModal(targetModal, user) {
+    this.modalService.open(targetModal, {
+     centered: true,
+     backdrop: 'static'
+    });
+
+    this.selectedUser = user.Username;
+    this.getAllShippingsAddress();
+    this.getAllBillingsAddress();
+    
     this.editProfileForm.patchValue({
       CustomerTitre: user.CustomerTitre ,
       CustomerName: user.CustomerName,
@@ -181,6 +207,39 @@ export class ManageCustomersComponent implements OnInit {
       Username: user.Username,
       CustomerSince: user.CustomerSince,
       IpAddress: user.IpAddress
+    });
+   }
+   onShipAddressChange(address){
+    this.editShipAddress=true;
+    this.editAddressForm.get('shippingID').enable();
+    this.editAddressForm.get('shippingAddress').enable();
+    this.editAddressForm.get('shippingCity').enable();
+    this.editAddressForm.get('shippingZip').enable();
+
+    this.selectedAddress = JSON.parse(address);
+    console.log(this.selectedAddress);
+    this.editAddressForm.patchValue({
+      shippingID: this.selectedAddress.shippingID,
+      shippingAddress: this.selectedAddress.shippingAddress,
+      shippingCity: this.selectedAddress.shippingCity,
+      shippingZip: this.selectedAddress.shippingZip
+    });
+   }
+   onBillAddressChange(address){
+    this.editBillAddress=true;
+    this.editAddressForm.get('billingID').enable();
+    this.editAddressForm.get('billingAddress').enable();
+    this.editAddressForm.get('billingCity').enable();
+    this.editAddressForm.get('billingZip').enable();
+
+    this.selectedAddress = JSON.parse(address);
+    console.log(this.selectedAddress);
+
+    this.editAddressForm.patchValue({
+      billingID: this.selectedAddress.billingID,
+      billingAddress: this.selectedAddress.billingAddress,
+      billingCity: this.selectedAddress.billingCity,
+      billingZip: this.selectedAddress.billingZip
     });
    }
    onSubmit() {
@@ -209,6 +268,47 @@ export class ManageCustomersComponent implements OnInit {
         return;
       });
    }
+   onSubmitAddress() {
+   this.modalService.dismissAll();
+   console.log(this.editAddressForm.value);
+       
+   console.log("res:", this.editAddressForm.getRawValue());
+
+   //update de l'utilisateur
+   this._userService.updateCustomer(this.selectedUser,this.editAddressForm.value).then(
+     () => {
+       console.log('tout va bien');
+       
+       this.ngOnInit();
+       this.userUpdateData = true;
+       this.userUpdateDataMessage = 'Les modifications ont été sauvegardées';
+     },  
+     //en cas d'erreur
+     (error) => {
+       console.log(error);
+       return;
+     });
+  }
+  onDisableShipAddress(){
+    this.editShipAddress=false;
+    this._userService.disableAddress(this.selectedAddress.shippingID).subscribe(
+      (data) => { 
+        this.getAllShippingsAddress();
+      },
+      (error) => {
+        console.log(error);
+      });
+  }
+  onDisableBillAddress(){
+    this.editBillAddress=false;
+    this._userService.disableAddress(this.selectedAddress.billingID).subscribe(
+      (data) => { 
+        this.getAllBillingsAddress();
+      },
+      (error) => {
+        console.log(error);
+      });
+  }
    onUnableUser(user){
     if(user.isActive==1){
       user.isActive = 0;

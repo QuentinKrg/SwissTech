@@ -75,7 +75,9 @@ export class UserService {
   getAllBillingsAddress(user: string){
     return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllBillingsAddressByUser&username=' + user);
   }
-
+  disableAddress(addressID){
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=disableAddress&addressID=' + addressID);
+  }
   checkUserByUsername(user: User) {
     return new Promise(
       (resolve, reject) => {
@@ -119,5 +121,8 @@ export class UserService {
         );
       }
     );
+  }
+  addAddress(user, address: object){
+    return this.http.post(environment.backendURL + 'start.php?' + 'c=Customer&f=AddAddress&username=' + user,address);
   }
 }

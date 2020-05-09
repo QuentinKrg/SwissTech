@@ -6,9 +6,11 @@ export class Customer {
     CustomerLastName: string;
     CustomerBirthday: Date;
     id_Address:number;
+    shippingID: number;
     shippingAddress: string;
     shippingCity: string;
     shippingZip: number;
+    billingID: number;
     billingAddress: string;
     billingCity: string;
     billingZip: number;

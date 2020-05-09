@@ -57,6 +57,8 @@
                             <a class="dropdown-item" (click)="openModal(showProfileModal, customer)">Aperçu du client</a>
                             <a class="dropdown-item" (click)="openModal(editProfileModal, customer)">Modifier les
                               coordonnées</a>
+                            <a class="dropdown-item" (click)="openModal(editAddressModal, customer)">Modifier les
+                              adresses</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" (click)="onUnableUser(customer)">
                               <a *ngIf="customer.isActive==1">Désactiver</a>
@@ -146,40 +148,82 @@
           <input type="CustomerEmail" class="form-control" formControlName="CustomerEmail" id="CustomerEmail">
         </div>
       </div>
-      Adresse de livraison
-      <div class="form-group row">
-        <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
-        <div class="col-sm-8">
-          <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="shippingAddress">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
-        <div class="col-sm-5">
-          <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity">
-        </div>
-        <div class="col-sm-3">
-          <input type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip">
-        </div>
-      </div>
-      Adresse de facturation
-      <div class="form-group row">
-        <label for="billingAddress" class="col-sm-4 col-form-label">Adresse</label>
-        <div class="col-sm-8">
-          <input type="billingAddress" class="form-control" formControlName="billingAddress" id="billingAddress">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="billingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
-        <div class="col-sm-5">
-          <input type="billingCity" class="form-control" formControlName="billingCity" id="billingCity">
-        </div>
-        <div class="col-sm-3">
-          <input type="billingZip" class="form-control" formControlName="billingZip" id="billingZip">
-        </div>
-      </div>
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #editAddressModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editAddressLabel">Modifier les adresses</h5>
+    <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="editAddressForm" (ngSubmit)="onSubmitAddress()">
+      <div class="form-group">
+        <label class="control-label h6" for="selectAddress">Adresse de livraison</label>
+        <select  class="form-control" #selectAddress id="selectAddress" (change)="onShipAddressChange(selectAddress.value)" >
+            <option value="-1" [selected]="!editShipAddress" disabled>Choisir une adresse</option>
+            <option [selected]="editShipAddress" *ngFor="let shipaddr of myShipAddr" id="optionSelected" [value]="(shipaddr | json)">
+              {{shipaddr.shippingAddress}}, {{shipaddr.shippingCity}}, {{ shipaddr.shippingZip }}
+            </option>
+        </select>
+      </div>  
+      <div *ngIf="editShipAddress" class="shadow-sm p-3">
+        <div class="form-group row">
+          <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
+          <div class="col-sm-8">
+            <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="shippingAddress">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
+          <div class="col-sm-5">
+            <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity">
+          </div>
+          <div class="col-sm-3">
+            <input type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip">
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger" (click)="onDisableShipAddress()">supprimer</button>
+      </div>
+      
+      <div class="form-group">
+        <label class="control-label h6" for="selectBillAddress">Adresse de Facuration</label>
+        <select  class="form-control" #selectBillAddress id="selectBillAddress" (change)="onBillAddressChange(selectBillAddress.value)" >
+            <option value="-1" [selected]="!editBillAddress" disabled>Choisir une adresse</option>
+            <option [selected]="editBillAddress" *ngFor="let Billaddr of myBillAddr" id="optionSelected" [value]="(Billaddr | json)">
+              {{Billaddr.billingAddress}}, {{Billaddr.billingCity}}, {{ Billaddr.billingZip }}
+            </option>
+        </select>
+      </div>  
+      <div *ngIf="editBillAddress" class="shadow-sm p-3">
+        <div class="form-group row">
+          <label for="billingAddress" class="col-sm-4 col-form-label">Adresse</label>
+          <div class="col-sm-8">
+            <input type="billingAddress" class="form-control" formControlName="billingAddress" id="billingAddress">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="billingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
+          <div class="col-sm-5">
+            <input type="billingCity" class="form-control" formControlName="billingCity" id="billingCity">
+          </div>
+          <div class="col-sm-3">
+            <input type="billingZip" class="form-control" formControlName="billingZip" id="billingZip">
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger" (click)="onDisableBillAddress()">supprimer</button>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
         <button type="submit" class="btn btn-primary">Save changes</button>
       </div>
     </form>
