@@ -273,9 +273,9 @@ export class ManageProductsComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', this.fileToUpload);
 
-    this._productService.uploadProductImage(formData).subscribe(() => {});
-
     let productToAdd: Product = new Product;
+
+    this._productService.uploadProductImage(formData).subscribe(() => {
       productToAdd.ProductName = this.addProductGroup.value.ProductName;
       productToAdd.ProductUnitPrice = this.addProductGroup.value.ProductPrice;
       productToAdd.ProductDescription = this.addProductGroup.value.ProductDescription;
@@ -297,9 +297,7 @@ export class ManageProductsComponent implements OnInit {
       );
     this._modalService.dismissAll();
     this.addProductGroup.reset();
-    this.ngOnInit();
-    
-
+    this.ngOnInit();});
   }
 
   // Ouverture du modal de modification
@@ -311,8 +309,9 @@ export class ManageProductsComponent implements OnInit {
       scrollable: true
     });
     //vérifie si le produit a un lockedby actif
-
-
+    this.editedProductId = product.id_Product;
+    this.imagePathToShow = product.ImagePath;
+    
     this._categoriesService.getAllCategoriesWithThisTopCategory(product.CategoryId).subscribe(
       (data: Categories[]) => {
         if (data != null) {
@@ -337,8 +336,6 @@ export class ManageProductsComponent implements OnInit {
       ProductDescription: product.ProductDescription
 
     });
-    this.editedProductId = product.id_Product;
-    this.imagePathToShow = product.ImagePath;
     this.onCheckLock();
 
   }
@@ -376,6 +373,7 @@ export class ManageProductsComponent implements OnInit {
         if (this.currentUsername != this.LockedBy) {
           console.log('Verrouillé par ' + this.LockedBy);
           this.isLocked = true;
+          this.loading=false;
         }
       }
       //Si aucun lock est présent,en ajoute un.
@@ -399,12 +397,13 @@ export class ManageProductsComponent implements OnInit {
 
   onForceReleaseLock() {
     this._productService.ForceReleaseLock(this.editedProductId).subscribe(() => {
+      this.isLocked = false;
+    this.onAcquireLock();
     },
       (error) => {
         console.log(error);
       });
-    this.isLocked = false;
-    this.onAcquireLock();
+    
   }
   
   //  Action pour la modification d'un article
@@ -455,6 +454,7 @@ export class ManageProductsComponent implements OnInit {
 
   // Fermeture d'un modal
   closeModal(targetModal) {
+    this.onReleaseLock();
     this._modalService.dismissAll(targetModal);
     this.addProductGroup.reset();
     this.ngOnInit();
