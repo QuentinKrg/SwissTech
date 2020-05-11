@@ -68,14 +68,14 @@ export class ManageProductsComponent implements OnInit {
   allManufacturer: Manufacturer[] = [];
   imagePathToShow: string = "";
   editedProductId: number = -1;
-
+  submitted: boolean;
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
 
   // on Init
   ngOnInit() {
-
+    this.submitted=false;
     this.addProductGroup = this._formBuilder.group({
       ProductName: ['', Validators.required],
       ProductColor: ['-1', Validators.required],
@@ -92,6 +92,8 @@ export class ManageProductsComponent implements OnInit {
     this.loading=false;
   }
 
+  //contrôle du formulaire
+  get f() { return this.addProductGroup.controls; }
   // Récupération des produits
   getAllProducts() {
     this._productService.getAllProducts().subscribe(
@@ -270,6 +272,12 @@ export class ManageProductsComponent implements OnInit {
 
   // Action pour la création d'un article
   onSubmitAdd() {
+    this.submitted=true;
+    // Stop si le formulaire n'est pas correctement rempli
+    if(this.addProductGroup.invalid){
+      return;
+    }
+      
     const formData = new FormData();
     formData.append('image', this.fileToUpload);
 
@@ -293,6 +301,7 @@ export class ManageProductsComponent implements OnInit {
           console.log("ok");
         },
         (error) => { console.log(error);
+          this.submitted=false;
          }
       );
     this._modalService.dismissAll();
@@ -408,6 +417,11 @@ export class ManageProductsComponent implements OnInit {
   
   //  Action pour la modification d'un article
   onSubmitEdit() {
+    this.submitted=true;
+    // Stop si le formulaire n'est pas correctement rempli
+    if(this.addProductGroup.invalid){
+      return;
+    }
     this.loading=true;
     this.onCheckLock();
     
