@@ -2,7 +2,7 @@
 -- Hôte :                        127.0.0.1
 -- Version du serveur:           10.4.11-MariaDB - mariadb.org binary distribution
 -- SE du serveur:                Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             10.3.0.5771
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `t_address` (
   CONSTRAINT `FK_Address_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_address : ~7 rows (environ)
+-- Listage des données de la table db_swisstech.t_address : ~5 rows (environ)
 /*!40000 ALTER TABLE `t_address` DISABLE KEYS */;
 INSERT INTO `t_address` (`id_Address`, `Address`, `City`, `ZIP`, `FK_AddressType`, `FK_Customer`) VALUES
 	(13, 'Couloir 7 , 717', 'Lausanne', 1004, 1, 24),
@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `t_images` (
   PRIMARY KEY (`id_Image`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_images : ~7 rows (environ)
+-- Listage des données de la table db_swisstech.t_images : ~8 rows (environ)
 /*!40000 ALTER TABLE `t_images` DISABLE KEYS */;
 INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
 	(1, 'PS4 - std - black', 'Sony-Playstation-4-Slim-1TB-Black.jpg'),
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `t_lock_product` (
   PRIMARY KEY (`id_lock`),
   KEY `FK_product` (`FK_Product`),
   CONSTRAINT `FK_product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4;
 
 -- Listage des données de la table db_swisstech.t_lock_product : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_lock_product` DISABLE KEYS */;
@@ -351,36 +351,35 @@ INSERT INTO `t_paymentmethod` (`id_paymentmethod`, `MethodName`, `MethodCode`) V
 CREATE TABLE IF NOT EXISTS `t_products` (
   `id_Product` int(11) NOT NULL AUTO_INCREMENT,
   `ProductName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ProductColor` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ProductSize` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ProductSize` int(11) NOT NULL DEFAULT 0,
   `ProductDescription` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `ProductUnitPrice` decimal(6,2) NOT NULL DEFAULT 0.00,
   `isActive` tinyint(1) NOT NULL,
   `FK_Category` int(11) DEFAULT NULL,
   `FK_Manufacturer` int(11) DEFAULT NULL,
+  `FK_ProductColor` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_Product`),
   KEY `FK_Product_Category` (`FK_Category`),
   KEY `FK_Product_Manufacturer` (`FK_Manufacturer`),
+  KEY `FK_Color` (`FK_ProductColor`),
   CONSTRAINT `FK_Product_Category` FOREIGN KEY (`FK_Category`) REFERENCES `t_categories` (`id_Category`),
+  CONSTRAINT `FK_Product_Color` FOREIGN KEY (`FK_ProductColor`) REFERENCES `t_product_color` (`id_color`),
   CONSTRAINT `FK_Product_Manufacturer` FOREIGN KEY (`FK_Manufacturer`) REFERENCES `t_manufacturers` (`id_Manufacturer`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products : ~13 rows (environ)
+-- Listage des données de la table db_swisstech.t_products : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_products` DISABLE KEYS */;
-INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductColor`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `isActive`, `FK_Category`, `FK_Manufacturer`) VALUES
-	(4, 'PS4 Pro 1 TB', 'Noir', '30cm', '1 Contrôleur compris OH QUE OUI <3\n', 419.00, 1, 44, 17),
-	(6, 'Ordinateur portable 250 G7 ', 'Noir/Gris', '50cm', '-Processeur Celeron 3867U - Mémoire vive intégrée: 4GB - Disque dûr: 500GB - Ecran 15.6"', 299.00, 1, 23, 2),
-	(7, 'MacBook Pro 13" 2019 Touch Bar', 'Argenté', '40cm', '<ul><li>Processeur: Intel Core i5-8xxx&nbsp;</li><li> Mémoire vive intégrée: 8GB&nbsp;</li><li> Disque dûr: 128 GB&nbsp;</li><li> Ecran: 13.3"</li></ul>', 1379.00, 1, 23, 3),
-	(8, 'Ordinateur portabe V130-15', 'Noir', '50cm', '-Processeur: Intel Core i3-7020U - Mémoire vive: 4GB - Disque dûr: 256 GB - Ecran: 15.6 " ', 369.00, 1, 23, 5),
-	(9, 'Nintendo Switch  ', 'Rouge/Bleu', '20cm', 'Modèle révisé HAC-001-01 avec révision du matériel 2019', 349.00, 1, 44, 20),
-	(10, 'Xbox One S All-Digital Edition 1 To', 'Blanc', '30cm', 'Edition standard', 259.00, 1, 44, 9),
-	(11, 'iPad 7th Gen. Wifi 32 Go', 'Gris', '20cm', 'Ecran: 10.2 "  - Mémoire totale: 32 GB - Système d\'exploitation: iPadOS - Bluetooth', 379.00, 1, 24, 3),
-	(12, 'Tablette Galaxy Tab A (2019) SM-T290 32 GB', 'Noir', '18cm', 'Ecran 8 " - Mémoire totale: 32 GB - Système d\'exploitation: Android - Bluetooth', 159.00, 1, 24, 4),
-	(13, 'Souris B100 Optical', 'Noir', '5cm', 'Type: standard - Molette: Oui - Câble: Oui - Interface: USB', 9.00, 1, 29, 15),
-	(14, 'Écouteurs intra-auriculaires Wireless AirPods Pro Blanc', 'Blanc', '4cm', 'Casque d\'écoute Bluetooth avec annulation active du bruit pour les appareils Apple', 279.00, 1, 13, 3),
-	(30, 'Ceci est une ps5', 'Bleu', '123', 'WOOOOAW', 666.00, 0, 44, 17),
-	(31, 'XBOXZZZZ', 'Vert', '666', 'MOnstre xbox des familles super cool tmtc 78', 234.00, 0, 9, 2),
-	(32, 'ICON SWISSTECH99', 'Noir', '64', 'test icon wet', 0.00, 0, 15, 2);
+INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `isActive`, `FK_Category`, `FK_Manufacturer`, `FK_ProductColor`) VALUES
+	(4, 'PS4 Pro 1 To', 30, '1 manette comprise', 419.00, 1, 44, 17, 8),
+	(6, 'Ordinateur portable 250 G7 ', 50, '-Processeur Celeron 3867U - Mémoire vive intégrée: 4GB - Disque dûr: 500GB - Ecran 15.6"', 299.00, 1, 23, 2, 8),
+	(7, 'MacBook Pro 13" 2019 Touch Bar', 40, '<ul><li>Processeur: Intel Core i5-8xxx&nbsp;</li><li> Mémoire vive intégrée: 8GB&nbsp;</li><li> Disque dûr: 128 GB&nbsp;</li><li> Ecran: 13.3"</li></ul>', 1379.00, 1, 23, 3, 9),
+	(8, 'Ordinateur portabe V130-15', 50, '-Processeur: Intel Core i3-7020U - Mémoire vive: 4GB - Disque dûr: 256 GB - Ecran: 15.6 " ', 369.00, 1, 23, 5, 8),
+	(9, 'Nintendo Switch  ', 20, 'Modèle révisé HAC-001-01 avec révision du matériel 2019', 349.00, 1, 44, 20, 10),
+	(10, 'Xbox One S All-Digital Edition 1 To', 30, 'Edition standard', 259.00, 1, 44, 9, 7),
+	(11, 'iPad 7th Gen. Wifi 32 Go', 20, 'Ecran: 10.2 "  - Mémoire totale: 32 GB - Système d\'exploitation: iPadOS - Bluetooth', 379.00, 1, 24, 3, 9),
+	(12, 'Tablette Galaxy Tab A (2019) SM-T290 32 GB', 18, 'Ecran 8 " - Mémoire totale: 32 GB - Système d\'exploitation: Android - Bluetooth', 159.00, 1, 24, 4, 8),
+	(13, 'Souris B100 Optical', 5, 'Type: standard - Molette: Oui - Câble: Oui - Interface: USB', 9.00, 1, 29, 15, 8),
+	(14, 'Écouteurs intra-auriculaires Wireless AirPods Pro Blanc', 4, 'Casque d\'écoute Bluetooth avec annulation active du bruit pour les appareils Apple', 279.00, 1, 13, 3, 7);
 /*!40000 ALTER TABLE `t_products` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_products_images
@@ -454,6 +453,28 @@ INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPri
 	(73, 1, 349.00, 9, 54, NULL),
 	(74, 1, 419.00, 4, 54, NULL);
 /*!40000 ALTER TABLE `t_products_orders` ENABLE KEYS */;
+
+-- Listage de la structure de la table db_swisstech. t_product_color
+CREATE TABLE IF NOT EXISTS `t_product_color` (
+  `id_color` int(11) NOT NULL AUTO_INCREMENT,
+  `ProductColor` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_color`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+
+-- Listage des données de la table db_swisstech.t_product_color : ~0 rows (environ)
+/*!40000 ALTER TABLE `t_product_color` DISABLE KEYS */;
+INSERT INTO `t_product_color` (`id_color`, `ProductColor`) VALUES
+	(1, 'Bleu'),
+	(2, 'Vert'),
+	(3, 'Rouge'),
+	(4, 'Jaune'),
+	(5, 'Orange'),
+	(6, 'Rose'),
+	(7, 'Blanc'),
+	(8, 'Noir'),
+	(9, 'Argenté'),
+	(10, 'Rouge/Bleu');
+/*!40000 ALTER TABLE `t_product_color` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_roles
 CREATE TABLE IF NOT EXISTS `t_roles` (
@@ -539,7 +560,7 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~3 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddress`, `FK_Role`, `FK_Customer`) VALUES
 	(29, 'chippo', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '4c2ca7e31c52b564f8c5ca5a3fef68bb', '2020-05-08 10:40:56', 1, '127.0.0.1', 2, 24),
