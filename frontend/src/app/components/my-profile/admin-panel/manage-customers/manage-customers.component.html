@@ -41,12 +41,12 @@
         <tbody>
           <tr class="cursorPointer"
             *ngFor="let customer of allCustomers | slice: pageSize | slice: 0:itemsPerPage ; let i = index">
-            <th scope="row">{{customer.id_customer}}</th>
-            <td>{{customer.Username | titlecase}}</td>
-            <td>{{customer.CustomerTitre | titlecase}}</td>
-            <td>{{customer.CustomerName | titlecase}}</td>
-            <td>{{customer.CustomerLastName | titlecase}}</td>
-            <td><span class="p-1 mw-100 rounded"
+            <th scope="row"  (click)="openModal(showProfileModal, customer)">{{customer.id_customer}}</th>
+            <td (click)="openModal(showProfileModal, customer)">{{customer.Username | titlecase}}</td>
+            <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerTitre | titlecase}}</td>
+            <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerName | titlecase}}</td>
+            <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerLastName | titlecase}}</td>
+            <td (click)="openModal(showProfileModal, customer)"><span class="p-1 mw-100 rounded"
                 [ngClass]="customer.isActive==0  ? ' bg-danger text-white' : 'bg-success text-white'">
                 <span *ngIf="customer.isActive==1"> Actif </span>
                 <span *ngIf="customer.isActive==0">inactif</span></span>
@@ -221,7 +221,8 @@
         <div class="form-group row">
           <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
           <div class="col-sm-8">
-            <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="shippingAddress" placeholder="Rue, n°"
+            <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="shippingAddress"
+              placeholder="Rue, n°"
               [ngClass]="{ 'is-invalid': submitted && f2.shippingAddress.errors || f2.shippingAddress.touched && f2.shippingAddress.errors}">
           </div>
         </div>
@@ -229,13 +230,14 @@
         <div class="form-group row">
           <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
           <div class="col-sm-5">
-            <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity" placeholder="Ville"
+            <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity"
+              placeholder="Ville"
               [ngClass]="{ 'is-invalid': submitted && f2.shippingCity.errors  || f2.shippingCity.touched && f2.shippingCity.errors}">
           </div>
           <!-- NPA-->
           <div class="col-sm-3">
-            <input type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip" placeholder="NPA"
-             [ngClass]="{ 'is-invalid': submitted && f2.shippingZip.errors ||
+            <input type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip"
+              placeholder="NPA" [ngClass]="{ 'is-invalid': submitted && f2.shippingZip.errors ||
                     f2.shippingZip.errors && f2.shippingZip.hasError('pattern') || f2.shippingZip.touched && f2.shippingZip.errors ||
                    f2.shippingZip.touched && f2.shippingZip.hasError('minLength')}">
             <div class="invalid-feedback" *ngIf="f2.shippingZip.touched && f2.shippingZip.hasError('pattern') ">
@@ -264,7 +266,8 @@
         <div class="form-group row">
           <label for="billingAddress" class="col-sm-4 col-form-label">Adresse</label>
           <div class="col-sm-8">
-            <input type="billingAddress" class="form-control" formControlName="billingAddress" id="billingAddress" placeholder="Rue, n°"
+            <input type="billingAddress" class="form-control" formControlName="billingAddress" id="billingAddress"
+              placeholder="Rue, n°"
               [ngClass]="{ 'is-invalid': submitted && f2.billingAddress.errors ||f2.billingAddress.touched && f2.billingAddress.errors}">
           </div>
         </div>
@@ -272,13 +275,14 @@
           <!-- Ville-->
           <label for="billingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
           <div class="col-sm-5">
-            <input type="billingCity" class="form-control" formControlName="billingCity" id="billingCity" placeholder="Ville"
+            <input type="billingCity" class="form-control" formControlName="billingCity" id="billingCity"
+              placeholder="Ville"
               [ngClass]="{ 'is-invalid': submitted && f2.billingCity.errors ||f2.billingCity.touched && f2.billingCity.errors }">
           </div>
           <!-- NPA-->
           <div class="col-sm-3">
             <input type="billingZip" class="form-control" formControlName="billingZip" id="billingZip" placeholder="NPA"
-            [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
+              [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
                                          f2.billingZip.touched && f2.billingZip.hasError('pattern')
                                          || f2.billingZip.touched && f2.billingZip.errors ||
                                          f2.billingZip.touched && f2.billingZip.hasError('minLength')}">
@@ -311,52 +315,52 @@
 
   <div class="modal-body p-3">
     <div class="row p-3">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         Nom d'utilisateur:
       </div>
-      <div class="col-sm-8">
+      <div class="col-sm-7">
         {{f.Username.value}}
       </div>
     </div>
     <div class="row p-3">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         Email:
       </div>
-      <div class="col-sm-8">
+      <div class="col-sm-7">
         {{f.CustomerEmail.value}}
       </div>
     </div>
     <div class="row p-3">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         Téléphone:
       </div>
-      <div class="col-sm-8">
+      <div class="col-sm-7">
         {{f.CustomerPhone.value}}
       </div>
     </div>
 
     <div class="row p-3">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         Client depuis:
       </div>
-      <div class="col-sm-8">
-        {{f.CustomerSince.value}}
+      <div class="col-sm-7">
+        {{f.CustomerSince.value |date: 'dd.MM.yyyy' }}
       </div>
     </div>
     <div class="row p-3">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         Adresse IP:
       </div>
-      <div class="col-sm-8">
+      <div class="col-sm-7">
         {{f.IpAddress.value}}
       </div>
     </div>
     <div class="row p-3">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         Date de naissance:
       </div>
-      <div class="col-sm-8">
-        {{f.CustomerBirthday.value}}
+      <div class="col-sm-7">
+        {{f.CustomerBirthday.value |date: 'dd.MM.yyyy' }}
       </div>
     </div>
   </div>
