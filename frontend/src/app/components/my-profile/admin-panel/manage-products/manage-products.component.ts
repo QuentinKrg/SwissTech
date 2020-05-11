@@ -11,6 +11,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Manufacturer } from 'src/app/models/Manufacturer';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { Color } from 'src/app/models/Color';
 
 
 @Component({
@@ -70,6 +71,7 @@ export class ManageProductsComponent implements OnInit {
   editedProductId: number = -1;
   submitted: boolean;
   imageRequired:boolean;
+  allColors: Color [];
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
@@ -87,6 +89,12 @@ export class ManageProductsComponent implements OnInit {
       ProductImage: [''],
       ProductDescription: ['', Validators.required],
 
+    });
+    this._productService.GetAllColors().subscribe((data: Color[]) => {
+      this.allColors = data;
+    });
+    this._productService.getAllManufacturer().subscribe((data: Manufacturer[]) => {
+      this.allManufacturer = data;
     });
     this._categoriesService.getAllMainGategories().subscribe((data) => { this.allMainCategories = data });
     this.getAllProducts();
@@ -269,9 +277,7 @@ export class ManageProductsComponent implements OnInit {
       scrollable: true
     });
     this.allCategories = this.allMainCategories;
-    this._productService.getAllManufacturer().subscribe((data: Manufacturer[]) => {
-      this.allManufacturer = data;
-    });
+    
   }
 
   // Action pour la création d'un article
@@ -335,10 +341,6 @@ export class ManageProductsComponent implements OnInit {
         };
       }
     );
-
-    this._productService.getAllManufacturer().subscribe((data: Manufacturer[]) => {
-      this.allManufacturer = data;
-    });
 
     this.addProductGroup.patchValue({
       ProductName: product.ProductName,

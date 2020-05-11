@@ -3,6 +3,7 @@ import { Product } from '../models/product';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Manufacturer } from '../models/Manufacturer';
+import { Color } from '../models/Color';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,9 @@ export class ProductService {
   getAllManufacturer() {
     return this.http.get<Manufacturer[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAllManufacturer');
   }
-
+  GetAllColors() {
+    return this.http.get<Color[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAllColors');
+  }
   CheckLock(id:number) {
     return this.http.get<Product>(environment.backendURL + 'start.php?' + 'c=Product&f=LockCheck&id=' +id);
   }

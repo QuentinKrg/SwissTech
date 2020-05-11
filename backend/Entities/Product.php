@@ -41,8 +41,8 @@ class Product extends Entity
         $imagePath = $this->jsonToProcess->ImagePath;
 
         // Ajout d'un article
-        $addProduct = "INSERT INTO t_products (ProductName, ProductColor, ProductSize, ProductDescription, ProductUnitPrice, FK_Category, FK_Manufacturer)
-                        VALUES ('$productName','$productColor','$productSize','$productDescription','$productUnitPrice','$FK_Category','$FK_Manufacturer')";
+        $addProduct = "INSERT INTO t_products (ProductName, FK_ProductColor, ProductSize, ProductDescription, ProductUnitPrice, FK_Category, FK_Manufacturer)
+                        VALUES ('$productName',(SELECT id_color FROM t_product_color WHERE ProductColor = '$productColor'),'$productSize','$productDescription','$productUnitPrice','$FK_Category','$FK_Manufacturer')";
         $this->Query($addProduct);
 
         // Récupération de l'id de l'article qui vient d'être ajouté
@@ -91,7 +91,7 @@ class Product extends Entity
         // update d'un article
         $updateProduct = "UPDATE t_products SET
                           t_products.ProductName = '$productName',
-                          t_products.ProductColor = '$productColor',
+                          t_products.FK_ProductColor = (SELECT id_color FROM t_product_color WHERE ProductColor = '$productColor'),
                           t_products.ProductSize = '$productSize',
                           t_products.ProductDescription = '$productDescription',
                           t_products.ProductUnitPrice = '$productUnitPrice',
@@ -141,6 +141,7 @@ class Product extends Entity
     {
       // TODO Récupération de toutes les images
       $sql = " SELECT * FROM t_products
+			   LEFT JOIN t_product_color ON t_products.FK_ProductColor = t_product_color.id_color
                LEFT JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
                LEFT JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
                LEFT JOIN t_manufacturers ON t_products.FK_Manufacturer = t_manufacturers.id_Manufacturer
@@ -157,8 +158,9 @@ class Product extends Entity
     {
       $articles = [];
 
-      $sql = "SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName, ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
+      $sql = "SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName,t_product_color.ProductColor AS ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
                LEFT JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
+               LEFT JOIN t_product_color ON t_products.FK_ProductColor = t_product_color.id_color
                LEFT JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
                LEFT JOIN t_manufacturers ON t_products.FK_Manufacturer = t_manufacturers.id_Manufacturer
                LEFT JOIN t_categories ON t_products.FK_Category = t_categories.id_Category";
@@ -249,6 +251,7 @@ class Product extends Entity
       $articles = [];
 
       $sql = " SELECT * FROM t_products
+				LEFT JOIN t_product_color ON t_products.FK_ProductColor = t_product_color.id_color
                LEFT JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
                LEFT JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
                LEFT JOIN t_manufacturers ON t_products.FK_Manufacturer = t_manufacturers.id_Manufacturer
@@ -300,6 +303,27 @@ class Product extends Entity
       }
     }
 
+ // Récupération de tous les Manufacturer
+    public function GetAllColors() {
+      $Colors = [];
+
+      $sql = "SELECT * FROM t_product_color";
+
+      $tmpResult = $this->Query($sql);
+
+      if($tmpResult->rowCount() > 0) {
+
+        // Sortir les données pour chaque "row"
+        $cr = 0;
+        while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+          $Colors[$cr]['id_color'] = $row['id_color'];
+          $Colors[$cr]['ProductColor'] = $row['ProductColor'];
+          $cr++;
+        }
+        // echo de la liste des articles
+        return $Colors;
+      }
+	}
     // Mise à jour du statut d'un article
     public function UpdateProductStatus(){
       if($this->jsonToProcess !=null)
