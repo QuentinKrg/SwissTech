@@ -234,7 +234,7 @@
                     <label for="productColor">Couleur *</label>
                     <select  class="form-control" id="productColor" formControlName="ProductColor">
                         <option value="-1" selected disabled>Choisir une couleur</option>
-                        <option *ngFor="let color of allColors" id="optionSelected" [value]="color.id_color">{{color.ProductColor}}</option>
+                        <option *ngFor="let color of allColors" id="optionSelected" [value]="color.ProductColor">{{color.ProductColor}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
