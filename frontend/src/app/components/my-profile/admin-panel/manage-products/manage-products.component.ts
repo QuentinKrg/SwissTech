@@ -72,12 +72,14 @@ export class ManageProductsComponent implements OnInit {
   submitted: boolean;
   imageRequired:boolean;
   allColors: Color [];
+  isimagePathValid:boolean;
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
 
   // on Init
   ngOnInit() {
+    this.isimagePathValid =true;
     this.submitted=false;
     this.addProductGroup = this._formBuilder.group({
       ProductName: ['', Validators.required],
@@ -287,7 +289,9 @@ export class ManageProductsComponent implements OnInit {
     if(this.addProductGroup.invalid || this.f.ProductImage.value=='' && this.imageRequired){
       return;
     }
-      
+    if(!this.isimagePathValid){
+      return;
+    }
     const formData = new FormData();
     formData.append('image', this.fileToUpload);
 
@@ -321,6 +325,7 @@ export class ManageProductsComponent implements OnInit {
 
   // Ouverture du modal de modification
   openModalEdit(targetModal, product: Product) {
+    
     this.imageRequired=false;
     this._modalService.open(targetModal, {
       centered: true,
@@ -429,6 +434,9 @@ export class ManageProductsComponent implements OnInit {
     if(this.addProductGroup.invalid){
       return;
     }
+    if(!this.isimagePathValid){
+      return;
+    }
     this.loading=true;
     this.onCheckLock();
     
@@ -437,6 +445,7 @@ export class ManageProductsComponent implements OnInit {
       if(this.isLocked){
         return;
       }
+      
 
       if (this.fileToUpload != null) {
         const formData = new FormData();
@@ -519,5 +528,18 @@ export class ManageProductsComponent implements OnInit {
         console.log(error);
         return;
       });
+  }
+  
+  isImagePathAvailable() {
+    console.log(this.fileToUpload.name);
+    this._productService.checkImagePathAvability(this.fileToUpload.name).then(
+      () => {
+        this.isimagePathValid = true;
+      },
+      (error) => {
+        console.log(error);
+        this.isimagePathValid = false;
+      }
+    );
   }
 }

@@ -81,4 +81,18 @@ export class ProductService {
     return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=CleanupLocks');
     
   }
+  checkImagePathAvability(imagePath: string){
+    return new Promise(
+      (resolve, reject) => {
+        this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=CheckImagePathAvability&ImagePath='+imagePath).toPromise().then(
+          () => {
+            resolve();
+          },
+          (error) => {
+            reject(error)
+          }
+        );
+      }
+    );
+  }
 }

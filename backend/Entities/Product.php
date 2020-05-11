@@ -342,6 +342,22 @@ class Product extends Entity
   			$this->Query($updateProductStatus);
       }
   	}
+	
+	public  function CheckImagePathAvability(){
+		if(isset($_GET['ImagePath'])){
+			$imagePath = $_GET['ImagePath'];
+		}
+		$sql = "SELECT * FROM t_images WHERE ImagePath = '$imagePath'";
+		$tmpUser = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
+
+		if($tmpUser != null)
+		  {
+			return http_response_code(409);
+		  }
+		else {
+			return $tmpUser;
+		}
+	}
 
     // Création d'un article
     public function UploadImage()
