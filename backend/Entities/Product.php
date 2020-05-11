@@ -158,7 +158,7 @@ class Product extends Entity
     {
       $articles = [];
 
-      $sql = "SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName,t_product_color.ProductColor AS ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
+      $sql = "SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName, t_product_color.ProductColor AS ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
                LEFT JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
                LEFT JOIN t_product_color ON t_products.FK_ProductColor = t_product_color.id_color
                LEFT JOIN t_images ON t_products_images.FK_Image = t_images.id_Image

@@ -66,6 +66,7 @@ export class ProductsComponent implements OnInit {
           || p.ProductDescription.toLowerCase().includes(tmpSearchValue)
           || p.ManufacturerName.toLowerCase().includes(tmpSearchValue)
           || p.ProductColor.toLowerCase().includes(tmpSearchValue)
+          || p.CategoryName.toLowerCase().includes(tmpSearchValue)
         );      
     }
     
