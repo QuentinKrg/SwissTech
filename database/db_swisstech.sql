@@ -2,7 +2,7 @@
 -- Hôte :                        127.0.0.1
 -- Version du serveur:           10.4.11-MariaDB - mariadb.org binary distribution
 -- SE du serveur:                Win64
--- HeidiSQL Version:             10.3.0.5771
+-- HeidiSQL Version:             10.2.0.5599
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `t_images` (
   `ImageName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ImagePath` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_Image`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table db_swisstech.t_images : ~7 rows (environ)
 /*!40000 ALTER TABLE `t_images` DISABLE KEYS */;
@@ -205,7 +205,8 @@ INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
 	(4, 'iPad Silver 32 Go', 'iPad-7th-Silver.jpg'),
 	(5, 'Macbook Pro - silver', 'Macbook-Pro-13.jpg'),
 	(6, 'AirPods -std', 'img-article-temp.jpg'),
-	(7, 'Souris Logitehc B100', 'Logitech-Maus-B100.jpg');
+	(7, 'Souris Logitehc B100', 'Logitech-Maus-B100.jpg'),
+	(8, 'swisstech-smartphone-logo', 'Swisstech-smartphone-logo.png');
 /*!40000 ALTER TABLE `t_images` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_lock_product
@@ -217,9 +218,9 @@ CREATE TABLE IF NOT EXISTS `t_lock_product` (
   PRIMARY KEY (`id_lock`),
   KEY `FK_product` (`FK_Product`),
   CONSTRAINT `FK_product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4;
 
--- Listage des données de la table db_swisstech.t_lock_product : ~3 rows (environ)
+-- Listage des données de la table db_swisstech.t_lock_product : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_lock_product` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_lock_product` ENABLE KEYS */;
 
@@ -268,9 +269,9 @@ CREATE TABLE IF NOT EXISTS `t_orders` (
   CONSTRAINT `FK_Order_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Order_PaymentMethod` FOREIGN KEY (`FK_PaymentMethod`) REFERENCES `t_paymentmethod` (`id_paymentmethod`),
   CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_orders : ~17 rows (environ)
+-- Listage des données de la table db_swisstech.t_orders : ~18 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
 INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`, `FK_Customer`) VALUES
 	(37, '2020-04-05 15:21:36', 1, 2, 25),
@@ -287,9 +288,10 @@ INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`
 	(48, '2020-04-07 08:56:13', 1, 1, 25),
 	(49, '2020-04-07 10:10:01', 6, 1, 25),
 	(50, '2020-04-07 10:30:24', 5, 2, 25),
-	(51, '2020-04-08 12:23:13', 1, 1, 25),
+	(51, '2020-04-08 12:23:13', 3, 1, 25),
 	(52, '2020-04-14 14:54:11', 2, 2, 24),
-	(53, '2020-04-14 14:54:41', 4, 2, 24);
+	(53, '2020-04-14 14:54:41', 4, 2, 24),
+	(54, '2020-05-11 07:58:35', 1, 2, 26);
 /*!40000 ALTER TABLE `t_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_parameters
@@ -361,12 +363,12 @@ CREATE TABLE IF NOT EXISTS `t_products` (
   KEY `FK_Product_Manufacturer` (`FK_Manufacturer`),
   CONSTRAINT `FK_Product_Category` FOREIGN KEY (`FK_Category`) REFERENCES `t_categories` (`id_Category`),
   CONSTRAINT `FK_Product_Manufacturer` FOREIGN KEY (`FK_Manufacturer`) REFERENCES `t_manufacturers` (`id_Manufacturer`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products : ~10 rows (environ)
+-- Listage des données de la table db_swisstech.t_products : ~13 rows (environ)
 /*!40000 ALTER TABLE `t_products` DISABLE KEYS */;
 INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductColor`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `isActive`, `FK_Category`, `FK_Manufacturer`) VALUES
-	(4, 'PS4 Pro 1 TB ', 'Noir', '30cm', '1 Contrôleur compris', 419.00, 1, 44, 17),
+	(4, 'PS4 Pro 1 TB', 'Noir', '30cm', '1 Contrôleur compris OH QUE OUI <3\n', 419.00, 1, 44, 17),
 	(6, 'Ordinateur portable 250 G7 ', 'Noir/Gris', '50cm', '-Processeur Celeron 3867U - Mémoire vive intégrée: 4GB - Disque dûr: 500GB - Ecran 15.6"', 299.00, 1, 23, 2),
 	(7, 'MacBook Pro 13" 2019 Touch Bar', 'Argenté', '40cm', '<ul><li>Processeur: Intel Core i5-8xxx&nbsp;</li><li> Mémoire vive intégrée: 8GB&nbsp;</li><li> Disque dûr: 128 GB&nbsp;</li><li> Ecran: 13.3"</li></ul>', 1379.00, 1, 23, 3),
 	(8, 'Ordinateur portabe V130-15', 'Noir', '50cm', '-Processeur: Intel Core i3-7020U - Mémoire vive: 4GB - Disque dûr: 256 GB - Ecran: 15.6 " ', 369.00, 1, 23, 5),
@@ -375,7 +377,10 @@ INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductColor`, `ProductS
 	(11, 'iPad 7th Gen. Wifi 32 Go', 'Gris', '20cm', 'Ecran: 10.2 "  - Mémoire totale: 32 GB - Système d\'exploitation: iPadOS - Bluetooth', 379.00, 1, 24, 3),
 	(12, 'Tablette Galaxy Tab A (2019) SM-T290 32 GB', 'Noir', '18cm', 'Ecran 8 " - Mémoire totale: 32 GB - Système d\'exploitation: Android - Bluetooth', 159.00, 1, 24, 4),
 	(13, 'Souris B100 Optical', 'Noir', '5cm', 'Type: standard - Molette: Oui - Câble: Oui - Interface: USB', 9.00, 1, 29, 15),
-	(14, 'Écouteurs intra-auriculaires Wireless AirPods Pro Blanc', 'Blanc', '4cm', 'Casque d\'écoute Bluetooth avec annulation active du bruit pour les appareils Apple', 279.00, 1, 13, 3);
+	(14, 'Écouteurs intra-auriculaires Wireless AirPods Pro Blanc', 'Blanc', '4cm', 'Casque d\'écoute Bluetooth avec annulation active du bruit pour les appareils Apple', 279.00, 1, 13, 3),
+	(30, 'Ceci est une ps5', 'Bleu', '123', 'WOOOOAW', 666.00, 0, 44, 17),
+	(31, 'XBOXZZZZ', 'Vert', '666', 'MOnstre xbox des familles super cool tmtc 78', 234.00, 0, 9, 2),
+	(32, 'ICON SWISSTECH99', 'Noir', '64', 'test icon wet', 0.00, 0, 15, 2);
 /*!40000 ALTER TABLE `t_products` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_products_images
@@ -388,18 +393,20 @@ CREATE TABLE IF NOT EXISTS `t_products_images` (
   KEY `FK_ProductImage_Product` (`FK_Product`),
   CONSTRAINT `FK_ProductImage_Image` FOREIGN KEY (`FK_Image`) REFERENCES `t_images` (`id_Image`),
   CONSTRAINT `FK_ProductImage_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_images : ~7 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_images : ~9 rows (environ)
 /*!40000 ALTER TABLE `t_products_images` DISABLE KEYS */;
 INSERT INTO `t_products_images` (`id_Product_Image`, `FK_Product`, `FK_Image`) VALUES
-	(1, 4, 1),
+	(1, 4, 2),
 	(2, 7, 5),
 	(3, 9, 2),
 	(4, 6, 3),
 	(5, 11, 4),
 	(6, 14, 6),
-	(7, 13, 7);
+	(7, 13, 7),
+	(19, 30, 1),
+	(20, 32, 8);
 /*!40000 ALTER TABLE `t_products_images` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_products_orders
@@ -417,9 +424,9 @@ CREATE TABLE IF NOT EXISTS `t_products_orders` (
   CONSTRAINT `FK_ProductOrder_Order` FOREIGN KEY (`FK_Order`) REFERENCES `t_orders` (`id_Order`),
   CONSTRAINT `FK_ProductOrder_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`),
   CONSTRAINT `FK_ProductOrder_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_orders : ~17 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_orders : ~24 rows (environ)
 /*!40000 ALTER TABLE `t_products_orders` DISABLE KEYS */;
 INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPrice`, `FK_Product`, `FK_Order`, `FK_ShoppingCart`) VALUES
 	(51, 3, 1379.00, 7, 37, NULL),
@@ -441,7 +448,11 @@ INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPri
 	(67, 1, 419.00, 4, 51, NULL),
 	(68, 2, 379.00, 11, 52, NULL),
 	(69, 1, 279.00, 14, 53, NULL),
-	(70, 2, 349.00, 9, 53, NULL);
+	(70, 2, 349.00, 9, 53, NULL),
+	(71, 1, 369.00, 8, 54, NULL),
+	(72, 1, 1379.00, 7, 54, NULL),
+	(73, 1, 349.00, 9, 54, NULL),
+	(74, 1, 419.00, 4, 54, NULL);
 /*!40000 ALTER TABLE `t_products_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_roles
@@ -458,6 +469,24 @@ INSERT INTO `t_roles` (`id_role`, `RoleName`, `RoleCode`) VALUES
 	(1, 'Standart', 'ST'),
 	(2, 'Administrator', 'AD');
 /*!40000 ALTER TABLE `t_roles` ENABLE KEYS */;
+
+-- Listage de la structure de la table db_swisstech. t_rss
+CREATE TABLE IF NOT EXISTS `t_rss` (
+  `Title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Link` int(20) NOT NULL DEFAULT 0,
+  `Guid` int(50) NOT NULL DEFAULT -1,
+  `Description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `PubDate` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Guid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table db_swisstech.t_rss : ~3 rows (environ)
+/*!40000 ALTER TABLE `t_rss` DISABLE KEYS */;
+INSERT INTO `t_rss` (`Title`, `Link`, `Guid`, `Description`, `PubDate`) VALUES
+	('Ceci est une ps5', 30, 1588928129, 'WOOOOAW', '2020-05-08 10:55:29'),
+	('XBOXZZZZ', 31, 1588928184, 'MOnstre xbox des familles super cool tmtc 78', '2020-05-08 10:56:24'),
+	('ICON SWISSTECH99', 32, 1588928765, 'test icon wet', '2020-05-08 11:06:05');
+/*!40000 ALTER TABLE `t_rss` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_shoppingcart
 CREATE TABLE IF NOT EXISTS `t_shoppingcart` (
@@ -513,9 +542,9 @@ CREATE TABLE IF NOT EXISTS `t_users` (
 -- Listage des données de la table db_swisstech.t_users : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddress`, `FK_Role`, `FK_Customer`) VALUES
-	(29, 'chippo', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'efc3f3700ba72944df12368f2caf8909', '2020-05-04 21:15:39', 1, '::1', 2, 24),
+	(29, 'chippo', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '4c2ca7e31c52b564f8c5ca5a3fef68bb', '2020-05-08 10:40:56', 1, '127.0.0.1', 2, 24),
 	(30, 'test', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', '6247bc4243c031d78dd1e968ea2d6a21', '2020-05-02 17:21:54', 1, '::1', 2, 25),
-	(31, 'cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '6857bc107d97310aab8131f1875d3715', '2020-03-28 11:32:00', 0, '', 1, 26);
+	(31, 'cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'c614712fee7878db993c19e682584d94', '2020-05-11 08:21:59', 1, '127.0.0.1', 2, 26);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

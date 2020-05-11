@@ -57,13 +57,27 @@ export class HeaderComponent implements OnInit {
 
   onSearch(query: string) {
     if(query != "" && query != null) {
+      this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['products'],
+            {
+              queryParams: {q: query},
+              queryParamsHandling: 'merge'
+            }
+          );
+      });
+    }
+
+  }
+
+  refreshResults(category: Categories) {
+    this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
       this.router.navigate(['products'],
         {
-          queryParams: {q: query},
+          queryParams: {cat: category.id},
           queryParamsHandling: 'merge'
         }
       );
-    }
+    }); 
   }
     
   onSubmit() {

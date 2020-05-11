@@ -37,42 +37,38 @@ export class ProductsComponent implements OnInit {
     // Récupérer l'ensemble des produits actifs en bdd
     this.getAllProducts();
 
-    // filter la liste de produits avec les paramètres ci-dessus  
-    this.filterAllProducts(this.allProducts , this.urlParams);   
+     
   }
 
   // Récupération des produits actifs
   getAllProducts() {
     this._productService.getAllProducts().subscribe(
-      (data: Product[]) => {
-        this.allProducts = data.filter(product => product.isActive == true);
+      (data: Product[]) => {   
+        
+        this.allProducts = data.filter(p => p.isActive == true);
         this.filterValue = this.allProducts;   
+
+        // filter la liste de produits avec les paramètres ci-dessus  
+        this.filterAllProducts(this.allProducts , this.urlParams);  
       }
     );
   }
 
   // Filter la liste des articles
   filterAllProducts(productsList: Product[], params: HttpParams) {        
-    // Si il y a un ou plusieurs paramètres
-    if(params.keys().length > 0 ) {     
-      params.keys().forEach(key => {
-          switch (key) {
-            case "q":
-              this.allProducts = productsList.filter(p => p.ManufacturerName && p.ProductDescription && p.ProductName == params.get(key));
-              console.log("w");
-              break;
-              
-              
-            case "cat":
-              this.allProducts = productsList.filter(p => p.Categories.find(
-                cat => cat.id === Number(params.get(key))                
-              ));   
-              console.log("1");          
-
-              break;
-          }
-      });
-    }   
+    if(params.has('cat')) {
+      this.allProducts = productsList.filter(p => p.Categories.find(cat => cat.id == Number(this.urlParams.get('cat'))));
+    }
+    if(params.has('q')) {
+      let tmpSearchValue: string = params.get('q').toLowerCase();
+      this.allProducts = productsList.filter(
+          p => p.ProductName.toLowerCase().includes(tmpSearchValue)
+          || p.ProductDescription.toLowerCase().includes(tmpSearchValue)
+          || p.ManufacturerName.toLowerCase().includes(tmpSearchValue)
+          || p.ProductColor.toLowerCase().includes(tmpSearchValue)
+        );      
+    }
+    
     this.isLoaded = true;    
   }
 
