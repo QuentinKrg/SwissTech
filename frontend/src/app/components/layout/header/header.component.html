@@ -2,7 +2,7 @@
     <div class="container png g -0">
         <div class="row align-items-center w-100 p-0 m-0">
             <div class="col-sm-1 col-md-3 order-0 mr-auto w-auto">
-                <a class="navbar-brand" routerLink="/">
+                <a class="navbar-brand" routerLink="/" (click)="ngOnInit()">
                     <img height="64" class="logo d-none d-sm-inline" src="/assets/images/Swisstech-desktop-logo.png"/>
                     <img height="64" class="d-md-none d-sm-none" src="/assets/images/Swisstech-smartphone-logo.png"/>
                 </a>
@@ -13,9 +13,9 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLinksCollapsed" aria-controls="navbarLinksCollapsed" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <input type="search" class="form-control" placeholder="Recherche" #search >
+                        <input type="search" class="form-control" placeholder="Recherche" [(ngModel)]="textSearch" name="text">
                         <span class="input-group-btn">
-                            <button class="btn btn-info"  (click)="onSearch(search.value)" type="submit">Recherche</button>
+                            <button class="btn btn-info"  (click)="onSearch(textSearch)" type="submit">Recherche</button>
                         </span>
                     </div>
                 </form>
@@ -42,7 +42,7 @@
                 <div class="collapse navbar-collapse justify-content-center" id="navbarLinksCollapsed">
                     <ul class="navbar-nav" *ngFor="let category of mainCategories">
                         <li class="nav-item" *ngIf="category.IsActive == true">
-                            <a class="nav-link"  [routerLink]="['tag', category.id]" >{{category.CategoryName}}</a>
+                            <a class="nav-link"  [routerLink]="['products']" [queryParams]="{cat: category.id}" queryParamsHandling="merge"  >{{category.CategoryName}}</a>
                         </li>
                     </ul>
                 </div>

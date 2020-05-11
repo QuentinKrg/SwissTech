@@ -8,5 +8,6 @@ export class User {
     tokenValidity: Date;
     role: string;
     isActive: boolean;
+    IP_ADDR: any;
     FK_Customer: number;
 }

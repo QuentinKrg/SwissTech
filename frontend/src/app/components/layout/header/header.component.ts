@@ -37,8 +37,10 @@ export class HeaderComponent implements OnInit {
 
   
 
-
+  textSearch: string = "";
+  
   ngOnInit() {
+    this.textSearch = "";
     this.dataService.count.subscribe(count => this.cartCount = count);
     this.categoriesService.getAllMainGategories()
       .subscribe((data: Categories[]) =>{
@@ -54,11 +56,15 @@ export class HeaderComponent implements OnInit {
   }
 
   onSearch(query: string) {
-    if(query == "" || query == null) {
-      return;
+    if(query != "" && query != null) {
+      this.router.navigate(['products'],
+        {
+          queryParams: {q: query},
+          queryParamsHandling: 'merge'
+        }
+      );
     }
-    this.router.navigate(['search', query]);
-    }
+  }
     
   onSubmit() {
     

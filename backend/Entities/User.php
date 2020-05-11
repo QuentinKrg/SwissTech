@@ -7,9 +7,9 @@ class User extends Entity
   {
     $this->Connect();
   }
+
   public function Login() {
 
-	 
     // Vérifier que l'on a bien reçu des données
     if($this->jsonToProcess !=null)
     {
@@ -17,7 +17,7 @@ class User extends Entity
       $login = $this->jsonToProcess->username;
       $password = $this->jsonToProcess->password;
 
-	 
+
       // Récupération des données de l'utilsateur
       $userInDB = $this->GetUserByUsername($login);
 
@@ -53,7 +53,7 @@ class User extends Entity
         {
           $this->UpdateTokenValidity($login);
           // Envoie au format JSON du login, token, et role de l'utilisateur
-          return ['id'=>$userInDB['id_user'],'login'=>$login,'token'=>$userInDB['Token'],'role'=>$userInDB['RoleCode'],'FK_Customer'=>$userInDB['FK_Customer']];
+          return ['id'=>$userInDB['id_user'],'login'=>$login,'token'=>$userInDB['Token'],'role'=>$userInDB['RoleCode'],'FK_Customer'=>$userInDB['FK_Customer'],'IP_ADDR'=>$userInDB['IpAddress']];
         }
       }
 
@@ -65,20 +65,23 @@ class User extends Entity
       {
         return http_response_code(408);
       }
-	  
-	  $this->UpdateIpAddress($login);  
-	
+
+      // Mise à jour de l'adresse IP
+	    $newIpAddr = $this->UpdateIpAddress($login);
+
       // Envoie au format JSON du login, token, et role de l'utilisateur
-      return ['id'=>$userInDB['id_user'],'login'=>$login,'token'=>$userToken,'role'=>$userInDB['RoleCode'],'FK_Customer'=>$userInDB['FK_Customer']];
+      return ['id'=>$userInDB['id_user'],'login'=>$login,'token'=>$userToken,'role'=>$userInDB['RoleCode'],'FK_Customer'=>$userInDB['FK_Customer'],'IP_ADDR'=>$newIpAddr];
     }
   }
+
+  // Fonction pour mettre à jour l'adresse IP d'un client en bdd
   public function UpdateIpAddress($login){
-		if (!empty($_SERVER['HTTP_CLIENT_IP']))   
+		if (!empty($_SERVER['HTTP_CLIENT_IP']))
 		  {
 			$ip_address = $_SERVER['HTTP_CLIENT_IP'];
 		  }
 		//whether ip is from proxy
-		elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))  
+		elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
 		  {
 			$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		  }
@@ -87,9 +90,10 @@ class User extends Entity
 		  {
 			$ip_address = $_SERVER['REMOTE_ADDR'];
 		  }
-	  
+
 		$sql ="UPDATE t_users SET IpAddress ='$ip_address' WHERE  Username ='$login'";
 		$this->Query($sql);
+    return $ip_address;
   }
 
 
@@ -116,7 +120,6 @@ class User extends Entity
   // Création d'un token
   private function CreateToken($login)
   {
-
     // Création du token
     $token = md5(bin2hex(random_bytes(10)));
 

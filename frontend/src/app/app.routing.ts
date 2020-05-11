@@ -21,6 +21,7 @@ import { EditAddressComponent } from './components/my-profile/edit-profile/edit-
 import { EditLoginInfosComponent } from './components/my-profile/edit-profile/edit-login-infos/edit-login-infos.component';
 import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
 import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-panel.component';
+import { ProductsComponent } from './components/products/products.component';
 
 
 
@@ -29,6 +30,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'cart', component: ShoppingCartComponent},
+    { path: 'products', component: ProductsComponent},
     { path: 'product-details/:id', component: ProductDetailsComponent},
     { path: 'myprofile', component: MyProfileComponent, canActivate: [AuthGuard], children: 
         [
