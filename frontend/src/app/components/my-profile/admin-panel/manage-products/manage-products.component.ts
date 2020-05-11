@@ -11,6 +11,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Manufacturer } from 'src/app/models/Manufacturer';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { Color } from 'src/app/models/Color';
 
 
 @Component({
@@ -68,14 +69,16 @@ export class ManageProductsComponent implements OnInit {
   allManufacturer: Manufacturer[] = [];
   imagePathToShow: string = "";
   editedProductId: number = -1;
-
+  submitted: boolean;
+  imageRequired:boolean;
+  allColors: Color [];
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
 
   // on Init
   ngOnInit() {
-
+    this.submitted=false;
     this.addProductGroup = this._formBuilder.group({
       ProductName: ['', Validators.required],
       ProductColor: ['-1', Validators.required],
@@ -83,15 +86,23 @@ export class ManageProductsComponent implements OnInit {
       ProductCategory: ['-1', Validators.required],
       ProductBrand: ['-1', Validators.required],
       ProductPrice: ['', Validators.required],
-      ProductImage: ['', Validators.required],
+      ProductImage: [''],
       ProductDescription: ['', Validators.required],
 
+    });
+    this._productService.GetAllColors().subscribe((data: Color[]) => {
+      this.allColors = data;
+    });
+    this._productService.getAllManufacturer().subscribe((data: Manufacturer[]) => {
+      this.allManufacturer = data;
     });
     this._categoriesService.getAllMainGategories().subscribe((data) => { this.allMainCategories = data });
     this.getAllProducts();
     this.loading=false;
   }
 
+  //contrôle du formulaire
+  get f() { return this.addProductGroup.controls; }
   // Récupération des produits
   getAllProducts() {
     this._productService.getAllProducts().subscribe(
@@ -256,6 +267,9 @@ export class ManageProductsComponent implements OnInit {
 
   // ouverture du modal
   openModalAddProduct(targetModal) {
+    this.imageRequired = true;
+    console.log(this.f.ProductImage.valueChanges);
+    
     this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
@@ -263,13 +277,17 @@ export class ManageProductsComponent implements OnInit {
       scrollable: true
     });
     this.allCategories = this.allMainCategories;
-    this._productService.getAllManufacturer().subscribe((data: Manufacturer[]) => {
-      this.allManufacturer = data;
-    });
+    
   }
 
   // Action pour la création d'un article
   onSubmitAdd() {
+    this.submitted=true;
+    // Stop si le formulaire n'est pas correctement rempli
+    if(this.addProductGroup.invalid || this.f.ProductImage.value=='' && this.imageRequired){
+      return;
+    }
+      
     const formData = new FormData();
     formData.append('image', this.fileToUpload);
 
@@ -293,6 +311,7 @@ export class ManageProductsComponent implements OnInit {
           console.log("ok");
         },
         (error) => { console.log(error);
+          this.submitted=false;
          }
       );
     this._modalService.dismissAll();
@@ -302,6 +321,7 @@ export class ManageProductsComponent implements OnInit {
 
   // Ouverture du modal de modification
   openModalEdit(targetModal, product: Product) {
+    this.imageRequired=false;
     this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
@@ -321,10 +341,6 @@ export class ManageProductsComponent implements OnInit {
         };
       }
     );
-
-    this._productService.getAllManufacturer().subscribe((data: Manufacturer[]) => {
-      this.allManufacturer = data;
-    });
 
     this.addProductGroup.patchValue({
       ProductName: product.ProductName,
@@ -408,6 +424,11 @@ export class ManageProductsComponent implements OnInit {
   
   //  Action pour la modification d'un article
   onSubmitEdit() {
+    this.submitted=true;
+    // Stop si le formulaire n'est pas correctement rempli
+    if(this.addProductGroup.invalid){
+      return;
+    }
     this.loading=true;
     this.onCheckLock();
     
