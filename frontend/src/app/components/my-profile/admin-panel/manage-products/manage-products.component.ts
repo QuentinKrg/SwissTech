@@ -69,6 +69,7 @@ export class ManageProductsComponent implements OnInit {
   imagePathToShow: string = "";
   editedProductId: number = -1;
   submitted: boolean;
+  imageRequired:boolean;
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
@@ -83,7 +84,7 @@ export class ManageProductsComponent implements OnInit {
       ProductCategory: ['-1', Validators.required],
       ProductBrand: ['-1', Validators.required],
       ProductPrice: ['', Validators.required],
-      ProductImage: ['', Validators.required],
+      ProductImage: [''],
       ProductDescription: ['', Validators.required],
 
     });
@@ -258,6 +259,9 @@ export class ManageProductsComponent implements OnInit {
 
   // ouverture du modal
   openModalAddProduct(targetModal) {
+    this.imageRequired = true;
+    console.log(this.f.ProductImage.valueChanges);
+    
     this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
@@ -274,7 +278,7 @@ export class ManageProductsComponent implements OnInit {
   onSubmitAdd() {
     this.submitted=true;
     // Stop si le formulaire n'est pas correctement rempli
-    if(this.addProductGroup.invalid){
+    if(this.addProductGroup.invalid || this.f.ProductImage.value=='' && this.imageRequired){
       return;
     }
       
@@ -311,6 +315,7 @@ export class ManageProductsComponent implements OnInit {
 
   // Ouverture du modal de modification
   openModalEdit(targetModal, product: Product) {
+    this.imageRequired=false;
     this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
