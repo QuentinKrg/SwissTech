@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomValidators } from 'src/app/helpers/CustomValidators';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-manage-customers',
@@ -16,6 +17,8 @@ export class ManageCustomersComponent implements OnInit {
   //icones
   faEllipsisV=faEllipsisV;
   
+  user = new User;
+  isUserValid = true;
   selectedAddress:Customer;
   myShipAddr: Customer[];
   myBillAddr: Customer[];
@@ -106,6 +109,9 @@ export class ManageCustomersComponent implements OnInit {
       this.editAddressForm.get('billingZip').disable();
   }
 
+  get f() { return this.editProfileForm.controls; }
+  get f2() { return this.editAddressForm.controls; }
+
   // Filtrer les articles par status 
   filteredByStatus() {
     this.allCustomers = this.filterValue;
@@ -139,8 +145,6 @@ export class ManageCustomersComponent implements OnInit {
   this.itemsPerPage =  num;
   
 }
-  
-  get f() { return this.editProfileForm.controls; }
 
   getCustomers() {
     //appel àla fonction qui retourne tous les clients de UserService
@@ -324,5 +328,24 @@ export class ManageCustomersComponent implements OnInit {
         console.log(error);
         return;
       });
+  }
+   //live validation pour voir si le nom d'utilisateur est disponible et avertir l'utilisateur
+   isUserAvailable() {
+     if(this.selectedUser==this.editProfileForm.value.Username){
+       //pas de changement donc pas besoin de test
+     }else{
+      this.user.username = this.editProfileForm.value.Username;
+    this._userService.checkUserByUsername(this.user).then(
+      () => {
+        this.usernameErrorMessage = "";
+        this.isUserValid = true;
+      },
+      (error) => {
+        this.usernameErrorMessage = "Nom d'utilisateur non disponible";
+        this.isUserValid = false;
+      }
+    );
+     }
+    
   }
 }

@@ -1,100 +1,99 @@
 <!-- Navigation -->
-<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecustomers">Gestion des clients</a></small>
+<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecustomers">Gestion des
+    clients</a></small>
 <!-- Titre -->
 <h4 class="pb-3">Gestion des clients</h4>
 <!-- Filtres de recherches -->
 <div class="row py-2">
-    <!-- Recherche par nom d'utilisateur -->
-    <div class="col-md-6 col-sm-12">
-        <label class="control-label" for="selectUsername">Filtrer par nom d'utilisateur</label>
-        <input id="selectUsername" class="form-control" placeholder="Rechercher un nom d'utilisateur" type="text" [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
-    </div>
-    <!-- Liste des status d'une commandes -->
-    <div class="col-md-6 col-sm-12">
-        <label class="control-label" for="selectStatus">Filtrer par statut</label>
-        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
-          <option value="-1" selected>Les deux</option>
-          <option value="1">Actif</option>
-          <option value="0">Innactif</option>
-        </select>
-    </div>
+  <!-- Recherche par nom d'utilisateur -->
+  <div class="col-md-6 col-sm-12">
+    <label class="control-label" for="selectUsername">Filtrer par nom d'utilisateur</label>
+    <input id="selectUsername" class="form-control" placeholder="Rechercher un nom d'utilisateur" type="text"
+      [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
+  </div>
+  <!-- Liste des status d'une commandes -->
+  <div class="col-md-6 col-sm-12">
+    <label class="control-label" for="selectStatus">Filtrer par statut</label>
+    <select class="form-control" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
+      <option value="-1" selected>Les deux</option>
+      <option value="1">Actif</option>
+      <option value="0">Innactif</option>
+    </select>
+  </div>
 </div>
 <!-- Tableau -->
 <div class="row">
-    <div class="col-12">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <!-- Label du tableau -->
-                <thead>
-                    <tr>
-                      <th scope="col">Numéro de client</th>
-                      <th scope="col">Nom d'utilisateur</th>
-                      <th scope="col">Titre</th>
-                      <th scope="col">Prénom</th>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Statut</th>
-                    </tr>
-                  </thead>
-                  <!-- Données -->
-                  <tbody>
-                    <tr class="cursorPointer"
-                      *ngFor="let customer of allCustomers | slice: pageSize | slice: 0:itemsPerPage ; let i = index">
-                      <th scope="row">{{customer.id_customer}}</th>
-                      <td>{{customer.Username | titlecase}}</td>
-                      <td>{{customer.CustomerTitre | titlecase}}</td>
-                      <td>{{customer.CustomerName | titlecase}}</td>
-                      <td>{{customer.CustomerLastName | titlecase}}</td>
-                      <td><span class="p-1 mw-100 rounded"
-                          [ngClass]="customer.isActive==0  ? ' bg-danger text-white' : 'bg-success text-white'">
-                          <span *ngIf="customer.isActive==1"> Actif </span>
-                          <span *ngIf="customer.isActive==0">inactif</span></span>
-                      </td>
-                      <td>
-                        <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="false">
-                          <fa-icon [icon]="faEllipsisV"></fa-icon>
-                          <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" (click)="openModal(showProfileModal, customer)">Aperçu du client</a>
-                            <a class="dropdown-item" (click)="openModal(editProfileModal, customer)">Modifier les
-                              coordonnées</a>
-                            <a class="dropdown-item" (click)="openModal(editAddressModal, customer)">Modifier les
-                              adresses</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" (click)="onUnableUser(customer)">
-                              <a *ngIf="customer.isActive==1">Désactiver</a>
-                              <a *ngIf="customer.isActive==0">Activer</a>
-                            </a>
-                          </a>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-            </table>
-            <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
-                <div class="col-sm-3">
-                    <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <a>{{itemsPerPage}} par page...</a>
-                                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item"
-                                        (click)="changePagesize(5)">5
-                                    </a>
-                                    <a class="dropdown-item"
-                                        (click)="changePagesize(10)">10
-                                    </a>
-                                    <a class="dropdown-item"
-                                        (click)="changePagesize(20)">20
-                                    </a>
-                                </a>
-                            </button>
-                </div>
-                <div class="col-sm-7">
-                    <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages [pageSize]="itemsPerPage"
-                        [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
-                </div>
-            </div>
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <!-- Label du tableau -->
+        <thead>
+          <tr>
+            <th scope="col">Numéro de client</th>
+            <th scope="col">Nom d'utilisateur</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Statut</th>
+          </tr>
+        </thead>
+        <!-- Données -->
+        <tbody>
+          <tr class="cursorPointer"
+            *ngFor="let customer of allCustomers | slice: pageSize | slice: 0:itemsPerPage ; let i = index">
+            <th scope="row">{{customer.id_customer}}</th>
+            <td>{{customer.Username | titlecase}}</td>
+            <td>{{customer.CustomerTitre | titlecase}}</td>
+            <td>{{customer.CustomerName | titlecase}}</td>
+            <td>{{customer.CustomerLastName | titlecase}}</td>
+            <td><span class="p-1 mw-100 rounded"
+                [ngClass]="customer.isActive==0  ? ' bg-danger text-white' : 'bg-success text-white'">
+                <span *ngIf="customer.isActive==1"> Actif </span>
+                <span *ngIf="customer.isActive==0">inactif</span></span>
+            </td>
+            <td>
+              <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <fa-icon [icon]="faEllipsisV"></fa-icon>
+                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" (click)="openModal(showProfileModal, customer)">Aperçu du client</a>
+                  <a class="dropdown-item" (click)="openModal(editProfileModal, customer)">Modifier les
+                    coordonnées</a>
+                  <a class="dropdown-item" (click)="openModal(editAddressModal, customer)">Modifier les
+                    adresses</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="onUnableUser(customer)">
+                    <a *ngIf="customer.isActive==1">Désactiver</a>
+                    <a *ngIf="customer.isActive==0">Activer</a>
+                  </a>
+                </a>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
+        <div class="col-sm-3">
+          <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <a>{{itemsPerPage}} par page...</a>
+            <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" (click)="changePagesize(5)">5
+              </a>
+              <a class="dropdown-item" (click)="changePagesize(10)">10
+              </a>
+              <a class="dropdown-item" (click)="changePagesize(20)">20
+              </a>
+            </a>
+          </button>
         </div>
+        <div class="col-sm-7">
+          <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages [pageSize]="itemsPerPage"
+            [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 <ng-template #editProfileModal let-modal>
   <div class="modal-header">
@@ -107,8 +106,8 @@
   <div class="modal-body">
     <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
       <div class="form-group row">
-        <label for="CustomerTitre" class="col-sm-4 col-form-label">Titre</label>
-        <div class="col-sm-8">
+        <label for="CustomerTitre" class="col-sm-5 col-form-label">Titre</label>
+        <div class="col-sm-7">
           <select class="form-control" formControlName="CustomerTitre" autofocus>
             <option value="" selected disabled>Veuillez choisir</option>
             <option value="Mme">Mme</option>
@@ -117,38 +116,78 @@
           </select>
         </div>
       </div>
+
+      <!-- First name-->
       <div class="form-group row">
-        <label for="CustomerName" class="col-sm-4 col-form-label">First Name</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" formControlName="CustomerName" id="CustomerName">
+        <label class="col-sm-5 col-form-label" for="CustomerName">Prénom *</label>
+        <div class="col-sm-7">
+          <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
         </div>
+        <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
+          Uniquement des lettres et des espaces</div>
       </div>
+
+      <!-- Last name-->
       <div class="form-group row">
-        <label for="CustomerLastName" class="col-sm-4 col-form-label">Last Name</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" formControlName="CustomerLastName" id="CustomerLastName">
+        <label class="col-sm-5 col-form-label" for="CustomerLastName">Nom *</label>
+        <div class="col-sm-7">
+          <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
         </div>
+        <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
+          Uniquement des lettres et des espaces</div>
       </div>
+
+      <!-- Birthday date-->
       <div class="form-group row">
-        <label for="CustomerName" class="col-sm-4 col-form-label">Date de naissance *</label>
-        <div class="col-sm-8">
+        <label class="col-sm-5 col-form-label" for="CustomerBirthday">Date de naissance *</label>
+        <div class="col-sm-7">
           <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
-            placeholder="" />
+            placeholder=""
+            [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
         </div>
       </div>
+      <!-- Username-->
       <div class="form-group row">
-        <label for="Username" class="col-sm-4 col-form-label">Username</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" formControlName="Username" id="Username">
+        <label for="Username" class="col-sm-5 col-form-label">Nom d'utilisateur *</label>
+        <div class="col-sm-7">
+          <input type="text" formControlName="Username" class="form-control" (keyup.tab)="isUserAvailable()"
+            (blur)="isUserAvailable()" id="Username"
+            [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.Username.errors ||f.Username.touched && f.Username.errors || f.Username.hasError('pattern')}" />
+          <div *ngIf=" f.Username.hasError('pattern')" class="invalid-feedback">
+            Uniquement des lettres et des chiffres
+          </div>
+          <p class="text-danger">{{usernameErrorMessage}}</p>
         </div>
       </div>
+      <!-- Email-->
       <div class="form-group row">
-        <label for="CustomerEmail" class="col-sm-4 col-form-label">Email</label>
-        <div class="col-sm-8">
-          <input type="CustomerEmail" class="form-control" formControlName="CustomerEmail" id="CustomerEmail">
+        <label class="col-sm-5 col-form-label" for="CustomerEmail">E-mail *</label>
+        <div class="col-sm-7">
+          <input type="CustomerEmail" formControlName="CustomerEmail" class="form-control"
+            placeholder="exemple@domaine.com"
+            [ngClass]="{ 'is-invalid': submitted && f.CustomerEmail.errors || f.CustomerEmail.touched && f.CustomerEmail.errors}" />
+        </div>
+        <div class="invalid-feedback"
+          *ngIf="submitted && f.CustomerEmail.hasError('pattern') || f.CustomerEmail.touched && f.CustomerEmail.hasError('pattern')">
+          Le format de la saisie n'est pas valable
         </div>
       </div>
-      
+      <!-- Private phone-->
+      <div class="form-group row">
+        <label class="col-sm-5 col-form-label" for="CustomerPhone">Téléphone privé *</label>
+        <div class="col-sm-7">
+          <input type="phone" formControlName="CustomerPhone" class="form-control"
+            placeholder="Par exemple: +41 12 345 67 89"
+            [ngClass]="{ 'is-invalid': submitted && f.CustomerPhone.errors ||
+           f.CustomerPhone.touched && f.CustomerPhone.errors || f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')}" />
+        </div>
+        <div class="invalid-feedback" *ngIf="submitted && f.CustomerPhone.hasError('pattern') ||
+                 f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')">
+          Le format de la saisie n'est pas valable
+        </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -168,60 +207,92 @@
     <form [formGroup]="editAddressForm" (ngSubmit)="onSubmitAddress()">
       <div class="form-group">
         <label class="control-label h6" for="selectAddress">Adresse de livraison</label>
-        <select  class="form-control" #selectAddress id="selectAddress" (change)="onShipAddressChange(selectAddress.value)" >
-            <option value="-1" [selected]="!editShipAddress" disabled>Choisir une adresse</option>
-            <option [selected]="editShipAddress" *ngFor="let shipaddr of myShipAddr" id="optionSelected" [value]="(shipaddr | json)">
-              {{shipaddr.shippingAddress}}, {{shipaddr.shippingCity}}, {{ shipaddr.shippingZip }}
-            </option>
+        <select class="form-control" #selectAddress id="selectAddress"
+          (change)="onShipAddressChange(selectAddress.value)">
+          <option value="-1" [selected]="!editShipAddress" disabled>Choisir une adresse</option>
+          <option [selected]="editShipAddress" *ngFor="let shipaddr of myShipAddr" id="optionSelected"
+            [value]="(shipaddr | json)">
+            {{shipaddr.shippingAddress}}, {{shipaddr.shippingCity}}, {{ shipaddr.shippingZip }}
+          </option>
         </select>
-      </div>  
+      </div>
       <div *ngIf="editShipAddress" class="shadow-sm p-3">
+        <!-- Adresse-->
         <div class="form-group row">
           <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
           <div class="col-sm-8">
-            <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="shippingAddress">
+            <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="shippingAddress" placeholder="Rue, n°"
+              [ngClass]="{ 'is-invalid': submitted && f2.shippingAddress.errors || f2.shippingAddress.touched && f2.shippingAddress.errors}">
           </div>
         </div>
+        <!-- Ville-->
         <div class="form-group row">
           <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
           <div class="col-sm-5">
-            <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity">
+            <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity" placeholder="Ville"
+              [ngClass]="{ 'is-invalid': submitted && f2.shippingCity.errors  || f2.shippingCity.touched && f2.shippingCity.errors}">
           </div>
+          <!-- NPA-->
           <div class="col-sm-3">
-            <input type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip">
+            <input type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip" placeholder="NPA"
+             [ngClass]="{ 'is-invalid': submitted && f2.shippingZip.errors ||
+                    f2.shippingZip.errors && f2.shippingZip.hasError('pattern') || f2.shippingZip.touched && f2.shippingZip.errors ||
+                   f2.shippingZip.touched && f2.shippingZip.hasError('minLength')}">
+            <div class="invalid-feedback" *ngIf="f2.shippingZip.touched && f2.shippingZip.hasError('pattern') ">
+              Uniquement des chiffres</div>
+            <div class="invalid-feedback"
+              *ngIf="f2.shippingZip.touched && f2.shippingZip.value.length<4 && f2.shippingZip.value.length!=0 ">
+              Au moins 4 chiffres</div>
           </div>
         </div>
         <button type="button" class="btn btn-danger" (click)="onDisableShipAddress()">supprimer</button>
       </div>
-      
+
       <div class="form-group">
         <label class="control-label h6" for="selectBillAddress">Adresse de Facuration</label>
-        <select  class="form-control" #selectBillAddress id="selectBillAddress" (change)="onBillAddressChange(selectBillAddress.value)" >
-            <option value="-1" [selected]="!editBillAddress" disabled>Choisir une adresse</option>
-            <option [selected]="editBillAddress" *ngFor="let Billaddr of myBillAddr" id="optionSelected" [value]="(Billaddr | json)">
-              {{Billaddr.billingAddress}}, {{Billaddr.billingCity}}, {{ Billaddr.billingZip }}
-            </option>
+        <select class="form-control" #selectBillAddress id="selectBillAddress"
+          (change)="onBillAddressChange(selectBillAddress.value)">
+          <option value="-1" [selected]="!editBillAddress" disabled>Choisir une adresse</option>
+          <option [selected]="editBillAddress" *ngFor="let Billaddr of myBillAddr" id="optionSelected"
+            [value]="(Billaddr | json)">
+            {{Billaddr.billingAddress}}, {{Billaddr.billingCity}}, {{ Billaddr.billingZip }}
+          </option>
         </select>
-      </div>  
+      </div>
       <div *ngIf="editBillAddress" class="shadow-sm p-3">
+        <!-- Adresse-->
         <div class="form-group row">
           <label for="billingAddress" class="col-sm-4 col-form-label">Adresse</label>
           <div class="col-sm-8">
-            <input type="billingAddress" class="form-control" formControlName="billingAddress" id="billingAddress">
+            <input type="billingAddress" class="form-control" formControlName="billingAddress" id="billingAddress" placeholder="Rue, n°"
+              [ngClass]="{ 'is-invalid': submitted && f2.billingAddress.errors ||f2.billingAddress.touched && f2.billingAddress.errors}">
           </div>
         </div>
         <div class="form-group row">
+          <!-- Ville-->
           <label for="billingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
           <div class="col-sm-5">
-            <input type="billingCity" class="form-control" formControlName="billingCity" id="billingCity">
+            <input type="billingCity" class="form-control" formControlName="billingCity" id="billingCity" placeholder="Ville"
+              [ngClass]="{ 'is-invalid': submitted && f2.billingCity.errors ||f2.billingCity.touched && f2.billingCity.errors }">
           </div>
+          <!-- NPA-->
           <div class="col-sm-3">
-            <input type="billingZip" class="form-control" formControlName="billingZip" id="billingZip">
+            <input type="billingZip" class="form-control" formControlName="billingZip" id="billingZip" placeholder="NPA"
+            [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
+                                         f2.billingZip.touched && f2.billingZip.hasError('pattern')
+                                         || f2.billingZip.touched && f2.billingZip.errors ||
+                                         f2.billingZip.touched && f2.billingZip.hasError('minLength')}">
+            <div class="invalid-feedback" *ngIf="f2.billingZip.touched && f2.billingZip.hasError('pattern') ||
+                                         f2.billingZip.errors && f2.billingZip.hasError('pattern')">
+              Uniquement des chiffres</div>
+            <div class="invalid-feedback"
+              *ngIf="f2.billingZip.touched && f2.billingZip.value.length<4 && f2.billingZip.value.length!=0 ">
+              Au moins 4 chiffres</div>
           </div>
         </div>
         <button type="button" class="btn btn-danger" (click)="onDisableBillAddress()">supprimer</button>
       </div>
-      
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -263,7 +334,7 @@
         {{f.CustomerPhone.value}}
       </div>
     </div>
-    
+
     <div class="row p-3">
       <div class="col-sm-4">
         Client depuis:
@@ -287,6 +358,6 @@
       <div class="col-sm-8">
         {{f.CustomerBirthday.value}}
       </div>
-    </div>  
+    </div>
   </div>
 </ng-template>
