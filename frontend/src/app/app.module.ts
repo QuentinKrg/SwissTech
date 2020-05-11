@@ -39,6 +39,7 @@ import { EditLoginInfosComponent } from './components/my-profile/edit-profile/ed
 import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
 import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-panel.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ProductsComponent } from './components/products/products.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     EditAddressComponent,
     EditLoginInfosComponent,
     EditPersonalInfosComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,

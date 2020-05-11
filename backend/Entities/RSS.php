@@ -29,7 +29,7 @@ class RSS extends Entity
         $this->Query($sql);
     }
 
-    // Récupérer les données du rss
+    // Récupérer les données du rss avec une limite
     public function GetRSS($limitation){
         $sql = "SELECT * FROM t_rss ORDER BY PubDate DESC LIMIT $limitation";
 		    $resultat = $this->Query($sql);

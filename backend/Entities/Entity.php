@@ -63,6 +63,7 @@
       $hdUsername = "";
       $hdToken = "";
       $hdRoleCode = "";
+      $hdIpAddr = "";
 
       // Récupération du token dans les en-têtes HTML
       foreach (getallheaders() as $name => $value) {
@@ -77,6 +78,10 @@
           if($name == "Role")
           {
             $hdRoleCode = $value;
+          }
+          if($name == "LastIpAddr")
+          {
+            $hdIpAddr = $value;
           }
       }
 
@@ -101,6 +106,18 @@
       {
         if($hdRoleCode != "AD")
         {
+          return false;
+        }
+      }
+
+      // Vérifier que l'adresse IP est la même qu'à la dernière connexion. Sinon => logout
+      if($hdIpAddr != "")
+      {
+        // Si l'adresse IP est la même => true
+        if ($hdIpAddr == $userInDB['IpAddress']) {
+          return true;
+        } else {
+          // sinon false
           return false;
         }
       }
