@@ -19,9 +19,12 @@ USE `db_swisstech`;
 -- Listage de la structure de la table db_swisstech. t_address
 CREATE TABLE IF NOT EXISTS `t_address` (
   `id_Address` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `FullName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `City` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ZIP` int(10) NOT NULL,
+  `isActive` tinyint(4) NOT NULL DEFAULT 1,
   `FK_AddressType` int(11) NOT NULL,
   `FK_Customer` int(11) NOT NULL,
   PRIMARY KEY (`id_Address`),
@@ -29,18 +32,19 @@ CREATE TABLE IF NOT EXISTS `t_address` (
   KEY `FK_Address_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Address_AddressType` FOREIGN KEY (`FK_AddressType`) REFERENCES `t_addresstypes` (`id_AddressType`),
   CONSTRAINT `FK_Address_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_address : ~5 rows (environ)
+-- Listage des données de la table db_swisstech.t_address : ~7 rows (environ)
 /*!40000 ALTER TABLE `t_address` DISABLE KEYS */;
-INSERT INTO `t_address` (`id_Address`, `Address`, `City`, `ZIP`, `FK_AddressType`, `FK_Customer`) VALUES
-	(13, 'Couloir 7 , 717', 'Lausanne', 1004, 1, 24),
-	(14, 'Couloir 7 , 717', 'Lausanne', 1004, 2, 24),
-	(15, 'Rue de livraison 30', 'Livre ville', 1000, 1, 25),
-	(16, 'Rue de livraison 344', 'Livre ville', 1000, 2, 25),
-	(25, 'test 1', 'Montreux', 1820, 1, 26),
-	(26, 'test 2', 'Montreux', 1820, 2, 26),
-	(29, 'address 3 livre', 'test', 1234, 1, 25);
+INSERT INTO `t_address` (`id_Address`, `Title`, `FullName`, `Address`, `City`, `ZIP`, `isActive`, `FK_AddressType`, `FK_Customer`) VALUES
+	(13, '', '', 'Couloir 7 , 717', 'Lausanne', 1004, 1, 1, 24),
+	(14, '', '', 'Couloir 7 , 717', 'Lausanne', 1004, 1, 2, 24),
+	(15, '', '', 'Rue de livraison 30', 'Livre ville', 1000, 1, 1, 25),
+	(16, '', '', 'Rue de livraison 344', 'Livre ville', 1000, 1, 2, 25),
+	(25, '', '', 'test 1', 'Montreux', 1820, 1, 1, 26),
+	(26, '', '', 'test 2', 'Montreux', 1820, 1, 2, 26),
+	(29, '', '', 'address 3 livre', 'test', 1234, 1, 1, 25),
+	(30, '', '', 'Rue de test, 9', 'Test Ville', 1000, 1, 1, 25);
 /*!40000 ALTER TABLE `t_address` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_addresstypes
@@ -209,16 +213,31 @@ INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
 	(8, 'swisstech-smartphone-logo', 'Swisstech-smartphone-logo.png');
 /*!40000 ALTER TABLE `t_images` ENABLE KEYS */;
 
+-- Listage de la structure de la table db_swisstech. t_lock_customer
+CREATE TABLE IF NOT EXISTS `t_lock_customer` (
+  `id_lock_customer` int(11) NOT NULL AUTO_INCREMENT,
+  `LockedBy` varchar(50) NOT NULL,
+  `LockTime` time NOT NULL DEFAULT current_timestamp(),
+  `FK_Customer` int(11) NOT NULL,
+  PRIMARY KEY (`id_lock_customer`),
+  KEY `FK_Customer` (`FK_Customer`),
+  CONSTRAINT `FK_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_users` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+
+-- Listage des données de la table db_swisstech.t_lock_customer : ~2 rows (environ)
+/*!40000 ALTER TABLE `t_lock_customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_lock_customer` ENABLE KEYS */;
+
 -- Listage de la structure de la table db_swisstech. t_lock_product
 CREATE TABLE IF NOT EXISTS `t_lock_product` (
-  `id_lock` int(11) NOT NULL AUTO_INCREMENT,
-  `LockedBy` varchar(50) NOT NULL DEFAULT '',
-  `lockTime` time NOT NULL DEFAULT curtime(),
-  `FK_Product` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id_lock`),
+  `id_lock_product` int(11) NOT NULL AUTO_INCREMENT,
+  `LockedBy` varchar(50) NOT NULL,
+  `LockTime` time NOT NULL DEFAULT curtime(),
+  `FK_Product` int(11) NOT NULL,
+  PRIMARY KEY (`id_lock_product`),
   KEY `FK_product` (`FK_Product`),
   CONSTRAINT `FK_product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4;
 
 -- Listage des données de la table db_swisstech.t_lock_product : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_lock_product` DISABLE KEYS */;
@@ -355,9 +374,9 @@ CREATE TABLE IF NOT EXISTS `t_products` (
   `ProductDescription` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `ProductUnitPrice` decimal(6,2) NOT NULL DEFAULT 0.00,
   `isActive` tinyint(1) NOT NULL,
-  `FK_Category` int(11) DEFAULT NULL,
-  `FK_Manufacturer` int(11) DEFAULT NULL,
-  `FK_ProductColor` int(11) DEFAULT NULL,
+  `FK_Category` int(11) NOT NULL,
+  `FK_Manufacturer` int(11) NOT NULL,
+  `FK_ProductColor` int(11) NOT NULL,
   PRIMARY KEY (`id_Product`),
   KEY `FK_Product_Category` (`FK_Category`),
   KEY `FK_Product_Manufacturer` (`FK_Manufacturer`),
@@ -367,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `t_products` (
   CONSTRAINT `FK_Product_Manufacturer` FOREIGN KEY (`FK_Manufacturer`) REFERENCES `t_manufacturers` (`id_Manufacturer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_products : ~10 rows (environ)
 /*!40000 ALTER TABLE `t_products` DISABLE KEYS */;
 INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `isActive`, `FK_Category`, `FK_Manufacturer`, `FK_ProductColor`) VALUES
 	(4, 'PS4 Pro 1 To', 30, '1 manette comprise', 419.00, 1, 44, 17, 8),
@@ -461,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `t_product_color` (
   PRIMARY KEY (`id_color`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
--- Listage des données de la table db_swisstech.t_product_color : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_product_color : ~10 rows (environ)
 /*!40000 ALTER TABLE `t_product_color` DISABLE KEYS */;
 INSERT INTO `t_product_color` (`id_color`, `ProductColor`) VALUES
 	(1, 'Bleu'),
@@ -560,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddress`, `FK_Role`, `FK_Customer`) VALUES
 	(29, 'chippo', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '4c2ca7e31c52b564f8c5ca5a3fef68bb', '2020-05-08 10:40:56', 1, '127.0.0.1', 2, 24),

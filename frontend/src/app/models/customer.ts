@@ -22,4 +22,5 @@ export class Customer {
     CustomerSince:Date;
     isActive: number;
     IpAddress:string;
+    LockedBy: string;
 }

@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomValidators } from 'src/app/helpers/CustomValidators';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user';
+import { NumberSymbol } from '@angular/common';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-manage-customers',
@@ -17,6 +19,11 @@ export class ManageCustomersComponent implements OnInit {
   //icones
   faEllipsisV=faEllipsisV;
   
+  //Lock
+  isLocked= false;
+  LockedBy: String;
+  loading= false;
+
   user = new User;
   isUserValid = true;
   selectedAddress:Customer;
@@ -33,6 +40,7 @@ export class ManageCustomersComponent implements OnInit {
   userUpdateDataMessage: String;
   userUpdateData = false;
   selectedUser: string;
+  selectedUserID: number;
   editProfileForm: FormGroup;
   editAddressForm: FormGroup;
   element = <HTMLInputElement> document.getElementById("checkbox_status");
@@ -41,9 +49,11 @@ export class ManageCustomersComponent implements OnInit {
   filterText: string = "";
   selectedStatus: number = -1
   constructor(
-    private _userService: UserService,private fb: FormBuilder, private modalService: NgbModal  ) {
+    private _userService: UserService,private fb: FormBuilder, private modalService: NgbModal,private _authenticationService: AuthenticationService  ) {
 
   }
+//utilisateur actuel
+currentUsername = this._authenticationService.currentUserValue.login;
 
   ngOnInit() {
     this.editShipAddress =false;
@@ -198,6 +208,7 @@ export class ManageCustomersComponent implements OnInit {
     });
 
     this.selectedUser = user.Username;
+    this.selectedUserID = user.id_user;
     this.getAllShippingsAddress();
     this.getAllBillingsAddress();
     
@@ -212,6 +223,8 @@ export class ManageCustomersComponent implements OnInit {
       CustomerSince: user.CustomerSince,
       IpAddress: user.IpAddress
     });
+    console.log(this.selectedUser);
+    this.onCheckLock();
    }
    onShipAddressChange(address){
     this.editShipAddress=true;
@@ -348,4 +361,70 @@ export class ManageCustomersComponent implements OnInit {
      }
     
   }
+
+onAcquireLock() {
+    this._userService.AddLock(this.selectedUserID, this.currentUsername).subscribe((data) => {
+    },
+      (error) => {
+        console.log(error);
+      });
+      console.log('libre pour edition');
+}
+
+onCheckLock() {
+  this._userService.CheckLock(this.selectedUserID).subscribe((data: Customer) => {
+    //Récupère le nom d'utilisateur si présent pour cet article
+    this.LockedBy = data.LockedBy;
+    
+    //Vérifie si un lock est présent
+    if (data) {
+      //Vérifie si l'utilisateur actuel est le proprietaire du lock
+      if (this.currentUsername === this.LockedBy) {
+        //Si oui met à jour le locktime
+        this._userService.UpdateLock(this.selectedUserID).subscribe((data) => {
+        },
+          (error) => {
+            console.log(error);
+          });
+        this.LockedBy =this.currentUsername;
+        console.log('vous avez le lock');
+        this.isLocked = false;
+      }
+      //Si non affiche un message avec le nom du proprietaire du lock
+      //désactive le bouton de submit
+      if (this.currentUsername != this.LockedBy) {
+        console.log('Verrouillé par ' + this.LockedBy);
+        this.isLocked = true;
+        this.loading=false;
+      }
+    }
+    //Si aucun lock est présent,en ajoute un.
+    else {
+      this.onAcquireLock();
+      this.isLocked= false;
+    }
+  },
+  (error) => {
+    console.log(error);
+  });
+}
+
+onReleaseLock() {
+  this._userService.ReleaseLock(this.selectedUserID, this.currentUsername).subscribe((data) => {
+  },
+    (error) => {
+      console.log(error);
+    });
+}
+
+onForceReleaseLock() {
+  this._userService.ForceReleaseLock(this.selectedUserID).subscribe(() => {
+    this.isLocked = false;
+  this.onAcquireLock();
+  },
+    (error) => {
+      console.log(error);
+    });
+  
+}
 }

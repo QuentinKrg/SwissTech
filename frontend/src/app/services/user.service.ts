@@ -12,7 +12,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {setInterval(()=> { this.CleanupLocks().subscribe(); }, 60000); }
 
   getAllUsers() {
     return this.http.get<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=GetAllUsers');
@@ -124,5 +124,24 @@ export class UserService {
   }
   addAddress(user, address: object){
     return this.http.post(environment.backendURL + 'start.php?' + 'c=Customer&f=AddAddress&username=' + user,address);
+  }
+  CheckLock(id:number) {
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=LockCheck&id=' +id);
+  }
+  UpdateLock(id:number) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=UpdateLock&id=' +id);
+  }
+  AddLock(id:number, username: string) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=AddLock&id=' +id+'&username='+username);
+  }
+  ReleaseLock(id:number, username: string) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=ReleaseLock&id=' +id+'&username='+username);
+  }
+  ForceReleaseLock(id:number) {
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=ForceReleaseLock&id=' +id);
+  }
+  CleanupLocks() {
+    console.log('clean');
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=CleanupLocks');
   }
 }

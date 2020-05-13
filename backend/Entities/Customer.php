@@ -433,6 +433,78 @@ class Customer extends Entity
 		}
 	  }
 	}
+
+	public function LockCheck(){
+			$sql = " SELECT LockedBy FROM t_lock_customer
+						WHERE FK_Customer = $this->idToProcess";
+
+		   $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+		   // Retour du résultat
+		   return $tmpResult;
+		}
+		
+	public function UpdateLock(){
+
+		$sql = "UPDATE  	t_lock_customer
+			SET
+					t_lock_customer.LockTime = NOW()
+			WHERE
+					t_lock_customer.FK_Customer = $this->idToProcess";
+
+		$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+	   // Retour du résultat
+	   return $tmpResult;
+	}
+	
+	public function AddLock(){
+		if(isset($_GET['username'])){
+			$username= $_GET['username'];
+			$sql = "INSERT INTO t_lock_customer (LockedBy, FK_Customer)
+						VALUES ('$username', $this->idToProcess)";
+
+			$tmpResult = ($this->Query($sql));
+
+		   // Retour du résultat
+		   return $tmpResult;
+		}
+
+	}
+	
+	public function ReleaseLock(){
+		if(isset($_GET['username'])){
+			$username= $_GET['username'];
+			$sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess AND LockedBy= '$username'";
+
+			$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+		   // Retour du résultat
+		   return $tmpResult;
+		}
+
+	}
+	
+	public function ForceReleaseLock(){
+
+			$sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess";
+
+			$tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+		   // Retour du résultat
+		   return $tmpResult;
+
+	}
+	
+	public function CleanupLocks(){
+		$sql = "DELETE FROM t_lock_customer WHERE TIME_TO_SEC(LockTime)+600 <= TIME_TO_SEC(NOW())";
+
+		$tmpResult = ($this->Query($sql));
+
+	   // Retour du résultat
+	   return $tmpResult;
+	}
+
 }
 
  ?>

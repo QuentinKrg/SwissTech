@@ -105,6 +105,9 @@
 
   <div class="modal-body">
     <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+      <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
+        <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()" aria-label="">Déverrouiller quand même
+    </button> </div>
       <div class="form-group row">
         <label for="CustomerTitre" class="col-sm-5 col-form-label">Titre</label>
         <div class="col-sm-7">
@@ -205,6 +208,9 @@
 
   <div class="modal-body">
     <form [formGroup]="editAddressForm" (ngSubmit)="onSubmitAddress()">
+      <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
+        <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()" aria-label="">Déverrouiller quand même
+    </button> </div>
       <div class="form-group">
         <label class="control-label h6" for="selectAddress">Adresse de livraison</label>
         <select class="form-control" #selectAddress id="selectAddress"
