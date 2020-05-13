@@ -31,7 +31,7 @@ class Product extends Entity
       {
         // Récupération des valeurs pour l'article
         $productName = $this->jsonToProcess->ProductName;
-        $productColor = $this->jsonToProcess->ProductColor;
+        $productColorId = $this->jsonToProcess->ProductColorId;
         $productSize = $this->jsonToProcess->ProductSize;
         $productDescription = $this->jsonToProcess->ProductDescription;
         $productUnitPrice = $this->jsonToProcess->ProductUnitPrice;
@@ -42,8 +42,8 @@ class Product extends Entity
 
         // Ajout d'un article
         $addProduct = "INSERT INTO t_products (ProductName, FK_ProductColor, ProductSize, ProductDescription, ProductUnitPrice, FK_Category, FK_Manufacturer)
-                        VALUES ('$productName',(SELECT id_color FROM t_product_color WHERE ProductColor = '$productColor'),'$productSize','$productDescription','$productUnitPrice','$FK_Category','$FK_Manufacturer')";
-        $this->Query($addProduct);
+                        VALUES ('$productName','$productColorId','$productSize','$productDescription','$productUnitPrice','$FK_Category','$FK_Manufacturer')";
+        $result = $this->Query($addProduct);
 
         // Récupération de l'id de l'article qui vient d'être ajouté
         $getLastProductAddedId = "SELECT t_products.id_Product FROM t_products ORDER BY  t_products.id_Product DESC LIMIT 1";
@@ -66,6 +66,7 @@ class Product extends Entity
 
         // Mise à jour du fichier
         update_fluxRSS($rssEntity);
+
       }
     }
 
@@ -79,7 +80,7 @@ class Product extends Entity
         // Récupération des valeurs pour l'article
         $productId = $this->jsonToProcess->id_Product;
         $productName = $this->jsonToProcess->ProductName;
-        $productColor = $this->jsonToProcess->ProductColor;
+        $productColorId = $this->jsonToProcess->ProductColorId;
         $productSize = $this->jsonToProcess->ProductSize;
         $productDescription = $this->jsonToProcess->ProductDescription;
         $productUnitPrice = $this->jsonToProcess->ProductUnitPrice;
@@ -91,7 +92,7 @@ class Product extends Entity
         // update d'un article
         $updateProduct = "UPDATE t_products SET
                           t_products.ProductName = '$productName',
-                          t_products.FK_ProductColor = (SELECT id_color FROM t_product_color WHERE ProductColor = '$productColor'),
+                          t_products.FK_ProductColor = '$productColorId',
                           t_products.ProductSize = '$productSize',
                           t_products.ProductDescription = '$productDescription',
                           t_products.ProductUnitPrice = '$productUnitPrice',
@@ -140,8 +141,8 @@ class Product extends Entity
     public function GetDetailsById()
     {
       // TODO Récupération de toutes les images
-      $sql = " SELECT * FROM t_products
-			   LEFT JOIN t_product_color ON t_products.FK_ProductColor = t_product_color.id_color
+      $sql = " SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName, t_product_color.ProductColor AS ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
+			         LEFT JOIN t_product_color ON t_products.FK_ProductColor = t_product_color.id_color
                LEFT JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
                LEFT JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
                LEFT JOIN t_manufacturers ON t_products.FK_Manufacturer = t_manufacturers.id_Manufacturer
@@ -342,7 +343,7 @@ class Product extends Entity
   			$this->Query($updateProductStatus);
       }
   	}
-	
+
 	public  function CheckImagePathAvability(){
 		if(isset($_GET['ImagePath'])){
 			$imagePath = $_GET['ImagePath'];
@@ -364,7 +365,7 @@ class Product extends Entity
     {
       if($_FILES != null)
       {
-		$target_dir = "C:/xampp/htdocs/SwissTech/frontend/src/assets/images/products/";
+		    $target_dir = "C:/xampp/htdocs/SwissTech/frontend/src/assets/images/products/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
