@@ -49,9 +49,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      CustomerTitre: ['', Validators.required],
+      CustomerTitle: ['', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
+      FullName: [''],
       CustomerBirthday: ['', Validators.required],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
@@ -223,6 +224,7 @@ export class RegisterComponent implements OnInit {
   }
   
   onSubmit() {
+
     // ------------------------Captcha---------------------------------------
     //Stop si le captcha saisit ne match pas avec celui qui a été généré au moment du submit
     this.submitted = true;
@@ -240,7 +242,8 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-
+    this.f.FullName.setValue(this.f.CustomerName.value + ' ' + this.f.CustomerLastName.value);
+    
     //Récupère les identifiant pour le login
     this.user.username = this.registerForm.value.Username;
     this.user.password = this.registerForm.value.password;

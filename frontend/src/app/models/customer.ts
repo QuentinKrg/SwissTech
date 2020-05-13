@@ -1,11 +1,12 @@
 export class Customer {
     id_user:number;
     id_customer: number;
-    CustomerTitre: string;
+    CustomerTitle: string;
     CustomerName: string;
     CustomerLastName: string;
     CustomerBirthday: Date;
     id_Address:number;
+    FullName: string;
     shippingID: number;
     shippingAddress: string;
     shippingCity: string;

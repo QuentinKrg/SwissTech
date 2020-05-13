@@ -19,7 +19,8 @@ class Customer extends Entity
       {
 
         // Récupération des données reçues
-		$titre = $this->jsonToProcess->CustomerTitre;
+		$titre = $this->jsonToProcess->CustomerTitle;
+		$fullName = $this->jsonToProcess->FullName;
         $name = $this->jsonToProcess->CustomerName;
         $lastname = $this->jsonToProcess->CustomerLastName;
 		$phone = $this->jsonToProcess->CustomerPhone;
@@ -54,7 +55,7 @@ class Customer extends Entity
 		// Requête sql pour la table customers
 		//Insert
         $addcustomer = "INSERT INTO t_customers
-						(CustomerTitre,CustomerName , CustomerLastName , CustomerPhone , CustomerEmail , CustomerBirthday)
+						(FK_Title,CustomerName , CustomerLastName , CustomerPhone , CustomerEmail , CustomerBirthday)
 						VALUES ( '$titre','$name','$lastname','$phone','$email','$birthday')";
         $this->Query($addcustomer);
 
@@ -81,15 +82,15 @@ class Customer extends Entity
 
 		//Insert Shipping address
 		$addShippingAddress = "INSERT INTO t_address
-							  (Address , City , Zip , FK_AddressType , FK_Customer)
+							  (Address , City , Zip , FK_AddressType , FK_Customer,FK_Title,FullName)
 							  VALUES ('$shippingAddress','$city','$zip','1',
-							  (SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'))";
+							  (SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'),'$titre','$fullName')";
         $this->Query($addShippingAddress);
 		//Insert Billing Address
 		$addBillingAddress = "INSERT INTO t_address
-							(Address , City , Zip , FK_AddressType , FK_Customer)
+							(Address , City , Zip , FK_AddressType , FK_Customer,FK_Title, FullName)
 							VALUES ('$billingAddress','$billingAddressCity','$billingAddressZip','2',
-							(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'))";
+							(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'),'$titre','$fullName')";
         $this->Query($addBillingAddress);
 	  }
 
@@ -103,7 +104,7 @@ class Customer extends Entity
 				
 				if(isset($this->jsonToProcess->CustomerName)){
 					// Récupération des données reçues
-					$titre = $this->jsonToProcess->CustomerTitre;
+					$titre = $this->jsonToProcess->CustomerTitle;
 					$name = $this->jsonToProcess->CustomerName;
 					$lastname = $this->jsonToProcess->CustomerLastName;
 					$phone = $this->jsonToProcess->CustomerPhone;
@@ -112,61 +113,40 @@ class Customer extends Entity
 				}
 				
 				if(isset($this->jsonToProcess->shippingAddress)){
-					
+					$titre = $this->jsonToProcess->CustomerTitle;
 					$shippingAddress = $this->jsonToProcess->shippingAddress;
 					$city = $this->jsonToProcess->shippingCity;
 					$zip = $this->jsonToProcess->shippingZip;
-					if(isset($this->jsonToProcess->shippingID)){
-						$id = $this->jsonToProcess->shippingID;
-						$updateShippingAddress = "UPDATE
-													t_address
-												SET
-													t_address.Address = '$shippingAddress',
-													t_address.City = '$city',
-													t_address.ZIP = '$zip'
-																		WHERE t_address.id_Address = '$id'";
-					}else{
-					//UPDATE Shipping address
+					$id = $this->jsonToProcess->shippingID;
 					$updateShippingAddress = "UPDATE
 												t_address
 											SET
+												T_address.FK_Title ='$titre',
 												t_address.Address = '$shippingAddress',
 												t_address.City = '$city',
 												t_address.ZIP = '$zip'
-																	WHERE t_address.FK_Customer = (SELECT FK_Customer FROM t_users WHERE Username ='$currentUsername' )
-																	AND FK_AddressType = 1";
-					}
+																	WHERE t_address.id_Address = '$id'";
+				
 					$this->Query($updateShippingAddress);
 				}
 
-
 				if(isset($this->jsonToProcess->billingAddress)){//si la checkbox same address est utilisée, on ne reçoit pas de données de billing address
+					$titre = $this->jsonToProcess->CustomerTitle;
 					$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
 					$billingAddressCity = $this->jsonToProcess->billingCity;
 					$billingAddressZip = $this->jsonToProcess->billingZip;
+					$id = $this->jsonToProcess->billingID;
 					
-					if(isset($this->jsonToProcess->billingID)){
-						$id = $this->jsonToProcess->billingID;
-						//UPDATE Billing Address
-						$updateBillingAddress = "UPDATE
-													t_address
-												SET
-													t_address.Address = '$billingAddress',
-													t_address.City = '$billingAddressCity',
-													t_address.ZIP = '$billingAddressZip'
-																		WHERE t_address.id_Address = '$id'";
-					}
-					else{
-						//UPDATE Billing Address
-						$updateBillingAddress = "UPDATE
-													t_address
-												SET
-													t_address.Address = '$billingAddress',
-													t_address.City = '$billingAddressCity',
-													t_address.ZIP = '$billingAddressZip'
-																		WHERE t_address.FK_Customer = (SELECT FK_Customer FROM t_users WHERE Username ='$currentUsername' )
-																		AND FK_AddressType = 2";
-					}
+					//UPDATE Billing Address
+					$updateBillingAddress = "UPDATE
+												t_address
+											SET
+												T_address.FK_Title ='$titre',
+												t_address.Address = '$billingAddress',
+												t_address.City = '$billingAddressCity',
+												t_address.ZIP = '$billingAddressZip'
+																	WHERE t_address.id_Address = '$id'";
+				
 					$this->Query($updateBillingAddress);
 				}
 
@@ -202,7 +182,7 @@ class Customer extends Entity
 											t_customers,
 											t_users
 										SET
-											t_customers.CustomerTitre = '$titre',
+											t_customers.FK_Title = '$titre',
 											t_customers.CustomerName = '$name',
 											t_customers.CustomerLastName = '$lastname',
 											t_customers.CustomerPhone = '$phone',
@@ -213,8 +193,6 @@ class Customer extends Entity
 																";
 					$this->Query($updatecustomerAndUser);
 				}
-				
-
 				
 			}
 		}
@@ -254,6 +232,7 @@ class Customer extends Entity
       // TODO Récupération de toutes les images
       $sql = " SELECT * FROM t_customers
 					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer
+					   INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_customers.FK_Title
 					   WHERE id_customer = $this->idToProcess";
 
        $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
@@ -266,7 +245,8 @@ class Customer extends Entity
 		$customers = [];
 
       $sql = " SELECT * FROM t_customers
-					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer";
+					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer
+					   INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_customers.FK_Title";
 
       $tmpResult = $this->Query($sql);
 
@@ -277,7 +257,7 @@ class Customer extends Entity
         while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
           $customers[$cr]['id_customer'] = $row['id_customer'];
 		  $customers[$cr]['id_user'] = $row['id_user'];
-          $customers[$cr]['CustomerTitre'] = $row['CustomerTitre'];
+          $customers[$cr]['CustomerTitle'] = $row['CustomerTitle'];
           $customers[$cr]['CustomerName'] = $row['CustomerName'];
           $customers[$cr]['CustomerLastName'] = $row['CustomerLastName'];
 		  $customers[$cr]['Username'] = $row['Username'];
@@ -302,6 +282,7 @@ class Customer extends Entity
 				$currentUsername = $_GET['username'];
 				  $sql = "SELECT * FROM t_users
 					   INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+					   INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_customers.FK_Title
 					   WHERE Username = '$currentUsername' LIMIT 1";
 				  $getCustomer =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 				return $getCustomer;
@@ -312,8 +293,9 @@ class Customer extends Entity
 		if(isset($_GET['username'])){
 			
 				$currentUsername = $_GET['username'];
-				   $sql = "SELECT t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+				   $sql = "SELECT t_address.Address as 'shippingAddress', t_titles.CustomerTitle,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 							FROM t_address
+							INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
@@ -328,8 +310,9 @@ class Customer extends Entity
 		if(isset($_GET['username'])){
 			$billingAddress = [];
 				$currentUsername = $_GET['username'];
-				   $sql = "SELECT Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+				   $sql = "SELECT t_titles.CustomerTitle, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
 							FROM t_address
+							INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
@@ -343,8 +326,9 @@ class Customer extends Entity
 			if(isset($_GET['username'])){
 				$shippingAddress = [];
 					$currentUsername = $_GET['username'];
-					   $sql = "SELECT t_address.id_Address as 'shippingID', t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+					   $sql = "SELECT t_address.id_Address as 'shippingID',t_titles.CustomerTitle, t_address.FullName, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 								FROM t_address
+								INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 								WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 									WHERE Username = '$currentUsername' LIMIT 1) AND isActive = 1";
@@ -354,7 +338,9 @@ class Customer extends Entity
 						// Sortir les données pour chaque "row"
 						$cr = 0;
 						while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
-							$shippingAddress[$cr]['shippingID'] = $row['shippingID'];
+							$shippingAddress[$cr]['CustomerTitle'] = $row['CustomerTitle'];
+						  $shippingAddress[$cr]['FullName'] = $row['FullName'];
+						  $shippingAddress[$cr]['shippingID'] = $row['shippingID'];
 						  $shippingAddress[$cr]['shippingAddress'] = $row['shippingAddress'];
 						  $shippingAddress[$cr]['shippingCity'] = $row['shippingCity'];
 						  $shippingAddress[$cr]['shippingZip'] = $row['shippingZip'];
@@ -373,8 +359,9 @@ class Customer extends Entity
 			if(isset($_GET['username'])){
 				$billingAddress = [];
 					$currentUsername = $_GET['username'];
-					   $sql = "SELECT t_address.id_Address as 'billingID', Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+					   $sql = "SELECT t_address.id_Address as 'billingID',t_titles.CustomerTitle, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
 								FROM t_address
+								INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 								WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 									WHERE Username = '$currentUsername'  LIMIT 1)AND isActive = 1";
@@ -384,6 +371,8 @@ class Customer extends Entity
 						// Sortir les données pour chaque "row"
 						$cr = 0;
 						while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
+							$billingAddress[$cr]['CustomerTitle'] = $row['CustomerTitle'];
+						  $billingAddress[$cr]['FullName'] = $row['FullName'];
 						  $billingAddress[$cr]['billingID'] = $row['billingID'];
 						  $billingAddress[$cr]['billingAddress'] = $row['billingAddress'];
 						  $billingAddress[$cr]['billingCity'] = $row['billingCity'];
@@ -418,6 +407,8 @@ class Customer extends Entity
 		if(isset($_GET['username'])){
 			$username = $_GET['username'];
 			// Récupération des données reçues
+			$titre = $this->jsonToProcess->CustomerTitle;
+			$fullName = $this->jsonToProcess->FullName;
 			$type = $this->jsonToProcess->addressType;
 			$address = $this->jsonToProcess->address;
 			$city = $this->jsonToProcess->city;
@@ -425,10 +416,10 @@ class Customer extends Entity
 
 			//Insert  Address
 			$addAddress = "INSERT INTO t_address
-								(Address , City , Zip , FK_AddressType , FK_Customer)
-								VALUES ('$address','$city','$zip','$type',
+								(Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
+								VALUES ('$address','$fullName','$city','$zip','$type',
 								(SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
-									 WHERE t_users.Username = '$username'))";
+									 WHERE t_users.Username = '$username'),'$titre')";
 			$this->Query($addAddress);
 		}
 	  }

@@ -41,9 +41,9 @@
         <tbody>
           <tr class="cursorPointer"
             *ngFor="let customer of allCustomers | slice: pageSize | slice: 0:itemsPerPage ; let i = index">
-            <th scope="row"  (click)="openModal(showProfileModal, customer)">{{customer.id_customer}}</th>
+            <th scope="row" (click)="openModal(showProfileModal, customer)">{{customer.id_customer}}</th>
             <td (click)="openModal(showProfileModal, customer)">{{customer.Username | titlecase}}</td>
-            <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerTitre | titlecase}}</td>
+            <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerTitle | titlecase}}</td>
             <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerName | titlecase}}</td>
             <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerLastName | titlecase}}</td>
             <td (click)="openModal(showProfileModal, customer)"><span class="p-1 mw-100 rounded"
@@ -98,7 +98,7 @@
 <ng-template #editProfileModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
-    <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+    <button type="button" class="close" (click)="closeModal()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -106,12 +106,13 @@
   <div class="modal-body">
     <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
       <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
-        <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()" aria-label="">Déverrouiller quand même
-    </button> </div>
+        <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()"
+          aria-label="">Déverrouiller quand même
+        </button> </div>
       <div class="form-group row">
-        <label for="CustomerTitre" class="col-sm-5 col-form-label">Titre</label>
+        <label for="CustomerTitle" class="col-sm-5 col-form-label">Titre</label>
         <div class="col-sm-7">
-          <select class="form-control" formControlName="CustomerTitre" autofocus>
+          <select class="form-control" formControlName="CustomerTitle" autofocus>
             <option value="" selected disabled>Veuillez choisir</option>
             <option value="Mme">Mme</option>
             <option value="Mr">Mr</option>
@@ -192,7 +193,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
         <button type="submit" class="btn btn-primary">Save changes</button>
       </div>
     </form>
@@ -209,8 +210,9 @@
   <div class="modal-body">
     <form [formGroup]="editAddressForm" (ngSubmit)="onSubmitAddress()">
       <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
-        <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()" aria-label="">Déverrouiller quand même
-    </button> </div>
+        <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()"
+          aria-label="">Déverrouiller quand même
+        </button> </div>
       <div class="form-group">
         <label class="control-label h6" for="selectAddress">Adresse de livraison</label>
         <select class="form-control" #selectAddress id="selectAddress"
@@ -223,6 +225,27 @@
         </select>
       </div>
       <div *ngIf="editShipAddress" class="shadow-sm p-3">
+        <!-- Titre-->
+        <div class="form-group row">
+          <label for="CustomerTitle" class="col-sm-4 col-form-label">Titre</label>
+          <div class="col-sm-8">
+            <select class="form-control" id="CustomerTitle" formControlName="CustomerTitle"
+              [ngClass]="{ 'is-invalid': submitted && f2.CustomerTitle.errors || f2.CustomerTitle.touched && f2.CustomerTitle.errors}">
+              <option [value]="-1" disabled>choisir le Titre</option>
+              <option [value]="1">Mr</option>
+              <option [value]="2">Mme</option>
+              <option [value]="3">Non Binaire</option>
+            </select>
+          </div>
+        </div>
+        <!-- Destinataire-->
+        <div class="form-group row">
+          <label for="FullName" class="col-sm-4 col-form-label">Destinataire</label>
+          <div class="col-sm-8">
+            <input id="FullName" type="text" formControlName="FullName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f2.FullName.errors || f2.FullName.touched && f2.FullName.errors}" />
+          </div>
+        </div>
         <!-- Adresse-->
         <div class="form-group row">
           <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
@@ -268,6 +291,26 @@
         </select>
       </div>
       <div *ngIf="editBillAddress" class="shadow-sm p-3">
+        <!-- Titre-->
+        <div class="form-group row">
+          <label for="CustomerTitle" class="col-sm-4 col-form-label">Titre</label>
+          <div class="col-sm-8">
+            <select class="form-control" id="CustomerTitle" formControlName="CustomerTitle"
+              [ngClass]="{ 'is-invalid': submitted && f2.CustomerTitle.errors || f2.CustomerTitle.touched && f2.CustomerTitle.errors}">
+              <option [value]="-1" disabled>choisir le Titre</option>
+              <option [value]="1">Mr</option>
+              <option [value]="2">Mme</option>
+              <option [value]="3">Non Binaire</option>
+            </select>
+          </div>
+        </div>
+        <!-- Destinataire-->
+        <div class="form-group row">
+          <label for="FullName" class="col-sm-4 col-form-label">Destinataire</label>
+          <div class="col-sm-8"><input id="FullName" type="text" formControlName="FullName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f2.FullName.errors || f2.FullName.touched && f2.FullName.errors}" />
+          </div>
+        </div>
         <!-- Adresse-->
         <div class="form-group row">
           <label for="billingAddress" class="col-sm-4 col-form-label">Adresse</label>
@@ -312,7 +355,7 @@
 </ng-template>
 <ng-template #showProfileModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="showProfileLabel">{{f.CustomerTitre.value}} {{f.CustomerName.value}}
+    <h5 class="modal-title" id="showProfileLabel">{{f.CustomerTitle.value}} {{f.CustomerName.value}}
       {{f.CustomerLastName.value}}</h5>
     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
       <span aria-hidden="true">&times;</span>

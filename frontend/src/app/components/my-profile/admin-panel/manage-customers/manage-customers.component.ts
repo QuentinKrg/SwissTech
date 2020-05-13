@@ -24,6 +24,7 @@ export class ManageCustomersComponent implements OnInit {
   LockedBy: String;
   loading= false;
 
+  submitted: boolean;
   user = new User;
   isUserValid = true;
   selectedAddress:Customer;
@@ -56,10 +57,13 @@ export class ManageCustomersComponent implements OnInit {
 currentUsername = this._authenticationService.currentUserValue.login;
 
   ngOnInit() {
+    this.submitted=false;
     this.editShipAddress =false;
     this.editBillAddress =false;
 
     this.editAddressForm= this.fb.group({
+      FullName: ['', Validators.required],
+      CustomerTitle: ['', Validators.required],
       shippingID:[''],
       shippingAddress: ['', Validators.required],
       shippingCity: ['', Validators.required],
@@ -70,7 +74,7 @@ currentUsername = this._authenticationService.currentUserValue.login;
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
     });
     this.editProfileForm = this.fb.group({
-      CustomerTitre: ['', Validators.required],
+      CustomerTitle: ['', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerBirthday: ['', Validators.required],
@@ -78,37 +82,12 @@ currentUsername = this._authenticationService.currentUserValue.login;
       IpAddress: [''],
       CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],
       CustomerEmail: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]],
-      Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
-      myPassword: ['', [Validators.required]],
-      password: [
-        '',
-        Validators.compose([
-          Validators.required,
-          // check whether the entered password has a number
-          CustomValidators.patternValidator(/\d/, {
-            hasNumber: true
-          }),
-          // check whether the entered password has upper case letter
-          CustomValidators.patternValidator(/[A-Z]/, {
-            hasCapitalCase: true
-          }),
-          // check whether the entered password has a lower case letter
-          CustomValidators.patternValidator(/[a-z]/, {
-            hasSmallCase: true
-          }),
-          // check whether the entered password has a special character
-          CustomValidators.patternValidator(
-            /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
-            {
-              hasSpecialCharacters: true
-            }
-          ),
-          Validators.minLength(8)
-        ])
-      ]
+      Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]]
     
      });
     this.getCustomers();
+    this.editAddressForm.get('CustomerTitle').disable();
+    this.editAddressForm.get('FullName').disable();
      this.editAddressForm.get('shippingID').disable();
      this.editAddressForm.get('billingID').disable();
       this.editAddressForm.get('shippingAddress').disable();
@@ -170,6 +149,7 @@ currentUsername = this._authenticationService.currentUserValue.login;
       });
   }
   closeModal(){
+    this.onReleaseLock();
     this.modalService.dismissAll();
     this.ngOnInit();
   }
@@ -213,7 +193,7 @@ currentUsername = this._authenticationService.currentUserValue.login;
     this.getAllBillingsAddress();
     
     this.editProfileForm.patchValue({
-      CustomerTitre: user.CustomerTitre ,
+      CustomerTitle: user.CustomerTitle ,
       CustomerName: user.CustomerName,
       CustomerLastName: user.CustomerLastName,
       CustomerBirthday: user.CustomerBirthday,
@@ -228,14 +208,27 @@ currentUsername = this._authenticationService.currentUserValue.login;
    }
    onShipAddressChange(address){
     this.editShipAddress=true;
+    this.editAddressForm.get('CustomerTitle').enable();
+    this.editAddressForm.get('FullName').enable();
     this.editAddressForm.get('shippingID').enable();
     this.editAddressForm.get('shippingAddress').enable();
     this.editAddressForm.get('shippingCity').enable();
     this.editAddressForm.get('shippingZip').enable();
-
+    
     this.selectedAddress = JSON.parse(address);
     console.log(this.selectedAddress);
+    if(this.selectedAddress.CustomerTitle==='Mr'){
+      this.f2.CustomerTitle.setValue(1);
+      
+    }
+    if(this.selectedAddress.CustomerTitle==='Mme'){
+      this.f2.CustomerTitle.setValue(2);
+    }
+    if(this.selectedAddress.CustomerTitle==='NB'){
+      this.f2.CustomerTitle.setValue(3);
+    }
     this.editAddressForm.patchValue({
+      FullName: this.selectedAddress.FullName,
       shippingID: this.selectedAddress.shippingID,
       shippingAddress: this.selectedAddress.shippingAddress,
       shippingCity: this.selectedAddress.shippingCity,
@@ -244,6 +237,8 @@ currentUsername = this._authenticationService.currentUserValue.login;
    }
    onBillAddressChange(address){
     this.editBillAddress=true;
+    this.editAddressForm.get('CustomerTitle').enable();
+    this.editAddressForm.get('FullName').enable();
     this.editAddressForm.get('billingID').enable();
     this.editAddressForm.get('billingAddress').enable();
     this.editAddressForm.get('billingCity').enable();
@@ -252,7 +247,21 @@ currentUsername = this._authenticationService.currentUserValue.login;
     this.selectedAddress = JSON.parse(address);
     console.log(this.selectedAddress);
 
+    if(this.selectedAddress.CustomerTitle==='Mr'){
+      this.f2.CustomerTitle.setValue(1);
+      console.log('1');
+      
+    }
+    if(this.selectedAddress.CustomerTitle==='Mme'){
+      this.f2.CustomerTitle.setValue(2);
+      console.log('2');
+    }
+    if(this.selectedAddress.CustomerTitle==='NB'){
+      this.f2.CustomerTitle.setValue(3);
+      console.log('3');
+    }
     this.editAddressForm.patchValue({
+      FullName: this.selectedAddress.FullName,
       billingID: this.selectedAddress.billingID,
       billingAddress: this.selectedAddress.billingAddress,
       billingCity: this.selectedAddress.billingCity,
@@ -260,6 +269,10 @@ currentUsername = this._authenticationService.currentUserValue.login;
     });
    }
    onSubmit() {
+    this.submitted=true;
+    if(this.editProfileForm.invalid ){
+      return;
+    }
      console.log(this.selectedUser);
      
     this.modalService.dismissAll();
@@ -281,11 +294,18 @@ currentUsername = this._authenticationService.currentUserValue.login;
       },  
       //en cas d'erreur
       (error) => {
+        
+        this.submitted=false;
         console.log(error);
         return;
       });
    }
    onSubmitAddress() {
+     
+  this.submitted=true;
+  if(this.editAddressForm.invalid){
+    return;
+  }
    this.modalService.dismissAll();
    console.log(this.editAddressForm.value);
        
