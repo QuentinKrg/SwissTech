@@ -262,9 +262,15 @@ export class ManageProductsComponent implements OnInit {
     this.addProductGroup.value.ProductCategory = "-1";
   }
 
-  // Récupérer l'image du produit
+  // Récupérer l'image du produit et la stock
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
+
+    if(this.fileToUpload != null) {
+      const formData = new FormData();
+      formData.append('image', this.fileToUpload);
+      this._productService.uploadProductImage(formData).subscribe(() => {});
+    }
   }
 
   // ouverture du modal
@@ -292,35 +298,32 @@ export class ManageProductsComponent implements OnInit {
     if(!this.isimagePathValid){
       return;
     }
-    const formData = new FormData();
-    formData.append('image', this.fileToUpload);
+    
 
     let productToAdd: Product = new Product;
 
-    this._productService.uploadProductImage(formData).subscribe(() => {
-      productToAdd.ProductName = this.addProductGroup.value.ProductName;
-      productToAdd.ProductUnitPrice = this.addProductGroup.value.ProductPrice;
-      productToAdd.ProductDescription = this.addProductGroup.value.ProductDescription;
-      productToAdd.ProductColor = this.addProductGroup.value.ProductColor;
-      productToAdd.ImagePath = this.fileToUpload.name;
-      productToAdd.ManufacturerId = this.addProductGroup.value.ProductBrand;
-      productToAdd.ProductSize = this.addProductGroup.value.ProductSize;
-      productToAdd.CategoryId = this.addProductGroup.value.ProductCategory;
+    productToAdd.ProductName = this.addProductGroup.value.ProductName;
+    productToAdd.ProductUnitPrice = this.addProductGroup.value.ProductPrice;
+    productToAdd.ProductDescription = this.addProductGroup.value.ProductDescription;
+    productToAdd.ProductColorId = Number(this.addProductGroup.value.ProductColor);
+    productToAdd.ImagePath = this.fileToUpload.name;
+    productToAdd.ManufacturerId = this.addProductGroup.value.ProductBrand;
+    productToAdd.ProductSize = this.addProductGroup.value.ProductSize;
+    productToAdd.CategoryId = this.addProductGroup.value.ProductCategory;     
 
-      console.log(productToAdd);
-      
-
-      this._productService.addProduct(productToAdd).subscribe(
-        () => {
-          console.log("ok");
-        },
-        (error) => { console.log(error);
-          this.submitted=false;
-         }
-      );
-    this._modalService.dismissAll();
-    this.addProductGroup.reset();
-    this.ngOnInit();});
+    this._productService.addProduct(productToAdd).subscribe(
+      () => {
+        console.log("ok");
+        this._modalService.dismissAll();
+        this.addProductGroup.reset();
+        this.ngOnInit();
+      },
+      (error) => { console.log(error);
+        this.submitted=false;
+        }
+    );
+    
+  
   }
 
   // Ouverture du modal de modification

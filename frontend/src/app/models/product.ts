@@ -4,6 +4,7 @@ export class Product {
     id_Product: number;
     ProductName: string;
     ProductColor: string;
+    ProductColorId: number;
     ProductDescription: string;
     ProductUnitPrice: number;
     ProductSize: number;
