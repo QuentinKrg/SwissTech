@@ -176,21 +176,21 @@ class Customer extends Entity
 				}
 
 				if(isset($this->jsonToProcess->CustomerName)){
+					
 				// Requête sql pour la table customers
 				//Update
 					$updatecustomerAndUser = "UPDATE
-											t_customers,
-											t_users
-										SET
-											t_customers.FK_Title = '$titre',
-											t_customers.CustomerName = '$name',
-											t_customers.CustomerLastName = '$lastname',
-											t_customers.CustomerPhone = '$phone',
-											t_customers.CustomerEmail= '$email',
-											t_customers.CustomerBirthday = '$birthday'
-																WHERE t_users.FK_Customer = t_customers.id_customer
-																AND t_users.username = '$currentUsername'
-																";
+													t_customers,
+													t_users
+												SET
+													t_customers.FK_Title = '$titre',
+													t_customers.CustomerName = '$name',
+													t_customers.CustomerLastName = '$lastname',
+													t_customers.CustomerPhone = '$phone',
+													t_customers.CustomerEmail= '$email',
+													t_customers.CustomerBirthday = '$birthday'
+																		WHERE t_users.FK_Customer = t_customers.id_customer
+																		AND t_users.username = '$currentUsername'";
 					$this->Query($updatecustomerAndUser);
 				}
 				
@@ -232,7 +232,6 @@ class Customer extends Entity
       // TODO Récupération de toutes les images
       $sql = " SELECT * FROM t_customers
 					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer
-					   INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_customers.FK_Title
 					   WHERE id_customer = $this->idToProcess";
 
        $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
@@ -245,8 +244,7 @@ class Customer extends Entity
 		$customers = [];
 
       $sql = " SELECT * FROM t_customers
-					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer
-					   INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_customers.FK_Title";
+					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer";
 
       $tmpResult = $this->Query($sql);
 
@@ -257,7 +255,7 @@ class Customer extends Entity
         while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
           $customers[$cr]['id_customer'] = $row['id_customer'];
 		  $customers[$cr]['id_user'] = $row['id_user'];
-          $customers[$cr]['CustomerTitle'] = $row['CustomerTitle'];
+          $customers[$cr]['FK_Title'] = $row['FK_Title'];
           $customers[$cr]['CustomerName'] = $row['CustomerName'];
           $customers[$cr]['CustomerLastName'] = $row['CustomerLastName'];
 		  $customers[$cr]['Username'] = $row['Username'];
@@ -293,9 +291,8 @@ class Customer extends Entity
 		if(isset($_GET['username'])){
 			
 				$currentUsername = $_GET['username'];
-				   $sql = "SELECT t_address.Address as 'shippingAddress', t_titles.CustomerTitle,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+				   $sql = "SELECT t_address.Address as 'shippingAddress',FK_Title,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 							FROM t_address
-							INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
@@ -310,9 +307,8 @@ class Customer extends Entity
 		if(isset($_GET['username'])){
 			$billingAddress = [];
 				$currentUsername = $_GET['username'];
-				   $sql = "SELECT t_titles.CustomerTitle, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+				   $sql = "SELECT FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
 							FROM t_address
-							INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
@@ -326,9 +322,8 @@ class Customer extends Entity
 			if(isset($_GET['username'])){
 				$shippingAddress = [];
 					$currentUsername = $_GET['username'];
-					   $sql = "SELECT t_address.id_Address as 'shippingID',t_titles.CustomerTitle, t_address.FullName, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+					   $sql = "SELECT t_address.id_Address as 'shippingID',FK_Title, t_address.FullName, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 								FROM t_address
-								INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 								WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 									WHERE Username = '$currentUsername' LIMIT 1) AND isActive = 1";
@@ -338,7 +333,7 @@ class Customer extends Entity
 						// Sortir les données pour chaque "row"
 						$cr = 0;
 						while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
-							$shippingAddress[$cr]['CustomerTitle'] = $row['CustomerTitle'];
+							$shippingAddress[$cr]['FK_Title'] = $row['FK_Title'];
 						  $shippingAddress[$cr]['FullName'] = $row['FullName'];
 						  $shippingAddress[$cr]['shippingID'] = $row['shippingID'];
 						  $shippingAddress[$cr]['shippingAddress'] = $row['shippingAddress'];
@@ -359,9 +354,8 @@ class Customer extends Entity
 			if(isset($_GET['username'])){
 				$billingAddress = [];
 					$currentUsername = $_GET['username'];
-					   $sql = "SELECT t_address.id_Address as 'billingID',t_titles.CustomerTitle, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+					   $sql = "SELECT t_address.id_Address as 'billingID',FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
 								FROM t_address
-								INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_address.FK_Title
 								WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 									WHERE Username = '$currentUsername'  LIMIT 1)AND isActive = 1";
@@ -371,7 +365,8 @@ class Customer extends Entity
 						// Sortir les données pour chaque "row"
 						$cr = 0;
 						while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
-							$billingAddress[$cr]['CustomerTitle'] = $row['CustomerTitle'];
+							
+							$billingAddress[$cr]['FK_Title'] = $row['FK_Title'];
 						  $billingAddress[$cr]['FullName'] = $row['FullName'];
 						  $billingAddress[$cr]['billingID'] = $row['billingID'];
 						  $billingAddress[$cr]['billingAddress'] = $row['billingAddress'];

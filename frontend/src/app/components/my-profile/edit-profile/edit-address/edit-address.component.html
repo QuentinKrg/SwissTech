@@ -27,7 +27,11 @@
                 <!-- Données -->
                 <tbody>
                     <tr *ngFor="let shipaddr of myShipAddr">
-                        <td scope="row">{{shipaddr.CustomerTitle}}</td>
+                        <td scope="row">
+                                <span *ngIf="shipaddr.FK_Title == 1">Mr</span>
+                                <span *ngIf="shipaddr.FK_Title == 2">Mme</span>
+                                <span *ngIf="shipaddr.FK_Title == 3">Non Binaire</span>
+                        </td>
                         <td>{{ shipaddr.FullName }}</td>
                         <td>{{shipaddr.shippingAddress}}</td>
                         <td>{{ shipaddr.shippingCity  }}</td>
@@ -67,7 +71,11 @@
                 <!-- Données -->
                 <tbody>
                     <tr *ngFor="let billaddr of myBillAddr">
-                        <td scope="row">{{billaddr.CustomerTitle}}</td>
+                        <td scope="row">
+                            <span *ngIf="billaddr.FK_Title == 1">Mr</span>
+                            <span *ngIf="billaddr.FK_Title == 2">Mme</span>
+                            <span *ngIf="billaddr.FK_Title == 3">Non Binaire</span>
+                        </td>
                         <td>{{ billaddr.FullName }}</td>
                         <td>{{billaddr.billingAddress}}</td>
                         <td>{{ billaddr.billingCity  }}</td>

@@ -46,7 +46,7 @@ export class EditPersonalInfosComponent implements OnInit {
     this.submitted = false;
     
     this.editRegisterForm = this.formBuilder.group({
-      CustomerTitle: ['', Validators.required],
+      CustomerTitle: ['-1', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerBirthday: ['', Validators.required],
@@ -56,7 +56,8 @@ export class EditPersonalInfosComponent implements OnInit {
     //Appel au service qui retourne les infos personnelles du clients
     this._userService.getCustomer(this.currentUsername).subscribe(
       (data = new Customer) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
-        this.f.CustomerTitle.setValue(data.CustomerTitle);
+        
+        this.f.CustomerTitle.setValue(data.FK_Title);
         this.f.CustomerName.setValue(data.CustomerName);
         this.f.CustomerLastName.setValue(data.CustomerLastName);
         this.f.CustomerBirthday.setValue(data.CustomerBirthday);

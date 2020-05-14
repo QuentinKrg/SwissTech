@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Manufacturer } from '../models/Manufacturer';
 import { Color } from '../models/Color';
+import { Customer } from '../models/customer';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,7 @@ export class ProductService {
     return this.http.get<Color[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAllColors');
   }
   CheckLock(id:number) {
-    return this.http.get<Product>(environment.backendURL + 'start.php?' + 'c=Product&f=LockCheck&id=' +id);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Product&f=LockCheck&id=' +id);
   }
   UpdateLock(id:number) {
     return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateLock&id=' +id);

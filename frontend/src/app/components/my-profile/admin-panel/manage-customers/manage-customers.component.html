@@ -43,7 +43,11 @@
             *ngFor="let customer of allCustomers | slice: pageSize | slice: 0:itemsPerPage ; let i = index">
             <th scope="row" (click)="openModal(showProfileModal, customer)">{{customer.id_customer}}</th>
             <td (click)="openModal(showProfileModal, customer)">{{customer.Username | titlecase}}</td>
-            <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerTitle | titlecase}}</td>
+            <td (click)="openModal(showProfileModal, customer)">
+              <span *ngIf="customer.FK_Title ==1">Mr</span>
+              <span *ngIf="customer.FK_Title ==2">Mme</span>
+              <span *ngIf="customer.FK_Title ==3">Non Binaire</span>
+            </td>
             <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerName | titlecase}}</td>
             <td (click)="openModal(showProfileModal, customer)">{{customer.CustomerLastName | titlecase}}</td>
             <td (click)="openModal(showProfileModal, customer)"><span class="p-1 mw-100 rounded"

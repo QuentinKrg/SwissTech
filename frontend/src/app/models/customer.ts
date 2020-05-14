@@ -1,7 +1,7 @@
 export class Customer {
     id_user:number;
     id_customer: number;
-    CustomerTitle: string;
+    FK_Title: number;
     CustomerName: string;
     CustomerLastName: string;
     CustomerBirthday: Date;

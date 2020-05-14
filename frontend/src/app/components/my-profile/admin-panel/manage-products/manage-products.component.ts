@@ -12,6 +12,7 @@ import { Manufacturer } from 'src/app/models/Manufacturer';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Color } from 'src/app/models/Color';
+import { Customer } from 'src/app/models/customer';
 
 
 @Component({
@@ -374,7 +375,7 @@ export class ManageProductsComponent implements OnInit {
   }
 
  onCheckLock() {
-    this._productService.CheckLock(this.editedProductId).subscribe((data: Product) => {
+    this._productService.CheckLock(this.editedProductId).subscribe((data: Customer) => {
       //Récupère le nom d'utilisateur si présent pour cet article
       this.LockedBy = data.LockedBy;
       

@@ -217,17 +217,9 @@ currentUsername = this._authenticationService.currentUserValue.login;
     
     this.selectedAddress = JSON.parse(address);
     console.log(this.selectedAddress);
-    if(this.selectedAddress.CustomerTitle==='Mr'){
-      this.f2.CustomerTitle.setValue(1);
-      
-    }
-    if(this.selectedAddress.CustomerTitle==='Mme'){
-      this.f2.CustomerTitle.setValue(2);
-    }
-    if(this.selectedAddress.CustomerTitle==='NB'){
-      this.f2.CustomerTitle.setValue(3);
-    }
     this.editAddressForm.patchValue({
+      
+      CustomerTitle: this.selectedAddress.FK_Title,
       FullName: this.selectedAddress.FullName,
       shippingID: this.selectedAddress.shippingID,
       shippingAddress: this.selectedAddress.shippingAddress,
@@ -247,20 +239,8 @@ currentUsername = this._authenticationService.currentUserValue.login;
     this.selectedAddress = JSON.parse(address);
     console.log(this.selectedAddress);
 
-    if(this.selectedAddress.CustomerTitle==='Mr'){
-      this.f2.CustomerTitle.setValue(1);
-      console.log('1');
-      
-    }
-    if(this.selectedAddress.CustomerTitle==='Mme'){
-      this.f2.CustomerTitle.setValue(2);
-      console.log('2');
-    }
-    if(this.selectedAddress.CustomerTitle==='NB'){
-      this.f2.CustomerTitle.setValue(3);
-      console.log('3');
-    }
     this.editAddressForm.patchValue({
+      CustomerTitle: this.selectedAddress.FK_Title,
       FullName: this.selectedAddress.FullName,
       billingID: this.selectedAddress.billingID,
       billingAddress: this.selectedAddress.billingAddress,
