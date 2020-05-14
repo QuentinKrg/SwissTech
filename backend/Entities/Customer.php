@@ -113,15 +113,18 @@ class Customer extends Entity
 				}
 				
 				if(isset($this->jsonToProcess->shippingAddress)){
+					$fullName = $this->jsonToProcess->FullName;
 					$titre = $this->jsonToProcess->CustomerTitle;
 					$shippingAddress = $this->jsonToProcess->shippingAddress;
 					$city = $this->jsonToProcess->shippingCity;
 					$zip = $this->jsonToProcess->shippingZip;
 					$id = $this->jsonToProcess->shippingID;
+					
 					$updateShippingAddress = "UPDATE
 												t_address
 											SET
 												T_address.FK_Title ='$titre',
+												t_address.FullName ='$fullName',
 												t_address.Address = '$shippingAddress',
 												t_address.City = '$city',
 												t_address.ZIP = '$zip'
@@ -131,6 +134,8 @@ class Customer extends Entity
 				}
 
 				if(isset($this->jsonToProcess->billingAddress)){//si la checkbox same address est utilisée, on ne reçoit pas de données de billing address
+				
+					$fullName = $this->jsonToProcess->FullName;
 					$titre = $this->jsonToProcess->CustomerTitle;
 					$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
 					$billingAddressCity = $this->jsonToProcess->billingCity;
@@ -142,11 +147,11 @@ class Customer extends Entity
 												t_address
 											SET
 												T_address.FK_Title ='$titre',
+												T_address.FullName ='$fullName',
 												t_address.Address = '$billingAddress',
 												t_address.City = '$billingAddressCity',
 												t_address.ZIP = '$billingAddressZip'
 																	WHERE t_address.id_Address = '$id'";
-				
 					$this->Query($updateBillingAddress);
 				}
 
