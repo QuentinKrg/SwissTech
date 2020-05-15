@@ -13,6 +13,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Color } from 'src/app/models/Color';
 import { Customer } from 'src/app/models/customer';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { Customer } from 'src/app/models/customer';
   styleUrls: ['./manage-products.component.css']
 })
 export class ManageProductsComponent implements OnInit {
+  
 
   constructor(
     private _categoriesService: CategoriesService,
@@ -30,7 +32,9 @@ export class ManageProductsComponent implements OnInit {
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder,
     private authenticationService: AuthenticationService
-  ) { }
+  ) { 
+    this.imageUrl = environment.imageDirectory;
+  }
   //icones
   faEllipsisV=faEllipsisV;
 
@@ -74,6 +78,8 @@ export class ManageProductsComponent implements OnInit {
   imageRequired:boolean;
   allColors: Color [];
   isimagePathValid:boolean;
+  imagePath: string = null;
+  imageUrl: string;
   // Commentaires
   selectedProduct: Product = new Product;
   productComments: Comments[] = [];
@@ -270,7 +276,9 @@ export class ManageProductsComponent implements OnInit {
     if(this.fileToUpload != null) {
       const formData = new FormData();
       formData.append('image', this.fileToUpload);
-      this._productService.uploadProductImage(formData).subscribe(() => {});
+      this._productService.uploadProductImage(formData).subscribe(() => {
+        this.imagePath = environment.imageDirectory+this.fileToUpload.name;
+      });
     }
   }
 
@@ -535,7 +543,7 @@ export class ManageProductsComponent implements OnInit {
   }
   
   isImagePathAvailable() {
-    console.log(this.fileToUpload.name);
+
     this._productService.checkImagePathAvability(this.fileToUpload.name).then(
       () => {
         this.isimagePathValid = true;

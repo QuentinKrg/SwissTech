@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { formatDate } from '@angular/common';
 import { User } from 'src/app/models/user';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-details',
@@ -23,6 +24,7 @@ export class ProductDetailsComponent implements OnInit {
   productId: number;
   productsComments: Comments[] = [];
   addCommentForm: FormGroup;
+  imageUrl: any;
   // --------------------------------Captcha---------------------------------------------------
   userCaptcha: String;
   captchaIsValid = false;
@@ -36,6 +38,7 @@ export class ProductDetailsComponent implements OnInit {
               private _authenticationService: AuthenticationService) { 
                 this._authenticationService.currentUser.subscribe(x => this.currentUser = x);
                 this.product = new Product();
+                this.imageUrl = environment.imageDirectory;
               }
 
   ngOnInit() {   

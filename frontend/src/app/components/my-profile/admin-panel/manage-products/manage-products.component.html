@@ -194,6 +194,7 @@
                     <input type="file" name="fileToUpload" (change)="handleFileInput($event.target.files);isImagePathAvailable()"  formControlName="ProductImage" class="form-control-file" id="fileToUpload"
                     [ngClass]="{ 'bg-danger text-white': submitted && f.ProductImage.value=='' && imageRequired ||
                     f.ProductImage.touched && f.ProductImage.value=='' && imageRequired}">
+                    <img  *ngIf="imagePath != null" src="{{imagePath}}" alt="{{imagePath}}" height="100" width="100">
                 </div>
             </div>
             <div class="form-row">
@@ -281,7 +282,7 @@
                     <label for="fileToUpload">Image</label>
                     <input type="file" name="fileToUpload" (change)="handleFileInput($event.target.files);isImagePathAvailable()"  formControlName="ProductImage" 
                      class="form-control-file" id="fileToUpload" >
-                    <img src="../assets/images/products/{{imagePathToShow}}" alt="{{imagePathToShow}}" height="100" width="100">
+                    <img src="{{imagePath}}{{imagePathToShow}}" alt="{{imagePathToShow}}" height="100" width="100">
                 </div>
             </div>
             <div class="form-row">

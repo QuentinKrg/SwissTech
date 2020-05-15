@@ -4,6 +4,7 @@ import { DataService } from 'src/app/services/data.service';
 import { Product } from 'src/app/models/product';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-review',
@@ -16,10 +17,12 @@ export class ReviewComponent implements OnInit {
   total: number = 0;
   productsInTheCart: Product[] = [];
   allProducts: Product[];
+  imageUrl: string;
+  
   constructor(private _dataService: DataService,
     private _productService: ProductService,
     private _router: Router) {
-   
+      this.imageUrl = environment.imageDirectory;
    }
 
   ngOnInit() {
