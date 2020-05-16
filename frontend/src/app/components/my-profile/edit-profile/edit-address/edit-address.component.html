@@ -1,95 +1,72 @@
 <small><a routerLink="/myprofile/editprofile">Aperçu</a> / <a routerLink="/myprofile/editaddress">Mes
         Adresses</a></small>
-<h2 class="p-3 text-center">Mes Adresses</h2>
-<div class="row justify-content-end py-2 text-right">
-    <!-- Ajout d'une adresse -->
-    <div class="col-md-4 col-sm-12">
-        <button class="btn btn-success" (click)="openModalAddAddress(AddAddressModal)">Ajouter une adresse</button>
-    </div>
-</div>
 <h3>Adresses de livraison</h3>
 <div class="row">
-    <div class="col-12">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <!-- Label du tableau -->
-                <thead>
-                    <tr>
-                        <th scope="col">Titre</th>
-                        <th scope="col">Destinataire</th>
-                        <th scope="col">Adresse</th>
-                        <th scope="col">Ville</th>
-                        <th scope="col">NPA</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <!-- Données -->
-                <tbody>
-                    <tr *ngFor="let shipaddr of myShipAddr">
-                        <td scope="row">
-                                <span *ngIf="shipaddr.FK_Title == 1">Mr</span>
-                                <span *ngIf="shipaddr.FK_Title == 2">Mme</span>
-                                <span *ngIf="shipaddr.FK_Title == 3">Non Binaire</span>
-                        </td>
-                        <td>{{ shipaddr.FullName }}</td>
-                        <td>{{shipaddr.shippingAddress}}</td>
-                        <td>{{ shipaddr.shippingCity  }}</td>
-                        <td>{{ shipaddr.shippingZip }}</td>
-                        <td>
-                            <a class="btn btn-light"
-                                (click)="openModal(EditshippingAddressModal, shipaddr)">Modifier</a>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger"
-                                (click)="onDisableShipAddress(shipaddr.shippingID)">supprimer</button>
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
+    <div class="col-sm-3 m-3 btn btn-light rounded" (click)="openModalAddAddress(AddAddressModal)">
+        <div class="h-100 p-3 text-center text-muted">
+            Ajouter une adresse
+            <div class="h-100 pt-5">
+                <fa-icon  [icon]="faPlus" size="4x"></fa-icon>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 m-3 bg-white shadow rounded" *ngFor="let shipaddr of myShipAddr">
+        <div class="p-3">
+            <div class="row p-2 font-weight-bold ">
+                {{ shipaddr.FullName }} <span class="pl-1" *ngIf="shipaddr.isDefault ==1"> ( Par Défaut )</span>
+            </div>
+            <div class="row p-2">{{shipaddr.shippingAddress}}</div>
+            <div class="row p-2">{{ shipaddr.shippingCity  }}</div>
+            <div class="row p-2">{{ shipaddr.shippingZip }}</div>
+            <div class="row p-2">
+                <div class="col">
+                    <a class="btn btn-light shadow-sm" title="Modifier"
+                        (click)="openModal(EditshippingAddressModal, shipaddr)">
+                        <fa-icon class="text-black" [icon]="faEdit" size="lg"></fa-icon>
+                    </a>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-danger" title="Supprimer"
+                        (click)="onDisableShipAddress(shipaddr.shippingID)">
+                        <fa-icon class="text-white" [icon]="faTrashAlt" size="lg"></fa-icon>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <h3>Adresses de facturation</h3>
 <div class="row">
-    <div class="col-12">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <!-- Label du tableau -->
-                <thead>
-                    <tr>
-                        <th scope="col">Titre</th>
-                        <th scope="col">Destinataire</th>
-                        <th scope="col">Adresse</th>
-                        <th scope="col">Ville</th>
-                        <th scope="col">NPA</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <!-- Données -->
-                <tbody>
-                    <tr *ngFor="let billaddr of myBillAddr">
-                        <td scope="row">
-                            <span *ngIf="billaddr.FK_Title == 1">Mr</span>
-                            <span *ngIf="billaddr.FK_Title == 2">Mme</span>
-                            <span *ngIf="billaddr.FK_Title == 3">Non Binaire</span>
-                        </td>
-                        <td>{{ billaddr.FullName }}</td>
-                        <td>{{billaddr.billingAddress}}</td>
-                        <td>{{ billaddr.billingCity  }}</td>
-                        <td>{{ billaddr.billingZip }}</td>
-                        <td>
-                            <a class="btn btn-light" (click)="openModal(EditBillingAddressModal, billaddr)">Modifier</a>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger"
-                                (click)="onDisableBillAddress(billaddr.billingID)">supprimer</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="col-sm-3 m-3 btn btn-light rounded" (click)="openModalAddAddress(AddAddressModal)">
+        <div class="h-100 p-3 text-center text-muted">
+            Ajouter une adresse
+            <div class="h-100 pt-5">
+                <fa-icon [icon]="faPlus" size="4x"></fa-icon>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 m-3 btn-light rounded" *ngFor="let billaddr of myBillAddr">
+        <div class="p-3">
+            <div class="row p-2 font-weight-bold ">
+                {{ billaddr.FullName }} <span class="pl-1" *ngIf="billaddr.isDefault ==1"> ( Par Défaut )</span>
+            </div>
+            <div class="row p-2">{{billaddr.billingAddress}}</div>
+            <div class="row p-2">{{ billaddr.billingCity  }}</div>
+            <div class="row p-2">{{ billaddr.billingZip }}</div>
+            <div class="row p-2">
+                <div class="col">
+                    <a class="btn btn-light shadow-sm" title="Modifier"
+                        (click)="openModal(EditBillingAddressModal, billaddr)">
+                        <fa-icon class="text-black" [icon]="faEdit" size="lg"></fa-icon>
+                    </a>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-danger" title="Supprimer"
+                        (click)="onDisableBillAddress(billaddr.billingID)">
+                        <fa-icon class="text-white" [icon]="faTrashAlt" size="lg"></fa-icon>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -98,15 +75,19 @@
         <h6 class="modal-title" id="showProfileLabel">
             <fa-icon [icon]="faMapMarkerAlt" size="lg"></fa-icon>
             Adresse de livraison
+            <span class="pl-2 text-muted" *ngIf="isDefault==1">( Par Défaut )</span>
         </h6>
-        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div class="modal-body p-3 ">
         <form (ngSubmit)="onSubmitShippingAddresse()" [formGroup]="editShippingAddrForm" class="form">
-            <div>
+            <div><button *ngIf="isDefault==0" type="button" (click)="SetShipAddressByDefault(f.shippingID.value)"
+                    class="btn btn-light w-60 ">
+                    Définir par défaut
+                </button>
                 <!-- Titre-->
                 <div class="form-group">
                     <label for="CustomerTitle">Titre</label>
@@ -173,8 +154,9 @@
         <h6 class="modal-title" id="showProfileLabel">
             <fa-icon [icon]="faFileInvoice" size="lg"></fa-icon>
             Adresse de facturation
+            <span class="pl-2 text-muted" *ngIf="isDefault==1">( Par Défaut )</span>
         </h6>
-        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -182,7 +164,10 @@
     <div class="modal-body p-3 ">
         <form (ngSubmit)="onSubmitBillingAddresse()" [formGroup]="editBillingAddrForm" class="form">
             <div>
-
+                <button *ngIf="isDefault==0" type="button" (click)="SetShipAddressByDefault(f2.billingID.value)"
+                    class="btn btn-light w-60 ">
+                    Définir par défaut
+                 </button>
                 <div>
                     <!-- Titre-->
                     <div class="form-group">

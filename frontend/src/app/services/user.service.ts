@@ -78,6 +78,10 @@ export class UserService {
   disableAddress(addressID){
     return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=disableAddress&addressID=' + addressID);
   }
+  setShipAddressByDefault(addressID,type,user){
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=SetShipAddressByDefault&addressID=' + addressID+'&addressType='+type
+    +'&username='+user);
+  }
   checkUserByUsername(user: User) {
     return new Promise(
       (resolve, reject) => {

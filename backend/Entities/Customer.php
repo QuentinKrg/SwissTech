@@ -82,15 +82,15 @@ class Customer extends Entity
 
 		//Insert Shipping address
 		$addShippingAddress = "INSERT INTO t_address
-							  (Address , City , Zip , FK_AddressType , FK_Customer,FK_Title,FullName)
+							  (Address , City , Zip , FK_AddressType , FK_Customer,FK_Title,FullName,isDefault)
 							  VALUES ('$shippingAddress','$city','$zip','1',
-							  (SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'),'$titre','$fullName')";
+							  (SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'),'$titre','$fullName',1)";
         $this->Query($addShippingAddress);
 		//Insert Billing Address
 		$addBillingAddress = "INSERT INTO t_address
-							(Address , City , Zip , FK_AddressType , FK_Customer,FK_Title, FullName)
+							(Address , City , Zip , FK_AddressType , FK_Customer,FK_Title, FullName, isDefault)
 							VALUES ('$billingAddress','$billingAddressCity','$billingAddressZip','2',
-							(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'),'$titre','$fullName')";
+							(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname'),'$titre','$fullName',1)";
         $this->Query($addBillingAddress);
 	  }
 
@@ -327,17 +327,20 @@ class Customer extends Entity
 			if(isset($_GET['username'])){
 				$shippingAddress = [];
 					$currentUsername = $_GET['username'];
-					   $sql = "SELECT t_address.id_Address as 'shippingID',FK_Title, t_address.FullName, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+					   $sql = "SELECT FK_AddressType as addressType, isDefault ,t_address.id_Address as 'shippingID',FK_Title, t_address.FullName, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 								FROM t_address
 								WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-									WHERE Username = '$currentUsername' LIMIT 1) AND isActive = 1";
+									WHERE Username = '$currentUsername' LIMIT 1) AND isActive = 1
+									ORDER BY `isDefault` DESC";
 					 $getShipAddr=($this->Query($sql));
 					 if($getShipAddr->rowCount() > 0) {
 
 						// Sortir les données pour chaque "row"
 						$cr = 0;
 						while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
+							$shippingAddress[$cr]['addressType'] = $row['addressType'];
+							$shippingAddress[$cr]['isDefault'] = $row['isDefault'];
 							$shippingAddress[$cr]['FK_Title'] = $row['FK_Title'];
 						  $shippingAddress[$cr]['FullName'] = $row['FullName'];
 						  $shippingAddress[$cr]['shippingID'] = $row['shippingID'];
@@ -359,18 +362,20 @@ class Customer extends Entity
 			if(isset($_GET['username'])){
 				$billingAddress = [];
 					$currentUsername = $_GET['username'];
-					   $sql = "SELECT t_address.id_Address as 'billingID',FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+					   $sql = "SELECT FK_AddressType as addressType,isDefault, t_address.id_Address as 'billingID',FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
 								FROM t_address
 								WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 									INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-									WHERE Username = '$currentUsername'  LIMIT 1)AND isActive = 1";
+									WHERE Username = '$currentUsername'  LIMIT 1)AND isActive = 1
+									ORDER BY `isDefault` DESC";
 					  $getBillAddr=($this->Query($sql));
 					  if($getBillAddr->rowCount() > 0) {
 
 						// Sortir les données pour chaque "row"
 						$cr = 0;
 						while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
-							
+							$billingAddress[$cr]['addressType'] = $row['addressType'];
+							$billingAddress[$cr]['isDefault'] = $row['isDefault'];
 							$billingAddress[$cr]['FK_Title'] = $row['FK_Title'];
 						  $billingAddress[$cr]['FullName'] = $row['FullName'];
 						  $billingAddress[$cr]['billingID'] = $row['billingID'];
@@ -424,7 +429,34 @@ class Customer extends Entity
 		}
 	  }
 	}
-
+    
+	public function SetShipAddressByDefault(){
+		if(isset($_GET['addressID'])){
+			$id =$_GET['addressID'];
+			$type =$_GET['addressType'];
+			$currentUsername =$_GET['username'];
+			
+					$sql1 = "UPDATE
+												t_address
+											SET
+												T_address.isDefault ='0'
+																	WHERE t_address.isDefault = '1' AND t_address.FK_AddressType = '$type'
+																	AND FK_Customer = (SELECT id_customer FROM t_customers
+																						INNER JOIN t_users on t_users.FK_Customer = t_customers.id_customer 
+																						WHERE t_users.Username ='$currentUsername')";
+				
+					$this->Query($sql1);
+					
+					$sql2 = "UPDATE
+												t_address
+											SET
+												T_address.isDefault ='1'
+																	WHERE t_address.id_Address = '$id'";
+				
+					$this->Query($sql2);
+		}
+	}
+	
 	public function LockCheck(){
 			$sql = " SELECT LockedBy FROM t_lock_customer
 						WHERE FK_Customer = $this->idToProcess";

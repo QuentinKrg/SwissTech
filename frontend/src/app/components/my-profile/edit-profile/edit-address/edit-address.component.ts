@@ -6,7 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Customer } from 'src/app/models/customer';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faMapMarkerAlt, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faFileInvoice,faPlus} from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle,faCircle,faTrashAlt,faEdit} from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-edit-address',
@@ -17,7 +18,14 @@ export class EditAddressComponent implements OnInit {
   //icones
   faMapMarkerAlt = faMapMarkerAlt;
   faFileInvoice = faFileInvoice;
+  faCheckCircle = faCheckCircle;
+  faCircle=faCircle;
+  faPlus=faPlus;
+  faTrashAlt=faTrashAlt;
+  faEdit=faEdit;
 
+  addressType: number;
+  isDefault:number;
   myShipAddr: Customer[];
   myBillAddr: Customer[];
   selectedAddress: Customer = new Customer;
@@ -122,7 +130,6 @@ export class EditAddressComponent implements OnInit {
       backdrop: 'static',
       size: 'md'
     });
-
     this.f.CustomerTitle.setValue(addr.FK_Title);
     this.f2.CustomerTitle.setValue(addr.FK_Title);
     this.f.shippingID.setValue(addr.shippingID);
@@ -136,6 +143,12 @@ export class EditAddressComponent implements OnInit {
     this.f2.billingCity.setValue(addr.billingCity);
     this.f2.billingZip.setValue(addr.billingZip);
 
+    this.addressType=addr.addressType;
+    this.isDefault= addr.isDefault;
+  }
+  closeModal(){
+    this.modalService.dismissAll();
+    this.ngOnInit();
   }
   openModalAddAddress(targetModal) {
     this.modalService.open(targetModal, {
@@ -276,5 +289,16 @@ export class EditAddressComponent implements OnInit {
       (error) => {
         console.log(error);
       });
+  }
+  SetShipAddressByDefault(id){
+
+    this._userService.setShipAddressByDefault(id,this.addressType,this.currentUsername).subscribe(
+      () => {
+        this.isDefault= 1;
+      },
+      (error) => {
+        console.log(error);
+      });
+
   }
 }
