@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS `t_address` (
   `Address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `City` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ZIP` int(10) NOT NULL,
-  `isActive` tinyint(4) NOT NULL DEFAULT 1,
+  `isActive` tinyint(1) NOT NULL DEFAULT 1,
+  `isDefault` tinyint(1) NOT NULL DEFAULT 0,
   `FK_Title` int(11) DEFAULT NULL,
   `FK_AddressType` int(11) NOT NULL,
   `FK_Customer` int(11) NOT NULL,
@@ -34,28 +35,30 @@ CREATE TABLE IF NOT EXISTS `t_address` (
   CONSTRAINT `FK_Address_AddressType` FOREIGN KEY (`FK_AddressType`) REFERENCES `t_addresstypes` (`id_AddressType`),
   CONSTRAINT `FK_Address_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Title` FOREIGN KEY (`FK_Title`) REFERENCES `t_titles` (`id_CustomerTitle`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_address : ~10 rows (environ)
+-- Listage des données de la table db_swisstech.t_address : ~18 rows (environ)
 /*!40000 ALTER TABLE `t_address` DISABLE KEYS */;
-INSERT INTO `t_address` (`id_Address`, `FullName`, `Address`, `City`, `ZIP`, `isActive`, `FK_Title`, `FK_AddressType`, `FK_Customer`) VALUES
-	(13, 'Winston', 'Couloir 7 , 717', 'Lausanne', 1004, 1, 2, 1, 24),
-	(14, 'test', 'Couloir 7 , 717', 'Lausanne', 1004, 1, 2, 2, 24),
-	(15, 'cookie', 'Rue de livraison 30', 'Livre ville', 1000, 1, 3, 1, 25),
-	(16, 'cookie', 'Rue de livraison 344', 'Livre ville', 1000, 1, 2, 2, 25),
-	(25, 'test', 'test 1', 'Montreux', 1820, 1, 2, 1, 26),
-	(26, 'test', 'test 2', 'Montreux', 1820, 1, 1, 2, 26),
-	(29, 'Chippo', 'Rue de livraison 3', 'Livre ville', 1000, 0, 2, 1, 25),
-	(30, 'Chippo', 'Rue de livraison 3', 'Livre ville', 1000, 1, 2, 1, 25),
-	(31, 'Tonton', 'Test tonton', 'tonVille', 1000, 1, 2, 1, 24),
-	(32, 'Winston Forti Meisen', 'Rue du théatre 9, Casino de Montreux', 'Montreux', 1820, 1, 2, 2, 25),
-	(33, 'Test Testttt', 'Rue de test, 9', 'Test Ville', 1000, 1, 1, 1, 25),
-	(34, '', 'Rue de la charcr', 'Viande', 1000, 1, NULL, 1, 32),
-	(35, '', 'Rue de la charcr', 'Viande', 1000, 1, NULL, 2, 32),
-	(36, '[object Object] [object Object]', 'Rue de livraison 300', 'Livre ville', 1000, 1, 2, 1, 33),
-	(37, '[object Object] [object Object]', 'Rue de livraison 300', 'Livre ville', 1000, 1, 2, 2, 33),
-	(38, 'dsa asda', 'Rue de test, 1', 'Test Ville', 1000, 1, 3, 1, 34),
-	(39, 'dsa asda', 'Rue de test, 1', 'Test Ville', 1000, 1, 3, 2, 34);
+INSERT INTO `t_address` (`id_Address`, `FullName`, `Address`, `City`, `ZIP`, `isActive`, `isDefault`, `FK_Title`, `FK_AddressType`, `FK_Customer`) VALUES
+	(13, 'cookieeee', 'Couloir 7 , 717', 'Lausanne', 1004, 1, 0, 1, 1, 24),
+	(14, 'cookieeee', 'Couloir 7 , 717', 'Lausanne', 1004, 1, 0, 1, 2, 24),
+	(15, 'cookie', 'Rue de livraison 30', 'Livre ville', 1000, 1, 1, 1, 1, 25),
+	(16, 'bill', 'address', 'city', 1000, 1, 1, 1, 2, 25),
+	(25, 'cookieeee', 'test 1', 'Montreux', 1820, 1, 1, 1, 1, 26),
+	(26, 'cookieeee', 'test 2', 'Montreux', 1820, 1, 1, 1, 2, 26),
+	(29, 'cookieeee', 'Rue de livraison 3', 'Livre ville', 1000, 0, 0, 1, 1, 25),
+	(30, 'test', 'Rue de livraison 3', 'Livre ville', 1000, 1, 0, 1, 1, 25),
+	(31, 'cookieeee', 'Test tonton', 'tonVille', 1000, 1, 0, 1, 1, 24),
+	(32, 'cookieeee', 'Rue du théatre 9, Casino de Montreux', 'Montreux', 1820, 1, 0, 1, 2, 25),
+	(33, 'maman', 'Rue de test, 900', 'Test Ville', 1000, 1, 0, 1, 1, 25),
+	(34, 'cookieeee', 'Rue de la charcr', 'Viande', 1000, 1, 0, 1, 1, 32),
+	(35, 'cookieeee', 'Rue de la charcr', 'Viande', 1000, 1, 0, 1, 2, 32),
+	(36, 'cookieeee', 'Rue de livraison 300', 'Livre ville', 1000, 1, 0, 1, 1, 33),
+	(37, 'cookieeee', 'Rue de livraison 300', 'Livre ville', 1000, 1, 0, 1, 2, 33),
+	(38, 'cookieeee', 'Rue de test, 1', 'Test Ville', 1000, 1, 0, 1, 1, 34),
+	(39, 'cookieeee', 'Rue de test, 1', 'Test Ville', 1000, 1, 0, 1, 2, 34),
+	(40, 'cookieeee', 'Rue du théatre 9', 'Montreux', 1820, 1, 0, 1, 1, 25),
+	(41, 'Choisir une adresse', 'Rue de livraison 3000', 'Livre ville', 1000, 0, 0, 2, 1, 25);
 /*!40000 ALTER TABLE `t_address` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_addresstypes
@@ -197,12 +200,12 @@ CREATE TABLE IF NOT EXISTS `t_customers` (
   CONSTRAINT `FK_Customer_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_customers : ~2 rows (environ)
+-- Listage des données de la table db_swisstech.t_customers : ~6 rows (environ)
 /*!40000 ALTER TABLE `t_customers` DISABLE KEYS */;
 INSERT INTO `t_customers` (`id_customer`, `CustomerName`, `CustomerLastName`, `CustomerPhone`, `CustomerEmail`, `CustomerBirthday`, `FK_ShoppingCart`, `CustomerSince`, `FK_Title`) VALUES
 	(24, 'Chippo', 'Lata', '+4171237654', 'lapute@gmail.com', '1890-01-01', NULL, '2020-03-18', 2),
-	(25, 'Testnew', 'nomTest', '+41768018510', 'winstonforti@gmail.com', '2000-01-01', NULL, '2020-03-18', 1),
-	(26, 'Test prénom', 'Test Nom', '987567890', 'asdas@test.com', '0000-00-00', NULL, '2020-03-18', 1),
+	(25, 'test', 'testnom', '9999', 'test@email.com', '2020-05-09', NULL, '2020-03-18', 1),
+	(26, 'cookie', 'testnom', '9999', 'test@email.com', '2020-05-15', NULL, '2020-03-18', 1),
 	(32, 'Salami', 'Italien', '+31 222 222 222 2', 'salami@sala.com', '1000-01-01', NULL, '2020-05-13', 1),
 	(33, 'Choisir', 'adresse', '+41768018510', 'test@swisstchstore.com', '2020-05-21', NULL, '2020-05-13', 2),
 	(34, 'dsa', 'asda', '+41768018510', 'winstonforti@gmail.com', '2020-05-01', NULL, '2020-05-13', 3);
@@ -238,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `t_lock_customer` (
   PRIMARY KEY (`id_lock_customer`),
   KEY `FK_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 
 -- Listage des données de la table db_swisstech.t_lock_customer : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_lock_customer` DISABLE KEYS */;
@@ -253,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `t_lock_product` (
   PRIMARY KEY (`id_lock_product`),
   KEY `FK_product` (`FK_Product`),
   CONSTRAINT `FK_product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8mb4;
 
 -- Listage des données de la table db_swisstech.t_lock_product : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_lock_product` DISABLE KEYS */;
@@ -582,7 +585,7 @@ CREATE TABLE IF NOT EXISTS `t_titles` (
   PRIMARY KEY (`id_CustomerTitle`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
--- Listage des données de la table db_swisstech.t_titles : ~3 rows (environ)
+-- Listage des données de la table db_swisstech.t_titles : ~2 rows (environ)
 /*!40000 ALTER TABLE `t_titles` DISABLE KEYS */;
 INSERT INTO `t_titles` (`id_CustomerTitle`, `CustomerTitle`) VALUES
 	(1, 'Mr'),
@@ -610,15 +613,15 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~3 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~5 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddress`, `FK_Role`, `FK_Customer`) VALUES
 	(29, 'chippo', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '4c2ca7e31c52b564f8c5ca5a3fef68bb', '2020-05-08 10:40:56', 1, '127.0.0.1', 2, 24),
-	(30, 'test', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', 'a7e4cf7ed71b6a1af7d18bed28d124c5', '2020-05-13 16:08:09', 1, '::1', 2, 25),
-	(31, 'cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'c614712fee7878db993c19e682584d94', '2020-05-11 08:21:59', 1, '127.0.0.1', 2, 26),
-	(36, 'salami', '3d3858c8b1ca30b28f3885473fab1b424df7032e786be2f9ab3f21fb2e28558b', 'monsalt', 'f27447f6c4f339639e7f045bb842cd10', '2020-05-13 15:51:24', 1, '', 1, 32),
-	(37, 'rapelli', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', '80f625b9e871c1d38e6397c6c3acca82', '2020-05-13 16:04:07', 1, '', 1, 33),
-	(38, 'winston', '042b3cc32dad285f36a57a6582ac0ce445f547265e1c7f7d6588a77e9e14dddd', 'monsalt', 'edac5fb5d4552857aa458af75c0c6b8b', '2020-05-13 16:06:14', 1, '', 1, 34);
+	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '0954da2fa67cfbb221ac820b5c1e2f55', '2020-05-16 13:27:14', 1, '::1', 2, 25),
+	(31, 'cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '3fb4cdcfdaebf8766deb2665fd07cc64', '2020-05-16 13:26:29', 1, '::1', 2, 26),
+	(36, 'salami', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'f27447f6c4f339639e7f045bb842cd10', '2020-05-13 15:51:24', 1, '', 1, 32),
+	(37, 'rapelli', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '80f625b9e871c1d38e6397c6c3acca82', '2020-05-13 16:04:07', 1, '', 1, 33),
+	(38, 'winston', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'edac5fb5d4552857aa458af75c0c6b8b', '2020-05-13 16:06:14', 1, '', 1, 34);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
