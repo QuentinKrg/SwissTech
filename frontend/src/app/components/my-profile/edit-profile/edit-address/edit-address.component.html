@@ -84,7 +84,7 @@
 
     <div class="modal-body p-3 ">
         <form (ngSubmit)="onSubmitShippingAddresse()" [formGroup]="editShippingAddrForm" class="form">
-            <div><button *ngIf="isDefault==0" type="button" (click)="SetShipAddressByDefault(f.shippingID.value)"
+            <div><button *ngIf="isDefault==0" type="button" (click)="SetAddressByDefault(f.shippingID.value)"
                     class="btn btn-light w-60 ">
                     Définir par défaut
                 </button>
@@ -164,7 +164,7 @@
     <div class="modal-body p-3 ">
         <form (ngSubmit)="onSubmitBillingAddresse()" [formGroup]="editBillingAddrForm" class="form">
             <div>
-                <button *ngIf="isDefault==0" type="button" (click)="SetShipAddressByDefault(f2.billingID.value)"
+                <button *ngIf="isDefault==0" type="button" (click)="SetAddressByDefault(f2.billingID.value)"
                     class="btn btn-light w-60 ">
                     Définir par défaut
                  </button>

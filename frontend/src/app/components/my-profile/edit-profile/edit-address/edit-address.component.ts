@@ -290,9 +290,9 @@ export class EditAddressComponent implements OnInit {
         console.log(error);
       });
   }
-  SetShipAddressByDefault(id){
+  SetAddressByDefault(id){
 
-    this._userService.setShipAddressByDefault(id,this.addressType,this.currentUsername).subscribe(
+    this._userService.setAddressByDefault(id,this.addressType,this.currentUsername).subscribe(
       () => {
         this.isDefault= 1;
       },

@@ -430,7 +430,7 @@ class Customer extends Entity
 	  }
 	}
     
-	public function SetShipAddressByDefault(){
+	public function SetAddressByDefault(){
 		if(isset($_GET['addressID'])){
 			$id =$_GET['addressID'];
 			$type =$_GET['addressType'];
