@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Order } from 'src/app/models/order';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-my-orders',
@@ -22,15 +23,19 @@ export class MyOrdersComponent implements OnInit {
   itemsPerPage = 5;
   pageSize: number;
   collectionSize: number;
-
+  imageUrl: string;
+  
   public curantOrderID: number;
   public isCollapsed = -1;
+  
   constructor(
     private _orderService: OrdersService,
     private authenticationService: AuthenticationService,
      private modalService: NgbModal,
      private _datePipe: DatePipe
-  ) { }
+  ) { 
+    this.imageUrl = environment.imageDirectory;
+  }
 
   
   ngOnInit() {

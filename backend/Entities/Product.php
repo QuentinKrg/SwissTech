@@ -344,7 +344,7 @@ class Product extends Entity
       }
   	}
 
-	public  function CheckImagePathAvability(){
+	public function CheckImagePathAvability(){
 		if(isset($_GET['ImagePath'])){
 			$imagePath = $_GET['ImagePath'];
 		}
@@ -365,7 +365,7 @@ class Product extends Entity
     {
       if($_FILES != null)
       {
-		    $target_dir = "C:/xampp/htdocs/SwissTech/frontend/src/assets/images/products/";
+		    $target_dir = "C:/xampp/htdocs/SwissTech/Images/Products/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));

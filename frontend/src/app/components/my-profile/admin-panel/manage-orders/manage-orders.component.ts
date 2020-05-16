@@ -16,7 +16,9 @@ export class ManageOrdersComponent implements OnInit {
   constructor(private _orderService: OrdersService,
               private _alertService: AlertService,
               private _datePipe: DatePipe,
-              private _modalService: NgbModal) { }
+              private _modalService: NgbModal) { 
+                
+              }
 
   allStatus: Status[];
   allOrders: Order[];

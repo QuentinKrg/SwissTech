@@ -8,6 +8,7 @@ import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { flatten } from '@angular/compiler';
 import { element } from 'protractor';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -19,11 +20,12 @@ export class ShoppingCartComponent implements OnInit {
   cart: ShoppingCart[];
   total: number = 0;
   productsInTheCart: Product[] = [];
+  imageUrl: string;
 
   constructor(private _dataService: DataService,
               private _productService: ProductService,
               private _router: Router) {
-
+                this.imageUrl = environment.imageDirectory;
               }
 
    ngOnInit() {
