@@ -418,7 +418,21 @@ class Customer extends Entity
 			$address = $this->jsonToProcess->address;
 			$city = $this->jsonToProcess->city;
 			$zip = $this->jsonToProcess->zip;
-
+			
+			if($type==3){
+			$addShipAddress1 = "INSERT INTO t_address
+								(Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
+								VALUES ('$address','$fullName','$city','$zip','1',
+								(SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
+									 WHERE t_users.Username = '$username'),'$titre')";
+			$addBillAddress1 = "INSERT INTO t_address
+								(Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
+								VALUES ('$address','$fullName','$city','$zip','2',
+								(SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
+									 WHERE t_users.Username = '$username'),'$titre')";
+			 $this->Query($addShipAddress1);
+			 $this->Query($addBillAddress1);
+			}else{
 			//Insert  Address
 			$addAddress = "INSERT INTO t_address
 								(Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
@@ -426,6 +440,7 @@ class Customer extends Entity
 								(SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
 									 WHERE t_users.Username = '$username'),'$titre')";
 			$this->Query($addAddress);
+			}
 		}
 	  }
 	}
