@@ -368,7 +368,7 @@ class Product extends Entity
 		
       if($_FILES != null)
       {
-		    $target_dir = "D:/3Annee/Projet 120-151/xampp/htdocs/SwissTech/Images/Products/";
+		$target_dir = "D:/3Annee/Projet 120-151/xampp/htdocs/SwissTech/Images/Products/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -391,17 +391,25 @@ class Product extends Entity
         {
           $uploadOk = 0;
         }
-
         // Résultats
         if ($uploadOk == 0) {
           // Retourner une erreur
         } else {
           if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file))
           {
+			
+			$sql0 = "SELECT * FROM t_images WHERE t_images.ImagePath= '$fileName'";
+			$tmpResult = ($this->Query($sql0)->fetch( PDO::FETCH_ASSOC));
+			if($tmpResult==null){
             // Ajout des informations de l'image en DB
             $sql = "INSERT INTO t_images (t_images.ImageName, t_images.ImagePath)
                     VALUES ( '$imageFileName','$fileName')";
             $this->Query($sql);
+			
+			}else{
+				return;
+			}
+			
           } else {
             // Retourner une erreur
           }

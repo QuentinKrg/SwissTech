@@ -29,8 +29,14 @@ header {
 
 .maindiv {
   padding-left: 2%;
-  margin: auto;
-  background-color: white; }
+  margin: auto; }
+
+.background {
+  background-image: url("/src/assets/images/test2.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover; }
 
 .captcha {
   margin: auto;

@@ -273,20 +273,20 @@ export class ManageProductsComponent implements OnInit {
   // Récupérer l'image du produit et la stock
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
-    this.imagePath = this.imageDirectory+this.fileToUpload.name;
+    //this.imagePath = this.imageDirectory+this.fileToUpload.name;
 
     if(this.fileToUpload != null) {
       const formData = new FormData();
       formData.append('image', this.fileToUpload);
       this._productService.uploadProductImage(formData).subscribe(() => {
-        this.imagePath = this.imageDirectory+this.fileToUpload.name;
+        this.imagePathToShow = this.fileToUpload.name;
       });
     }
   }
 
   // ouverture du modal
   openModalAddProduct(targetModal) {
-    this.imagePath = '';
+    this.imagePathToShow = '';
     this.imageRequired = true;
     console.log(this.f.ProductImage.valueChanges);
     
