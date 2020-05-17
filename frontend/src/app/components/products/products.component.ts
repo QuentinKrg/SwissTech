@@ -20,7 +20,7 @@ export class ProductsComponent implements OnInit {
   allProducts: Product[] = [];
   filterValue: Array<any> = [];
   isLoaded: boolean = false;
-
+  
   ngOnInit() {
     // Récupération des paramètres de recherches
     this._route.queryParams.subscribe(params =>  {
@@ -71,6 +71,18 @@ export class ProductsComponent implements OnInit {
     }
     
     this.isLoaded = true;    
+  }
+
+  sortBy(field: string, order: string) {
+    if(order == "ASC") {
+      this.allProducts = this.filterValue.sort((a,b) => a[field] < b[field] ? 1 : -1 );     
+      console.log(this.allProducts);
+      
+      
+      
+      
+    } else if (order == "DESC") {
+    }
   }
 
 }
