@@ -239,7 +239,7 @@
                     <label for="productColor">Couleur *</label>
                     <select  class="form-control" id="productColor" formControlName="ProductColor">
                         <option value="-1" selected disabled>Choisir une couleur</option>
-                        <option *ngFor="let color of allColors" id="optionSelected" [value]="color.ProductColor">{{color.ProductColor}}</option>
+                        <option *ngFor="let color of allColors" id="optionSelected" [value]="color.id_color">{{color.ProductColor}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
@@ -282,7 +282,7 @@
                     <label for="fileToUpload">Image</label>
                     <input type="file" name="fileToUpload" (change)="handleFileInput($event.target.files);isImagePathAvailable()"  formControlName="ProductImage" 
                      class="form-control-file" id="fileToUpload" >
-                    <img src="{{imagePath}}{{imagePathToShow}}" alt="{{imagePathToShow}}" height="100" width="100">
+                    <img src="{{imageDirectory}}{{imagePathToShow}}" alt="{{imagePathToShow}}" height="100" width="100">
                 </div>
             </div>
             <div class="form-row">

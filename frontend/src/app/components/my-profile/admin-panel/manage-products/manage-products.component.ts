@@ -65,6 +65,7 @@ export class ManageProductsComponent implements OnInit {
 
   // Preview d'un article
   selectedProductPreview: Product = null;
+  imageDirectory =environment.imageDirectory;
 
   // Ajout et modification d'un article
   allCategories: Categories[] = [];
@@ -272,18 +273,20 @@ export class ManageProductsComponent implements OnInit {
   // Récupérer l'image du produit et la stock
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
+    this.imagePath = this.imageDirectory+this.fileToUpload.name;
 
     if(this.fileToUpload != null) {
       const formData = new FormData();
       formData.append('image', this.fileToUpload);
       this._productService.uploadProductImage(formData).subscribe(() => {
-        this.imagePath = environment.imageDirectory+this.fileToUpload.name;
+        this.imagePath = this.imageDirectory+this.fileToUpload.name;
       });
     }
   }
 
   // ouverture du modal
   openModalAddProduct(targetModal) {
+    this.imagePath = '';
     this.imageRequired = true;
     console.log(this.f.ProductImage.valueChanges);
     
@@ -458,12 +461,6 @@ export class ManageProductsComponent implements OnInit {
         return;
       }
       
-
-      if (this.fileToUpload != null) {
-        const formData = new FormData();
-        formData.append('image', this.fileToUpload);
-        this._productService.uploadProductImage(formData).subscribe(() => { });
-      }
       let productToUpdate: Product = new Product;
       productToUpdate.id_Product = this.editedProductId;
       productToUpdate.ProductName = this.addProductGroup.value.ProductName;

@@ -39,7 +39,7 @@
 </div>
 <h3>Adresses de facturation</h3>
 <div class="row">
-    <div class="col-md-3 m-3 btn-light rounded" *ngFor="let billaddr of myBillAddr">
+    <div class="col-md-3 m-3 bg-white shadow rounded" *ngFor="let billaddr of myBillAddr">
         <div class="p-3">
             <div class="row p-2 font-weight-bold ">
                 {{ billaddr.FullName }} <span class="pl-1" *ngIf="billaddr.isDefault ==1"> ( Par Défaut )</span>

@@ -80,7 +80,7 @@ class Product extends Entity
         // Récupération des valeurs pour l'article
         $productId = $this->jsonToProcess->id_Product;
         $productName = $this->jsonToProcess->ProductName;
-        $productColorId = $this->jsonToProcess->ProductColorId;
+        $productColorId = $this->jsonToProcess->ProductColor;
         $productSize = $this->jsonToProcess->ProductSize;
         $productDescription = $this->jsonToProcess->ProductDescription;
         $productUnitPrice = $this->jsonToProcess->ProductUnitPrice;
@@ -102,10 +102,12 @@ class Product extends Entity
         $this->Query($updateProduct);
 
         // Ajout de la relation article - images
-        $updateProductImage = "UPDATE t_products_images SET
+        $updateProductImage = "UPDATE t_products_images 
+								SET
                                 t_products_images.FK_Product = '$productId',
                                 t_products_images.FK_Image = (SELECT t_images.id_Image FROM t_images WHERE t_images.ImagePath = '$imagePath' ORDER BY t_images.id_Image DESC LIMIT 1)
                                 WHERE t_products_images.FK_Product = '$productId'";
+								
         $this->Query($updateProductImage);
 
         //--- RSS ---//
@@ -159,7 +161,7 @@ class Product extends Entity
     {
       $articles = [];
 
-      $sql = "SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName, t_product_color.ProductColor AS ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
+      $sql = "SELECT id_Product, ProductSize, t_products.FK_Category as 'CategoryId', t_products.FK_Manufacturer as 'ManufacturerId', ProductName, FK_ProductColor AS ProductColor, ProductDescription, ProductUnitPrice,ImageName, ImagePath,ManufacturerName, t_products.isActive AS 'productIsActive',CategoryName FROM t_products
                LEFT JOIN t_products_images ON t_products.id_Product = t_products_images.FK_Product
                LEFT JOIN t_product_color ON t_products.FK_ProductColor = t_product_color.id_color
                LEFT JOIN t_images ON t_products_images.FK_Image = t_images.id_Image
@@ -363,21 +365,21 @@ class Product extends Entity
     // Création d'un article
     public function UploadImage()
     {
+		
       if($_FILES != null)
       {
-		    $target_dir = "C:/xampp/htdocs/SwissTech/Images/Products/";
+		    $target_dir = "D:/3Annee/Projet 120-151/xampp/htdocs/SwissTech/Images/Products/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         $imageFileName = strtolower(pathinfo($target_file,PATHINFO_FILENAME));
         $fileName = $_FILES["image"]["name"];
-
         // Vérifier si l'image existe déjà
         if(file_exists($target_file))
         {
           $uploadOk = 0;
         }
-
+		
         // Définir une taille limite pour les images si plus grande que 500 KB
         if($_FILES["image"]["size"] > 500000)
         {
