@@ -1,5 +1,21 @@
-<p>products works!</p>
-<button (click)="sortBy('ProductSize', 'ASC')">TEST</button>
-<div class="row" *ngIf="isLoaded == true">
-    <app-product-card *ngFor="let product of allProducts" [productData]="product" class="col-md-3 col-sm-12 pt-3"></app-product-card>
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let subCat of allSubCat" (click)="filterByCat(subCat.id)">{{subCat.CategoryName}}</li>
+        </ul>
+    </div>
+    <div class="col-sm-12 col-md-9">
+        <select class="form-control" [(ngModel)]="selectedOptionOrder" (change)="sortBy(selectedOptionOrder)">
+            <option value="bestseller" selected>Best seller</option>
+            <option value="priceasc">Prix croissant</option>
+            <option value="pricedesc" >Prix décroissant</option>
+            <option value="nameasc">Nom croissant</option>
+            <option value="namedesc">Nom décroissant</option>
+        </select>
+        <div class="row" *ngIf="isLoaded == true">
+            <app-product-card *ngFor="let product of allProducts" [productData]="product" class="col-md-4 col-sm-12 pt-3"></app-product-card>
+        </div>
+    </div>
 </div>
