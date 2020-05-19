@@ -1,0 +1,33 @@
+<p>invoice works!</p>
+<div class="table table-responsive table-borderless">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Produit</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let details of orderDetails">
+                <td class="align-middle">
+                    <div class="row">
+                        <div class="col-sm-3 ">
+                            <a [routerLink]="['/product-details', details.id_Product]">
+                                <img src="{{imageUrl}}{{details.ImagePath}}" alt="" width="100"
+                                    class="img-fluid rounded shadow-sm">
+                            </a>
+                        </div>
+                        <div class="col-sm d-flex align-items-center">
+                            <a [routerLink]="['/product-details', details.id_Product]" 
+                            class="text-dark d-inline-block ">
+                                {{ details.ProductName}}</a>
+                        </div>
+                    </div>
+                </td>
+                <td class="align-middle text-center">{{details.Quantity}}x</td>
+                <td class="align-middle text-center">{{details.TotalPrice}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

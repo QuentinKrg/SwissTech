@@ -22,6 +22,8 @@ import { EditLoginInfosComponent } from './components/my-profile/edit-profile/ed
 import { EditPersonalInfosComponent } from './components/my-profile/edit-profile/edit-personal-infos/edit-personal-infos.component';
 import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-panel.component';
 import { ProductsComponent } from './components/products/products.component';
+import { PrintLayoutComponent } from './components/my-profile/my-orders/print/print-layout/print-layout.component';
+import { InvoiceComponent } from './components/my-profile/my-orders/print/invoice/invoice.component';
 
 
 
@@ -56,6 +58,11 @@ const routes: Routes = [
         {path: 'information', component: ContactInformationComponent},
         {path: 'payment', component: PaymentMethodComponent},
     ]},
+    { path: 'print', component: PrintLayoutComponent, children: [
+        { path: 'invoice/:id', component: InvoiceComponent },
+        { path: '', component: PrintLayoutComponent},
+      ]
+    },
 
     // Autrement redirige to home
     { path: '**', redirectTo: '' }
