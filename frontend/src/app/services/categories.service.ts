@@ -13,11 +13,18 @@ export class CategoriesService {
 
   }
 
+  getAllCategories() {
+    return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAll');
+  }
+
   getAllMainGategories() {
     return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllMain');
   }
 
   getAllCategoriesWithThisTopCategory(id: number) {
     return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllCategoriesWithCategory&id='+id);
+  }
+  updateCategory(id: number, cat: Categories){
+    return this.http.post<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=UpdateCategory&id='+id, cat);
   }
 }

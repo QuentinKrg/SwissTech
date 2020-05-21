@@ -1,0 +1,71 @@
+
+<!-- Tableau -->
+<div class="row"> 
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <!-- Label du tableau -->
+                <thead>
+                    <tr>
+                        <th scope="col">N° de la catégorie</th>
+                        <th scope="col">Nom de la catégorie</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <!-- Données -->
+                <tbody >
+                    <tr *ngFor="let cat of allCat">
+                        <th scope="row">{{cat.id}}</th>
+                        <td>{{cat.CategoryName}}</td>
+                        <td>
+                            <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <fa-icon [icon]="faEllipsisV"></fa-icon>
+                              <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" >Sous-catégories</a>
+                                <a class="dropdown-item" (click)="openModal(editCatModal, cat)">Modifier</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" >
+                                  <a *ngIf="cat.IsActive==true">Désactiver</a>
+                                  <a *ngIf="cat.IsActive==false">Activer</a>
+                                </a>
+                              </a>
+                            </button>
+                          </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #editCatModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="editProfileLabel">Modifier une catégorie</h5>
+      <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <div class="modal-body">
+      <form [formGroup]="editCatForm" (ngSubmit)="onSubmit()">
+  
+        <!-- First name-->
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="CategoryName">Nom *</label>
+          <div class="col-sm-7">
+            <input type="text" maxlength="100" formControlName="CategoryName" class="form-control"
+              />
+          </div>
+          <div class="invalid-feedback" *ngIf=" f.CategoryName.hasError('pattern')">
+            Uniquement des lettres et des espaces</div>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>

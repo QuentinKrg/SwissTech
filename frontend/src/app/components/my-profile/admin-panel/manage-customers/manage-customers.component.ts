@@ -50,7 +50,7 @@ export class ManageCustomersComponent implements OnInit {
   filterText: string = "";
   selectedStatus: number = -1
   constructor(
-    private _userService: UserService,private fb: FormBuilder, private modalService: NgbModal,private _authenticationService: AuthenticationService  ) {
+    private _userService: UserService,private fb: FormBuilder, private _modalService: NgbModal,private _authenticationService: AuthenticationService  ) {
 
   }
 //utilisateur actuel
@@ -150,7 +150,7 @@ currentUsername = this._authenticationService.currentUserValue.login;
   }
   closeModal(){
     this.onReleaseLock();
-    this.modalService.dismissAll();
+    this._modalService.dismissAll();
     this.ngOnInit();
   }
   getAllShippingsAddress(){
@@ -182,7 +182,7 @@ currentUsername = this._authenticationService.currentUserValue.login;
       });
   }
   openModal(targetModal, user) {
-    this.modalService.open(targetModal, {
+    this._modalService.open(targetModal, {
      centered: true,
      backdrop: 'static'
     });
@@ -255,7 +255,7 @@ currentUsername = this._authenticationService.currentUserValue.login;
     }
      console.log(this.selectedUser);
      
-    this.modalService.dismissAll();
+    this._modalService.dismissAll();
     console.log(this.editProfileForm.value);
         
     console.log("res:", this.editProfileForm.getRawValue());
@@ -286,7 +286,7 @@ currentUsername = this._authenticationService.currentUserValue.login;
   if(this.editAddressForm.invalid){
     return;
   }
-   this.modalService.dismissAll();
+   this._modalService.dismissAll();
    console.log(this.editAddressForm.value);
        
    console.log("res:", this.editAddressForm.getRawValue());

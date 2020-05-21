@@ -42,6 +42,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProductsComponent } from './components/products/products.component';
 import { PrintLayoutComponent } from './components/my-profile/my-orders/print/print-layout/print-layout.component';
 import { InvoiceComponent } from './components/my-profile/my-orders/print/invoice/invoice.component';
+import { ManageCategoriesComponent } from './components/my-profile/admin-panel/manage-categories/manage-categories.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { InvoiceComponent } from './components/my-profile/my-orders/print/invoic
     AdminPanelComponent,
     ProductsComponent,
     PrintLayoutComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    ManageCategoriesComponent
   ],
   imports: [
     BrowserModule,

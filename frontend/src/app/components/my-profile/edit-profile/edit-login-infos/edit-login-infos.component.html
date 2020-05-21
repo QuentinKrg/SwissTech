@@ -1,36 +1,24 @@
 <small><a routerLink="/myprofile/editprofile">Aperçu</a> / <a routerLink="/myprofile/editlogininfos">Mes identifiants</a></small>
-<h2 class="p-3 text-center">Editer mon compte</h2>
 <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
 
-    <div class=" p-4 mt-2 shadow-sm">
-        <h5 class="border-top">Mes identifiants </h5>
-        <!-- username -->
-
-
-        <div class="row text-center p-3">
-            <div class="col-sm d-inline">
-                <label for="Username">Nom d'utilisateur:</label>
-            </div>
+    <div class=" p-4 mt-2">
+        <div class="row">
             <div class="form-group col-sm d-inline">
                 <h5 class="font-weight-bold">
                     {{usernameData}}
                 </h5>
             </div>
-            <div class="col-sm d-inline">
-                <button type="button" class="btn btn-outline-secondary" (click)="openModal(EditUsernameModal);onUsernameChange()">
-                    <a>Modifier</a>
-                </button>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-4 m-4 p-5 btn btn-light rounded shadow " (click)="openModal(EditUsernameModal);onUsernameChange()">
+                <a class="text-center text-muted h5">Modifier mon nom d'utilisateur</a>
+            </div>
+            <div class="col-sm-4 m-4 p-5 btn btn-light rounded shadow" (click)="openModal(EditPasswordModal);onPasswordChange()">
+                <a class="text-center text-muted h5">Modifier mon mot de passe</a>
             </div>
         </div>
-
-        <!-- My Password -->
-        <div>
-            <button type="button" class="btn btn-outline-secondary btn-block" (click)="openModal(EditPasswordModal);onPasswordChange()">
-                <a>Modifier mon mot de passe</a>
-            </button>
-        </div>
     </div>
-
 </form>
 
 <ng-template #EditUsernameModal let-modal>

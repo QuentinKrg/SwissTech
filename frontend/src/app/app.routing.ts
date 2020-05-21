@@ -24,6 +24,7 @@ import { AdminPanelComponent } from './components/my-profile/admin-panel/admin-p
 import { ProductsComponent } from './components/products/products.component';
 import { PrintLayoutComponent } from './components/my-profile/my-orders/print/print-layout/print-layout.component';
 import { InvoiceComponent } from './components/my-profile/my-orders/print/invoice/invoice.component';
+import { ManageCategoriesComponent } from './components/my-profile/admin-panel/manage-categories/manage-categories.component';
 
 
 
@@ -51,6 +52,7 @@ const routes: Routes = [
         { path: 'manageorders', component: ManageOrdersComponent},
         { path: 'managecustomers', component: ManageCustomersComponent},
         { path: 'manageadmins', component: ManageAdminsComponent}, 
+        { path: 'managecategories', component: ManageCategoriesComponent}, 
         { path: '', component: AdminPanelComponent},
         ]
     },
