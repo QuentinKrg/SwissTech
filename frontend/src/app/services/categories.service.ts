@@ -24,7 +24,17 @@ export class CategoriesService {
   getAllCategoriesWithThisTopCategory(id: number) {
     return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllCategoriesWithCategory&id='+id);
   }
+  getAllSubCategories() {
+    return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllSubCategories');
+  }
   updateCategory(id: number, cat: Categories){
     return this.http.post<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=UpdateCategory&id='+id, cat);
+  }
+  updateCategoryStatus( cat: Categories){
+    return this.http.post<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=UpdateCategoryStatus', cat);
+  }
+
+  addCategory(cat: Categories){
+    return this.http.post<Categories>(environment.backendURL + 'start.php?' + 'c=Categories&f=AddCategory', cat);
   }
 }

@@ -1,71 +1,184 @@
-
+<div class="row justify-content-end py-2 text-right">
+  <!-- Ajout d'un article / Reset des filtres de recherche-->
+  <div class="col-md-4 col-sm-12">
+    <button class="btn btn-success" (click)="openAddModal(AddCatModal)">Ajouter une catégorie</button>
+  </div>
+</div>
 <!-- Tableau -->
-<div class="row"> 
-    <div class="col-12">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <!-- Label du tableau -->
-                <thead>
-                    <tr>
-                        <th scope="col">N° de la catégorie</th>
-                        <th scope="col">Nom de la catégorie</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <!-- Données -->
-                <tbody >
-                    <tr *ngFor="let cat of allCat">
-                        <th scope="row">{{cat.id}}</th>
-                        <td>{{cat.CategoryName}}</td>
-                        <td>
-                            <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                              aria-haspopup="true" aria-expanded="false">
-                              <fa-icon [icon]="faEllipsisV"></fa-icon>
-                              <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" >Sous-catégories</a>
-                                <a class="dropdown-item" (click)="openModal(editCatModal, cat)">Modifier</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" >
-                                  <a *ngIf="cat.IsActive==true">Désactiver</a>
-                                  <a *ngIf="cat.IsActive==false">Activer</a>
-                                </a>
-                              </a>
-                            </button>
-                          </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="row">
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <!-- Label du tableau -->
+        <thead>
+          <tr>
+            <th scope="col">N° de la catégorie</th>
+            <th scope="col">Nom de la catégorie</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <!-- Données -->
+        <tbody>
+          <tr *ngFor="let cat of allCat">
+            <th scope="row">{{cat.id}}</th>
+            <td>{{cat.CategoryName}}</td>
+            <td><span class="p-1 mw-100 rounded"
+                [ngClass]="cat.IsActive==false  ? ' bg-danger text-white' : 'bg-success text-white'">
+                <span *ngIf="cat.IsActive==true"> Active </span>
+                <span *ngIf="cat.IsActive==false">inactive</span></span>
+            </td>
+            <td>
+              <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <fa-icon [icon]="faEllipsisV"></fa-icon>
+                <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" (click)="openModal(editCatModal, cat)">Modifier</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="onUpdateCategoryStatus(cat)">
+                    <a *ngIf="cat.IsActive==true">Désactiver</a>
+                    <a *ngIf="cat.IsActive==false">Activer</a>
+                  </a>
+                </a>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 
 
 <ng-template #editCatModal let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title" id="editProfileLabel">Modifier une catégorie</h5>
-      <button type="button" class="close" (click)="closeModal()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  
-    <div class="modal-body">
-      <form [formGroup]="editCatForm" (ngSubmit)="onSubmit()">
-  
-        <!-- First name-->
-        <div class="form-group row">
-          <label class="col-sm-5 col-form-label" for="CategoryName">Nom *</label>
-          <div class="col-sm-7">
-            <input type="text" maxlength="100" formControlName="CategoryName" class="form-control"
-              />
-          </div>
-          <div class="invalid-feedback" *ngIf=" f.CategoryName.hasError('pattern')">
-            Uniquement des lettres et des espaces</div>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editProfileLabel">Modifier une catégorie</h5>
+    <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="editCatForm" (ngSubmit)="onSubmit()">
+
+      <!-- First name-->
+      <div class="form-group row">
+        <label class="col-sm-5 col-form-label" for="CategoryName">Nom *</label>
+        <div class="col-sm-7">
+          <input type="text" maxlength="100" formControlName="CategoryName" class="form-control" />
         </div>
-  
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+        <div class="invalid-feedback" *ngIf=" f.CategoryName.hasError('pattern')">
+          Uniquement des lettres et des espaces</div>
+      </div>
+
+
+      <div class="nav-link collapsed text-truncate btn btn-light shadow-sm m-3" href="#subcat" data-toggle="collapse">
+        <h6> Sous-catégories</h6>
+      </div>
+      <div class="collapse" id="subcat" aria-expanded="false">
+
+        <div class="table-responsive">
+          <table class="table table-hover ">
+            <!-- Label du tableau -->
+            <thead>
+              <tr>
+                <th scope="col">N° de la catégorie</th>
+                <th scope="col">Nom de la catégorie</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <!-- Données -->
+            <tbody>
+              <tr *ngFor="let subcat of allSubCategories">
+                <th scope="row">{{subcat.id}}</th>
+                <td>{{subcat.CategoryName}}</td>
+                <td>
+                  <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <fa-icon [icon]="faEllipsisV"></fa-icon>
+                    <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" (click)="openModal(editCatModal, subcat)">Modifier</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item">
+                        <a *ngIf="subcat.IsActive==true">Désactiver</a>
+                        <a *ngIf="subcat.IsActive==false">Activer</a>
+                      </a>
+                    </a>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </form>
-    </div>
-  </ng-template>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #AddCatModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editProfileLabel">Ajouter une catégorie</h5>
+    <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="editCatForm" (ngSubmit)="onSubmitAdd()">
+
+      <!-- name-->
+      <div class="form-group row">
+        <label class="col-sm-5 col-form-label" for="CategoryName">Nom *</label>
+        <div class="col-sm-7">
+          <input type="text" maxlength="100" formControlName="CategoryName" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.CategoryName.errors || f.CategoryName.touched && f.CategoryName.errors}" />
+        </div>
+      </div>
+      <!-- Checkbox general condition-->
+      <div class="form-group border-top  pt-3">
+        <div class="custom-control custom-checkbox">
+          <input id="MainCat" type="checkbox" class="custom-control-input" [checked]="true">
+          <label for="MainCat" class="custom-control-label" href="#subcat" data-toggle="collapse">
+            Catégorie principale.
+          </label>
+        </div>
+      </div>
+      <div class="collapse" id="subcat" aria-expanded="false">
+        <div class="p-3 mb-2 bg-info text-white text-center">Veuillez selectionner une catégorie parent</div>
+        <div class="table-responsive">
+          <table class="table table-hover ">
+            <!-- Label du tableau -->
+            <thead>
+              <tr>
+                <th scope="col">N° de la catégorie</th>
+                <th scope="col">Nom de la catégorie</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <!-- Données -->
+            <tbody>
+              <tr *ngFor="let cat of allCat; let idx = index">
+                
+                  <th scope="row">{{cat.id}}</th>
+                  <td><label for="CatName{{idx}}">{{cat.CategoryName}}</label></td>
+                  <td>
+                    <input id="CatName{{idx}}" type="radio" name="FK_Category" formControlName="FK_Category"
+                      [value]="cat.id">
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="addError" class="p-3 mb-2 bg-danger text-white text-center">{{errorMessage}}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

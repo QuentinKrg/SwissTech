@@ -68,6 +68,7 @@ class Categories extends Entity
     public function GetAllCategoriesWithCategory()
     {
 		
+		
       if($this->idToProcess !=null) {
         $sql = "SELECT * FROM t_categories tc where tc.FK_Category = $this->idToProcess";
 
@@ -90,7 +91,33 @@ class Categories extends Entity
 
       }
     }
-	public function UpdateCategory(){
+	
+	public function GetAllSubCategories()
+    {
+		
+        $sql = "SELECT * FROM t_categories where FK_Category IS NOT NULL";
+
+        $tmpResult = $this->Query($sql);
+
+        if($tmpResult->rowCount() > 0) {
+
+          // Sortir les données pour chaque "row"
+          $cr = 0;
+          while($row = $tmpResult->fetch( PDO::FETCH_ASSOC )) {
+            $SubCategories[$cr]['id'] = $row['id_Category'];
+            $SubCategories[$cr]['CategoryName'] = $row['CategoryName'];
+            $SubCategories[$cr]['IsActive'] = $row['isActive'];
+            $SubCategories[$cr]['FK_Category'] = $row['FK_Category'];
+            $cr++;
+          }
+          // echo de la liste des articles
+          return $SubCategories;
+        }
+	  
+    }
+	
+	public function UpdateCategory()
+	{
 	
 		if(isset($_GET['id'])){
 			$id = $_GET['id'];
@@ -107,4 +134,54 @@ class Categories extends Entity
 					$this->Query($updateCat);
 		}
 	}
+	
+	public function AddCategory()
+	{
+		
+	
+		// Récupération des données reçues
+		$CategoryName = $this->jsonToProcess->CategoryName;
+		
+		$checkCategoryName = "SELECT CategoryName FROM t_categories
+						WHERE CategoryName='$CategoryName'";
+						
+		$tmpResult = $this->Query($checkCategoryName)->fetch(PDO::FETCH_ASSOC);
+		
+						if($tmpResult!=null){
+							return http_response_code(409);
+						}
+		if($this->jsonToProcess->FK_Category!=NULL){
+		$FK_Category = $this->jsonToProcess->FK_Category;
+		
+        $addCategory = "INSERT INTO t_categories
+						(CategoryName, FK_Category)
+						VALUES ( '$CategoryName','$FK_Category')";
+		}else{
+			
+        $addCategory = "INSERT INTO t_categories
+						(CategoryName)
+						VALUES ( '$CategoryName')";
+		}
+		
+						
+        $this->Query($addCategory);
+	}
+	
+	public function UpdateCategoryStatus()
+	{
+			$id = $this->jsonToProcess->id;
+			// Récupération des données reçues
+			$isActive = $this->jsonToProcess->IsActive;
+			
+					//UPDATE Billing Address
+					$updateCat = "UPDATE
+										t_categories
+										SET
+										isActive ='$isActive'
+												WHERE id_Category = '$id'";
+												
+					$this->Query($updateCat);
+		
+	}
+	
 }

@@ -14,7 +14,11 @@ export class ManageCategoriesComponent implements OnInit {
   //icones
   faEllipsisV=faEllipsisV;
 
+  allSubCategoriesAvailable: Categories[];
+  allSubCategories: Categories[];
   catUpdateData: boolean;
+  errorMessage: string;
+  addError:boolean;
   catUpdateDataMessage: string;
   submitted:boolean;
   editCatForm: FormGroup;
@@ -27,13 +31,15 @@ export class ManageCategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.editCatForm = this.fb.group({
-      CategoryName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
-    
+      CategoryName: ['', [Validators.required]],
+      FK_Category:[''],
      });
     this._categoriesService.getAllCategories().subscribe(data => this.allCat = data);
     this.submitted =false;
     this.catUpdateData= false;
     this.catUpdateDataMessage='';
+    this.errorMessage='';
+    this.addError=false;
   }
   
   get f() { return this.editCatForm.controls; }
@@ -44,7 +50,17 @@ export class ManageCategoriesComponent implements OnInit {
     });
     this.selectedCat= cat;
     this.f.CategoryName.setValue(cat.CategoryName);
-
+    this._categoriesService.getAllCategoriesWithThisTopCategory(this.selectedCat.id).subscribe(
+      (data: Categories[]) => { this.allSubCategories = data }
+      
+    );
+   }
+   openAddModal(targetModal) {
+    this._modalService.open(targetModal, {
+     centered: true,
+     backdrop: 'static'
+     
+    });
    }
    closeModal(){
     this._modalService.dismissAll();
@@ -77,4 +93,42 @@ export class ManageCategoriesComponent implements OnInit {
         return;
       });
   }
+  onUpdateCategoryStatus(cat){
+    console.log(cat);
+    
+    if(cat.IsActive==true){
+      cat.IsActive = false;
+    }else{
+      cat.IsActive = true;
+    }
+    this._categoriesService.updateCategoryStatus(cat).subscribe(
+      () => {
+      },  
+      //en cas d'erreur
+      (error) => {
+        console.log(error);
+        return;
+      });
+  }
+  onSubmitAdd(){
+    console.log(this.editCatForm.value);
+    
+    this.submitted=true;
+      if(this.editCatForm.invalid ){
+        return;
+      }
+      this._categoriesService.addCategory(this.editCatForm.value).subscribe(
+        () => {
+          this._modalService.dismissAll();
+          this.ngOnInit();
+        },  
+        //en cas d'erreur
+        (error) => {
+          this.addError= true;
+          this.errorMessage = 'Cette catégorie existe';
+          this.submitted=false;
+          
+          return;
+        });
+    }
 }
