@@ -300,7 +300,7 @@ class Customer extends Entity
 							FROM t_address
 							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
+								WHERE Username = '$currentUsername' LIMIT 1) AND isDefault=1 LIMIT 1";
 				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 				 
 				return $getShipAddr;
@@ -316,7 +316,7 @@ class Customer extends Entity
 							FROM t_address
 							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
+								WHERE Username = '$currentUsername' LIMIT 1) AND isDefault=1 LIMIT 1";
 				  $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 				 
 				return $getBillAddr;

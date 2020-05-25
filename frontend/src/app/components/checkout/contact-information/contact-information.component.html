@@ -1,27 +1,83 @@
-
 <!-- Adresse client -->
 <h5>Adresse de livraison</h5>
+<div class="form-group">
+    <select class="form-control" (change)="onNewShipAddress($event.target.value)" #selectAddress id="selectAddress">
+        <option value="-1"><span>Ajouter une nouvelle adresse</span> </option>
+        <option [selected]="shipaddr.isDefault" *ngFor="let shipaddr of myShipAddr" id="optionSelected"
+            [value]="(shipaddr | json)">
+            <span>{{shipaddr?.shippingAddress}}, {{shipaddr?.shippingCity}}, {{ shipaddr?.shippingZip }}</span>
+        </option>
+    </select>
+
+    <div *ngIf="newShipAddress" class="p-3">
+        <form [formGroup]="newAddressForm" (ngSubmit)="onSubmitAddress()">
+            <!-- Titre-->
+            <div class="form-group row">
+                <label for="CustomerTitle" class="col-sm-4 col-form-label">Titre</label>
+                <div class="col-sm-8">
+                    <select class="form-control" id="CustomerTitle" formControlName="CustomerTitle"
+                        [ngClass]="{ 'is-invalid': submitted && f2.CustomerTitle.errors || f2.CustomerTitle.touched && f2.CustomerTitle.errors}">
+                        <option [value]="-1" disabled>choisir le Titre</option>
+                        <option [value]="1">Mr</option>
+                        <option [value]="2">Mme</option>
+                        <option [value]="3">Non Binaire</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Destinataire-->
+            <div class="form-group row">
+                <label for="FullName" class="col-sm-4 col-form-label">Destinataire</label>
+                <div class="col-sm-8">
+                    <input id="FullName" type="text" formControlName="FullName" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f2.FullName.errors || f2.FullName.touched && f2.FullName.errors}" />
+                </div>
+            </div>
+            <!-- Adresse-->
+            <div class="form-group row">
+                <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
+                <div class="col-sm-8">
+                    <input type="shippingAddress" class="form-control" formControlName="shippingAddress"
+                        id="shippingAddress" placeholder="Rue, n°"
+                        [ngClass]="{ 'is-invalid': submitted && f2.shippingAddress.errors || f2.shippingAddress.touched && f2.shippingAddress.errors}">
+                </div>
+            </div>
+            <!-- Ville-->
+            <div class="form-group row">
+                <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
+                <div class="col-sm-5">
+                    <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity"
+                        placeholder="Ville"
+                        [ngClass]="{ 'is-invalid': submitted && f2.shippingCity.errors  || f2.shippingCity.touched && f2.shippingCity.errors}">
+                </div>
+                <!-- NPA-->
+                <div class="col-sm-3">
+                    <input maxlength="4" type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip"
+                        placeholder="NPA" [ngClass]="{ 'is-invalid': submitted && f2.shippingZip.errors ||
+            f2.shippingZip.errors && f2.shippingZip.hasError('pattern') || f2.shippingZip.touched && f2.shippingZip.errors ||
+           f2.shippingZip.touched && f2.shippingZip.hasError('minLength')}">
+                    <div class="invalid-feedback" *ngIf="f2.shippingZip.touched && f2.shippingZip.hasError('pattern') ">
+                        Uniquement des chiffres</div>
+                    <div class="invalid-feedback"
+                        *ngIf="f2.shippingZip.touched && f2.shippingZip.value.length<4 && f2.shippingZip.value.length!=0 ">
+                        Au moins 4 chiffres</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div>
-    <p>
-        <span>{{currentUser?.CustomerName}} {{currentUser?.CustomerLastName}}</span><br>
-        <span>{{currentUser?.shippingAddress}}</span><br>
-        <span>{{currentUser?.shippingCity}} {{currentUser?.shippingZip}}</span><br>
-    </p>
 </div>
 
 <!-- Mode d'expédition -->
 <h5>Mode d'expédition</h5>
-<p>Toutes les livraisons se font par la poste et sont <strong>gratuites</strong></p>
+<p class="text-muted">Toutes les livraisons se font par la poste et sont <strong>gratuites</strong></p>
 
 <!-- Bouttons de navigations -->
-<div class="">
-    <a routerLink="/cart">
+<div class="row mt-5">
+    <a class="col-md-5" routerLink="/cart">
         <span>Retour au panier</span>
     </a>
-    <a routerLink="/checkout/payment" class="btn btn-primary">
-        Continuer vers le paiement
-    </a>
+    <div class="col-md-7">
+        <button type="button" class="btn btn-primary" (click)="onSubmitAddress(selectAddress.value)">Continuer vers le paiement</button>
+    </div>
 </div>
-
-
-
