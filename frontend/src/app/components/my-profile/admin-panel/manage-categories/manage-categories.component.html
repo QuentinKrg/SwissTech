@@ -162,7 +162,6 @@
             <!-- Données -->
             <tbody>
               <tr *ngFor="let cat of allCat; let idx = index">
-                
                   <th scope="row">{{cat.id}}</th>
                   <td><label for="CatName{{idx}}">{{cat.CategoryName}}</label></td>
                   <td>
@@ -176,8 +175,8 @@
       </div>
       <div *ngIf="addError" class="p-3 mb-2 bg-danger text-white text-center">{{errorMessage}}</div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Fermer</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
       </div>
     </form>
   </div>
