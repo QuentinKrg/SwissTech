@@ -101,7 +101,7 @@ class Customer extends Entity
 		if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
 			if($this->jsonToProcess !=null){
-				
+
 				if(isset($this->jsonToProcess->CustomerName)){
 					// Récupération des données reçues
 					$titre = $this->jsonToProcess->CustomerTitle;
@@ -111,7 +111,7 @@ class Customer extends Entity
 					$email = $this->jsonToProcess->CustomerEmail;
 					$birthday = $this->jsonToProcess->CustomerBirthday;
 				}
-				
+
 				if(isset($this->jsonToProcess->shippingAddress)){
 					$fullName = $this->jsonToProcess->FullName;
 					$titre = $this->jsonToProcess->CustomerTitle;
@@ -119,7 +119,7 @@ class Customer extends Entity
 					$city = $this->jsonToProcess->shippingCity;
 					$zip = $this->jsonToProcess->shippingZip;
 					$id = $this->jsonToProcess->shippingID;
-					
+
 					$updateShippingAddress = "UPDATE
 												t_address
 											SET
@@ -129,19 +129,19 @@ class Customer extends Entity
 												t_address.City = '$city',
 												t_address.ZIP = '$zip'
 																	WHERE t_address.id_Address = '$id'";
-				
+
 					$this->Query($updateShippingAddress);
 				}
 
 				if(isset($this->jsonToProcess->billingAddress)){//si la checkbox same address est utilisée, on ne reçoit pas de données de billing address
-				
+
 					$fullName = $this->jsonToProcess->FullName;
 					$titre = $this->jsonToProcess->CustomerTitle;
 					$billingAddress = $this->jsonToProcess->billingAddress; // donc si on reçoit les données, on les traitent, sinon on continue.
 					$billingAddressCity = $this->jsonToProcess->billingCity;
 					$billingAddressZip = $this->jsonToProcess->billingZip;
 					$id = $this->jsonToProcess->billingID;
-					
+
 					//UPDATE Billing Address
 					$updateBillingAddress = "UPDATE
 												t_address
@@ -181,7 +181,7 @@ class Customer extends Entity
 				}
 
 				if(isset($this->jsonToProcess->CustomerName)){
-					
+
 				// Requête sql pour la table customers
 				//Update
 					$updatecustomerAndUser = "UPDATE
@@ -198,7 +198,7 @@ class Customer extends Entity
 																		AND t_users.username = '$currentUsername'";
 					$this->Query($updatecustomerAndUser);
 				}
-				
+
 			}
 		}
 
@@ -234,7 +234,6 @@ class Customer extends Entity
 
 // Récupération des détails d'un article avec son ID
     public function GetCustomerById(){
-      // TODO Récupération de toutes les images
       $sql = " SELECT * FROM t_customers
 					   INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer
 					   WHERE id_customer = $this->idToProcess";
@@ -279,7 +278,7 @@ class Customer extends Entity
       // Fermeture de la connexion
       return $tmpResult;
 	}
-	
+
 	public function GetCustomerByUsername(){
 			if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
@@ -291,10 +290,10 @@ class Customer extends Entity
 				return $getCustomer;
 			}
 		}
-		
+
 	public function getShippingAddressByUser(){
 		if(isset($_GET['username'])){
-			
+
 				$currentUsername = $_GET['username'];
 				   $sql = "SELECT t_address.Address as 'shippingAddress',FK_Title,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
 							FROM t_address
@@ -302,13 +301,13 @@ class Customer extends Entity
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
 				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-				 
+
 				return $getShipAddr;
 		}
 	}
 
 	public function getBillingAddressByUser(){
-		
+
 		if(isset($_GET['username'])){
 			$billingAddress = [];
 				$currentUsername = $_GET['username'];
@@ -318,11 +317,11 @@ class Customer extends Entity
 							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
 								WHERE Username = '$currentUsername' LIMIT 1) LIMIT 1";
 				  $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-				 
+
 				return $getBillAddr;
 		}
 	}
-	
+
 	public function getAllShippingsAddressByUser(){
 			if(isset($_GET['username'])){
 				$shippingAddress = [];
@@ -358,7 +357,7 @@ class Customer extends Entity
 		}
 
 	public function getAllBillingsAddressByUser(){
-		
+
 			if(isset($_GET['username'])){
 				$billingAddress = [];
 					$currentUsername = $_GET['username'];
@@ -395,17 +394,17 @@ class Customer extends Entity
 	public function disableAddress(){
 		if(isset($_GET['addressID'])){
 			$id =$_GET['addressID'];
-			
+
 			$sql = "UPDATE
 							t_address
 						SET
 							t_address.isActive = '0'
 												WHERE t_address.id_Address = '$id'";
-					
+
 			$this->Query($sql);
 		}
 	}
-	
+
 	public function AddAddress(){
 	 if($this->jsonToProcess !=null)
       {
@@ -418,7 +417,7 @@ class Customer extends Entity
 			$address = $this->jsonToProcess->address;
 			$city = $this->jsonToProcess->city;
 			$zip = $this->jsonToProcess->zip;
-			
+
 			if($type==3){
 			$addShipAddress1 = "INSERT INTO t_address
 								(Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
@@ -444,34 +443,34 @@ class Customer extends Entity
 		}
 	  }
 	}
-    
+
 	public function SetAddressByDefault(){
 		if(isset($_GET['addressID'])){
 			$id =$_GET['addressID'];
 			$type =$_GET['addressType'];
 			$currentUsername =$_GET['username'];
-			
+
 					$sql1 = "UPDATE
 												t_address
 											SET
 												T_address.isDefault ='0'
 																	WHERE t_address.isDefault = '1' AND t_address.FK_AddressType = '$type'
 																	AND FK_Customer = (SELECT id_customer FROM t_customers
-																						INNER JOIN t_users on t_users.FK_Customer = t_customers.id_customer 
+																						INNER JOIN t_users on t_users.FK_Customer = t_customers.id_customer
 																						WHERE t_users.Username ='$currentUsername')";
-				
+
 					$this->Query($sql1);
-					
+
 					$sql2 = "UPDATE
 												t_address
 											SET
 												T_address.isDefault ='1'
 																	WHERE t_address.id_Address = '$id'";
-				
+
 					$this->Query($sql2);
 		}
 	}
-	
+
 	public function LockCheck(){
 			$sql = " SELECT LockedBy FROM t_lock_customer
 						WHERE FK_Customer = $this->idToProcess";
@@ -481,7 +480,7 @@ class Customer extends Entity
 		   // Retour du résultat
 		   return $tmpResult;
 		}
-		
+
 	public function UpdateLock(){
 
 		$sql = "UPDATE  	t_lock_customer
@@ -495,7 +494,7 @@ class Customer extends Entity
 	   // Retour du résultat
 	   return $tmpResult;
 	}
-	
+
 	public function AddLock(){
 		if(isset($_GET['username'])){
 			$username= $_GET['username'];
@@ -509,7 +508,7 @@ class Customer extends Entity
 		}
 
 	}
-	
+
 	public function ReleaseLock(){
 		if(isset($_GET['username'])){
 			$username= $_GET['username'];
@@ -522,7 +521,7 @@ class Customer extends Entity
 		}
 
 	}
-	
+
 	public function ForceReleaseLock(){
 
 			$sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess";
@@ -533,7 +532,7 @@ class Customer extends Entity
 		   return $tmpResult;
 
 	}
-	
+
 	public function CleanupLocks(){
 		$sql = "DELETE FROM t_lock_customer WHERE TIME_TO_SEC(LockTime)+600 <= TIME_TO_SEC(NOW())";
 

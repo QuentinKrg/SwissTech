@@ -44,6 +44,7 @@ import { PrintLayoutComponent } from './components/my-profile/my-orders/print/pr
 import { InvoiceComponent } from './components/my-profile/my-orders/print/invoice/invoice.component';
 import { ManageCategoriesComponent } from './components/my-profile/admin-panel/manage-categories/manage-categories.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

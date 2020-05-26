@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from 'src/app/models/user';
@@ -30,12 +30,11 @@ export class HeaderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private categoriesService: CategoriesService,
-    private dataService: DataService
+    private dataService: DataService,
+    private _route: ActivatedRoute
   ) { 
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
-
-  
 
   textSearch: string = "";
   
@@ -50,6 +49,15 @@ export class HeaderComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       search: ['', Validators.required]
     });
+
+    this._route.queryParams.subscribe(params =>  { 
+      // Filtrer les article par ob = order by
+      if(params['q'] == null) {
+        this.textSearch = "";
+      } else {
+        this.textSearch = params['q']
+      }
+     });
 
     
 

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, NavigationStart, Params } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/product';
 import { ProductListComponent } from '../home/product-list/product-list.component';
 import { Order } from 'src/app/models/order';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { Categories } from 'src/app/models/categories';
+import { Manufacturer } from 'src/app/models/Manufacturer';
+import { Color } from 'src/app/models/Color';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
@@ -19,41 +22,81 @@ export class ProductsComponent implements OnInit {
               private _route: ActivatedRoute,
               private _router: Router,
               private _productService: ProductService,
-              private _categoriesService: CategoriesService) { }
+              private _categoriesService: CategoriesService) {
+                _router.events.subscribe((val ) => {
+                  if(val instanceof NavigationEnd && this.asBeenInit) {
+                    this.getParams();
+                    this.filterAllProducts(this.allProducts, this.urlParams);    
+                  }
+                });
+              }
 
+  
   urlParams = new HttpParams();
   allProducts: Product[] = [];
   filterValue: Array<any> = [];
   isLoaded: boolean = false;
   selectedOptionOrder: string = "bestseller";
   allSubCat: Categories[];
+  asBeenInit: boolean = false;
+  selectedCategory: Categories = null;
+  queryTextFilter: string = "";
 
-  
-  ngOnInit() {
-    // Récupération des paramètres de recherches
-    this._route.queryParams.subscribe(params =>  {
+  //-- Filtres --//
+  // Marques
+  allManufacturers: Manufacturer[] = [];
+  selectedBrand: number = -1;
+
+  // Couleurs
+  allColors: Color[] = [];
+  toppings = new FormControl();
+  selectedColor: number = -1;
+
+  // Prix
+  maxPrice: number = 100000;
+  minPrice: number = 0;
+  maxPriceToNotChange: number = 100000;
+  minPriceToNotChange: number = 0;
+
+  ngOnInit() {    
+    // Récupération des paramètres dans l'URL
+    this.getParams();
+    // Récupérer l'ensemble des produits actifs en bdd
+    this.getAllProducts();
+    // Récupération de toutes les données pour les filtres
+    this.getAllManufacturersAndColors();
+    // Boolean qui permet de ne pas appeler les fonctions 2x (entre le ngOnInit et le constructeur)
+    this.asBeenInit = true;    
+  }
+
+  // Récupération des paramètres de recherches
+  getParams() {
+    this._route.queryParams.subscribe(params =>  {      
       // Recherche par texte
       if(params['q'] != null) {       
-        this.urlParams =   this.urlParams.set('q',params['q']);
+        this.urlParams =  this.urlParams.set('q',params['q']);
       }
       // Recherche par catégorie
       if(params['cat'] != null) {
         this.urlParams = this.urlParams.set('cat',params['cat']);
         // Récupération des sous-catégories
         this._categoriesService.getAllCategoriesWithThisTopCategory(params['cat']).subscribe(data => this.allSubCat = data);
+        // Récupérer les informations de la catégories sélectionnée
+        this._categoriesService.getCategoryById(params['cat']).subscribe(data => {this.selectedCategory = data});        
       } else {
         // Si aucune catégorie en paramètre -> récupéreration des catégories principales
         this._categoriesService.getAllMainGategories().subscribe(data => this.allSubCat = data);
       }  
-      // Filtrer les article. ob = order by
+      // Filtrer les article par ob = order by
       if(params['ob'] != null) {
         this.urlParams = this.urlParams.set('ob',params['ob']);
       } 
-    });
 
-    // Récupérer l'ensemble des produits actifs en bdd
-    this.getAllProducts();
-
+      // Filtrer les articles par prix
+      if(params['price'] != null) {
+        this.urlParams = this.urlParams.set('price', params['price']);
+      }
+    });    
   }
 
   // Récupération des produits actifs
@@ -61,20 +104,19 @@ export class ProductsComponent implements OnInit {
     this._productService.getAllProducts().subscribe(
       (data: Product[]) => {   
         
+        // Filtrer les produits qui sont "actifs"
         this.allProducts = data.filter(p => p.isActive == true);
         this.filterValue = this.allProducts;   
 
         // filter la liste de produits avec les paramètres ci-dessus  
-        this.filterAllProducts(this.allProducts , this.urlParams);  
+        this.filterAllProducts(this.allProducts, this.urlParams);  
       }
     );
   }
 
   // Filter la liste des articles
-  filterAllProducts(productsList: Product[], params: HttpParams) {        
-    if(params.has('cat')) {
-      this.filterByCat(Number(this.urlParams.get('cat')));
-    }
+  filterAllProducts(productsList: Product[], params: HttpParams) {           
+    // Filtrer avec le text
     if(params.has('q')) {
       let tmpSearchValue: string = params.get('q').toLowerCase();
       this.allProducts = productsList.filter(
@@ -83,19 +125,46 @@ export class ProductsComponent implements OnInit {
           || p.ManufacturerName.toLowerCase().includes(tmpSearchValue)
           || p.ProductColor.toLowerCase().includes(tmpSearchValue)
           || p.CategoryName.toLowerCase().includes(tmpSearchValue)
-        );      
+        );  
+        this.queryTextFilter = params.get('q');
     }
+
+    // Filtrer par fourchette de prix
+    if(params.has('price')) {
+      // Récupération et stockage des valeurs min et max
+      let toArray = params.get('price').split("-");
+      this.minPrice = Number(toArray[0]);
+      this.maxPrice = Number(toArray[1]);
+      
+      // Filrer par prix
+      this.allProducts = this.filterValue.filter(p => p.ProductUnitPrice >= this.minPrice && p.ProductUnitPrice <= this.maxPrice);
+    } else {
+      // Récupération du prix max et min de la liste de produit
+      this.getMaxAndMin();
+    }
+
+    // Filtrer avec les catégories
+    if(params.has('cat')) {  
+      this.allProducts = this.filterValue.filter(p => p.Categories.find(cat => cat.id == Number(this.urlParams.get('cat'))));  
+    }
+
+    // Filtrer par "Order By" dans l'ordre voulu
     if(params.has('ob')) {
       this.sortBy(params.get('ob'));
-      this.selectedOptionOrder = params.get('ob');
-    } 
+      this.selectedOptionOrder = params.get('ob');           
+    }
 
+    // Affiche le contenu de la page 
     this.isLoaded = true;    
   }
 
   // Filtrer par catégorie
   filterByCat(id: number) {
-    this.allProducts = this.allProducts.filter(p => p.Categories.find(cat => cat.id == id));
+    // Modification de la variable contentant les paramètres
+    this.urlParams = this.urlParams.set('cat',id.toString());
+
+    // Récupération du prix max et min de la liste de produit
+    this.getMaxAndMin();
 
     // Modifier le paramètre dans l'URL
     this._router.navigate([],
@@ -106,18 +175,26 @@ export class ProductsComponent implements OnInit {
     );
   }
 
-  // Méthode pour ordonné les articles
-  sortBy(order: string) {
+  // Filtrer par prix
+  filterByPriceRange() {
     // Modifier le paramètre dans l'URL
     this._router.navigate([],
       {
-        queryParams: {ob: order},
+        queryParams: {price: this.minPrice+"-"+this.maxPrice},
         queryParamsHandling: "merge"
       }
     );
+  }
 
+  // Filtrer par marques
+
+  // Filtrer par couleurs
+
+  
+  // Méthode pour ordonné les articles
+  sortBy(order: string) {
     // Ordrer par prix croissant
-    if(order == "priceasc") {
+    if(order == "priceasc") {     
       this.allProducts = this.allProducts.sort((a,b) => a.ProductUnitPrice-b.ProductUnitPrice);
     }
 
@@ -138,8 +215,43 @@ export class ProductsComponent implements OnInit {
 
     // Ordrer par meilleur vente
     if (order == "bestseller") {
-      this.allProducts = this.filterValue;
+      this.allProducts = this.allProducts.sort();
+    }
+  
+    // Modifier le paramètre dans l'URL
+    this._router.navigate([],
+      {
+        queryParams: {ob: order},
+        queryParamsHandling: "merge"
+      }
+    );
+  }
+
+  // Récupération des données Marques et couleurs pour les filtres
+  getAllManufacturersAndColors() {
+    // Récupération des marques
+    this._productService.getAllManufacturer().subscribe((brands) => {this.allManufacturers = brands});
+
+    // Récupérations des couleurs
+    this._productService.GetAllColors().subscribe((colors) => {this.allColors = colors});
+  }
+
+  // Récupérer le prix min et max des articles filtrés
+  getMaxAndMin() {
+    if(this.allProducts.length > 0) {
+      // Création d'un tableau avec le prix de tous les articles
+      let allPrice: number[] = this.allProducts.map(product => product.ProductUnitPrice);   
+
+      // Récupération du prix min
+      this.minPriceToNotChange = allPrice.reduce((a,b) => Math.min(a,b));
+      this.minPrice = this.minPriceToNotChange;
+
+      // Récupération du prix max
+      this.maxPriceToNotChange = allPrice.reduce((a,b) => Math.max(b,a));
+      this.maxPrice = this.maxPriceToNotChange;
+      
     }
   }
+
 
 }

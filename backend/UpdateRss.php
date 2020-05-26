@@ -32,7 +32,7 @@ function update_fluxRSS($rssEntity) {
 
 
     /*  Maintenant, nous allons nous connecter à notre base de données afin d'aller chercher les
-     items à insérer dans le flux RSS.
+     produits à insérer dans le flux RSS.
      */
 
     //on lit les 5 premiers éléments à partir du dernier ajouté dans la base de données
