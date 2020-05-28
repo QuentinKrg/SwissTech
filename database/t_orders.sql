@@ -11,7 +11,30 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Listage des données de la table db_swisstech.t_orders : ~6 rows (environ)
+-- Listage de la structure de la table db_swisstech. t_orders
+DROP TABLE IF EXISTS `t_orders`;
+CREATE TABLE IF NOT EXISTS `t_orders` (
+  `id_Order` int(11) NOT NULL AUTO_INCREMENT,
+  `OrderDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `FK_Status` int(11) NOT NULL DEFAULT 1,
+  `FK_PaymentMethod` int(11) NOT NULL,
+  `FK_Customer` int(11) NOT NULL,
+  `FK_Order_ShippingAddress` int(11) DEFAULT NULL,
+  `FK_Order_BillingAddress` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_Order`),
+  KEY `FK_Order_Status` (`FK_Status`),
+  KEY `FK_Order_Customer` (`FK_Customer`),
+  KEY `FK_Order_PaymentMethod` (`FK_PaymentMethod`),
+  KEY `FK_Order_ShippingAddress` (`FK_Order_ShippingAddress`),
+  KEY `FK_Order_BillingAddress` (`FK_Order_BillingAddress`),
+  CONSTRAINT `FK_Order_BillingAddress` FOREIGN KEY (`FK_Order_BillingAddress`) REFERENCES `t_address` (`id_Address`),
+  CONSTRAINT `FK_Order_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
+  CONSTRAINT `FK_Order_PaymentMethod` FOREIGN KEY (`FK_PaymentMethod`) REFERENCES `t_paymentmethod` (`id_paymentmethod`),
+  CONSTRAINT `FK_Order_ShippingAddress` FOREIGN KEY (`FK_Order_ShippingAddress`) REFERENCES `t_address` (`id_Address`),
+  CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table db_swisstech.t_orders : ~19 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
 INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`, `FK_Customer`, `FK_Order_ShippingAddress`, `FK_Order_BillingAddress`) VALUES
 	(37, '2020-04-05 15:21:36', 1, 2, 25, NULL, NULL),
