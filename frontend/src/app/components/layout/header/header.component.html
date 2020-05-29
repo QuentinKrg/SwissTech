@@ -41,7 +41,7 @@
             <div class="col-sm-12 col-md-12 order-last d-flex mx-auto pb-1">
                 <div class="collapse navbar-collapse justify-content-center" id="navbarLinksCollapsed">
                     <ul class="navbar-nav" *ngFor="let category of mainCategories">
-                        <li class="nav-item" *ngIf="category.IsActive == true">
+                        <li class="nav-item" *ngIf="category.IsActive == true" data-toggle="collapse" data-target="#navbarLinksCollapsed" aria-controls="navbarLinksCollapsed" aria-expanded="false">
                             <a class="nav-link"  [routerLink]="['products']" [queryParams]="{cat: category.id}" queryParamsHandling="merge" (click)="refreshResults(category)"  >{{category.CategoryName}}</a>
                         </li>
                     </ul>
