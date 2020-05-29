@@ -42,8 +42,9 @@ class Product extends Entity
 
         // Ajout d'un article
         $addProduct = "INSERT INTO t_products (ProductName, FK_ProductColor, ProductSize, ProductDescription, ProductUnitPrice, FK_Category, FK_Manufacturer)
-                        VALUES ('$productName','$productColorId','$productSize','$productDescription','$productUnitPrice','$FK_Category','$FK_Manufacturer')";
-        $result = $this->Query($addProduct);
+                        VALUES ('".addslashes($productName)."','$productColorId','$productSize','".addslashes($productDescription)."','$productUnitPrice','$FK_Category','$FK_Manufacturer')";
+
+        $this->Query($addProduct);
 
         // Récupération de l'id de l'article qui vient d'être ajouté
         $getLastProductAddedId = "SELECT t_products.id_Product FROM t_products ORDER BY  t_products.id_Product DESC LIMIT 1";
@@ -67,6 +68,8 @@ class Product extends Entity
         // Mise à jour du fichier
         update_fluxRSS($rssEntity);
 
+
+
       }
     }
 
@@ -86,28 +89,29 @@ class Product extends Entity
         $productUnitPrice = $this->jsonToProcess->ProductUnitPrice;
         $FK_Category = $this->jsonToProcess->CategoryId;
         $FK_Manufacturer = $this->jsonToProcess->ManufacturerId;
+
         // Valeur pour l'image
         $imagePath = $this->jsonToProcess->ImagePath;
 
         // update d'un article
         $updateProduct = "UPDATE t_products SET
-                          t_products.ProductName = '$productName',
+                          t_products.ProductName = '".addslashes($productName)."',
                           t_products.FK_ProductColor = '$productColorId',
                           t_products.ProductSize = '$productSize',
-                          t_products.ProductDescription = '$productDescription',
+                          t_products.ProductDescription = '".addslashes($productDescription)."',
                           t_products.ProductUnitPrice = '$productUnitPrice',
                           t_products.FK_Category = '$FK_Category',
                           t_products.FK_Manufacturer = '$FK_Manufacturer'
                           WHERE t_products.id_Product = '$productId'";
-        $this->Query($updateProduct);
+        $result = $this->Query($updateProduct);
 
         // Ajout de la relation article - images
-        $updateProductImage = "UPDATE t_products_images 
-								SET
+        $updateProductImage = "UPDATE t_products_images
+								          SET
                                 t_products_images.FK_Product = '$productId',
                                 t_products_images.FK_Image = (SELECT t_images.id_Image FROM t_images WHERE t_images.ImagePath = '$imagePath' ORDER BY t_images.id_Image DESC LIMIT 1)
                                 WHERE t_products_images.FK_Product = '$productId'";
-								
+
         $this->Query($updateProductImage);
 
         //--- RSS ---//
@@ -365,10 +369,10 @@ class Product extends Entity
     // Création d'un article
     public function UploadImage()
     {
-		
+
       if($_FILES != null)
       {
-		$target_dir = "D:/3Annee/Projet 120-151/xampp/htdocs/SwissTech/Images/Products/";
+	      $target_dir = "../Images/Products/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -379,7 +383,7 @@ class Product extends Entity
         {
           $uploadOk = 0;
         }
-		
+
         // Définir une taille limite pour les images si plus grande que 500 KB
         if($_FILES["image"]["size"] > 500000)
         {
@@ -395,27 +399,28 @@ class Product extends Entity
         if ($uploadOk == 0) {
           // Retourner une erreur
         } else {
+
           if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file))
           {
-			
-			$sql0 = "SELECT * FROM t_images WHERE t_images.ImagePath= '$fileName'";
-			$tmpResult = ($this->Query($sql0)->fetch( PDO::FETCH_ASSOC));
-			if($tmpResult==null){
-            // Ajout des informations de l'image en DB
-            $sql = "INSERT INTO t_images (t_images.ImageName, t_images.ImagePath)
-                    VALUES ( '$imageFileName','$fileName')";
-            $this->Query($sql);
-			
+
+  			$sql0 = "SELECT * FROM t_images WHERE t_images.ImagePath= '$fileName'";
+  			$tmpResult = ($this->Query($sql0)->fetch( PDO::FETCH_ASSOC));
+  			if($tmpResult==null){
+              // Ajout des informations de l'image en DB
+              $sql = "INSERT INTO t_images (t_images.ImageName, t_images.ImagePath)
+                      VALUES ( '$imageFileName','$fileName')";
+              $this->Query($sql);
 			}else{
 				return;
 			}
-			
+
           } else {
             // Retourner une erreur
           }
         }
       }
     }
+
 	public function LockCheck(){
 		$sql = " SELECT LockedBy FROM t_lock_product
 					WHERE FK_Product = $this->idToProcess";

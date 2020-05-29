@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
               private _router: Router) { }
 
   ngOnInit() {
-    this._productService.getRandoms(6)
+    this._productService.getRandoms(4)
       .subscribe((data: Product[]) =>{
         this.recommendationList = data;
     });

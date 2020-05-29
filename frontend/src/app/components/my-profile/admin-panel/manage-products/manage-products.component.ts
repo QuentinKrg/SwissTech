@@ -278,9 +278,13 @@ export class ManageProductsComponent implements OnInit {
     if(this.fileToUpload != null) {
       const formData = new FormData();
       formData.append('image', this.fileToUpload);
-      this._productService.uploadProductImage(formData).subscribe(() => {
-        this.imagePathToShow = this.fileToUpload.name;
-      });
+      this.isImagePathAvailable();
+      if(this.isimagePathValid) {
+        this._productService.uploadProductImage(formData).subscribe(() => {
+          this.imagePathToShow = this.fileToUpload.name;
+  
+        });
+      }
     }
   }
 
@@ -328,7 +332,7 @@ export class ManageProductsComponent implements OnInit {
         console.log("ok");
         this._modalService.dismissAll();
         this.addProductGroup.reset();
-        this.ngOnInit();
+        this.ngOnInit(); 
       },
       (error) => { console.log(error);
         this.submitted=false;
@@ -479,15 +483,15 @@ export class ManageProductsComponent implements OnInit {
   
       this._productService.updateProduct(productToUpdate).subscribe(
         () => {
-          console.log("ok");
+          this.onReleaseLock();
+          this._modalService.dismissAll();
+          this.addProductGroup.reset();
+          this.ngOnInit();
         },
         (error) => { }
       );
       
-      this.onReleaseLock();
-      this._modalService.dismissAll();
-      this.addProductGroup.reset();
-      this.ngOnInit();
+      
     }, 500);
   }
 
@@ -546,7 +550,6 @@ export class ManageProductsComponent implements OnInit {
         this.isimagePathValid = true;
       },
       (error) => {
-        console.log(error);
         this.isimagePathValid = false;
       }
     );
