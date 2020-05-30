@@ -1,16 +1,16 @@
-<div class="card">
+<div class="card shadow border-0">
     <div class="card-header">
         <a> 
             <figcaption class="figure-caption">{{product.CategoryName}}</figcaption>
         </a>
     </div>
-    <a [routerLink]="['/product-details', product.id_Product]">
+    <a [routerLink]="['/product-details', product.id_Product]" class="p-2">
         <img src='{{imageUrl}}{{product.ImagePath}}' class="card-img-top" alt="...">
     </a>
     <div class="card-body">
         <figcaption class="figure-caption">{{product.ManufacturerName}}</figcaption>
-        <a [routerLink]="['/product-details', product.id_Product]" class="text-dark d-inline-block ">
-            <p class="card-text">{{product.ProductName}}</p>
+        <a  [title]="product.ProductName" [routerLink]="['/product-details', product.id_Product]" class="text-dark d-inline-block ">
+            <p class="card-text">{{(product.ProductName.length > 25)? (product.ProductName | slice:0:25)+'..':(product.ProductName)}}</p>
         </a>
     </div>
 
