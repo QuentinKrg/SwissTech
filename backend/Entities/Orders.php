@@ -86,6 +86,33 @@ class Orders extends Entity
 		}
 	}
 
+	public function getOrderShippingAddressByOrderID() {
+
+		if(isset($_GET['orderid'])){
+				$currentID = $_GET['orderid'];
+				   $sql = "SELECT * FROM t_orders 
+							INNER JOIN t_address ON t_address.id_Address = t_orders.FK_Order_ShippingAddress
+								WHERE id_order = '$currentID'";
+
+				  $tmpResult=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+				return $tmpResult;
+		}
+	}
+	public function getOrderBillingAddressByOrderID() {
+
+		if(isset($_GET['orderid'])){
+				$currentID = $_GET['orderid'];
+				   $sql = "SELECT * FROM t_orders 
+							INNER JOIN t_address ON t_address.id_Address = t_orders.FK_Order_BillingAddress
+								WHERE id_order = '$currentID'";
+
+				  $tmpResult=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+				return $tmpResult;
+		}
+	}
+	
   // Création d'une nouvelle commande
   public function addOrder() {
     if($this->jsonToProcess !=null)
