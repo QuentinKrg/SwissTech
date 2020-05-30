@@ -76,7 +76,7 @@
                     <tr>
                         <th scope="col">Produit</th>
                         <th scope="col">Quantité</th>
-                        <th scope="col">Montant</th>
+                        <th scope="col ">Montant</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,9 +102,36 @@
                 </tbody>
             </table>
         </div>
-        <div class="row justify-content-between">
-            <div class="col-3"><div class="row float-left pl-3"><h6>Total : </h6> {{selectedOrder.TotalOrder}}.-</div></div>
-            <div class="col-8"><div class="row float-right pr-3"><h6>Méthode de paiement : </h6> {{selectedOrder.MethodName}}</div></div>
+        <div class="row justify-content-between m-2">
+            <div class="col-3"><div class="row float-left pl-3"><h6 class="m-0">Total : </h6> <div>{{selectedOrder.TotalOrder}}</div></div></div>
+            <div class="col-8"><div class="row float-right pr-3"><h6 class="m-0">Méthode de paiement : </h6> <div>{{selectedOrder.MethodName}}</div></div></div>
+        </div>
+
+        <div class="row p-3 border border-light mt-2">
+            <div class="col shadow text-center m-3">
+                <h5 class="text-muted">Adresse de livraison</h5>
+                <div class="pl-3 text-muted">
+                    <div class="row p-1 font-weight-bold">{{shippingAddress.FullName | titlecase}}</div>
+            
+                    <div class="row p-1">{{shippingAddress.Address | titlecase}}</div>
+                    
+                    <div class="row p-1">{{shippingAddress.ZIP}}</div>
+                    
+                    <div class="row p-1">{{shippingAddress.City | titlecase}}</div>
+                </div>
+            </div>
+            <div class="col shadow text-center m-3">
+                <h5 class="text-muted">Adresse de Facturation</h5>
+                <div class="pl-3 text-muted">
+                    <div class="row p-1 font-weight-bold">{{billingAddress.FullName | titlecase}}</div>
+            
+                    <div class="row p-1">{{billingAddress.Address | titlecase}}</div>
+                    
+                    <div class="row p-1">{{billingAddress.ZIP}}</div>
+                    
+                    <div class="row p-1">{{billingAddress.City | titlecase}}</div>
+                </div>
+            </div>
         </div>
     </div>
 </ng-template>  

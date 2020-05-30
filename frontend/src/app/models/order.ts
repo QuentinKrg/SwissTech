@@ -13,4 +13,8 @@ TotalPrice: Float32Array;
 TotalOrder: number;
 MethodName: string;
 Username: string;
+FullName: string;
+Address: string;
+City: string;
+ZIP: number;
 }
