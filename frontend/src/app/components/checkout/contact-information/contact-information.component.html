@@ -5,7 +5,7 @@
         <option value="-1"><span>Ajouter une nouvelle adresse</span> </option>
         <option [selected]="shipaddr.isDefault" *ngFor="let shipaddr of myShipAddr" id="optionSelected"
             [value]="(shipaddr | json)">
-            <span>{{shipaddr?.shippingAddress}}, {{shipaddr?.shippingCity}}, {{ shipaddr?.shippingZip }}</span>
+            <span>{{shipaddr?.FullName}}, {{shipaddr?.shippingAddress}}, {{shipaddr?.shippingCity}}, {{ shipaddr?.shippingZip }}</span>
         </option>
     </select>
 
@@ -34,38 +34,35 @@
             </div>
             <!-- Adresse-->
             <div class="form-group row">
-                <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
+                <label for="address" class="col-sm-4 col-form-label">Adresse</label>
                 <div class="col-sm-8">
-                    <input type="shippingAddress" class="form-control" formControlName="shippingAddress"
-                        id="shippingAddress" placeholder="Rue, n°"
-                        [ngClass]="{ 'is-invalid': submitted && f2.shippingAddress.errors || f2.shippingAddress.touched && f2.shippingAddress.errors}">
+                    <input type="address" class="form-control" formControlName="address" id="address"
+                        placeholder="Rue, n°"
+                        [ngClass]="{ 'is-invalid': submitted && f2.address.errors || f2.address.touched && f2.address.errors}">
                 </div>
             </div>
             <!-- Ville-->
             <div class="form-group row">
-                <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
+                <label for="city" class="col-sm-4 col-form-label">Ville / NPA</label>
                 <div class="col-sm-5">
-                    <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity"
-                        placeholder="Ville"
-                        [ngClass]="{ 'is-invalid': submitted && f2.shippingCity.errors  || f2.shippingCity.touched && f2.shippingCity.errors}">
+                    <input type="city" class="form-control" formControlName="city" id="city" placeholder="Ville"
+                        [ngClass]="{ 'is-invalid': submitted && f2.city.errors  || f2.city.touched && f2.city.errors}">
                 </div>
                 <!-- NPA-->
                 <div class="col-sm-3">
-                    <input maxlength="4" type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip"
-                        placeholder="NPA" [ngClass]="{ 'is-invalid': submitted && f2.shippingZip.errors ||
-            f2.shippingZip.errors && f2.shippingZip.hasError('pattern') || f2.shippingZip.touched && f2.shippingZip.errors ||
-           f2.shippingZip.touched && f2.shippingZip.hasError('minLength')}">
-                    <div class="invalid-feedback" *ngIf="f2.shippingZip.touched && f2.shippingZip.hasError('pattern') ">
+                    <input maxlength="4" type="zip" class="form-control" formControlName="zip" id="zip"
+                        placeholder="NPA" [ngClass]="{ 'is-invalid': submitted && f2.zip.errors ||
+            f2.zip.errors && f2.zip.hasError('pattern') || f2.zip.touched && f2.zip.errors ||
+           f2.zip.touched && f2.zip.hasError('minLength')}">
+                    <div class="invalid-feedback" *ngIf="f2.zip.touched && f2.zip.hasError('pattern') ">
                         Uniquement des chiffres</div>
                     <div class="invalid-feedback"
-                        *ngIf="f2.shippingZip.touched && f2.shippingZip.value.length<4 && f2.shippingZip.value.length!=0 ">
+                        *ngIf="f2.zip.touched && f2.zip.value.length<4 && f2.zip.value.length!=0 ">
                         Au moins 4 chiffres</div>
                 </div>
             </div>
         </form>
     </div>
-</div>
-<div>
 </div>
 
 <!-- Mode d'expédition -->
@@ -78,6 +75,7 @@
         <span>Retour au panier</span>
     </a>
     <div class="col-md-7">
-        <button type="button" class="btn btn-primary" (click)="onSubmitAddress(selectAddress.value)">Continuer vers le paiement</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmitAddress(selectAddress.value)">Continuer vers le
+            paiement</button>
     </div>
 </div>

@@ -65,11 +65,18 @@ export class UserService {
   getShippingAddress(user: string){
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getShippingAddressByUser&username=' + user);
   }
+  getLastShippingAddress(user: string){
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getLastShippingAddressByUser&username=' + user);
+  }
   getAllShippingsAddress(user: string){
     return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllShippingsAddressByUser&username=' + user);
   }
   getBillingAddress(user: string){
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getBillingAddressByUser&username=' + user);
+  }
+  getLastBillingAddress(user: string){
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getLastBillingAddressByUser&username=' + user);
+    
   }
 
   getAllBillingsAddress(user: string){

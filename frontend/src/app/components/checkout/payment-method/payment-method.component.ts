@@ -28,9 +28,11 @@ export class PaymentMethodComponent implements OnInit {
   radioCard:any = null;
   radioBill:any = null;
   cart: ShoppingCart[];
+  myBillAddr: Customer[];
+  newBillAddress: boolean;
+  newAddressForm: FormGroup;
+  selectedBillingID: string;
   
-  
-
   constructor(private _userService: UserService,
               private _formBuilder: FormBuilder,
               private _authenticationService: AuthenticationService,
@@ -41,13 +43,22 @@ export class PaymentMethodComponent implements OnInit {
               }
 
   ngOnInit() {
+    
     // Reset des éléments du formulaire
     this.loading = false;
     this.submitted = false;
     this.radioCard = <HTMLInputElement>document.getElementById("card");
     this.radioBill = <HTMLInputElement>document.getElementById("bill");
     
-    
+    this.newAddressForm = this._formBuilder.group({
+      FullName: ['', Validators.required],
+      addressType: ['2'],
+      CustomerTitle: ['', Validators.required],
+      billingID: [''],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      zip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
+    });
     this.creditCardForm = this._formBuilder.group({
         cardNumber: ['', [Validators.required, Validators.pattern('[0-9 ]*'), Validators.minLength(19), Validators.maxLength(19)]],
         cardName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
@@ -55,7 +66,7 @@ export class PaymentMethodComponent implements OnInit {
         expirationYearDate: ['', Validators.required],
         securityCode: ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(3), Validators.maxLength(3)]]
     });
-    
+  
     
     // Récupération des données de facturations du client
     this._userService.getCustomer(this.currentUsername).subscribe((data = new Customer) => {
@@ -64,6 +75,8 @@ export class PaymentMethodComponent implements OnInit {
       });      
     });
 
+    this.getAllBillingsAddress();
+    this.newBillAddress = false;
 
   }
 
@@ -77,10 +90,59 @@ export class PaymentMethodComponent implements OnInit {
         numbvalue.value = numbvalue.value +" ";
       }
   }
-  
+  getAllBillingsAddress() {
+    //Service qui retourne l'adresse de livraison et assigne les données au formulaire
+    this._userService.getAllBillingsAddress(this.currentUsername).subscribe(
+      (data: Customer[]) => {
+        this.myBillAddr = data;
+        this.myBillAddr = this.myBillAddr;
+        console.log(data);
 
-  onSubmit()
+      },
+      (error) => {
+        console.log(error);
+      });
+  }
+  get f2() { return this.newAddressForm.controls; }
+
+  onNewBillAddress(value) {
+    if (value == -1) {
+      this.newBillAddress = true;
+    } else {
+      this.newBillAddress = false;
+    }
+  }
+  onSubmit(address)
   {    
+    
+    //Recupère l'adresse choisie dans la liste
+    const addressObj = JSON.parse(address);
+
+    //si =-1 l'utilisateur veut ajouter une nouvelle adresse
+    if (address == -1) {
+
+      //teste si le formulaire est correctement rempli
+      if(this.newAddressForm.invalid){
+        return;
+      }
+      //Ajoute une nouvelle adresse
+      this._userService.addAddress(this.currentUsername, this.newAddressForm.value).subscribe(
+        () => {
+          //Recupère la dernière adresse ajoutée par rapport son id
+          this._userService.getLastBillingAddress(this.currentUsername).subscribe((moreData = new Customer) => {
+            //Denifit tant que adresse de commande
+            this.selectedBillingID = moreData.id_Address.toString();
+          });
+        }, (error) => {
+          console.log(error);
+
+        });
+
+    } else {
+      //Si autre option, on définit l'adresse choisi avec l'id
+      this.selectedBillingID = addressObj.billingID;
+    }
+  setTimeout(()=> {
     this.submitted=true;
     if(this.radioCard.checked && !this.radioBill.checked) {
       // Stop si le formulaire n'est pas correctement rempli
@@ -98,6 +160,10 @@ export class PaymentMethodComponent implements OnInit {
     }
 
     let paymentOrder = new PaymentOrder;
+
+    //Définit les adresses de la commande à passer au backend
+    paymentOrder.FK_Order_BillingAddress = this.selectedBillingID;
+    paymentOrder.FK_Order_ShippingAddress= localStorage.getItem('shippingID');
 
     // Id du client
     paymentOrder.id_user = this.currentUserId;
@@ -141,7 +207,7 @@ export class PaymentMethodComponent implements OnInit {
       this._dataService.updateShoppingCart(this.cart);
       localStorage.removeItem('Cart');
       localStorage.removeItem('ProductsInTheCart');
-
+      localStorage.removeItem('shippingID');
       
 
       // Redirection
@@ -150,6 +216,7 @@ export class PaymentMethodComponent implements OnInit {
 
     
 
+  },200);
 
   }
 

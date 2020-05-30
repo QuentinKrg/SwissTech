@@ -94,14 +94,16 @@ class Orders extends Entity
       $id_client = $this->jsonToProcess->id_user;
       $paymentMethodCode = $this->jsonToProcess->paymentMethodCode;
       $shoppingCart[] = $this->jsonToProcess->shoppingCart;
-
+	  $FK_Order_ShippingAddress = $this->jsonToProcess->FK_Order_ShippingAddress;
+	  $FK_Order_BillingAddress = $this->jsonToProcess->FK_Order_BillingAddress;
       // Récupérer l'id customer du client
       $getFKCustomerByUserId = "SELECT t_users.FK_Customer FROM t_users WHERE t_users.id_user = '$id_client' LIMIT 1";
       $FK_Customer = ($this->Query($getFKCustomerByUserId)->fetchColumn());
 
       // Insérer un nouvel order avec les infos suivantes : méthode de paiment, FK_Customer
-      $createNewOrder = "INSERT INTO t_orders (t_orders.FK_Customer, t_orders.FK_PaymentMethod)
-              VALUES ($FK_Customer,(SELECT t_paymentmethod.id_paymentmethod FROM t_paymentmethod WHERE t_paymentmethod.MethodCode = '$paymentMethodCode'))";
+      $createNewOrder = "INSERT INTO t_orders (t_orders.FK_Customer, t_orders.FK_PaymentMethod,FK_Order_ShippingAddress, FK_Order_BillingAddress)
+              VALUES ($FK_Customer,(SELECT t_paymentmethod.id_paymentmethod FROM t_paymentmethod WHERE t_paymentmethod.MethodCode = '$paymentMethodCode'),
+			  '$FK_Order_ShippingAddress', '$FK_Order_BillingAddress')";
       $this->Query($createNewOrder);
 
       // Récupérer l'id de la commande crée à l'instant

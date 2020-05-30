@@ -4,22 +4,79 @@
             var text = $.trim($(this).val());
             $(".trimmed").html(text);
         });
-    }); 
+    });
 </script>
 <!-- Adresse de payement client -->
-<p>Adresse de livraison</p>
-<div>
-    <p>
-        <span>{{currentUser?.CustomerName}} {{currentUser?.CustomerLastName}}</span><br>
-        <span>{{currentUser?.billingAddress}}</span><br>
-        <span>{{currentUser?.billingCity}} {{currentUser?.billingZip}}</span><br>
-    </p>
+<h5>Adresse de facturation</h5>
+<div class="form-group">
+    <select class="form-control" (change)="onNewBillAddress($event.target.value)" #selectAddress id="selectAddress">
+        <option value="-1"><span>Ajouter une nouvelle adresse</span> </option>
+        <option [selected]="billaddr.isDefault" *ngFor="let billaddr of myBillAddr" id="optionSelected"
+            [value]="(billaddr | json)">
+            <span>{{billaddr?.billingAddress}}, {{billaddr?.billingCity}}, {{ billaddr?.billingZip }}</span>
+        </option>
+    </select>
+
+    <div *ngIf="newBillAddress" class="p-3">
+        <form [formGroup]="newAddressForm">
+            <!-- Titre-->
+            <div class="form-group row">
+                <label for="CustomerTitle" class="col-sm-4 col-form-label">Titre</label>
+                <div class="col-sm-8">
+                    <select class="form-control" id="CustomerTitle" formControlName="CustomerTitle"
+                        [ngClass]="{ 'is-invalid': submitted && f2.CustomerTitle.errors || f2.CustomerTitle.touched && f2.CustomerTitle.errors}">
+                        <option [value]="-1" disabled>choisir le Titre</option>
+                        <option [value]="1">Mr</option>
+                        <option [value]="2">Mme</option>
+                        <option [value]="3">Non Binaire</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Destinataire-->
+            <div class="form-group row">
+                <label for="FullName" class="col-sm-4 col-form-label">Destinataire</label>
+                <div class="col-sm-8">
+                    <input id="FullName" type="text" formControlName="FullName" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f2.FullName.errors || f2.FullName.touched && f2.FullName.errors}" />
+                </div>
+            </div>
+            <!-- Adresse-->
+            <div class="form-group row">
+                <label for="address" class="col-sm-4 col-form-label">Adresse</label>
+                <div class="col-sm-8">
+                    <input type="address" class="form-control" formControlName="address" id="address"
+                        placeholder="Rue, n°"
+                        [ngClass]="{ 'is-invalid': submitted && f2.address.errors || f2.address.touched && f2.address.errors}">
+                </div>
+            </div>
+            <!-- Ville-->
+            <div class="form-group row">
+                <label for="city" class="col-sm-4 col-form-label">Ville / NPA</label>
+                <div class="col-sm-5">
+                    <input type="city" class="form-control" formControlName="city" id="city" placeholder="Ville"
+                        [ngClass]="{ 'is-invalid': submitted && f2.city.errors  || f2.city.touched && f2.city.errors}">
+                </div>
+                <!-- NPA-->
+                <div class="col-sm-3">
+                    <input maxlength="4" type="zip" class="form-control" formControlName="zip" id="zip"
+                        placeholder="NPA" [ngClass]="{ 'is-invalid': submitted && f2.zip.errors ||
+            f2.zip.errors && f2.zip.hasError('pattern') || f2.zip.touched && f2.zip.errors ||
+           f2.zip.touched && f2.zip.hasError('minLength')}">
+                    <div class="invalid-feedback" *ngIf="f2.zip.touched && f2.zip.hasError('pattern') ">
+                        Uniquement des chiffres</div>
+                    <div class="invalid-feedback"
+                        *ngIf="f2.zip.touched && f2.zip.value.length<4 && f2.zip.value.length!=0 ">
+                        Au moins 4 chiffres</div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- Choix méthode de Paiement-->
 <h5>Paiement</h5>
 <p class="mt-0">Toutes les transactions sont sécurisées et chiffrées.</p>
-<form (ngSubmit)="onSubmit()" [formGroup]="creditCardForm" class="form">
+<form (ngSubmit)="onSubmit(selectAddress.value)" [formGroup]="creditCardForm" class="form">
     <div id="accordion">
         <div class="card">
         <div class="card-header" id="headingCarte">

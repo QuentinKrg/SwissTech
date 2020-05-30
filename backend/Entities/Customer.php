@@ -305,7 +305,36 @@ class Customer extends Entity
 				return $getShipAddr;
 		}
 	}
+	public function getLastShippingAddressByUser(){
+		if(isset($_GET['username'])){
 
+				$currentUsername = $_GET['username'];
+				   $sql = "SELECT id_Address, t_address.Address as 'shippingAddress',FK_Title,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+							FROM t_address
+							WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
+							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+								WHERE Username = '$currentUsername' LIMIT 1) ORDER BY t_address.id_Address DESC LIMIT 1";
+				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+				return $getShipAddr;
+		}
+	}
+	
+	public function getLastBillingAddressByUser(){
+		if(isset($_GET['username'])){
+
+				$currentUsername = $_GET['username'];
+				   $sql = "SELECT id_Address, t_address.Address as 'billingAddress',FK_Title,t_address.FullName, t_address.City AS 'billingCity', t_address.Zip AS 'billingZip' , t_address.FK_AddressType, t_address.FK_Customer
+							FROM t_address
+							WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
+							    INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+								WHERE Username = '$currentUsername' LIMIT 1) ORDER BY t_address.id_Address DESC LIMIT 1";
+				  $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+				return $getShipAddr;
+		}
+	}
+	
 	public function getBillingAddressByUser(){
 
 		if(isset($_GET['username'])){
