@@ -7,7 +7,7 @@ import { CategoriesService } from 'src/app/services/categories.service';
 import { Categories } from 'src/app/models/categories';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { DataService } from 'src/app/services/data.service';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUserAlt ,faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit {
   
   //icones
   faShoppingCart=faShoppingCart;
-
+  faUser =faUserAlt;
+  faSignOutAlt =faSignOutAlt;
   
   constructor(
     private router: Router,

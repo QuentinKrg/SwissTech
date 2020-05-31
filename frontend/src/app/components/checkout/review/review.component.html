@@ -2,18 +2,27 @@
     <div class="col-md-12 ">
         <!-- liste des articles -->
         <tbody *ngFor="let product of allProducts">
-            <tr>
-                <th scope="row" class="border-0">
-                    <div class="p-2">
-                        <img src="{{imageUrl}}{{product.ImagePath}}" alt="" width="70" class="img-fluid rounded shadow-sm">
-                        <div class="ml-3 d-inline-block align-middle">
-                            <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle"><span>{{getQuantityOfProduct(product).Quantity}}</span> x {{product.ProductName}}</a></h5><span class="text-muted font-weight-normal font-italic d-block">{{product.ManufacturerName}}</span>
+            <div class="mb-3">
+                <tr>
+                    <td class="align-middle">
+                        <div class="row">
+                            <div class="col-sm-3 ">
+                                <a [routerLink]="['/product-details', product.id_Product]">
+                                    <img src="{{imageUrl}}{{product.ImagePath}}" alt="" width="70"
+                                        class="img-fluid rounded shadow-sm">
+                                </a>
+                            </div>
+                            <div class="col-sm d-flex align-items-center">
+                                <a [routerLink]="['/product-details', product.id_Product]" 
+                                class="text-dark d-inline-block ">
+                                    {{ product.ProductName}}</a>
+                            </div>
                         </div>
-                    </div>
-                </th>
-
-                <td class="border-0  text-right"><strong>CHF {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong></td>
-            </tr>
+                    </td>
+                    <td class="border-0  text-right"><strong>CHF {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong></td>
+                </tr>
+            </div>
+            
         </tbody>
         <!-- Sous-total / livraison -->
         <tbody class="border-top">

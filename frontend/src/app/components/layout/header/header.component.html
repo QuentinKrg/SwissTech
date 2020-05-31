@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 fixed-top" data-toggle="sticky-onscroll">
-    <div class="container png g -0">
+    <div class="container png p-0">
         <div class="row align-items-center w-100 p-0 m-0">
             <div class="col-sm-1 col-md-3 order-0 mr-auto w-auto">
                 <a class="navbar-brand" href="/">
-                    <img height="64" class="logo d-none d-sm-inline" src="/assets/images/Swisstech-desktop-logo.png"/>
+                    <img height="64" class="logo d-none d-sm-inline p-0" src="/assets/images/Swisstech-desktop-logo.png"/>
                     <img height="64" class="d-md-none d-sm-none" src="/assets/images/Swisstech-smartphone-logo.png"/>
                 </a>
             </div>
@@ -14,7 +14,7 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <input type="search" class="form-control" placeholder="Recherche" [(ngModel)]="textSearch" name="text">
-                        <span class="input-group-btn">
+                        <span class="input-group-btn ml-2">
                             <button class="btn btn-info"  (click)="onSearch(textSearch)" type="submit">Recherche</button>
                         </span>
                     </div>
@@ -30,11 +30,11 @@
                     </fa-layers>
                 </a>
                 <a class="nav-link" routerLink="/myprofile">
-                    <img *ngIf="currentUser"  class="icon" title="Mon compte" src="/assets/images/icons/user.svg"/>
+                    <fa-icon *ngIf="currentUser" [icon]="faUser" class="text-dark" size="2x" title="Mon compte"></fa-icon>
                     <a routerLink="/login" *ngIf="!currentUser">Se connecter</a>
                 </a>
                 <a class="nav-link" *ngIf="currentUser" title="Se déconnecter" (click)="logout()">
-                    <img class="icon" src="/assets/images/icons/logout.svg"/>
+                    <fa-icon [icon]="faSignOutAlt" class="text-dark" size="2x"></fa-icon>
                 </a>
                 </span>
             </div>
