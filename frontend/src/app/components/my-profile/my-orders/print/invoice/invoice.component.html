@@ -1,53 +1,78 @@
-<div class="row">
-    <!-- INFO Swisstech.store-->
+<div class="row justify-content-between pb-5">
     <div class="col-6">
         <h1>Swisstech.store</h1>
     </div>
-    <!-- Infos commandes-->
     <div class="col-6">
-        <span>Commande N° :{{orderInfos.id_Order}}</span><br>
-        <span>Date : {{orderInfos.OrderDate | date :'dd.MM.yyyy'}}</span>
+        <table>
+            <tbody>
+                <tr><td>Commande N° :{{orderInfos.id_Order}}</td></tr>
+                <tr><td>Date : {{orderInfos.OrderDate | date :'dd.MM.yyyy'}}</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row justify-content-between">
+    <div class="col-6">
+        <table>
+            <thead>
+                <tr><th scope="col">Adresse de livraison</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>{{shippingAddress.FullName}}</td></tr>
+                <tr><td>{{shippingAddress.Address}}</td></tr>
+                <tr><td>{{shippingAddress.ZIP}} {{shippingAddress.City}}</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-6">
+        <table>
+            <thead>
+                <tr><th scope="col">Adresse de facturation</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>{{billingAddress.FullName}}</td></tr>
+                <tr><td>{{billingAddress.Address}}</td></tr>
+                <tr><td>{{billingAddress.ZIP}} {{billingAddress.City}}</td></tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
-
-    </div>
-    <div class="col-6">
-
+    <div class="col-12">
+        <div class="table table-responsive table-borderless">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Montant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let details of orderDetails">
+                        <td class="align-middle">
+                            <div class="row">
+                                <div class="col-sm-3 ">
+                                    <a [routerLink]="['/product-details', details.id_Product]">
+                                        <img src="{{imageUrl}}{{details.ImagePath}}" alt="" width="100"
+                                            class="img-fluid rounded shadow-sm">
+                                    </a>
+                                </div>
+                                <div class="col-sm d-flex align-items-center">
+                                    <a [routerLink]="['/product-details', details.id_Product]" 
+                                    class="text-dark d-inline-block ">
+                                        {{ details.ProductName}}</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle text-center">{{details.Quantity}}x</td>
+                        <td class="align-middle text-center">{{details.TotalPrice}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Méthode de paiement : {{orderInfos.MethodName}}</h5><br> <h5>Total : {{orderInfos.TotalOrder}}</h5>
+        </div>
     </div>
 </div>
-<div class="table table-responsive table-borderless">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Produit</th>
-                <th scope="col">Quantité</th>
-                <th scope="col">Montant</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let details of orderDetails">
-                <td class="align-middle">
-                    <div class="row">
-                        <div class="col-sm-3 ">
-                            <a [routerLink]="['/product-details', details.id_Product]">
-                                <img src="{{imageUrl}}{{details.ImagePath}}" alt="" width="100"
-                                    class="img-fluid rounded shadow-sm">
-                            </a>
-                        </div>
-                        <div class="col-sm d-flex align-items-center">
-                            <a [routerLink]="['/product-details', details.id_Product]" 
-                            class="text-dark d-inline-block ">
-                                {{ details.ProductName}}</a>
-                        </div>
-                    </div>
-                </td>
-                <td class="align-middle text-center">{{details.Quantity}}x</td>
-                <td class="align-middle text-center">{{details.TotalPrice}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <h5>Total : {{orderInfos.TotalOrder}}</h5>
-</div>
+
 

@@ -16,6 +16,8 @@ export class InvoiceComponent implements OnInit {
   orderDetails: Order[];
   imageUrl: string;
   orderInfos: Order;
+  billingAddress: Order;
+  shippingAddress: Order;
   
   constructor(
     private _orderService: OrdersService,
@@ -33,7 +35,17 @@ export class InvoiceComponent implements OnInit {
   }
 
   getInvoiceDetails(id: number) {
+    // Récupération de l'adresse de facturation de la commande
+    this._orderService.getOrderBillingAddressByOrderID(id).subscribe(data => {
+      this.billingAddress = data;
+    });
+
+    // Récupération de l'adresse de livraison de la commande
+    this._orderService.getOrderShippingAddressByOrderID(id).subscribe(data => {
+      this.shippingAddress = data;
+    });
     
+    // Récupération des informations de la commande
     this._orderService.getOrderDetailsByOrderID(id).subscribe(data => {
       this.orderDetails = data;
     });
