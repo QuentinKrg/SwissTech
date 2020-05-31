@@ -62,7 +62,8 @@ const routes: Routes = [
     ]},
     { path: 'print', component: PrintLayoutComponent, children: [
         { path: 'invoice/:id', component: InvoiceComponent },
-        { path: '', component: PrintLayoutComponent},
+
+        { path: '', component: HomeComponent},
       ]
     },
 

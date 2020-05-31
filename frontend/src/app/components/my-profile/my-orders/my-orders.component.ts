@@ -5,6 +5,7 @@ import { Order } from 'src/app/models/order';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { PrintService } from 'src/app/services/print.service';
 
 @Component({
   selector: 'app-my-orders',
@@ -34,7 +35,8 @@ export class MyOrdersComponent implements OnInit {
     private _orderService: OrdersService,
     private authenticationService: AuthenticationService,
     private modalService: NgbModal,
-    private _datePipe: DatePipe
+    private _datePipe: DatePipe,
+    private _printService: PrintService
   ) {
     this.imageUrl = environment.imageDirectory;
   }
@@ -78,8 +80,6 @@ export class MyOrdersComponent implements OnInit {
     this._orderService.getOrderDetailsByOrderID(orderid)
       .subscribe((data: Order[]) => {
         this.Orderdetails = data;
-        //this._orderService.emitOrderDetailSubject(this.Orderdetails);
-        console.log(this.Orderdetails);
       },
         (error) => {
           console.log(error);
@@ -116,9 +116,12 @@ export class MyOrdersComponent implements OnInit {
     if (this.selectedOption != -1) {
       this.myOrders = this.myOrders.filter(i => i.StatusId == this.selectedOption);
     }
+    
+  }
 
-
-
+  onPrintInvoice(order:Order) {
+    localStorage.setItem('order', JSON.stringify(order));
+    this._printService.printDocument(order.id_Order);
   }
 
 }
