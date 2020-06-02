@@ -12,7 +12,7 @@
                     <small>CHF {{product.ProductUnitPrice}}</small><br>
                     {{product.ProductName}}
                 </h3>
-                <p>{{product.ManufacturerName}} - {{product.CategoryName}}</p>
+                <p><a [routerLink]="['/products']" [queryParams]="{brand: product.ManufacturerId}">{{product.ManufacturerName}}</a> - <a [routerLink]="['/products']" [queryParams]="{cat: product.CategoryId}">{{product.CategoryName}}</a></p>
                 <p>Couleur : {{product.ProductColor}}</p>
 
                 <app-add-to-cart [productDetails]="product" [isCartItem]="false" class=""></app-add-to-cart>

@@ -17,6 +17,10 @@ export class CategoriesService {
     return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAll');
   }
 
+  getPreviousCategory(id: number) {
+    return this.http.get<Categories>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetPreviousCategory&id='+id);
+  }
+
   getAllMainGategories() {
     return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllMain');
   }

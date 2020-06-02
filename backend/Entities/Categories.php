@@ -18,7 +18,7 @@ class Categories extends Entity
     {
       $Categories = [];
 
-      $sql = "SELECT * FROM t_categories";
+      $sql = "SELECT * FROM t_categories tc ORDER BY tc.FK_Category IS NULL DESC, tc.CategoryName ASC";
 
       $tmpResult = $this->Query($sql);
 
@@ -86,7 +86,7 @@ class Categories extends Entity
 
 
       if($this->idToProcess !=null) {
-        $sql = "SELECT * FROM t_categories tc where tc.FK_Category = $this->idToProcess";
+        $sql = "SELECT * FROM t_categories tc where tc.FK_Category = $this->idToProcess ORDER BY tc.CategoryName ASC";
 
         $tmpResult = $this->Query($sql);
 
@@ -111,7 +111,7 @@ class Categories extends Entity
 	public function GetAllSubCategories()
     {
 
-        $sql = "SELECT * FROM t_categories where FK_Category IS NOT NULL";
+        $sql = "SELECT * FROM t_categories where FK_Category IS NOT NULL ORDER BY t_categories.CategoryName ASC";
 
         $tmpResult = $this->Query($sql);
 
@@ -199,5 +199,18 @@ class Categories extends Entity
 					$this->Query($updateCat);
 
 	}
+
+
+  // Récupération de la catégorie parente à cella sélectionnée
+  public function GetPreviousCategory()
+  {
+    $sql = "SELECT t_categories.id_Category AS 'id', t_categories.CategoryName, t_categories.isActive, t_categories.FK_Category
+    FROM t_categories WHERE t_categories.id_Category = (SELECT t_categories.FK_Category FROM t_categories WHERE t_categories.id_Category = $this->idToProcess)";
+
+    $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+    // Retour du résultat
+    return $tmpResult;
+  }
 
 }
