@@ -17,6 +17,8 @@ class Customer extends Entity
 
       if($this->jsonToProcess !=null)
       {
+        // Valeur du Salt
+        $salt = "i;151-120#";
 
         // Récupération des données reçues
 		$titre = $this->jsonToProcess->CustomerTitle;
@@ -62,7 +64,7 @@ class Customer extends Entity
 
 
 		  // Hash du mot de passe reçu et du salt de l'utilisateur
-		  $hashedPassword = hash('sha256', 'monsalt'.$password);
+		  $hashedPassword = hash('sha256', $salt.$password);
 
 		// Création du token
 		$token = md5(bin2hex(random_bytes(10)));
@@ -76,7 +78,7 @@ class Customer extends Entity
 		//Insert
 		$adduser = "INSERT INTO t_users
 					(Username , Password , salt , Token , TokenValidity,FK_Customer)
-					VALUES ('$login','$hashedPassword','monsalt','$token','$tokenValidity',
+					VALUES ('$login','$hashedPassword','$salt','$token','$tokenValidity',
 					(SELECT id_customer FROM t_customers WHERE CustomerName = '$name' AND CustomerLastName = '$lastname' AND CustomerBirthday ='$birthday'))";
         $this->Query($adduser);
 
@@ -169,7 +171,7 @@ class Customer extends Entity
 				if(isset($this->jsonToProcess->password)){
 					$password = $this->jsonToProcess->password;
 					// Hash du mot de passe reçu et du salt de l'utilisateur
-					$hashedPassword = hash('sha256', 'monsalt'.$password);
+					$hashedPassword = hash('sha256', $salt.$password);
 					//Update
 				$updatePassword = "UPDATE
 										t_users
@@ -206,7 +208,7 @@ class Customer extends Entity
 
 		$login = $this->jsonToProcess->username;
 		$password = $this->jsonToProcess->password;
-		$hashedPassword = hash('sha256', 'monsalt'.$password);
+		$hashedPassword = hash('sha256', $salt.$password);
 
 		$sql = "SELECT Password FROM t_users WHERE Username = '$login' AND Password = '$hashedPassword'";
 		$tmpPassword = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
@@ -319,7 +321,7 @@ class Customer extends Entity
 				return $getShipAddr;
 		}
 	}
-	
+
 	public function getLastBillingAddressByUser(){
 		if(isset($_GET['username'])){
 
@@ -334,7 +336,7 @@ class Customer extends Entity
 				return $getShipAddr;
 		}
 	}
-	
+
 	public function getBillingAddressByUser(){
 
 		if(isset($_GET['username'])){
