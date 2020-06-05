@@ -14,8 +14,8 @@ export class ManageCategoriesComponent implements OnInit {
   //icones
   faEllipsisV=faEllipsisV;
 
-  allSubCategoriesAvailable: Categories[];
-  allSubCategories: Categories[];
+  allSubCategoriesAvailable: Categories[] = [];
+  allSubCategories: Categories[] = [];
   catUpdateData: boolean;
   errorMessage: string;
   addError:boolean;
@@ -24,6 +24,9 @@ export class ManageCategoriesComponent implements OnInit {
   editCatForm: FormGroup;
   selectedCat: Categories;
   allCat: Categories[];
+  filterValue: Array<any> = [];
+  filterText: string;
+
   constructor(
     private _categoriesService: CategoriesService,
     private _modalService: NgbModal,
@@ -34,7 +37,10 @@ export class ManageCategoriesComponent implements OnInit {
       CategoryName: ['', [Validators.required]],
       FK_Category:[''],
      });
-    this._categoriesService.getAllCategories().subscribe(data => this.allCat = data);
+    this._categoriesService.getAllCategories().subscribe(data => {
+      this.allCat = data;
+      this.filterValue = this.allCat;
+    });
     this.submitted =false;
     this.catUpdateData= false;
     this.catUpdateDataMessage='';
@@ -130,5 +136,11 @@ export class ManageCategoriesComponent implements OnInit {
           
           return;
         });
-    }
+  }
+  // Filtrer les articles avec le texte 
+  filteredByText(initial: string) {
+    this.allCat = this.filterValue;
+    this.allCat = this.allCat.filter(i => i.CategoryName.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
+    this.filterText = initial.toLocaleLowerCase();
+  }
 }

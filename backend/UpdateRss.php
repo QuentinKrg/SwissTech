@@ -41,13 +41,13 @@ function update_fluxRSS($rssEntity) {
     //Une fois les informations récupérées, on ajoute un à un les items à notre fichier
     foreach($donnees as $value)
     {
-        $xml .= '<item>';
+        $xml .= '<product>';
         $xml .= '<title>'.stripcslashes($value['Title']).'</title>';
-        $xml .= '<link>location:index.php?controller=Article&amp;action=articlecommentaire&amp;id='.$value['Link'].'</link>';
+        $xml .= '<link>www.swisstech.store/product-details/'.$value['Link'].'</link>';
         $xml .= '<guid isPermaLink="true">'.$value['Guid'].'</guid>';
         $xml .= '<pubDate>'.$value['PubDate'].'</pubDate>';
         $xml .= '<description>'.stripcslashes($value['Description']).'</description>';
-        $xml .= '</item>';
+        $xml .= '</product>';
     }
 
     //Et on ferme le channel et le flux RSS.

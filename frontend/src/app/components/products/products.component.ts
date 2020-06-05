@@ -176,17 +176,26 @@ export class ProductsComponent implements OnInit {
   
     this.getMaxAndMin(productsList);
     // Filtrer par fourchette de prix
-    if(params.has('price')) {      
+    if(params.has('price')) {   
       // Récupération et stockage des valeurs min et max
       let toArray = params.get('price').split("-");
       this.minPrice = Number(toArray[0]);
-      this.maxPrice = Number(toArray[1]);         
-      // Filrer par prix
-      productsList = productsList.filter(p => p.ProductUnitPrice >= this.minPrice && p.ProductUnitPrice <= this.maxPrice);
+      this.maxPrice = Number(toArray[1]);  
+      if(this.minPrice >= this.minPriceToNotChange && this.maxPrice <= this.maxPriceToNotChange && this.minPrice <= this.maxPrice) {
+        // Filrer par prix
+        productsList = productsList.filter(p => p.ProductUnitPrice >= this.minPrice && p.ProductUnitPrice <= this.maxPrice);
+      }else {
+        this.urlParams.delete('price');
+        // Modifier le paramètre dans l'URL
+        this._router.navigate([],
+          {
+            queryParams: {price: null},
+            queryParamsHandling: "merge"
+          }
+        );
+      }       
+      
      
-    } else {
-      // Récupération du prix max et min de la liste de produit      
-      this.getMaxAndMin(productsList);
     }
 
     // Filtrer par "Order By" dans l'ordre voulu
@@ -219,13 +228,16 @@ export class ProductsComponent implements OnInit {
 
   // Filtrer par prix
   filterByPriceRange() {
-    // Modifier le paramètre dans l'URL
-    this._router.navigate([],
-      {
-        queryParams: {price: this.minPrice+"-"+this.maxPrice},
-        queryParamsHandling: "merge"
-      }
-    );
+    if(this.minPrice >= this.minPriceToNotChange && this.maxPrice <= this.maxPriceToNotChange && this.minPrice <= this.maxPrice) {
+      // Modifier le paramètre dans l'URL
+      this._router.navigate([],
+        {
+          queryParams: {price: this.minPrice+"-"+this.maxPrice},
+          queryParamsHandling: "merge"
+        }
+      );
+    }
+
   }
 
   // Filtrer par marques
@@ -303,10 +315,14 @@ export class ProductsComponent implements OnInit {
 
       // Récupération du prix min
       this.minPriceToNotChange = allPrice.reduce((a,b) => Math.min(a,b));
+      console.log(this.minPriceToNotChange);
+      
       this.minPrice = this.minPriceToNotChange;
 
       // Récupération du prix max
       this.maxPriceToNotChange = allPrice.reduce((a,b) => Math.max(b,a));
+      console.log(this.maxPriceToNotChange);
+      
       this.maxPrice = this.maxPriceToNotChange;  
       
     }

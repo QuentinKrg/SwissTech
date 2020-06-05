@@ -60,7 +60,7 @@ class Comments extends Entity
         $FK_Customer = $this->jsonToProcess->FK_Customer;
 
         $sql = "INSERT INTO t_comments (CommentValue, FK_Product, FK_Customer)
-        VALUES ('$CommentValue', '$FK_Product','$FK_Customer')";
+        VALUES ('".addslashes($CommentValue)."', '$FK_Product','$FK_Customer')";
         $this->Query($sql);
       }
     }

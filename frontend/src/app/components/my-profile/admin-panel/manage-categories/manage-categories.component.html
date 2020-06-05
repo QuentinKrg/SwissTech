@@ -1,8 +1,18 @@
-<div class="row justify-content-end py-2 text-right">
-  <!-- Ajout d'un article / Reset des filtres de recherche-->
-  <div class="col-md-4 col-sm-12">
-    <button class="btn btn-success" (click)="openAddModal(AddCatModal)">Ajouter une catégorie</button>
-  </div>
+<!-- Navigation -->
+<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecategories">Gestion des catégories</a></small>
+<!-- Titre -->
+<h4 class="pb-3">Gestion des catégories</h4>
+<div class="row py-2 justify-content-start text-left">
+    <!-- Recherche par nom d'utilisateur -->
+    <div class="col-md-6 col-sm-12">
+      <label class="control-label" for="selectUsername">Filtrer par nom de catégories</label>
+      <input id="selectUsername" class="form-control" placeholder="Rechercher une catégorie" type="text"
+        [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
+    </div>
+      <!-- Ajout d'une catégorie -->
+    <div class="col-md-12 col-sm-12 w-100 pt-3">
+        <button class="btn btn-success" (click)="openAddModal(AddCatModal)">Ajouter une catégorie</button>
+    </div>
 </div>
 <!-- Tableau -->
 <div class="row">
@@ -70,7 +80,6 @@
         <div class="invalid-feedback" *ngIf=" f.CategoryName.hasError('pattern')">
           Uniquement des lettres et des espaces</div>
       </div>
-
 
       <div class="nav-link collapsed text-truncate btn btn-light shadow-sm m-3" href="#subcat" data-toggle="collapse">
         <h6> Sous-catégories</h6>

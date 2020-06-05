@@ -27,27 +27,27 @@ export class HeaderComponent implements OnInit {
   faSignOutAlt =faSignOutAlt;
   
   constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService,
-    private categoriesService: CategoriesService,
-    private dataService: DataService,
+    private _router: Router,
+    private _formBuilder: FormBuilder,
+    private _authenticationService: AuthenticationService,
+    private _categoriesService: CategoriesService,
+    private _dataService: DataService,
     private _route: ActivatedRoute
   ) { 
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this._authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   textSearch: string = "";
   
   ngOnInit() {
     this.textSearch = "";
-    this.dataService.count.subscribe(count => this.cartCount = count);
-    this.categoriesService.getAllMainGategories()
+    this._dataService.count.subscribe(count => this.cartCount = count);
+    this._categoriesService.getAllMainGategories()
       .subscribe((data: Categories[]) =>{
         this.mainCategories = data;       
     });   
     
-    this.searchForm = this.formBuilder.group({
+    this.searchForm = this._formBuilder.group({
       search: ['', Validators.required]
     });
 
@@ -66,8 +66,8 @@ export class HeaderComponent implements OnInit {
 
   onSearch(query: string) {
     if(query != "" && query != null) {
-      this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['products'],
+      this._router.navigateByUrl('', { skipLocationChange: true }).then(() => {
+          this._router.navigate(['products'],
             {
               queryParams: {q: query},
               queryParamsHandling: 'merge'
@@ -79,8 +79,8 @@ export class HeaderComponent implements OnInit {
   }
 
   refreshResults(category: Categories) {
-    this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['products'],
+    this._router.navigateByUrl('', { skipLocationChange: true }).then(() => {
+      this._router.navigate(['products'],
         {
           queryParams: {cat: category.id},
           queryParamsHandling: 'merge'
@@ -88,14 +88,10 @@ export class HeaderComponent implements OnInit {
       );
     }); 
   }
-    
-  onSubmit() {
-    
-  }
 
   logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['/']);
+    this._authenticationService.logout();
+    this._router.navigate(['/']);
   }
 
 }

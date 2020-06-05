@@ -59,7 +59,7 @@ class Product extends Entity
         $rssTitle = $productName;
         $rssLink = $productId;
         $rssGuid = time();
-        $rssDescription = $productDescription;
+        $rssDescription = addslashes($productDescription);
 
         // Ajout
         $rssEntity = new RSS();
@@ -117,7 +117,7 @@ class Product extends Entity
         //--- RSS ---//
         $rssTitle = $productName;
         $rssLink = $productId;
-        $rssDescription = $productDescription;
+        $rssDescription = addslashes($productDescription);
 
         // Update
         $rssEntity = new RSS();
