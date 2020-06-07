@@ -1,18 +1,18 @@
-<!-- Navigation -->
-<small><a routerLink="/myprofile/editprofile">Aperçu</a></small>
-<h2 class="p-3 text-center">Aperçu</h2>
+<!-- Aperçu des options du panneau mon profile -->
+<small><a routerLink="/myprofile/editprofile">Mon profile</a></small>
+<h2 class="p-3 text-center">Mon profile</h2>
 <div class="row">
     <div type="button" class="col-md-5 p-4 m-4 shadow min-vw-40" routerLink="/myprofile/editpersonalinfos"
         title="Editer mes coordonées">
         <h5>Mes coordonnées</h5>
         <div class="row p-3">
             <div class="col-sm-4">
-                <span *ngIf="f.CustomerTitle.value ==1">Mr</span>
-                <span *ngIf="f.CustomerTitle.value ==2">Mme</span>
-                <span *ngIf="f.CustomerTitle.value ==3">Non Binaire</span>
+                <span *ngIf="currentCustomer.FK_Title ==1">Mr</span>
+                <span *ngIf="currentCustomer.FK_Title ==2">Mme</span>
+                <span *ngIf="currentCustomer.FK_Title ==3">Non Binaire</span>
             </div>
             <div class="col-sm-8">
-                {{f.CustomerName.value}} {{f.CustomerLastName.value}}
+                {{currentCustomer.CustomerName}} {{currentCustomer.CustomerLastName}}
             </div>
         </div>
         <div class="row p-3">
@@ -20,7 +20,7 @@
                 Email:
             </div>
             <div class="col-sm-9">
-                {{f.CustomerEmail.value}}
+                {{currentCustomer.CustomerEmail}}
             </div>
         </div>
         <div class="row p-3">
@@ -28,7 +28,7 @@
                 Téléphone:
             </div>
             <div class="col-sm-8">
-                {{f.CustomerPhone.value}}
+                {{currentCustomer.CustomerPhone}}
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                 Client depuis:
             </div>
             <div class="col-sm-8">
-                {{f.CustomerSince.value}}
+                {{currentCustomer.CustomerSince}}
             </div>
         </div>
         <div class="row p-3">
@@ -45,7 +45,7 @@
                 Date de naissance:
             </div>
             <div class="col-sm-8">
-                {{f.CustomerBirthday.value}}
+                {{currentCustomer.CustomerBirthday}}
             </div>
         </div>
     </div>
@@ -61,9 +61,9 @@
 
             </div>
             <div class="col-sm-7">
-                <div class="row p-2"> {{f.shippingAddress.value}}</div>
-                <div class="row p-2">{{ f.shippingCity.value}}</div>
-                <div class="row p-2">{{ f.shippingZip.value }}</div>
+                <div class="row p-2"> {{currentCustomer.shippingAddress}}</div>
+                <div class="row p-2">{{ currentCustomer.shippingCity}}</div>
+                <div class="row p-2">{{ currentCustomer.shippingZip }}</div>
             </div>
         </div>
         <div class="row p-3 m-2 rounded bg-light">
@@ -73,15 +73,15 @@
                 </div>
             </div>
             <div class="col-sm-7">
-                <div class="row p-2"> {{f.billingAddress.value}}</div>
-                <div class="row p-2">{{ f.billingCity.value}}</div>
-                <div class="row p-2">{{ f.billingZip.value }}</div>
+                <div class="row p-2"> {{currentCustomer.billingAddress}}</div>
+                <div class="row p-2">{{ currentCustomer.billingCity}}</div>
+                <div class="row p-2">{{ currentCustomer.billingZip }}</div>
             </div>
         </div>
     </div>
 </div>
-<div type="button" class="row">
-    <div class=" col-md-5 p-4 m-4 shadow min-vw-40" routerLink="/myprofile/editlogininfos"
+<div  class="row">
+    <div type="button"class=" col-md-5 p-4 m-4 shadow min-vw-40" routerLink="/myprofile/editlogininfos"
         title="Modifier mes identifiants">
         <h5>Mes identifiants</h5>
     </div>

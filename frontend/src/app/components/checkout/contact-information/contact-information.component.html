@@ -2,13 +2,12 @@
 <h5>Adresse de livraison</h5>
 <div class="form-group">
     <select class="form-control" (change)="onNewShipAddress($event.target.value)" #selectAddress id="selectAddress">
-        <option value="-1"><span>Ajouter une nouvelle adresse</span> </option>
-        <option [selected]="shipaddr.isDefault" *ngFor="let shipaddr of myShipAddr" id="optionSelected"
+        <option value="-1">Ajouter une nouvelle adresse </option>
+        <option [selected]="shipaddr.isDefault==1" *ngFor="let shipaddr of myShipAddr" id="optionSelected"
             [value]="(shipaddr | json)">
-            <span>{{shipaddr?.FullName}}, {{shipaddr?.shippingAddress}}, {{shipaddr?.shippingCity}}, {{ shipaddr?.shippingZip }}</span>
+            {{shipaddr?.FullName | titlecase}}, {{shipaddr?.shippingAddress}}, {{shipaddr?.shippingCity}}, {{ shipaddr?.shippingZip }}
         </option>
     </select>
-
     <div *ngIf="newShipAddress" class="p-3">
         <form [formGroup]="newAddressForm" (ngSubmit)="onSubmitAddress()">
             <!-- Titre-->

@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   //icones
   faSyncAlt=faSyncAlt;
   
+  //Propriétés dus formulaire et validations
   registerForm: FormGroup;
   loading = false;
   submitted = false;
@@ -48,6 +49,7 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit() {
+    //Création d'un reactive form + validators des champs
     this.registerForm = this.formBuilder.group({
       CustomerTitle: ['', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
@@ -97,9 +99,9 @@ export class RegisterComponent implements OnInit {
       , {
         validator: CustomValidators.passwordMatchValidator
       });
-    this.generateCaptchaImage();//CAPTCHA
-    this.userCaptcha = this.registerForm.value.userEnteredCaptcha;//CAPTCHA
-    console.log(this.captchaGenerated);
+    
+    this.generateCaptchaImage();//Génèr le CAPTCHA à l'initialisation de la page
+    this.userCaptcha = this.registerForm.value.userEnteredCaptcha;//récupère la valeur saisie par l'user sur le champ CAPTCHA
 
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -279,7 +281,7 @@ export class RegisterComponent implements OnInit {
           });
       },
       (error) =>{
-        this.usernameErrorMessage = "Nom d'utilisateur non disponible";
+        this.usernameErrorMessage = "Nom d'utilisateur non disponible"; // si l'user essaye de submit un nom déjà existant = message d'erreur
         console.log(error);
         this.submitted = false;
         this.loading = false;

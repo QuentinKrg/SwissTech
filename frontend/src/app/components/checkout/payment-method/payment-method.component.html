@@ -10,10 +10,10 @@
 <h5>Adresse de facturation</h5>
 <div class="form-group">
     <select class="form-control" (change)="onNewBillAddress($event.target.value)" #selectAddress id="selectAddress">
-        <option value="-1"><span>Ajouter une nouvelle adresse</span> </option>
-        <option [selected]="billaddr.isDefault" *ngFor="let billaddr of myBillAddr" id="optionSelected"
+        <option value="-1">Ajouter une nouvelle adresse </option>
+        <option [selected]="billaddr.isDefault==1" *ngFor="let billaddr of myBillAddr" id="optionSelected"
             [value]="(billaddr | json)">
-            <span>{{billaddr?.billingAddress}}, {{billaddr?.billingCity}}, {{ billaddr?.billingZip }}</span>
+            {{billaddr?.FullName | titlecase}},{{billaddr?.billingAddress}}, {{billaddr?.billingCity}}, {{ billaddr?.billingZip }}
         </option>
     </select>
 

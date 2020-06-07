@@ -9,6 +9,8 @@ import { faClipboardList,faUser,faHeart,faUserShield } from '@fortawesome/free-s
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+
+  //infos de l'user
   currentUser: User;
   currentUserRole: string;
   //icones
@@ -17,14 +19,15 @@ export class SidebarComponent implements OnInit {
   faHeart=faHeart;
   faUserShield=faUserShield;
   constructor(
-    private authenticationService: AuthenticationService
+    private _authenticationService: AuthenticationService
   ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    //Récupère le role de l'user pour lui afficher ou pas le menu administration
+    this._authenticationService.currentUser.subscribe(x => this.currentUser = x);
    }
 
   ngOnInit() {
+    //Propriété pour check dans la vue, 
     this.currentUserRole = this.currentUser.role;
-    
   }
 
 }

@@ -37,13 +37,6 @@ fa-layers-counter {
   padding-left: 2%;
   margin: auto; }
 
-.background {
-  background-image: url("/src/assets/images/test2.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover; }
-
 .captcha {
   margin: auto;
   inline-size: fit-content; }
@@ -52,9 +45,9 @@ fa-layers-counter {
   margin: 0;
   padding: 0;
   width: 240px;
-  background-color: #0d2a46;
-  position: fixed;
-  height: 77%;
+  background-color: #212227;
+  position: absolute;
+  height: 100%;
   overflow: auto; }
   .sidebar a {
     display: block;
@@ -68,7 +61,8 @@ fa-layers-counter {
 
 div.content {
   margin-left: 250px;
-  height: 100%; }
+  height: 100%;
+  min-height: 500px; }
 
 @media screen and (max-width: 800px) {
   .sidebar {
@@ -83,6 +77,9 @@ div.content {
 @media screen and (max-width: 500px) {
   .sidebar a {
     text-align: center;
-    float: none; } }
+    float: none; }
+
+  div.content {
+    min-height: 100%; } }
 
 /*# sourceMappingURL=styles.css.map */

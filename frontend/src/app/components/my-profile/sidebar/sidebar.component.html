@@ -1,47 +1,57 @@
+<!--Un menu avec des sous-menus-->
 <div class="sidebar">
+    <!--Page principale du profile-->
     <a routerLink="/myprofile/editprofile" class="nav-item">
-        <fa-icon [icon]="faUser"></fa-icon> Aperçu 
+        <fa-icon [icon]="faUser"></fa-icon> Mon Profile 
     </a>
     <div class="pl-2" id="submenu2">
+        <!--Coordonées utilisateur, nom, contact, etc -->
         <ul class="flex-column pl-2 nav">
             <li class="nav-item  m-2"><a class="nav-link py-0" routerLink="/myprofile/editpersonalinfos"><span>Mes
                         coordonnées</span></a></li>
         </ul>
+        <!--Liste des adresses(gestion des adresses de facturation et livraison) -->
         <ul class="flex-column pl-2 nav">
             <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/editaddress"><span>Mes
                         adresses</span></a></li>
         </ul>
+        <!--Gestion des identifiants -->
         <ul class="flex-column pl-2 nav">
             <li class="nav-item m-2"><a class="nav-link py-0" routerLink="/myprofile/editlogininfos"><span>Mes
                         identifiants</span></a></li>
         </ul>
     </div>
+    <!--Liste des commandes en cours et livrées-->
     <a routerLink="/myprofile/myorders">
         <fa-icon [icon]="faClipboardList"></fa-icon> Mes commandes
     </a>
-    <a href="#contact"><fa-icon [icon]="faHeart"></fa-icon> Mes favoris
-    </a>
+    <!--Partie Admin,visible uniquement si l'user a un role administrateur-->
     <div *ngIf="currentUserRole== 'AD'">
         <a class="nav-link collapsed text-truncate collapsed" routerLink="/admin" data-toggle="collapse">
             <fa-icon [icon]="faUserShield"></fa-icon> Administration<span class="d-none d-sm-inline" routerLink="/admin"> </span></a>
         <div class="collapse show" id="submenu1" aria-expanded="true">
+            <!--Gestion des Articles-->
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item  m-2"><a class="nav-link py-0"
                         routerLink="/admin/manageproducts"><span>Articles</span></a></li>
             </ul>
+            <!--Gestion des commandes-->
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item m-2"><a class="nav-link py-0"
                         routerLink="/admin/manageorders"><span>Commandes</span></a></li>
             </ul>
+            <!--Gestion des clients-->
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item m-2"><a class="nav-link py-0"
                         routerLink="/admin/managecustomers"><span>Clients</span></a></li>
             </ul>
+            <!--Gestion des admins-->
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item m-2"><a class="nav-link py-0"
                         routerLink="/admin/manageadmins"><span>Administrateurs</span>
                     </a></li>
             </ul>
+            <!--Gestion des catégories-->
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item m-2"><a class="nav-link py-0"
                         routerLink="/admin/managecategories"><span>Catégories</span>

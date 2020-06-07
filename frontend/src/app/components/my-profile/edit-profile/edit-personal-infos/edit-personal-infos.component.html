@@ -1,7 +1,10 @@
-<small><a routerLink="/myprofile/editprofile">Aperçu</a> / <a routerLink="/myprofile/editpersonalinfos">Mes Coordonnées</a></small>
+<small><a routerLink="/myprofile/editprofile">Mon profile</a> / <a routerLink="/myprofile/editpersonalinfos">Mes
+        Coordonnées</a></small>
+<!--Page d'edition des informations personnelles d'un client-->
 <h2 class="p-3 text-center">Editer mon compte</h2>
-    <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form">
-
+<form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form row justify-content-md-center">
+    <div class="col-md-8">
+        <!--champs du formulaire:-->
         <div class="p-4 shadow-sm">
             <h5 class="border-top">Mes coordonnées </h5>
             <!-- Titre-->
@@ -15,7 +18,6 @@
                     <option [value]="3">Non binaire</option>
                 </select>
             </div>
-
             <!-- First name-->
             <div class="row">
                 <div class="col-sm">
@@ -37,9 +39,7 @@
                             Uniquement des lettres et des espaces</div>
                     </div>
                 </div>
-
             </div>
-
             <!-- Birthday date-->
             <div class="form-group">
                 <label for="CustomerBirthday">Date de naissance *</label>
@@ -67,14 +67,15 @@
                     <label for="CustomerPhone">Téléphone privé *</label>
                     <input type="phone" formControlName="CustomerPhone" class="form-control"
                         placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.CustomerPhone.errors || f.CustomerPhone.touched && f.CustomerPhone.errors || 
-                            f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')}" />
+                        f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')}" />
                     <div class="invalid-feedback" *ngIf="submitted && f.CustomerPhone.hasError('pattern') ||
-                             f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')">
+                         f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')">
                         Le format de la saisie n'est pas valable
                     </div>
                 </div>
             </div>
         </div>
+        <!--Fin et envoi du formulaire-->
         <div class="form-group pb-3 mt-3 text-center">
             <button [disabled]="loading" class="btn btn-primary btn-lg w-60 ">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
@@ -83,4 +84,5 @@
         </div>
         <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
         <div *ngIf="FormError" class="p-3 mb-2 bg-danger text-white text-center">{{FormErrorMessage}}</div>
-    </form>
+    </div>
+</form>

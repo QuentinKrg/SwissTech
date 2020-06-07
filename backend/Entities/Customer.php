@@ -6,19 +6,17 @@
  */
 
 class Customer extends Entity
-{
-
+{	
     public function  __construct(){
 		$this->Connect();
     }
 
     // Ajout d'un Client via le formulaire d'inscription
     public function AddCustomer(){
-
+		// Valeur du Salt
+		$salt = "i;151-120#";
       if($this->jsonToProcess !=null)
       {
-        // Valeur du Salt
-        $salt = "i;151-120#";
 
         // Récupération des données reçues
 		$titre = $this->jsonToProcess->CustomerTitle;
@@ -100,6 +98,8 @@ class Customer extends Entity
 
 	// Ajout d'un Client via le formulaire d'inscription
     public function UpdateCustomer(){
+		// Valeur du Salt
+		$salt = "i;151-120#";
 		if(isset($_GET['username'])){
 				$currentUsername = $_GET['username'];
 			if($this->jsonToProcess !=null){
@@ -205,10 +205,12 @@ class Customer extends Entity
 		}
 
 	public function CheckPassword(){
-
+		// Valeur du Salt
+		$salt = "i;151-120#";
+		
 		$login = $this->jsonToProcess->username;
 		$password = $this->jsonToProcess->password;
-		$hashedPassword = hash('sha256', $salt.$password);
+		$hashedPassword = hash('sha256',$salt.$password);
 
 		$sql = "SELECT Password FROM t_users WHERE Username = '$login' AND Password = '$hashedPassword'";
 		$tmpPassword = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);

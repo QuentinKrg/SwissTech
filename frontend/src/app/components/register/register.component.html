@@ -1,8 +1,10 @@
-<div class="maindiv background">
+<!-- Formulaire de création de compte-->
+<div class="maindiv ">
     <h2 class="pt-3 text-center">Créer un compte</h2>
-    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form">
+    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form row justify-content-md-center">
         <div class="col-md-6">
-            <div class="col-md m-4 p-4 shadow bg-white rounded">
+            <!-- Items du formulaire -->
+            <div class="col-md m-3 p-4 shadow-sm bg-white rounded ">
                 <div>
                     <h5 class="border-top">Mes coordonnées </h5>
                     <!-- Titre-->
@@ -56,7 +58,7 @@
 
                 </div>
             </div>
-            <div class="col-md m-4 p-4 shadow  bg-white rounded">
+            <div class="col-md m-3 p-4 shadow-sm  bg-white rounded">
                 <!-- Adresse de livraison -->
                 <h6 class="border-top pt-3">
                     <svg class="f-icon " aria-hidden="true" role="img" focusable="false" height="20"
@@ -159,9 +161,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="col-md m-4 p-4 shadow  bg-white rounded">
+            <div class="col-md m-3 p-4 shadow-sm  bg-white rounded">
                 <h5 class="border-top">Mes informations de contact</h5>
                 <div>
                     <!-- Email -->
@@ -188,7 +188,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md m-4 p-4 shadow bg-white rounded">
+            <div class="col-md m-3 p-4 shadow-sm bg-white rounded">
                 <div>
                     <h5 class="border-top">Mes identifiants </h5>
                     <!-- username -->
@@ -210,8 +210,8 @@
                                 <label for="password">Mot de passe:</label>
                                 <input id="password" formControlName="password" type="password" class="form-control"
                                     [ngClass]="f.password.touched && f.password.invalid ? 'is-invalid' : ''">
-                                    <div>
-                                        <label class="col"
+                                <div>
+                                    <label class="col"
                                         [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
                                         <i class="material-icons">{{ f.password.hasError('required') ||
                         f.password.hasError('minlength') ? 'cancel' :
@@ -227,7 +227,7 @@
                                     </label>
                                     <label class="col"
                                         [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
-    
+
                                         <i class="material-icons">{{ f.password.hasError('required') ||
                         f.password.hasError('hasCapitalCase') ? 'cancel' :
                         'check_circle' }}</i>
@@ -247,8 +247,8 @@
                         'check_circle' }}</i>
                                         Au moins un caractère spécial
                                     </label>
-                                    </div>
-                                
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-sm">
@@ -271,57 +271,57 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Checkbox general condition-->
-        <div class="form-group border-top  pt-3">
-            <div class="custom-control custom-checkbox">
-                <input id="checkbox_register" type="checkbox" class="custom-control-input"
-                    formControlName="generalConditions"
-                    [ngClass]="{ 'is-invalid': submitted && !registerForm.value.generalConditions}">
-                <label for="checkbox_register" class="custom-control-label">
-                    J'accepte les Conditions générales.
-                </label>
-            </div>
-        </div>
-        <!-- CAPTCHA-->
-        <div class="captcha ">
-            <div class="row w-60 mx-auto text-center">
-                <div class="col-auto">
-                    <canvas id="myCanvas" width="180" height="45">
-                        Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
-                </div>
-                <div class="col-auto text-baseline">
-                    <button id="MyButton" type="button" class="btn btn-light align-baseline h-20"
-                        (click)="onRefresh() ">
-                        <h4 class="m-auto text-primary"> <fa-icon [icon]="faSyncAlt" class="align-baseline"></fa-icon></h4>
-                    </button>
+            <!-- Checkbox general condition-->
+            <div class="form-group border-top  pt-3">
+                <div class="custom-control custom-checkbox">
+                    <input id="checkbox_register" type="checkbox" class="custom-control-input"
+                        formControlName="generalConditions"
+                        [ngClass]="{ 'is-invalid': submitted && !registerForm.value.generalConditions}">
+                    <label for="checkbox_register" class="custom-control-label">
+                        J'accepte les Conditions générales.
+                    </label>
                 </div>
             </div>
-
-            <div class="form-group mw-42">
-
-                <input class="form-control" formControlName="userEnteredCaptcha"
-                    placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
-                    submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
-
-                <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
-                 f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors" class="invalid-feedback">
-                    Veuillez saisir les caractères de l'image
+            <!-- CAPTCHA-->
+            <div class="captcha ">
+                <div class="row w-60 mx-auto text-center">
+                    <div class="col-auto pl-0">
+                        <canvas id="myCanvas" width="180" height="45" class="rounded">
+                            Your browser does not support the HTML5 canvas tag, please try another browser.</canvas>
+                    </div>
+                    <div class="col-auto pr-0 text-baseline">
+                        <button id="MyButton" type="button" class="btn btn-light align-baseline h-20"
+                            (click)="onRefresh() ">
+                            <h4 class="m-auto text-primary">
+                                <fa-icon [icon]="faSyncAlt" class="align-baseline"></fa-icon>
+                            </h4>
+                        </button>
+                    </div>
                 </div>
 
-                <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)" class="invalid-feedback">
-                    Le captcha est invalide
+                <div class="form-group mw-42">
+
+                    <input class="form-control" formControlName="userEnteredCaptcha"
+                        placeholder="Inserez le code de l'image" type="text" [maxlength]="6" [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
+            submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
+
+                    <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
+         f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors" class="invalid-feedback">
+                        Veuillez saisir les caractères de l'image
+                    </div>
+
+                    <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)" class="invalid-feedback">
+                        Le captcha est invalide
+                    </div>
                 </div>
             </div>
-        </div>
-
-
-
-        <div class="form-group pb-3 mt-3 text-center">
-            <button [disabled]="loading" class="btn btn-primary btn-lg w-60 ">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Inscrivez-vous
-            </button>
+            <!-- Fin du formulaire et envoie-->
+            <div class="form-group pb-3 mt-3 text-center">
+                <button [disabled]="loading" class="btn btn-primary btn-lg w-60 ">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Inscrivez-vous
+                </button>
+            </div>
         </div>
     </form>
 
