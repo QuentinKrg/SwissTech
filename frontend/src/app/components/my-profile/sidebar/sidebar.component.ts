@@ -30,4 +30,8 @@ export class SidebarComponent implements OnInit {
     this.currentUserRole = this.currentUser.role;
   }
 
+  closeNav() {
+    document.getElementById("sideNav").style.width = "0";
+  }
+
 }

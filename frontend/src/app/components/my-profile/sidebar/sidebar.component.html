@@ -1,5 +1,161 @@
-<nav class="sidebar">
-    <div class="sidebar-header">
-        <h3>MON COMPTE</h3>
+<nav id="sidenav">
+    <div class="row pl-4  pt-5">
+        <div class="col-12 pb-3">
+            <!-- Navbar title-->
+            <a routerLink="/myprofile/editprofile"><fa-icon [icon]="faUser"></fa-icon> MON COMPTE</a>
+            <div class="brd pt-3"></div>
+        </div>
+        <!-- Affichage des commandes-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/myprofile/myorders" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/order.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Mes commandes</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Suivi, détails, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Gestion des adresses client-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/myprofile/editaddress" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/adress.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Mes adresses</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Suivi, détails, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Modification des coordonnées client-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/myprofile/editpersonalinfos" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/contact.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Mes Coordonnées</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Suivi, détails, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Modification des identifiants client -->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/myprofile/editlogininfos" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/login.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Mes identifiants</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Nom d'utilisateur, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div *ngIf="currentUserRole == 'AD'" class="row pl-4 pr-auto">
+        <div class="col-12 pb-3">
+            <!-- Navbar title admin-->
+            <a><fa-icon [icon]="faUserShield"></fa-icon> ADMINISTRATION</a>
+            <div class="brd pt-3"></div>
+        </div>
+        <!-- Gestion des Articles-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/admin/manageproducts" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/store.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Gestion Des Articles</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Ajout, Modification, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Gestion des commandes-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/admin/manageorders" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/order.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Gestion Des Commandes</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Status, Modification, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Gestion des clients-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/admin/managecustomers" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/user.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Gestion Des Clients</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Informations, Status, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Gestion des administrateurs-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/admin/manageadmins" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/boss.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Gestion Des Administrateurs</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Ajout, Status, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Gestion des Catégories-->
+        <div class="col-12 pb-3">
+            <a class="navlink" routerLink="/admin/managecategories" (click)="closeNav()">
+                <div class="navbarElement row m-0">
+                    <div class="col-12">
+                        <img src="/assets/images/icons/list.svg">
+                    </div>
+                    <div class="col-12">
+                        <h5>Gestion Des Catégories</h5>
+                    </div>
+                    <div class="col-12">
+                        <span>Ajout, Status, ...</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
     </div>
 </nav>

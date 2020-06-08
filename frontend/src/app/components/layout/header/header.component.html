@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light p-0 fixed-top" data-toggle="sticky-onscroll">
+<nav class=" header navbar navbar-expand-lg  p-0 fixed-top" data-toggle="sticky-onscroll">
     <div class="container png p-0">
         <div class="row align-items-center w-100 p-0 m-0">
             <div class="col-sm-1 col-md-3 order-0 mr-auto w-auto">
@@ -25,16 +25,16 @@
                 <span class="d-flex float-right">
                 <a class="nav-link" routerLink="/cart">
                     <fa-layers size="2x">
-                        <fa-icon  [icon]="faShoppingCart" class="text-dark"></fa-icon>
+                        <fa-icon  [icon]="faShoppingCart" class="icon"></fa-icon>
                         <fa-layers-counter content="{{cartCount}}" class="h1"></fa-layers-counter>
                     </fa-layers>
                 </a>
                 <a class="nav-link" (click)="openNav()">
-                    <fa-icon *ngIf="currentUser" [icon]="faUser" class="text-dark" size="2x" title="Mon compte"></fa-icon>
+                    <fa-icon *ngIf="currentUser" [icon]="faUser" class="icon" size="2x" title="Mon compte"></fa-icon>
                     <a *ngIf="!currentUser">Se connecter</a>
                 </a>
                 <a class="nav-link" *ngIf="currentUser" title="Se déconnecter" (click)="logout()">
-                    <fa-icon [icon]="faSignOutAlt" class="text-dark" size="2x"></fa-icon>
+                    <fa-icon [icon]="faSignOutAlt" class="icon" size="2x"></fa-icon>
                 </a>
                 </span>
             </div>
@@ -51,11 +51,11 @@
     </div>
 </nav>
 <div id="sideNav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <a href="javascript:void(0)" class="closebtn pr-auto" (click)="closeNav()">FERMER <span class="closeBtnCross">&times;</span></a>
     <div *ngIf="currentUser">
         <app-sidebar></app-sidebar>
     </div>
     <div *ngIf="!currentUser">
-        <app-login></app-login>
+        <app-login [isNavBar]="true"></app-login>
     </div>
 </div>

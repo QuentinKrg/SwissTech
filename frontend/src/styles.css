@@ -33,53 +33,27 @@ fa-layers-counter {
   .card-footer .price-card-footer {
     margin-top: 0.40rem; }
 
-.maindiv {
-  padding-left: 2%;
-  margin: auto; }
-
 .captcha {
   margin: auto;
   inline-size: fit-content; }
 
-.sidebar {
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  padding:0;
   margin: 0;
-  padding: 0;
-  width: 240px;
-  background-color: #212227;
-  position: absolute;
-  height: 100%;
-  overflow: auto; }
-  .sidebar a {
-    display: block;
-    color: white;
-    padding: 16px;
-    text-decoration: none; }
+  position: relative;
+}
 
-.sidebar a:hover {
-  background-color: #555;
-  color: white; }
+@media screen and (max-width: 1920px) {
+  body::after{ content:''; display:block; height:350px; }
+}
 
-div.content {
-  margin-left: 250px;
-  height: 100%;
-  min-height: 500px; }
-
-@media screen and (max-width: 800px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative; }
-    .sidebar a {
-      float: left; }
-
-  div.content {
-    margin-left: 0; } }
-@media screen and (max-width: 500px) {
-  .sidebar a {
-    text-align: center;
-    float: none; }
-
-  div.content {
-    min-height: 100%; } }
+@media screen and (max-width: 768px) {
+  body::after{ content:''; display:block; height:600px; }
+}
 
 /*# sourceMappingURL=styles.css.map */

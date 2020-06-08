@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { User } from 'src/app/models/user';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   user = new User;
-
+  faUser=faUser;
+  @Input() isNavBar: Boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -59,6 +61,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         () => {
          this.router.navigate([this.returnUrl]);
+         this.closeNav();
         },
         error => {
           this.alertService.error("Vos données de connexion sont erronées. Veuillez réessayer.");
@@ -66,6 +69,10 @@ export class LoginComponent implements OnInit {
           this.loginForm.reset();
         }
       );
+  }
+
+  closeNav() {
+    document.getElementById("sideNav").style.width = "0";
   }
 
 }

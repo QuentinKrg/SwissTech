@@ -1,24 +1,93 @@
-<h2>Login</h2>
-<form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <label for="username">Username : </label>
-        <input type="text" autofocus formControlName="username" class="form-control" placeholder="Nom d'utilisateur" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">Saisir votre nom d'utilisateur</div>
+<ng-container *ngIf="isNavBar; else elseTemplate">
+    <nav id="sidenav">
+        <div class="row pl-4">
+            <div class="col-12 text-center">
+                <img src="/assets/images/Swisstech-smartphone-logo.png" width="128">
+            </div>
+        </div>
+        <div class="row pl-4 pr-4 pt-4">
+            <div class="col-12 pb-3">
+                <!-- Navbar title-->
+                <span routerLink="/myprofile/editprofile">CONNEXION</span>
+                <div class="brd pt-3"></div>
+            </div>
+        </div>
+        <div class="row pl-4 ">
+            <div class="col-12">
+                <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="username">Nom d'utilisateur : </label>
+                        <input type="text" autofocus formControlName="username" class="form-control" placeholder="Nom d'utilisateur" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                            <div *ngIf="f.username.errors.required">Saisir votre nom d'utilisateur</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe : </label>
+                        <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Saisir le mot de passe</div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button [disabled]="loading" class="btn btn-info w-100">
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                            CONNEXION
+                        </button>
+                        <a href="" class="nav-link">Mot de passe oublié ?</a>
+                        <a routerLink="/register" preserveQueryParams class="btn btn-secondary w-100" (click)="closeNav()">CRÉER UN COMPTE</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>  
+</ng-container>
+<ng-template #elseTemplate>
+    <div class="row pt-5 text-center">
+        <div class="col-12">
+            <h1 class="text-dark font-weight-bold">Compte</h1>
         </div>
     </div>
-    <div class="form-group">
-        <label for="password">Mot de passe : </label>
-        <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Saisir le mot de passe</div>
+    <div class="row pt-4">
+        <div class="col-md-6 col-sm-12 pr-md-0">
+            <nav>
+                <ol class="breadcrumb bg-light">
+                  <li class="breadcrumb-item active mx-auto text-dark text-uppercase font-weight-bold ">Client déjà inscrit</li>
+                </ol>
+            </nav>
+            <form class="form " [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur : </label>
+                    <input type="text" autofocus formControlName="username" class="form-control" placeholder="Nom d'utilisateur" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                        <div *ngIf="f.username.errors.required">Saisir votre nom d'utilisateur</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe : </label>
+                    <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Saisir le mot de passe</div>
+                    </div>
+                </div>
+                <div class="form-group text-left">
+                    <button [disabled]="loading" class="btn btn-info w-md-40 w-100">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        CONNEXION
+                    </button>
+                    <a href="" class="nav-link pl-0">Mot de passe oublié ?</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 col-sm-12 text-center pl-md-0">
+            <nav>
+                <ol class="breadcrumb bg-light">
+                  <li class="breadcrumb-item active mx-auto text-dark text-uppercase font-weight-bold">Nouveau client</li>
+                </ol>
+            </nav>
+            <p class="pt-5 font-weight-light">Créer un compte afin de pouvoir passer commande sur notre super site ! ;)</p>
+            <a routerLink="/register" preserveQueryParams class="btn btn-secondary w-50" (click)="closeNav()">CRÉER UN COMPTE</a>
         </div>
     </div>
-    <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Se connecter
-        </button>
-        <a routerLink="/register" preserveQueryParams class="btn btn-link">S'enregistrer</a>
-    </div>
-</form>
+</ng-template>
+

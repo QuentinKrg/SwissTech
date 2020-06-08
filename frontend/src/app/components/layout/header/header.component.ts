@@ -95,10 +95,10 @@ export class HeaderComponent implements OnInit {
   }
 
   openNav() {
-    if(document.getElementById("sideNav").style.width == "250px") {
+    if(document.getElementById("sideNav").style.width == "300px") {
       this.closeNav();
     } else {
-      document.getElementById("sideNav").style.width = "250px";
+      document.getElementById("sideNav").style.width = "300px";
     }
     
   }
