@@ -31,17 +31,19 @@
                         <td>{{ order.TotalOrder }}</td>
                         <td>{{ order.MethodName }}</td>
                         <td>{{ order.StatusName }}</td>
-                        <td>
+                        <td><!--Bouton détails-->
                             <a class="btn btn-light" (click)="openModal(showOrderDetailsModal, order)">Détails</a>
                         </td>
-                        <td>
-                            <a class="btn btn-light" (click)="onPrintInvoice(order)">PRINT</a>
+                        <td><!--Bouton d'impression-->
+                            <a class="btn btn-light" (click)="onPrintInvoice(order)"> <fa-icon [icon]="faPrint" size="lg" class="text-dark"></fa-icon></a>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <!--Pagination-->
             <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
                 <div class="col-sm-3">
+                    <!--Choix de nombre d'items par page-->
                     <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <a>{{itemsPerPage}} par page...</a>
@@ -56,6 +58,7 @@
                     </button>
                 </div>
                 <div class="col-sm-8">
+                    <!--sélection de la page-->
                     <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages
                         [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)">
                     </ngb-pagination>
@@ -64,6 +67,7 @@
         </div>
     </div>
 </div>
+<!--Modal avec les détails d'une commande-->
 <ng-template #showOrderDetailsModal let-modal>
     <div class="modal-header">
         <h5 class="modal-title" id="showProfileLabel">Détails de la commande</h5>

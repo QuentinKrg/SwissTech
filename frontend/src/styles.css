@@ -37,33 +37,49 @@ fa-layers-counter {
   padding-left: 2%;
   margin: auto; }
 
-.background {
-  background-image: url("/src/assets/images/test2.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover; }
-
 .captcha {
   margin: auto;
   inline-size: fit-content; }
 
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 240px;
+  background-color: #212227;
+  position: absolute;
+  height: 100%;
+  overflow: auto; }
+  .sidebar a {
+    display: block;
+    color: white;
+    padding: 16px;
+    text-decoration: none; }
+
+.sidebar a:hover {
+  background-color: #555;
+  color: white; }
+
 div.content {
   margin-left: 250px;
-  height: 100%; }
-
-
-html {
   height: 100%;
-}
+  min-height: 500px; }
 
-body {
-  min-height: 100%;
-  padding:0;
-  margin: 0;
-  position: relative;
-}
+@media screen and (max-width: 800px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative; }
+    .sidebar a {
+      float: left; }
 
-body::after{ content:''; display:block; height:400px; }
+  div.content {
+    margin-left: 0; } }
+@media screen and (max-width: 500px) {
+  .sidebar a {
+    text-align: center;
+    float: none; }
+
+  div.content {
+    min-height: 100%; } }
 
 /*# sourceMappingURL=styles.css.map */

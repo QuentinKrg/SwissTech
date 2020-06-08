@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { formatDate } from '@angular/common';
 import { User } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-product-details',
@@ -18,7 +19,8 @@ import { environment } from 'src/environments/environment';
 })
 
 export class ProductDetailsComponent implements OnInit {
-  
+  //Icones
+  faSyncAlt =faSyncAlt;
   currentUser: User;
   product: Product;
   productId: number;
@@ -54,7 +56,7 @@ export class ProductDetailsComponent implements OnInit {
       console.log(this.product);
       
     });
-
+    //Création d'un formulaire
     this.addCommentForm = this._formBuilder.group({
       commentText: ['', Validators.required],
       userEnteredCaptcha: ['', [Validators.required]]//CAPTCHA

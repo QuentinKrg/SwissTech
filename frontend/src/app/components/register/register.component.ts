@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   //icones
   faSyncAlt=faSyncAlt;
   
+  //Propriétés dus formulaire et validations
   registerForm: FormGroup;
   loading = false;
   submitted = false;
@@ -48,6 +49,7 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit() {
+    //Création d'un reactive form + validators des champs
     this.registerForm = this.formBuilder.group({
       CustomerTitle: ['', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
@@ -97,9 +99,9 @@ export class RegisterComponent implements OnInit {
       , {
         validator: CustomValidators.passwordMatchValidator
       });
-    this.generateCaptchaImage();//CAPTCHA
-    this.userCaptcha = this.registerForm.value.userEnteredCaptcha;//CAPTCHA
-    console.log(this.captchaGenerated);
+    
+    this.generateCaptchaImage();//Génèr le CAPTCHA à l'initialisation de la page
+    this.userCaptcha = this.registerForm.value.userEnteredCaptcha;//récupère la valeur saisie par l'user sur le champ CAPTCHA
 
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -142,7 +144,7 @@ export class RegisterComponent implements OnInit {
   //fonction qui retourne un array de string, longeur selon paramètre
   generateText(length) {
     var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var characters = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -165,7 +167,7 @@ export class RegisterComponent implements OnInit {
     //Génère des rectangles aléatoires (taille et couleur)
     for (var j = 1; j < 60; j++) {
       ctx.save();
-      ctx.lineWidth = getRandomInt(3, 20);
+      ctx.lineWidth = getRandomInt(3, 30);
       ctx.strokeStyle = 'rgb(' + getRandomInt(133, 211) + ',' +
         getRandomInt(133, 211) + ',' + getRandomInt(133, 211) + ')';
       ctx.strokeRect(getRandomInt(-5, 200), 1, getRandomInt(20, 60), getRandomInt(35, 70))
@@ -251,14 +253,12 @@ export class RegisterComponent implements OnInit {
     this.registerForm.value.password = CryptoJS.SHA256(this.registerForm.value.password).toString();
     //désactive le bouton d'enregistrement
     this.loading = true;
-    console.log(this.registerForm.value);
-    console.log(this.user);
 
     //vérifie que le nom d'utilisateur est disponible
     this._userService.checkUserByUsername(this.user).then(
       ()=>{
         //si crée un nouveau client
-        this._userService.addCustomer(this.registerForm.value).then(
+        this._userService.addCustomer(this.registerForm.value).subscribe(
           () => {
             console.log('tout va bien');
             //si tout va bien le client se connecte directement
@@ -279,7 +279,7 @@ export class RegisterComponent implements OnInit {
           });
       },
       (error) =>{
-        this.usernameErrorMessage = "Nom d'utilisateur non disponible";
+        this.usernameErrorMessage = "Nom d'utilisateur non disponible"; // si l'user essaye de submit un nom déjà existant = message d'erreur
         console.log(error);
         this.submitted = false;
         this.loading = false;

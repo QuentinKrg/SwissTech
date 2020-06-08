@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Customer } from 'src/app/models/customer';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +22,7 @@ export class EditAddressComponent implements OnInit {
   faTrashAlt=faTrashAlt;
   faEdit=faEdit;
 
+  //Propriétés et variables
   addressType: number;
   isDefault:number;
   myShipAddr: Customer[];
@@ -35,33 +34,26 @@ export class EditAddressComponent implements OnInit {
   loading;
   submitted;
   returnUrl: string;
-  ariaOneisExpended;
-  user = new User;
-  haveUser: String;
-  usernameErrorMessage: String;
   userUpdateDataMessage: String;
-  userUpdateData = false;
-  isUserValid = true;
-  usernameData;
-  passwordErrorMessage: String;
+  userUpdateData:boolean;
   FormErrorMessage: String;
-  FormError = false;
-  isPasswordCorrect = false;
-  changeUsername = false;
-  changePassword = false;
-  currentUsername = this.authenticationService.currentUserValue.login;
+  FormError:boolean;
+  currentUsername = this._authenticationService.currentUserValue.login;
+
   constructor(private formBuilder: FormBuilder,
     private _userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private modalService: NgbModal,
-    private authenticationService: AuthenticationService
+    private _modalService: NgbModal,
+    private _authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
+    //Re/initialisation des variables
+    this.userUpdateData=false;
+    this.FormError=false;
     this.loading = false;
     this.submitted = false;
 
+    //Création d'un active form pour l'ajout d'adresse
     this.AddAddrForm = this.formBuilder.group({
       CustomerTitle: ['-1', Validators.required],
       FullName: ['', Validators.required],
@@ -70,6 +62,7 @@ export class EditAddressComponent implements OnInit {
       city: ['', Validators.required],
       zip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
     });
+    //Création d'un reactive form pour l'édition d'une adresse de livraison
     this.editShippingAddrForm = this.formBuilder.group({
       shippingID: [''],
       CustomerTitle: ['-1', Validators.required],
@@ -78,6 +71,7 @@ export class EditAddressComponent implements OnInit {
       shippingCity: ['', Validators.required],
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
     });
+    //Création d'un reactive form pour l'édition d'une adresse de facturation
     this.editBillingAddrForm = this.formBuilder.group({
       billingID: [''],
       CustomerTitle: ['-1', Validators.required],
@@ -86,18 +80,17 @@ export class EditAddressComponent implements OnInit {
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
     });
+    //Récupère toutes les adresses de l'user
     this.getAllBillingsAddress();
     this.getAllShippingsAddress();
-
-    // Récupérer l'url voulu dans l'URL or default
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
+  //Création des controles de chaque formulaire
   get f() { return this.editShippingAddrForm.controls; }
   get f2() { return this.editBillingAddrForm.controls; }
   get f3() { return this.AddAddrForm.controls; }
 
+  //Fonction d'appel au service qui retourne toutes les adresses de Livraison
   getAllShippingsAddress() {
-    //Service qui retourne l'adresse de livraison et assigne les données au formulaire
     this._userService.getAllShippingsAddress(this.currentUsername).subscribe(
       (data: Customer[]) => {
         this.myShipAddr = data;
@@ -106,12 +99,11 @@ export class EditAddressComponent implements OnInit {
 
       },
       (error) => {
-        this.usernameErrorMessage = "Error ";
         console.log(error);
       });
   }
+  //Fonction d'appel au service qui retourne toutes les adresses de facturation
   getAllBillingsAddress() {
-    //Service qui retourne l'adresse de facturation et assigne les données au formulaire
     this._userService.getAllBillingsAddress(this.currentUsername).subscribe(
       (data: Customer[]) => {
         this.myBillAddr = data;
@@ -120,16 +112,17 @@ export class EditAddressComponent implements OnInit {
 
       },
       (error) => {
-        this.usernameErrorMessage = "Error ";
         console.log(error);
       });
   }
+  //Fonction pour lancer un modal d'édition d'une adresse
   openModal(targetModal, addr) {
-    this.modalService.open(targetModal, {
+    this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
       size: 'md'
     });
+    //Assinge les données voulues au formulaire
     this.f.CustomerTitle.setValue(addr.FK_Title);
     this.f2.CustomerTitle.setValue(addr.FK_Title);
     this.f.shippingID.setValue(addr.shippingID);
@@ -146,17 +139,21 @@ export class EditAddressComponent implements OnInit {
     this.addressType=addr.addressType;
     this.isDefault= addr.isDefault;
   }
+  //Fonction de fermeture d'un Modal
   closeModal(){
-    this.modalService.dismissAll();
+    this._modalService.dismissAll();
+    //Appel à onInit pour réinitialiser la page
     this.ngOnInit();
   }
+  //Fonction pour lancer le modal d'ajout d'adresse
   openModalAddAddress(targetModal) {
-    this.modalService.open(targetModal, {
+    this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
       size: 'md'
     });
   }
+  //Envoi du formulaire d'édition d'une adresse de livraison
   onSubmitShippingAddresse() {
 
     //Stop si le formulaire n'est pas valide
@@ -189,7 +186,7 @@ export class EditAddressComponent implements OnInit {
           localStorageData.login = this.currentUsername;
           localStorage.setItem('currentUser', JSON.stringify(localStorageData));
           console.log(localStorageData);
-          this.authenticationService.currentUserValue.login = this.currentUsername;
+          this._authenticationService.currentUserValue.login = this.currentUsername;
         }
 
         this.ngOnInit();
@@ -203,11 +200,10 @@ export class EditAddressComponent implements OnInit {
         this.loading = false;
         return;
       });
-    this.changeUsername = false;
-    this.changePassword = false;
 
-    this.modalService.dismissAll();
+    this._modalService.dismissAll();
   }
+  //Envoi du formulaire d'édition d'une adresse de facturation
   onSubmitBillingAddresse() {
 
     //Stop si le formulaire n'est pas valide
@@ -240,7 +236,7 @@ export class EditAddressComponent implements OnInit {
           localStorageData.login = this.currentUsername;
           localStorage.setItem('currentUser', JSON.stringify(localStorageData));
           console.log(localStorageData);
-          this.authenticationService.currentUserValue.login = this.currentUsername;
+          this._authenticationService.currentUserValue.login = this.currentUsername;
         }
         this.ngOnInit();
         this.userUpdateData = true;
@@ -253,45 +249,45 @@ export class EditAddressComponent implements OnInit {
         this.loading = false;
         return;
       });
-    this.changeUsername = false;
-    this.changePassword = false;
 
-    this.modalService.dismissAll();
+    this._modalService.dismissAll();
   }
+  //Envoi du formulaire d'ajout d'adresse
   onSubmitAddAddresse() {
-    console.log('test');
-    console.log(this.AddAddrForm.value);
-
+    //Appel au service addAddress pour envoyer les données
     this._userService.addAddress(this.currentUsername, this.AddAddrForm.value).subscribe(
       () => {
-        this.modalService.dismissAll();
-        this.ngOnInit();
+        //si ok ferme le modal et relance la page
+        this.closeModal();
       }, (error) => {
         console.log(error);
 
       });
   }
+  //fonction pour "supprimer" une adresse de livraison
   onDisableShipAddress(id) {
-
     this._userService.disableAddress(id).subscribe(
       (data) => {
+        //récupère la liste de toutes les adresse à jour
         this.getAllShippingsAddress();
       },
       (error) => {
         console.log(error);
       });
   }
+  //fonction pour "supprimer" une adresse de facturation
   onDisableBillAddress(id) {
     this._userService.disableAddress(id).subscribe(
       (data) => {
+        //récupère la liste de toutes les adresse à jour
         this.getAllBillingsAddress();
       },
       (error) => {
         console.log(error);
       });
   }
+  //Fonction pour définir une adresse par défaut depuis un ID sélectionné
   SetAddressByDefault(id){
-
     this._userService.setAddressByDefault(id,this.addressType,this.currentUsername).subscribe(
       () => {
         this.isDefault= 1;

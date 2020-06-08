@@ -1,16 +1,18 @@
-<small><a routerLink="/myprofile/editprofile">Aperçu</a> / <a routerLink="/myprofile/editaddress">Mes
+<small><a routerLink="/myprofile/editprofile">Mon profile</a> / <a routerLink="/myprofile/editaddress">Mes
         Adresses</a></small>
 <div class="row">
+    <!--Bouton d'ajout d'adresse-->
     <div class="col-sm-3 m-3 btn btn-light rounded" (click)="openModalAddAddress(AddAddressModal)">
         <div class="h-100 p-3 text-center text-muted">
             Ajouter une adresse
             <div class="h-100 pt-4">
-                <fa-icon  [icon]="faPlus" size="4x"></fa-icon>
+                <fa-icon [icon]="faPlus" size="4x"></fa-icon>
             </div>
         </div>
     </div>
 </div>
 <h3>Adresses de livraison</h3>
+<!--liste des adresse de livrasion-->
 <div class="row">
     <div class="col-md-3 m-3 bg-white shadow rounded" *ngFor="let shipaddr of myShipAddr">
         <div class="p-3">
@@ -38,6 +40,7 @@
     </div>
 </div>
 <h3>Adresses de facturation</h3>
+<!--liste des adresse de livrasion-->
 <div class="row">
     <div class="col-md-3 m-3 bg-white shadow rounded" *ngFor="let billaddr of myBillAddr">
         <div class="p-3">
@@ -64,6 +67,7 @@
         </div>
     </div>
 </div>
+<!--Modal et formulaire d'édition d'adresse de livraison-->
 <ng-template #EditshippingAddressModal let-modal>
     <div class="modal-header">
         <h6 class="modal-title" id="showProfileLabel">
@@ -143,6 +147,7 @@
         </form>
     </div>
 </ng-template>
+<!--Modal et Formulaire d'édition d'adresse de facturation-->
 <ng-template #EditBillingAddressModal let-modal>
     <div class="modal-header">
         <h6 class="modal-title" id="showProfileLabel">
@@ -161,7 +166,7 @@
                 <button *ngIf="isDefault==0" type="button" (click)="SetAddressByDefault(f2.billingID.value)"
                     class="btn btn-light w-60 ">
                     Définir par défaut
-                 </button>
+                </button>
                 <div>
                     <!-- Titre-->
                     <div class="form-group">
@@ -226,6 +231,7 @@
         </form>
     </div>
 </ng-template>
+<!--Modal et Formulaire d'ajout d'adresse-->
 <ng-template #AddAddressModal let-modal>
     <div class="modal-header">
         <h6 class="modal-title" id="AddAddressLabel">
@@ -234,7 +240,6 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-
     <div class="modal-body p-3 ">
         <form (ngSubmit)="onSubmitAddAddresse()" [formGroup]="AddAddrForm" class="form">
             <div>

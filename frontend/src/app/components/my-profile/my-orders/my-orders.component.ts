@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { PrintService } from 'src/app/services/print.service';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-my-orders',
@@ -13,23 +14,25 @@ import { PrintService } from 'src/app/services/print.service';
   styleUrls: ['./my-orders.component.css']
 })
 export class MyOrdersComponent implements OnInit {
+  //icones
+  faPrint=faPrint;
+  //Récupération du nom d'user actuel
   currentUsername = this.authenticationService.currentUserValue.login;
+  //Propriétés de vérification et affichage de données
   myOrders: Order[];
   Orderdetails: Order[];
   selectedOrder: Order = new Order;
   filterValue: Array<any> = [];
   dateToFilterWith: string = "";
   selectedOption: number = -1;
+  imageUrl: string;
+  shippingAddress: Order;
+  billingAddress: Order;
+  //Pagination
   currentPage = 1;
   itemsPerPage = 5;
   pageSize: number;
   collectionSize: number;
-  imageUrl: string;
-  shippingAddress: Order;
-  billingAddress: Order;
-
-  public curantOrderID: number;
-  public isCollapsed = -1;
 
   constructor(
     private _orderService: OrdersService,
@@ -41,41 +44,40 @@ export class MyOrdersComponent implements OnInit {
     this.imageUrl = environment.imageDirectory;
   }
 
-
   ngOnInit() {
 
-    //Service qui retourne l'adresse de livraison et assigne les données au formulaire
+    //Appel au service qui retourne toutes les commandes de l'user
     this._orderService.getOrderByUsername(this.currentUsername)
       .subscribe((data: Order[]) => {
         this.myOrders = data;
         this.myOrders = this.myOrders;
-        this.collectionSize = this.myOrders.length;
+        this.collectionSize = this.myOrders.length;//nombre de commandes egual le nombre d'items de la pagination
 
-        this.filterValue = this.myOrders;
+        this.filterValue = this.myOrders;//Filtrage
       },
         (error) => {
           console.log(error);
         });
   }
+  //fonction de pagination, sélection de page
   onPageChange(pageNum: number): void {
     this.pageSize = this.itemsPerPage * (pageNum - 1);
   }
-
+//Fonction de pagination, sélection de nombre d'items par page
   changePagesize(num) {
     this.itemsPerPage = num;
   }
+  //Modal avec les détails de la commande
   openModal(targetModal, order) {
     this.modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
       size: 'lg'
     });
-
     this.selectedOrder = order;
-
     this.getOrderDetails(this.selectedOrder.id_Order);
   }
-
+//Récupère les détails de la commande sélectionée
   getOrderDetails(orderid) {
     this._orderService.getOrderDetailsByOrderID(orderid)
       .subscribe((data: Order[]) => {
@@ -84,7 +86,7 @@ export class MyOrdersComponent implements OnInit {
         (error) => {
           console.log(error);
         });
-
+        //Récupère l'adresse de livraison
     this._orderService.getOrderShippingAddressByOrderID(orderid)
       .subscribe((data: Order) => {
         this.shippingAddress = data;
@@ -92,7 +94,7 @@ export class MyOrdersComponent implements OnInit {
         (error) => {
           console.log(error);
         });
-
+//Récupère l'adresse de facturation
     this._orderService.getOrderBillingAddressByOrderID(orderid)
       .subscribe((data: Order) => {
         this.billingAddress = data;
@@ -101,6 +103,7 @@ export class MyOrdersComponent implements OnInit {
           console.log(error);
         });
   }
+  //Filtrer les commandes par date sélectionée
   filteredByDate(value: string) {
     this.myOrders = this.filterValue;
 
@@ -118,7 +121,7 @@ export class MyOrdersComponent implements OnInit {
     }
     
   }
-
+//fonction d'impression d'un commande via le service Print
   onPrintInvoice(order:Order) {
     localStorage.setItem('order', JSON.stringify(order));
     this._printService.printDocument(order.id_Order);

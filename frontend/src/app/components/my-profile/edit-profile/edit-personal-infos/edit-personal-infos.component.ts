@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Customer } from 'src/app/models/customer';
 
@@ -12,40 +10,29 @@ import { Customer } from 'src/app/models/customer';
   styleUrls: ['./edit-personal-infos.component.css']
 })
 export class EditPersonalInfosComponent implements OnInit {
-
+ //propriétés de vérification et de tests
   editRegisterForm: FormGroup;
   loading;
   submitted;
-  returnUrl: string;
-  ariaOneisExpended;
-  user = new User;
-  haveUser: String;
-  usernameErrorMessage: String;
   userUpdateDataMessage: String;
   userUpdateData = false;
-  isUserValid = true;
-  usernameData;
-  passwordErrorMessage: String;
   FormErrorMessage: String;
   FormError= false;
-  isPasswordCorrect =false;
-  changeUsername = false;
-  changePassword= false;
-  currentUsername = this.authenticationService.currentUserValue.login;
+  //Récupère le nom d'user actuel
+  currentUsername = this._authenticationService.currentUserValue.login;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private _formBuilder: FormBuilder,
     private _userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private authenticationService: AuthenticationService,
+    private _authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit() {
+    //On Re/initialise les contrôles du formulaire
     this.loading=false;
     this.submitted = false;
-    
-    this.editRegisterForm = this.formBuilder.group({
+    //Création d'un reactive form
+    this.editRegisterForm = this._formBuilder.group({
       CustomerTitle: ['-1', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
@@ -63,18 +50,13 @@ export class EditPersonalInfosComponent implements OnInit {
         this.f.CustomerBirthday.setValue(data.CustomerBirthday);
         this.f.CustomerEmail.setValue(data.CustomerEmail);
         this.f.CustomerPhone.setValue(data.CustomerPhone);
-        this.usernameData = data.Username;
         
       },
       (error) => {
-        this.usernameErrorMessage = "Error ";
         console.log(error);
       });
-      console.log(this.editRegisterForm);
-      
-    // Récupérer l'url voulu dans l'URL or default
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
+//Création d'un controleur de formulaire pour les validation des champs
   get f() { return this.editRegisterForm.controls; }
 
   onSubmit() {
@@ -93,15 +75,11 @@ export class EditPersonalInfosComponent implements OnInit {
       this.FormError = false;
       this.FormErrorMessage = "";
     }
-    
     //désactive le bouton d'enregistrement
     this.loading = true;
-
         //update de l'utilisateur
         this._userService.updateCustomer(this.currentUsername,this.editRegisterForm.value).then(
-          () => {
-            console.log('tout va bien');
-            
+          () => {            
             this.ngOnInit();
             this.userUpdateData = true;
             this.userUpdateDataMessage = 'Les modifications ont été sauvegardées';

@@ -23,18 +23,7 @@ export class UserService {
   }
 
   addCustomer(customer: Customer) {
-    return new Promise(
-      (resolve, reject) => {
-        return this.http.post<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=AddCustomer', customer).toPromise().then(
-          () => {
-            resolve();
-          },
-          (error) => {
-            reject(error)
-          }
-        );
-      }
-    );
+        return this.http.post<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=AddCustomer', customer);
   }
   updateCustomer(user: String, customer: Customer) {
     if(customer.password!=null){
