@@ -94,4 +94,17 @@ export class HeaderComponent implements OnInit {
     this._router.navigate(['/']);
   }
 
+  openNav() {
+    if(document.getElementById("sideNav").style.width == "250px") {
+      this.closeNav();
+    } else {
+      document.getElementById("sideNav").style.width = "250px";
+    }
+    
+  }
+
+  closeNav() {
+    document.getElementById("sideNav").style.width = "0";
+  }
+
 }

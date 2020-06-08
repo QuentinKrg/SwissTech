@@ -48,41 +48,22 @@ fa-layers-counter {
   margin: auto;
   inline-size: fit-content; }
 
-.sidebar {
-  margin: 0;
-  padding: 0;
-  width: 240px;
-  background-color: #0d2a46;
-  position: fixed;
-  height: 77%;
-  overflow: auto; }
-  .sidebar a {
-    display: block;
-    color: white;
-    padding: 16px;
-    text-decoration: none; }
-
-.sidebar a:hover {
-  background-color: #555;
-  color: white; }
-
 div.content {
   margin-left: 250px;
   height: 100%; }
 
-@media screen and (max-width: 800px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative; }
-    .sidebar a {
-      float: left; }
 
-  div.content {
-    margin-left: 0; } }
-@media screen and (max-width: 500px) {
-  .sidebar a {
-    text-align: center;
-    float: none; } }
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  padding:0;
+  margin: 0;
+  position: relative;
+}
+
+body::after{ content:''; display:block; height:400px; }
 
 /*# sourceMappingURL=styles.css.map */

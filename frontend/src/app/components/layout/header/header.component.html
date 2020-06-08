@@ -29,9 +29,9 @@
                         <fa-layers-counter content="{{cartCount}}" class="h1"></fa-layers-counter>
                     </fa-layers>
                 </a>
-                <a class="nav-link" routerLink="/myprofile">
+                <a class="nav-link" (click)="openNav()">
                     <fa-icon *ngIf="currentUser" [icon]="faUser" class="text-dark" size="2x" title="Mon compte"></fa-icon>
-                    <a routerLink="/login" *ngIf="!currentUser">Se connecter</a>
+                    <a *ngIf="!currentUser">Se connecter</a>
                 </a>
                 <a class="nav-link" *ngIf="currentUser" title="Se déconnecter" (click)="logout()">
                     <fa-icon [icon]="faSignOutAlt" class="text-dark" size="2x"></fa-icon>
@@ -50,3 +50,12 @@
         </div>
     </div>
 </nav>
+<div id="sideNav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <div *ngIf="currentUser">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div *ngIf="!currentUser">
+        <app-login></app-login>
+    </div>
+</div>
