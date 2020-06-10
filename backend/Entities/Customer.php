@@ -106,7 +106,7 @@ class Customer extends Entity
 
 				if(isset($this->jsonToProcess->CustomerName)){
 					// Récupération des données reçues
-					$titre = $this->jsonToProcess->CustomerTitle;
+					$titre = $this->jsonToProcess->FK_Title;
 					$name = $this->jsonToProcess->CustomerName;
 					$lastname = $this->jsonToProcess->CustomerLastName;
 					$phone = $this->jsonToProcess->CustomerPhone;

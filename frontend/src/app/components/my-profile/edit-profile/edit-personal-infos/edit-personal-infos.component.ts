@@ -33,7 +33,7 @@ export class EditPersonalInfosComponent implements OnInit {
     this.submitted = false;
     //Création d'un reactive form
     this.editRegisterForm = this._formBuilder.group({
-      CustomerTitle: ['-1', Validators.required],
+      FK_Title: ['-1', Validators.required],
       CustomerName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerLastName: ['', [Validators.required, Validators.pattern('[a-zA-ZàâæçéèêëîïôœùûüÿÀÂÆÇnÉÈÊËÎÏÔŒÙÛÜŸ -]*')]],
       CustomerBirthday: ['', Validators.required],
@@ -44,7 +44,7 @@ export class EditPersonalInfosComponent implements OnInit {
     this._userService.getCustomer(this.currentUsername).subscribe(
       (data = new Customer) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         
-        this.f.CustomerTitle.setValue(data.FK_Title);
+        this.f.FK_Title.setValue(data.FK_Title);
         this.f.CustomerName.setValue(data.CustomerName);
         this.f.CustomerLastName.setValue(data.CustomerLastName);
         this.f.CustomerBirthday.setValue(data.CustomerBirthday);

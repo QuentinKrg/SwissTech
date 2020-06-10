@@ -1,18 +1,21 @@
 <!-- Navigation -->
-<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecategories">Gestion des catégories</a></small>
+<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecategories">Gestion des
+    catégories</a></small>
+<!--Message de mise à jour ok-->
+<div *ngIf="catUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{catUpdateDataMessage}}</div>
 <!-- Titre -->
-<h4 class="pb-3">Gestion des catégories</h4>
+<h4 class="pb-3 text-dark">Gestion des catégories</h4>
 <div class="row py-2 justify-content-start text-left">
-    <!-- Recherche par nom d'utilisateur -->
-    <div class="col-md-6 col-sm-12">
-      <label class="control-label" for="selectUsername">Filtrer par nom de catégories</label>
-      <input id="selectUsername" class="form-control" placeholder="Rechercher une catégorie" type="text"
-        [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
-    </div>
-      <!-- Ajout d'une catégorie -->
-    <div class="col-md-12 col-sm-12 w-100 pt-3">
-        <button class="btn btn-success" (click)="openAddModal(AddCatModal)">Ajouter une catégorie</button>
-    </div>
+  <!-- Recherche par nom d'utilisateur -->
+  <div class="col-md-6 col-sm-12">
+    <label class="control-label" for="selectUsername">Filtrer par nom de catégories</label>
+    <input id="selectUsername" class="form-control" placeholder="Rechercher une catégorie" type="text"
+      [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
+  </div>
+  <!-- Ajout d'une catégorie -->
+  <div class="col-md-12 col-sm-12 w-100 pt-3">
+    <button class="btn btn-success" (click)="openAddModal(AddCatModal)">Ajouter une catégorie</button>
+  </div>
 </div>
 <!-- Tableau -->
 <div class="row">
@@ -30,7 +33,7 @@
         </thead>
         <!-- Données -->
         <tbody>
-          <tr *ngFor="let cat of allCat">
+          <tr *ngFor="let cat of allCat | slice: pageSize | slice: 0:itemsPerPage ; let i = index">
             <th scope="row">{{cat.id}}</th>
             <td>{{cat.CategoryName}}</td>
             <td><span class="p-1 mw-100 rounded"
@@ -55,11 +58,31 @@
           </tr>
         </tbody>
       </table>
+      <!--Pagination-->
+      <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
+        <div class="col-sm-3">
+          <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <a>{{itemsPerPage}} par page...</a>
+            <a class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" (click)="changePagesize(5)">5
+              </a>
+              <a class="dropdown-item" (click)="changePagesize(10)">10
+              </a>
+              <a class="dropdown-item" (click)="changePagesize(20)">20
+              </a>
+            </a>
+          </button>
+        </div>
+        <div class="col-sm-7">
+          <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages [pageSize]="itemsPerPage"
+            [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-
+<!--Modal d'édition d'un cat-->
 <ng-template #editCatModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="editProfileLabel">Modifier une catégorie</h5>
@@ -71,7 +94,7 @@
   <div class="modal-body">
     <form [formGroup]="editCatForm" (ngSubmit)="onSubmit()">
 
-      <!-- First name-->
+      <!-- Nom dela catégorie-->
       <div class="form-group row">
         <label class="col-sm-5 col-form-label" for="CategoryName">Nom *</label>
         <div class="col-sm-7">
@@ -80,7 +103,7 @@
         <div class="invalid-feedback" *ngIf=" f.CategoryName.hasError('pattern')">
           Uniquement des lettres et des espaces</div>
       </div>
-
+      <!--Liste de ses sous cat-->
       <div class="nav-link collapsed text-truncate btn btn-light shadow-sm m-3" href="#subcat" data-toggle="collapse">
         <h6> Sous-catégories</h6>
       </div>
@@ -128,6 +151,7 @@
     </form>
   </div>
 </ng-template>
+<!--Modal pour l'ajout d'un cat-->
 <ng-template #AddCatModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="editProfileLabel">Ajouter une catégorie</h5>
@@ -147,7 +171,7 @@
             [ngClass]="{ 'is-invalid': submitted && f.CategoryName.errors || f.CategoryName.touched && f.CategoryName.errors}" />
         </div>
       </div>
-      <!-- Checkbox general condition-->
+      <!-- Checkbox, si catégorie pricipale ou sous cat-->
       <div class="form-group border-top  pt-3">
         <div class="custom-control custom-checkbox">
           <input id="MainCat" type="checkbox" class="custom-control-input" [checked]="true">
@@ -156,6 +180,7 @@
           </label>
         </div>
       </div>
+      <!--Si la cat à ajouter n'est pas pricipale affiche la liste de catégories parentes à choisir-->
       <div class="collapse" id="subcat" aria-expanded="false">
         <div class="p-3 mb-2 bg-info text-white text-center">Veuillez selectionner une catégorie parent</div>
         <div class="table-responsive">
@@ -171,12 +196,12 @@
             <!-- Données -->
             <tbody>
               <tr *ngFor="let cat of allCat; let idx = index">
-                  <th scope="row">{{cat.id}}</th>
-                  <td><label for="CatName{{idx}}">{{cat.CategoryName}}</label></td>
-                  <td>
-                    <input id="CatName{{idx}}" type="radio" name="FK_Category" formControlName="FK_Category"
-                      [value]="cat.id">
-                  </td>
+                <th scope="row">{{cat.id}}</th>
+                <td><label for="CatName{{idx}}">{{cat.CategoryName}}</label></td>
+                <td>
+                  <input id="CatName{{idx}}" type="radio" name="FK_Category" formControlName="FK_Category"
+                    [value]="cat.id">
+                </td>
               </tr>
             </tbody>
           </table>

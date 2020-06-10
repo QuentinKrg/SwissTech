@@ -34,33 +34,38 @@ export class ManageOrdersComponent implements OnInit {
   orderDetails: Order[] = [];
 
   ngOnInit() {
+    //Appel un service qui retourne tous les status des commandes
     this._orderService.getAllStatus().subscribe(data => this.allStatus = data);
+    //Récupère toutes les commandes depuis une fonction de ce component
     this.getAllOrders();
     
   }
+  //Fonction de pagination - changement de page
   onPageChange(pageNum: number): void {
     this.pageSize = this.itemsPerPage*(pageNum - 1);
   }
-  
+  //Fonction de pagination- Items par page
   changePagesize(num) {
     this.itemsPerPage =  num;
   }
-  
+  //Récupération des comandes 
   getAllOrders() {
+    //Appel à un service qui retourne toutes les commandes dans la DB
     this._orderService.getAllOrders().subscribe((data: Order[]) => {
       this.allOrders = data;
-      this.filterValue = this.allOrders;
-      this.collectionSize = this.allOrders.length;
+      this.filterValue = this.allOrders;//Toutes les commandes à filtrer
+      this.collectionSize = this.allOrders.length;//Quantité d'items pour la pagination
     });
   }
-
+//Fonction pour changer le statut d'une commande
   onOptionsSelected(statusValue: number, orderId: number){
     let tmpOrder = new Order;
     tmpOrder.id_Order = orderId;
     tmpOrder.StatusId = statusValue;
-
+    //Met à jour la commande via un service
     this._orderService.updateOrder(tmpOrder).subscribe(
       () => {
+        //Averti l'admin que la commande a été modifié
         this._alertService.success("Le status de la commande n°" + orderId + " a bien été modifié.");
         this.getAllOrders();
       },
@@ -69,7 +74,7 @@ export class ManageOrdersComponent implements OnInit {
 
     
   }
-
+//Fonction de filtrage par text
   filteredByText(initial: string) {
     this.allOrders = this.filterValue;
 
@@ -84,7 +89,7 @@ export class ManageOrdersComponent implements OnInit {
     }
     this.textToFilterWith = initial.toLocaleLowerCase();
   }
-
+//Fonction de filtrage par statut
   filteredByStatus() {
     this.allOrders = this.filterValue;
     if(this.selectedOption == -1) {
@@ -98,7 +103,7 @@ export class ManageOrdersComponent implements OnInit {
     }
     this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(this.textToFilterWith) !== -1);
   }
-
+//Fonction de filtrage par date
   filteredByDate(value: string) {
     this.allOrders = this.filterValue;
 
@@ -118,13 +123,15 @@ export class ManageOrdersComponent implements OnInit {
     this.allOrders = this.allOrders.filter(i => i.Username.toLowerCase().indexOf(this.textToFilterWith) !== -1);
     
   }
-
+//Fonction pour lancer un modal 
   openModal(targetModal, order) {
+    //Ouvre un modal
     this._modalService.open(targetModal, {
      centered: true,
      backdrop: 'static'
     });
     this.selectedOrder = order;
+    //Récupère les détails de la commande selectionné
     this._orderService.getOrderDetailsByOrderID(this.selectedOrder.id_Order).subscribe(data => { this.orderDetails = data});
   }
 

@@ -30,6 +30,7 @@
                     </fa-layers>
                 </a>
                 <a class="nav-link" (click)="openNav()">
+                    <a *ngIf="currentUser" class="pr-2 h5" title="Mon compte">{{currentUser.login | titlecase}}</a>
                     <fa-icon *ngIf="currentUser" [icon]="faUser" class="icon" size="2x" title="Mon compte"></fa-icon>
                     <a *ngIf="!currentUser">Se connecter</a>
                 </a>

@@ -59,8 +59,7 @@ export class HeaderComponent implements OnInit {
         this.textSearch = params['q']
       }
      });
-
-    
+console.log(this.currentUser);
 
   }
 

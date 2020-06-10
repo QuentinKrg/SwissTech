@@ -9,9 +9,9 @@
             <h5 class="border-top">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
-                <label for="CustomerTitle">Titre *</label>
-                <select class="form-control" formControlName="CustomerTitle" autofocus
-                    [ngClass]="{ 'is-invalid': submitted && f.CustomerTitle.errors || f.CustomerTitle.touched && f.CustomerTitle.errors}">
+                <label for="FK_Title">Titre *</label>
+                <select class="form-control" formControlName="FK_Title" autofocus
+                    [ngClass]="{ 'is-invalid': submitted && f.FK_Title.errors || f.FK_Title.touched && f.FK_Title.errors}">
                     <option [value]="-1" selected disabled>Veuillez choisir</option>
                     <option [value]="2">Mme</option>
                     <option [value]="1">Mr</option>

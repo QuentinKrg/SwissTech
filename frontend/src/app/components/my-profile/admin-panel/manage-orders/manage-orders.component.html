@@ -1,7 +1,7 @@
 <!-- Navigation -->
 <small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/manageorders">Gestion des commandes</a></small>
 <!-- Titre -->
-<h4 class="pb-3">Gestion des commandes</h4>
+<h4 class="pb-3 text-dark">Gestion des commandes</h4>
 <!-- Filtres de recherches -->
 <div class="row">
     <!-- Recherche par nom d'utilisateur -->
@@ -52,6 +52,7 @@
                     </tr>
                   </tbody>
             </table>
+            <!-- Pagination -->
             <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
@@ -78,6 +79,7 @@
         </div>
     </div>
 </div>
+<!-- Modal d'affichage des détails d'une commande -->
 <ng-template #showOrderDetails let-modal>
     <div class="modal-header">
       <h5 class="modal-title" id="showOrderDetails">Détails de la commande n° {{selectedOrder.id_Order}}</h5>
@@ -85,7 +87,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-  
+  <!-- Données -->
     <div class="modal-body">
         <div class="table table-responsive table-borderless">
             <table class="table table-hover">

@@ -1,8 +1,10 @@
 <!-- Navigation -->
 <small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecustomers">Gestion des
     clients</a></small>
+    <!--Message de mise à jour ok-->
+    <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
 <!-- Titre -->
-<h4 class="pb-3">Gestion des clients</h4>
+<h4 class="pb-3 text-dark">Gestion des clients</h4>
 <!-- Filtres de recherches -->
 <div class="row py-2">
   <!-- Recherche par nom d'utilisateur -->
@@ -11,7 +13,7 @@
     <input id="selectUsername" class="form-control" placeholder="Rechercher un nom d'utilisateur" type="text"
       [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
   </div>
-  <!-- Liste des status d'une commandes -->
+  <!-- Liste des status d'un utilisateur -->
   <div class="col-md-6 col-sm-12">
     <label class="control-label" for="selectStatus">Filtrer par statut</label>
     <select class="form-control" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
@@ -56,8 +58,9 @@
                 <span *ngIf="customer.isActive==0">inactif</span></span>
             </td>
             <td>
+              <!--Menu avec les options-->
               <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+                aria-haspopup="true" aria-expanded="false" title="Options">
                 <fa-icon [icon]="faEllipsisV"></fa-icon>
                 <a class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" (click)="openModal(showProfileModal, customer)">Aperçu du client</a>
@@ -66,7 +69,7 @@
                   <a class="dropdown-item" (click)="openModal(editAddressModal, customer)">Modifier les
                     adresses</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" (click)="onUnableUser(customer)">
+                  <a class="dropdown-item" (click)="onUserStatus(customer)">
                     <a *ngIf="customer.isActive==1">Désactiver</a>
                     <a *ngIf="customer.isActive==0">Activer</a>
                   </a>
@@ -76,6 +79,7 @@
           </tr>
         </tbody>
       </table>
+      <!--Pagination-->
       <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
         <div class="col-sm-3">
           <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true"
@@ -99,14 +103,16 @@
     </div>
   </div>
 </div>
+<!--Modal pour modifier un client-->
 <ng-template #editProfileModal let-modal>
+  <!--En-tête-->
   <div class="modal-header">
     <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
     <button type="button" class="close" (click)="closeModal()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
+  <!--données-->
   <div class="modal-body">
     <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
       <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
@@ -114,13 +120,13 @@
           aria-label="">Déverrouiller quand même
         </button> </div>
       <div class="form-group row">
-        <label for="CustomerTitle" class="col-sm-5 col-form-label">Titre</label>
+        <label for="FK_Title" class="col-sm-5 col-form-label">Titre</label>
         <div class="col-sm-7">
-          <select class="form-control" formControlName="CustomerTitle" autofocus>
+          <select class="form-control" formControlName="FK_Title" autofocus>
             <option value="" selected disabled>Veuillez choisir</option>
-            <option value="Mme">Mme</option>
-            <option value="Mr">Mr</option>
-            <option value="NB">Non binaire</option>
+            <option value="2">Mme</option>
+            <option value="1">Mr</option>
+            <option value="3">Non binaire</option>
           </select>
         </div>
       </div>
@@ -203,14 +209,16 @@
     </form>
   </div>
 </ng-template>
+<!--Modal pour modifier les adresses d'un client-->
 <ng-template #editAddressModal let-modal>
+  <!--En-tête-->
   <div class="modal-header">
     <h5 class="modal-title" id="editAddressLabel">Modifier les adresses</h5>
     <button type="button" class="close" (click)="closeModal()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
+<!--Données-->
   <div class="modal-body">
     <form [formGroup]="editAddressForm" (ngSubmit)="onSubmitAddress()">
       <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
@@ -357,15 +365,20 @@
     </form>
   </div>
 </ng-template>
+<!--Modal d'aperçu d'un client-->
 <ng-template #showProfileModal let-modal>
+  <!--En-tête-->
   <div class="modal-header">
-    <h5 class="modal-title" id="showProfileLabel">{{f.CustomerTitle.value}} {{f.CustomerName.value}}
+    <h5 class="modal-title" id="showProfileLabel">
+      <span *ngIf="f.FK_Title.value ==1">Mr</span>
+      <span *ngIf="f.FK_Title.value ==2">Mme</span>
+      <span *ngIf="f.FK_Title.value ==3">Non Binaire</span> {{f.CustomerName.value}}
       {{f.CustomerLastName.value}}</h5>
     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
+<!--Données-->
   <div class="modal-body p-3">
     <div class="row p-3">
       <div class="col-sm-5">
