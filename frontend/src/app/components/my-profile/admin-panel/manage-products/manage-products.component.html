@@ -81,6 +81,7 @@
                                 <span *ngIf="product.isActive==false">inactif</span>
                                 </span>
                             </td>
+                            <!--Menu avec les options sur un produit-->
                             <td>
                                 <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -121,9 +122,9 @@
         <app-product-card [productData]="selectedProductPreview" class="col-12"></app-product-card>
     </div>   
 </ng-template>
-
 <!-- Modal pour l'ajout d'article-->
 <ng-template #showAddProduct let-modal>
+    <!--En-tete-->
     <div class="modal-header">
         <div class="row">
             <div class="col-12"><h3>Ajout d'article</h3></div>
@@ -132,6 +133,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    <!--Données-->
     <div class="modal-body">
         <form [formGroup]="addProductGroup" (ngSubmit)="onSubmitAdd()" enctype="multipart/form-data">
             <div *ngIf="!isimagePathValid" class="p-3 mb-2 bg-danger text-white text-center">Ce nom de fichier d'image est déjà utilisé.
@@ -210,9 +212,9 @@
         </div>
     </div>
 </ng-template>
-
 <!-- Modal pour la modification d'article -->
 <ng-template #showEditProduct let-modal>
+    <!--Header-->
     <div class="modal-header">
         <div class="row">
             <div class="col-12"><h3>Modification d'article</h3></div>
@@ -221,8 +223,8 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    <!--Données-->
     <div class="modal-body">
-        
         <form [formGroup]="addProductGroup" (ngSubmit)="onSubmitEdit()" enctype="multipart/form-data"> 
             <div *ngIf="isLocked" class="p-3 mb-2 bg-danger text-white text-center">{{LockedBy}} modifie cet article.
                 <button type="button" class="btn btn-danger text-white" (click)="onForceReleaseLock()" aria-label="">Déverrouiller quand même
@@ -300,15 +302,16 @@
         </div>
     </div>
 </ng-template>
-
 <!-- Modal commentaires-->
 <ng-template #showProductsComments let-modal>
+    <!--Header-->
     <div class="modal-header">
       <h5 class="modal-title" id="showOrderDetails">Détails de la commande n° {{selectedProduct.ProductName}}</h5>
       <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+    <!--Données-->
     <div *ngIf="productComments != null;then asComments else noComments"></div>
     <div class="modal-body">
         <ng-template #asComments>

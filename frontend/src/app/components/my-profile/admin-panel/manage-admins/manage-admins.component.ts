@@ -12,23 +12,22 @@ export class ManageAdminsComponent implements OnInit {
 
   constructor(private _userService: UserService,
               private _modalService: NgbModal) { }
-
+ //Variables et propriétés
   allAdminUsers: User[] = [];
   allStandartUsers: User[] = [];
   filterValue: Array<any> = [];
   filterText: string = "";
 
   ngOnInit() {
+    //récupère tous les admins
     this.getAllAdminUsers();
   }
-
   // Récupération des tous les utilisateurs qui sont administrateur
   getAllAdminUsers() {
     this._userService.getAllUsers().subscribe((data) => {
       this.allAdminUsers = data.filter(adm => adm.role == 'AD' && adm.isActive == true);
     });
   }
-
   // Récupération des tous les utilisateurs qui ne sont pas administrateur
   getAllStandartUsers() {
     this._userService.getAllUsers().subscribe((data) => {
@@ -36,7 +35,6 @@ export class ManageAdminsComponent implements OnInit {
       this.filterValue = this.allStandartUsers;
     });
   }
-
   // Enlever le rôle d'administrateur à un utilisateur
   updateUserRole(user: User) {
     if(user.role == 'AD') {
@@ -58,7 +56,6 @@ export class ManageAdminsComponent implements OnInit {
     });
     
   }
-
   // Méthode qui permet l'ouverture du modal d'ajout d'un administrateur
   openModal(targetModal) {
     // Paramètres du modal
@@ -71,17 +68,14 @@ export class ManageAdminsComponent implements OnInit {
 
     this.getAllStandartUsers();   
   }
-
   // Reset des filtres de recherches
   clear() {
 
   }
-
   // Filtrer les recherches avec du texte 
   filteredByText() {
     this.allStandartUsers = this.filterValue;
 
     this.allStandartUsers = this.allStandartUsers.filter(i => i.login.toLowerCase().indexOf(this.filterText.toLocaleLowerCase()) !== -1);
   }
-
 }

@@ -84,7 +84,7 @@ get f() { return this.addCommentForm.controls; }
   //fonction qui retourne un array de string, longeur selon paramètre
   generateText(length) {
     var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var characters = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -106,7 +106,7 @@ get f() { return this.addCommentForm.controls; }
     //Génère des rectangles aléatoires (taille et couleur)
     for (var j = 1; j < 60; j++) {
       ctx.save();
-      ctx.lineWidth = getRandomInt(3, 20);
+      ctx.lineWidth = getRandomInt(3, 30);
       ctx.strokeStyle = 'rgb(' + getRandomInt(133, 211) + ',' +
         getRandomInt(133, 211) + ',' + getRandomInt(133, 211) + ')';
       ctx.strokeRect(getRandomInt(-5, 200), 1, getRandomInt(20, 60), getRandomInt(35, 70))
@@ -177,7 +177,7 @@ get f() { return this.addCommentForm.controls; }
 
     this._commentsService.addComment(tmpComment).subscribe(() => {
       this.ngOnInit();
-      this.generateCaptchaImage();
+      this.ngAfterViewInit();
     });
   }
 }

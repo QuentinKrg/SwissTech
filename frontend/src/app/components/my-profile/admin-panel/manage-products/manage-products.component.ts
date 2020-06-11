@@ -22,7 +22,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./manage-products.component.css']
 })
 export class ManageProductsComponent implements OnInit {
-  
+
 
   constructor(
     private _categoriesService: CategoriesService,
@@ -31,20 +31,20 @@ export class ManageProductsComponent implements OnInit {
     private _commentsService: CommentsService,
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService
-  ) { 
+    private _authenticationService: AuthenticationService
+  ) {
     this.imageUrl = environment.imageDirectory;
   }
   //icones
-  faEllipsisV=faEllipsisV;
+  faEllipsisV = faEllipsisV;
 
   //utilisateur actuel
-  currentUsername = this.authenticationService.currentUserValue.login;
+  currentUsername = this._authenticationService.currentUserValue.login;
 
   //Lock
-  isLocked= false;
+  isLocked = false;
   LockedBy: String;
-  loading= false;
+  loading = false;
   // Filtres
   allMainCategories: Categories[] = [];
   selectedMainCategory: number = -1;
@@ -65,7 +65,7 @@ export class ManageProductsComponent implements OnInit {
 
   // Preview d'un article
   selectedProductPreview: Product = null;
-  imageDirectory =environment.imageDirectory;
+  imageDirectory = environment.imageDirectory;
 
   // Ajout et modification d'un article
   allCategories: Categories[] = [];
@@ -76,9 +76,9 @@ export class ManageProductsComponent implements OnInit {
   imagePathToShow: string = "";
   editedProductId: number = -1;
   submitted: boolean;
-  imageRequired:boolean;
-  allColors: Color [];
-  isimagePathValid:boolean;
+  imageRequired: boolean;
+  allColors: Color[];
+  isimagePathValid: boolean;
   imagePath: string = null;
   imageUrl: string;
   // Commentaires
@@ -87,8 +87,8 @@ export class ManageProductsComponent implements OnInit {
 
   // on Init
   ngOnInit() {
-    this.isimagePathValid =true;
-    this.submitted=false;
+    this.isimagePathValid = true;
+    this.submitted = false;
     this.addProductGroup = this._formBuilder.group({
       ProductName: ['', Validators.required],
       ProductColor: ['-1', Validators.required],
@@ -108,9 +108,8 @@ export class ManageProductsComponent implements OnInit {
     });
     this._categoriesService.getAllMainGategories().subscribe((data) => { this.allMainCategories = data });
     this.getAllProducts();
-    this.loading=false;
+    this.loading = false;
   }
-
   //contrôle du formulaire
   get f() { return this.addProductGroup.controls; }
   // Récupération des produits
@@ -118,11 +117,10 @@ export class ManageProductsComponent implements OnInit {
     this._productService.getAllProducts().subscribe(
       (data: Product[]) => {
         this.allProducts = data;
-        this.filterValue = this.allProducts;       
+        this.filterValue = this.allProducts;
       }
     );
   }
-
   // Action au changement de status d'un article
   onChangeProductStatus(product: Product) {
     // Changement de status
@@ -141,7 +139,6 @@ export class ManageProductsComponent implements OnInit {
         return;
       });
   }
-
   // Filtrer les articles par status 
   filteredByStatus() {
     this.allProducts = this.filterValue;
@@ -155,7 +152,6 @@ export class ManageProductsComponent implements OnInit {
 
     this.filteredByCategories();
   }
-
   // Filtrer les articles avec le texte 
   filteredByText(initial: string) {
     this.allProducts = this.filterValue;
@@ -165,7 +161,6 @@ export class ManageProductsComponent implements OnInit {
     this.allProducts = this.allProducts.filter(i => i.ProductName.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
     this.textToFilterWith = initial.toLocaleLowerCase();
   }
-
   // Filtrer les articles par catégories
   filteredByCategories() {
     this.allProducts = this.filterValue;
@@ -231,7 +226,6 @@ export class ManageProductsComponent implements OnInit {
       this.allProducts = this.allProducts.filter(p => p.isActive == true);
     }
   }
-
   // Reset de tous les filtres
   clearAllFilters() {
     this.allProducts = this.filterValue;
@@ -244,7 +238,6 @@ export class ManageProductsComponent implements OnInit {
     this.selectedStatus = -1;
     this.filterText = '';
   }
-
   /*
     AJOUT ET MODIFICATION D'UN ARTICLE
   */
@@ -263,37 +256,33 @@ export class ManageProductsComponent implements OnInit {
       );
     };
   }
-
   // Reset de la liste des catégories
   clearCategory() {
     this.allCategories = this.allMainCategories;
     this.addProductGroup.value.ProductCategory = "-1";
   }
-
   // Récupérer l'image du produit et la stock
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
     //this.imagePath = this.imageDirectory+this.fileToUpload.name;
-
-    if(this.fileToUpload != null) {
+    if (this.fileToUpload != null) {
       const formData = new FormData();
       formData.append('image', this.fileToUpload);
       this.isImagePathAvailable();
-      if(this.isimagePathValid) {
+      if (this.isimagePathValid) {
         this._productService.uploadProductImage(formData).subscribe(() => {
           this.imagePathToShow = this.fileToUpload.name;
-  
+
         });
       }
     }
   }
-
   // ouverture du modal
   openModalAddProduct(targetModal) {
     this.imagePathToShow = '';
     this.imageRequired = true;
     console.log(this.f.ProductImage.valueChanges);
-    
+
     this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
@@ -301,20 +290,19 @@ export class ManageProductsComponent implements OnInit {
       scrollable: true
     });
     this.allCategories = this.allMainCategories;
-    
-  }
 
+  }
   // Action pour la création d'un article
   onSubmitAdd() {
-    this.submitted=true;
+    this.submitted = true;
     // Stop si le formulaire n'est pas correctement rempli
-    if(this.addProductGroup.invalid || this.f.ProductImage.value=='' && this.imageRequired){
+    if (this.addProductGroup.invalid || this.f.ProductImage.value == '' && this.imageRequired) {
       return;
     }
-    if(!this.isimagePathValid){
+    if (!this.isimagePathValid) {
       return;
     }
-    
+
 
     let productToAdd: Product = new Product;
 
@@ -325,27 +313,27 @@ export class ManageProductsComponent implements OnInit {
     productToAdd.ImagePath = this.fileToUpload.name;
     productToAdd.ManufacturerId = this.addProductGroup.value.ProductBrand;
     productToAdd.ProductSize = this.addProductGroup.value.ProductSize;
-    productToAdd.CategoryId = this.addProductGroup.value.ProductCategory;     
+    productToAdd.CategoryId = this.addProductGroup.value.ProductCategory;
 
     this._productService.addProduct(productToAdd).subscribe(
       () => {
         console.log("ok");
         this._modalService.dismissAll();
         this.addProductGroup.reset();
-        this.ngOnInit(); 
+        this.ngOnInit();
       },
-      (error) => { console.log(error);
-        this.submitted=false;
-        }
+      (error) => {
+        console.log(error);
+        this.submitted = false;
+      }
     );
-    
-  
-  }
 
+
+  }
   // Ouverture du modal de modification
   openModalEdit(targetModal, product: Product) {
-    
-    this.imageRequired=false;
+
+    this.imageRequired = false;
     this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
@@ -355,7 +343,7 @@ export class ManageProductsComponent implements OnInit {
     //vérifie si le produit a un lockedby actif
     this.editedProductId = product.id_Product;
     this.imagePathToShow = product.ImagePath;
-    
+
     this._categoriesService.getAllCategoriesWithThisTopCategory(product.CategoryId).subscribe(
       (data: Categories[]) => {
         if (data != null) {
@@ -379,21 +367,21 @@ export class ManageProductsComponent implements OnInit {
     this.onCheckLock();
 
   }
-
+  //Obtient un lock pour l'edition d'un produit
   onAcquireLock() {
-      this._productService.AddLock(this.editedProductId, this.currentUsername).subscribe((data) => {
-      },
-        (error) => {
-          console.log(error);
-        });
-        console.log('libre pour edition');
+    this._productService.AddLock(this.editedProductId, this.currentUsername).subscribe((data) => {
+    },
+      (error) => {
+        console.log(error);
+      });
+    console.log('libre pour edition');
   }
-
- onCheckLock() {
+  //Test si le form d'edition d'un produit est locked
+  onCheckLock() {
     this._productService.CheckLock(this.editedProductId).subscribe((data: Customer) => {
       //Récupère le nom d'utilisateur si présent pour cet article
       this.LockedBy = data.LockedBy;
-      
+
       //Vérifie si un lock est présent
       if (data) {
         //Vérifie si l'utilisateur actuel est le proprietaire du lock
@@ -404,7 +392,7 @@ export class ManageProductsComponent implements OnInit {
             (error) => {
               console.log(error);
             });
-          this.LockedBy =this.currentUsername;
+          this.LockedBy = this.currentUsername;
           console.log('vous avez le lock');
           this.isLocked = false;
         }
@@ -413,20 +401,20 @@ export class ManageProductsComponent implements OnInit {
         if (this.currentUsername != this.LockedBy) {
           console.log('Verrouillé par ' + this.LockedBy);
           this.isLocked = true;
-          this.loading=false;
+          this.loading = false;
         }
       }
       //Si aucun lock est présent,en ajoute un.
       else {
         this.onAcquireLock();
-        this.isLocked= false;
+        this.isLocked = false;
       }
     },
-    (error) => {
-      console.log(error);
-    });
+      (error) => {
+        console.log(error);
+      });
   }
-
+  //Libère le formulaire pour l'edition
   onReleaseLock() {
     this._productService.ReleaseLock(this.editedProductId, this.currentUsername).subscribe((data) => {
     },
@@ -434,37 +422,35 @@ export class ManageProductsComponent implements OnInit {
         console.log(error);
       });
   }
-
+  //force le unlock
   onForceReleaseLock() {
     this._productService.ForceReleaseLock(this.editedProductId).subscribe(() => {
       this.isLocked = false;
-    this.onAcquireLock();
+      this.onAcquireLock();
     },
       (error) => {
         console.log(error);
       });
-    
+
   }
-  
   //  Action pour la modification d'un article
   onSubmitEdit() {
-    this.submitted=true;
+    this.submitted = true;
     // Stop si le formulaire n'est pas correctement rempli
-    if(this.addProductGroup.invalid){
+    if (this.addProductGroup.invalid) {
       return;
     }
-    if(!this.isimagePathValid){
+    if (!this.isimagePathValid) {
       return;
     }
-    this.loading=true;
+    this.loading = true;
+    //Vérifie si quelqu'un a commancer à éditer un produit
     this.onCheckLock();
-    
-    setTimeout(()=> { 
-      
-      if(this.isLocked){
+
+    setTimeout(() => {
+      if (this.isLocked) {
         return;
       }
-      
       let productToUpdate: Product = new Product;
       productToUpdate.id_Product = this.editedProductId;
       productToUpdate.ProductName = this.addProductGroup.value.ProductName;
@@ -476,13 +462,13 @@ export class ManageProductsComponent implements OnInit {
       } else {
         productToUpdate.ImagePath = this.imagePathToShow;
       }
-  
       productToUpdate.ManufacturerId = this.addProductGroup.value.ProductBrand;
       productToUpdate.ProductSize = this.addProductGroup.value.ProductSize;
       productToUpdate.CategoryId = this.addProductGroup.value.ProductCategory;
-  
+      //Met à jour le produit
       this._productService.updateProduct(productToUpdate).subscribe(
         () => {
+          //Si tout est ok enlève le lock, ferme le modal et relance la vue
           this.onReleaseLock();
           this._modalService.dismissAll();
           this.addProductGroup.reset();
@@ -490,11 +476,8 @@ export class ManageProductsComponent implements OnInit {
         },
         (error) => { }
       );
-      
-      
     }, 500);
   }
-
   // Fermeture d'un modal
   closeModal(targetModal) {
     this.onReleaseLock();
@@ -502,7 +485,6 @@ export class ManageProductsComponent implements OnInit {
     this.addProductGroup.reset();
     this.ngOnInit();
   }
-
   // ouverture du modal d'aperçu d'article
   openModalPreview(targetModal, product) {
     this._modalService.open(targetModal, {
@@ -512,7 +494,6 @@ export class ManageProductsComponent implements OnInit {
     });
     this.selectedProductPreview = product;
   }
-
   // ouverture du modal pour la gestion des commentaires
   openModalComments(targetModal, product) {
     this._modalService.open(targetModal, {
@@ -524,7 +505,6 @@ export class ManageProductsComponent implements OnInit {
     this.selectedProduct = product;
     this._commentsService.getAllProductsComments(this.selectedProduct.id_Product).subscribe(data => { this.productComments = data });
   }
-
   // Action au changement de status d'un commentaire
   onChangeCommentStatus(comment: Comments) {
     // Changement de status
@@ -542,9 +522,9 @@ export class ManageProductsComponent implements OnInit {
         return;
       });
   }
-  
+  //Check si le nom de l'image est disponible
   isImagePathAvailable() {
-
+    //Si une erreur de retour Affiche un message de nom invalide
     this._productService.checkImagePathAvability(this.fileToUpload.name).then(
       () => {
         this.isimagePathValid = true;

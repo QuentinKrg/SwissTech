@@ -52,7 +52,6 @@ export class MyOrdersComponent implements OnInit {
         this.myOrders = data;
         this.myOrders = this.myOrders;
         this.collectionSize = this.myOrders.length;//nombre de commandes egual le nombre d'items de la pagination
-
         this.filterValue = this.myOrders;//Filtrage
       },
         (error) => {
