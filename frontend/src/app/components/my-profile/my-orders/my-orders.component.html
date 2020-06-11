@@ -10,7 +10,7 @@
     </div>
 </div>
 <!-- Tableau -->
-<div class="row">
+<div class="row" *ngIf="myOrders">
     <div class="col-12">
         <div class="table-responsive">
             <table class="table table-hover">
@@ -25,7 +25,7 @@
                     </tr>
                 </thead>
                 <!-- Données -->
-                <tbody>
+                <tbody  *ngIf="myOrders.length > 0 && myOrders != null">
                     <tr *ngFor="let order of myOrders  | slice: pageSize | slice: 0:itemsPerPage">
                         <th scope="row">{{order.id_Order}}</th>
                         <td>{{ order.OrderDate |date: 'dd.MM.yyyy'  }}</td>
@@ -42,29 +42,8 @@
                 </tbody>
             </table>
             <!--Pagination-->
-            <div class="row justify-content-between m-0" *ngIf="collectionSize >5">
-                <div class="col-sm-3">
-                    <!--Choix de nombre d'items par page-->
-                    <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <a>{{itemsPerPage}} par page...</a>
-                        <a class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" (click)="changePagesize(5)">5
-                            </a>
-                            <a class="dropdown-item" (click)="changePagesize(10)">10
-                            </a>
-                            <a class="dropdown-item" (click)="changePagesize(20)">20
-                            </a>
-                        </a>
-                    </button>
-                </div>
-                <div class="col-sm-8">
-                    <!--sélection de la page-->
-                    <ngb-pagination class="float-right" [collectionSize]="collectionSize" #numPages
-                        [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)">
-                    </ngb-pagination>
-                </div>
-            </div>
+            <app-pagination [collectionSize]="myOrders.length" (itemsPerPageEvent)="itemsPerPageEvent($event)"
+             (pageSizeEvent)="pageSizeEvent($event)"></app-pagination>
         </div>
     </div>
 </div>

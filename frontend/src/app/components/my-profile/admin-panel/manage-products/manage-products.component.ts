@@ -38,6 +38,10 @@ export class ManageProductsComponent implements OnInit {
   //icones
   faEllipsisV = faEllipsisV;
 
+  //Pagination
+  pageSize: number;
+  itemsPerPage: number;
+
   //utilisateur actuel
   currentUsername = this._authenticationService.currentUserValue.login;
 
@@ -108,7 +112,8 @@ export class ManageProductsComponent implements OnInit {
     });
     this._categoriesService.getAllMainGategories().subscribe((data) => { this.allMainCategories = data });
     this.getAllProducts();
-    this.loading = false;
+    this.loading = false;   
+    
   }
   //contrôle du formulaire
   get f() { return this.addProductGroup.controls; }
@@ -149,7 +154,6 @@ export class ManageProductsComponent implements OnInit {
     } else if (this.selectedStatus == 1) {
       this.allProducts = this.allProducts.filter(p => p.isActive == true);
     }
-
     this.filteredByCategories();
   }
   // Filtrer les articles avec le texte 
@@ -176,6 +180,7 @@ export class ManageProductsComponent implements OnInit {
       this.selectedSubCategory = -1;
       this.selectedSubSubCategory = -1;
       this.allProducts = this.filterValue;
+      
     }
 
 
@@ -188,7 +193,10 @@ export class ManageProductsComponent implements OnInit {
       this.allSubCategories = [];
       this.allSubSubCategories = [];
       this._categoriesService.getAllCategoriesWithThisTopCategory(this.selectedMainCategory).subscribe(
-        (data: Categories[]) => { this.allSubCategories = data }
+        (data: Categories[]) => {
+           this.allSubCategories = data 
+        }
+        
       );
     }
 
@@ -200,7 +208,9 @@ export class ManageProductsComponent implements OnInit {
       // Récupération des sous-sous catégories
       this.allSubSubCategories = [];
       this._categoriesService.getAllCategoriesWithThisTopCategory(this.selectedSubCategory).subscribe(
-        (data: Categories[]) => { this.allSubSubCategories = data; }
+        (data: Categories[]) => { 
+          this.allSubSubCategories = data; 
+        }
       );
     }
 
@@ -225,6 +235,7 @@ export class ManageProductsComponent implements OnInit {
     } else if (this.selectedStatus == 1) {
       this.allProducts = this.allProducts.filter(p => p.isActive == true);
     }
+    
   }
   // Reset de tous les filtres
   clearAllFilters() {
@@ -533,5 +544,13 @@ export class ManageProductsComponent implements OnInit {
         this.isimagePathValid = false;
       }
     );
+  }
+  //Récupere le taille de la page
+  pageSizeEvent($event) {
+    this.pageSize = $event;
+  }
+  //Récupère le total d'items par page
+  itemsPerPageEvent($event) {
+    this.itemsPerPage = $event;
   }
 }

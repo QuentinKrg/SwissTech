@@ -71,7 +71,7 @@
                     </thead>
                     <!-- Données -->
                     <tbody *ngIf="allProducts.length > 0 && allProducts != null">
-                        <tr *ngFor="let product of allProducts">
+                        <tr *ngFor="let product of allProducts  | slice: pageSize | slice: 0:itemsPerPage">
                             <th scope="row">{{product.id_Product}}</th>
                             <td><a [routerLink]="['/product-details', product.id_Product]" class="text-dark d-inline-block">{{product.ProductName}}</a></td>
                             <td>{{product.CategoryName}}</td>
@@ -101,6 +101,8 @@
                         </tr>
                     </tbody>
                 </table>
+            <app-pagination [collectionSize]="allProducts.length" (itemsPerPageEvent)="itemsPerPageEvent($event)"
+            (pageSizeEvent)="pageSizeEvent($event)"></app-pagination>
             </div>
         </ng-template>
         <ng-template #noProduct>

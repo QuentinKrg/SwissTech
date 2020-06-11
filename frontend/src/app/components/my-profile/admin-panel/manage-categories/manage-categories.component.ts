@@ -16,10 +16,8 @@ export class ManageCategoriesComponent implements OnInit {
   faEllipsisV = faEllipsisV;
 
   //Pagination
-  currentPage = 1;
-  itemsPerPage = 5;
   pageSize: number;
-  collectionSize: number;
+  itemsPerPage: number;
 
   //Propriétés et données
   allSubCategoriesAvailable: Categories[] = [];
@@ -50,8 +48,6 @@ export class ManageCategoriesComponent implements OnInit {
     this._categoriesService.getAllCategories().subscribe(data => {
       this.allCat = data;
       this.filterValue = this.allCat;
-      //Max d'item pour la pagination
-      this.collectionSize = this.allCat.length;
     });
     //Ré / initialise les variable
     this.submitted = false;
@@ -172,5 +168,13 @@ export class ManageCategoriesComponent implements OnInit {
     this.allCat = this.filterValue;
     this.allCat = this.allCat.filter(i => i.CategoryName.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
     this.filterText = initial.toLocaleLowerCase();
+  }
+  //Récupère la taille de la page
+  pageSizeEvent($event) {
+    this.pageSize = $event;
+  }
+  //Récupère le nombre d'item par page
+  itemsPerPageEvent($event) {
+    this.itemsPerPage = $event;
   }
 }

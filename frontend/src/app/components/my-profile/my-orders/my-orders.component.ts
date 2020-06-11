@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { OrdersService } from 'src/app/services/orders.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Order } from 'src/app/models/order';
@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { PrintService } from 'src/app/services/print.service';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
 
 @Component({
   selector: 'app-my-orders',
@@ -15,7 +16,7 @@ import { faPrint } from '@fortawesome/free-solid-svg-icons';
 })
 export class MyOrdersComponent implements OnInit {
   //icones
-  faPrint=faPrint;
+  faPrint = faPrint;
   //Récupération du nom d'user actuel
   currentUsername = this.authenticationService.currentUserValue.login;
   //Propriétés de vérification et affichage de données
@@ -29,10 +30,8 @@ export class MyOrdersComponent implements OnInit {
   shippingAddress: Order;
   billingAddress: Order;
   //Pagination
-  currentPage = 1;
-  itemsPerPage = 5;
   pageSize: number;
-  collectionSize: number;
+  itemsPerPage: number;
 
   constructor(
     private _orderService: OrdersService,
@@ -45,26 +44,18 @@ export class MyOrdersComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    //Appel au service qui retourne toutes les commandes de l'user
+    this.getAllOrders();
+  }
+  
+  //Appel au service qui retourne toutes les commandes de l'user
+  getAllOrders(){
     this._orderService.getOrderByUsername(this.currentUsername)
-      .subscribe((data: Order[]) => {
-        this.myOrders = data;
-        this.myOrders = this.myOrders;
-        this.collectionSize = this.myOrders.length;//nombre de commandes egual le nombre d'items de la pagination
-        this.filterValue = this.myOrders;//Filtrage
-      },
-        (error) => {
-          console.log(error);
-        });
-  }
-  //fonction de pagination, sélection de page
-  onPageChange(pageNum: number): void {
-    this.pageSize = this.itemsPerPage * (pageNum - 1);
-  }
-//Fonction de pagination, sélection de nombre d'items par page
-  changePagesize(num) {
-    this.itemsPerPage = num;
+    .subscribe((data: Order[]) => {
+      this.myOrders = data;
+      this.filterValue = this.myOrders;//Filtrage
+      console.log(this.myOrders);
+    });
+      
   }
   //Modal avec les détails de la commande
   openModal(targetModal, order) {
@@ -76,7 +67,7 @@ export class MyOrdersComponent implements OnInit {
     this.selectedOrder = order;
     this.getOrderDetails(this.selectedOrder.id_Order);
   }
-//Récupère les détails de la commande sélectionée
+  //Récupère les détails de la commande sélectionée
   getOrderDetails(orderid) {
     this._orderService.getOrderDetailsByOrderID(orderid)
       .subscribe((data: Order[]) => {
@@ -85,7 +76,7 @@ export class MyOrdersComponent implements OnInit {
         (error) => {
           console.log(error);
         });
-        //Récupère l'adresse de livraison
+    //Récupère l'adresse de livraison
     this._orderService.getOrderShippingAddressByOrderID(orderid)
       .subscribe((data: Order) => {
         this.shippingAddress = data;
@@ -93,7 +84,7 @@ export class MyOrdersComponent implements OnInit {
         (error) => {
           console.log(error);
         });
-//Récupère l'adresse de facturation
+    //Récupère l'adresse de facturation
     this._orderService.getOrderBillingAddressByOrderID(orderid)
       .subscribe((data: Order) => {
         this.billingAddress = data;
@@ -118,12 +109,19 @@ export class MyOrdersComponent implements OnInit {
     if (this.selectedOption != -1) {
       this.myOrders = this.myOrders.filter(i => i.StatusId == this.selectedOption);
     }
-    
+
   }
-//fonction d'impression d'un commande via le service Print
-  onPrintInvoice(order:Order) {
+  //fonction d'impression d'un commande via le service Print
+  onPrintInvoice(order: Order) {
     localStorage.setItem('order', JSON.stringify(order));
     this._printService.printDocument(order.id_Order);
   }
-
+  //Récupère la taille de la page
+  pageSizeEvent($event) {
+    this.pageSize = $event;
+  }
+  //Récupère le nombre d'item par page
+  itemsPerPageEvent($event) {
+    this.itemsPerPage = $event;
+  }
 }

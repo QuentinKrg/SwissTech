@@ -42,8 +42,13 @@
     margin-left: 50px;
     color: #f1f1f1;
 }
-
 .sidenav .closebtn .closeBtnCross{
     color: #df0000;
     font-size: 20px;
+}
+fa-layers-counter {
+    zoom: 160%;
+    position: relative;
+    left: 1.4rem;
+    bottom: 0.5rem;
 }

@@ -20,16 +20,16 @@ export class ManageOrdersComponent implements OnInit {
                 
               }
 
+  //Pagination
+  pageSize: number;
+  itemsPerPage: number;
+  //Variables
   allStatus: Status[];
   allOrders: Order[];
   filterValue: Array<any> = [];
   selectedOption: number = -1;
   textToFilterWith : string = "";
   dateToFilterWith: string = "";
-  currentPage = 1;
-  itemsPerPage = 5;
-  pageSize: number;
-  collectionSize: number;
   selectedOrder: Order = new Order;
   orderDetails: Order[] = [];
 
@@ -40,21 +40,12 @@ export class ManageOrdersComponent implements OnInit {
     this.getAllOrders();
     
   }
-  //Fonction de pagination - changement de page
-  onPageChange(pageNum: number): void {
-    this.pageSize = this.itemsPerPage*(pageNum - 1);
-  }
-  //Fonction de pagination- Items par page
-  changePagesize(num) {
-    this.itemsPerPage =  num;
-  }
   //Récupération des comandes 
   getAllOrders() {
     //Appel à un service qui retourne toutes les commandes dans la DB
     this._orderService.getAllOrders().subscribe((data: Order[]) => {
       this.allOrders = data;
       this.filterValue = this.allOrders;//Toutes les commandes à filtrer
-      this.collectionSize = this.allOrders.length;//Quantité d'items pour la pagination
     });
   }
 //Fonction pour changer le statut d'une commande
@@ -134,6 +125,13 @@ export class ManageOrdersComponent implements OnInit {
     //Récupère les détails de la commande selectionné
     this._orderService.getOrderDetailsByOrderID(this.selectedOrder.id_Order).subscribe(data => { this.orderDetails = data});
   }
-
+  //Récupère la taille de la page
+  pageSizeEvent($event) {
+    this.pageSize = $event;
+  }
+  //Récupère le nombre d'item par page
+  itemsPerPageEvent($event) {
+    this.itemsPerPage = $event;
+  }
 
 }

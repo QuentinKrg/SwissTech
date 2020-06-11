@@ -33,10 +33,8 @@ export class ManageCustomersComponent implements OnInit {
   filterText: string = "";
   selectedStatus: number = -1
   //Pagination
-  currentPage = 1;
-  itemsPerPage = 5;
   pageSize: number;
-  collectionSize: number;
+  itemsPerPage: number;
   //Adresses
   editAddressForm: FormGroup;
   myShipAddr: Customer[];
@@ -149,7 +147,6 @@ export class ManageCustomersComponent implements OnInit {
       (data: Customer[]) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         this.allCustomers = data;
         this.filterValue = this.allCustomers;
-        this.collectionSize = this.allCustomers.length;
         console.log(this.filterValue);
       },
       (error) => {
@@ -452,5 +449,13 @@ export class ManageCustomersComponent implements OnInit {
         console.log(error);
       });
 
+  }
+  //Récupère la taille de la page
+  pageSizeEvent($event) {
+    this.pageSize = $event;
+  }
+  //Récupère le nombre d'item par page
+  itemsPerPageEvent($event) {
+    this.itemsPerPage = $event;
   }
 }

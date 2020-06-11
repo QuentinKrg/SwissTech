@@ -9,9 +9,9 @@
     </div>
 </div>
 <!-- Tableau -->
-<div class="row"> 
+<div class="row" *ngIf="allAdminUsers"> 
     <div class="col-12">
-        <div class="table-responsive">
+        <div class="table-responsive" >
             <table class="table table-hover">
                 <!-- Label du tableau -->
                 <thead>
@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <!-- Données -->
-                <tbody >
+                <tbody *ngIf="allAdminUsers.length > 0 && allAdminUsers != null">
                     <tr *ngFor="let user of allAdminUsers">
                         <th scope="row">{{user.id}}</th>
                         <td>{{user.login}}</td>
@@ -33,6 +33,9 @@
                     </tr>
                 </tbody>
             </table>
+            <!--Pagination-->
+            <app-pagination [collectionSize]="allAdminUsers.length" (itemsPerPageEvent)="itemsPerPageEvent($event)"
+             (pageSizeEvent)="pageSizeEvent($event)"></app-pagination>
         </div>
     </div>
 </div>

@@ -17,7 +17,6 @@ import { FooterComponent } from './components/layout/footer/footer.component';
 import { ProductListComponent } from './components/home/product-list/product-list.component';
 import { ProductCardComponent } from './components/home/product-list/product-card/product-card.component';
 import { AddToCartComponent } from './components/shared/add-to-cart/add-to-cart.component';
-import { PaginationComponent } from './components/shared/pagination/pagination.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { EditProfileComponent } from './components/my-profile/edit-profile/edit-profile.component';
 import { FiltersComponent } from './components/home/filters/filters.component';
@@ -43,6 +42,7 @@ import { ProductsComponent } from './components/products/products.component';
 import { PrintLayoutComponent } from './components/my-profile/my-orders/print/print-layout/print-layout.component';
 import { InvoiceComponent } from './components/my-profile/my-orders/print/invoice/invoice.component';
 import { ManageCategoriesComponent } from './components/my-profile/admin-panel/manage-categories/manage-categories.component';
+import { PaginationComponent } from './components/shared/pagination/pagination.component';
 
 
 @NgModule({
@@ -57,7 +57,6 @@ import { ManageCategoriesComponent } from './components/my-profile/admin-panel/m
     ProductListComponent,
     ProductCardComponent,
     AddToCartComponent,
-    PaginationComponent,
     MyProfileComponent,
     EditProfileComponent,
     FiltersComponent,
@@ -80,7 +79,8 @@ import { ManageCategoriesComponent } from './components/my-profile/admin-panel/m
     ProductsComponent,
     PrintLayoutComponent,
     InvoiceComponent,
-    ManageCategoriesComponent
+    ManageCategoriesComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

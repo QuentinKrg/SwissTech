@@ -18,6 +18,9 @@ export class ManageAdminsComponent implements OnInit {
   filterValue: Array<any> = [];
   filterText: string = "";
 
+  //Pagination
+  pageSize: number;
+  itemsPerPage: number;
   ngOnInit() {
     //récupère tous les admins
     this.getAllAdminUsers();
@@ -77,5 +80,13 @@ export class ManageAdminsComponent implements OnInit {
     this.allStandartUsers = this.filterValue;
 
     this.allStandartUsers = this.allStandartUsers.filter(i => i.login.toLowerCase().indexOf(this.filterText.toLocaleLowerCase()) !== -1);
+  }
+  //Récupère la taille de la page
+  pageSizeEvent($event) {
+    this.pageSize = $event;
+  }
+  //Récupère le nombre d'item par page
+  itemsPerPageEvent($event) {
+    this.itemsPerPage = $event;
   }
 }
