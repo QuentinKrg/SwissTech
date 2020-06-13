@@ -3,12 +3,9 @@ import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { DataService } from 'src/app/services/data.service';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
-import { async } from '@angular/core/testing';
-import { getLocaleFirstDayOfWeek } from '@angular/common';
-import { flatten } from '@angular/compiler';
-import { element } from 'protractor';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { faPlusCircle, faMinusCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -16,7 +13,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./shopping-cart.component.css']
 })
 export class ShoppingCartComponent implements OnInit {
-
+//Icones
+faPlusCircle =faPlusCircle;
+faMinusCircle=faMinusCircle;
+faTimesCircle=faTimesCircle;
   cart: ShoppingCart[];
   total: number = 0;
   productsInTheCart: Product[] = [];

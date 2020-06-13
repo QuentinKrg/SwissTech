@@ -1,3 +1,75 @@
-<div class="row">
-    <h3>Panneau d'administration</h3>
+<div class="row text-dark mt-2">
+    <div class="col d-flex justify-content-center text-center">
+        <fa-icon [icon]="faChartLine" size="3x"></fa-icon><h2 class="pl-3">Statistiques</h2>
+    </div>
+</div>
+<!--Clients-->
+<div class="h4 pl-3 border-left  border-size-8-green"><fa-icon [icon]="faUsers" size="lg" class="pr-3 text-dark"></fa-icon>Clients</div>
+<div class="row d-flex justify-content-center">
+    <!--Bouton de changement d'username-->
+    <div class="col-sm-4 m-4 p-5  rounded shadow border-left border-size-8-green">
+        <div class="h-100 p-3 text-center text-muted h5">
+            Nombre de clients
+            <div class="h-100 pt-4 h1">
+                {{CustomerNumber}}
+            </div>
+        </div>
+    </div>
+    <!--Bouton de changement de password-->
+    <div class="col-sm-4 m-4 p-5 rounded shadow border-left border-size-8-green">
+        <div class="h-100 p-3 text-center text-muted h5">
+            Dernier client inscrit:
+            <div class="h-100 pt-4">
+                {{LastCustomerRegistered.CustomerName}}
+                {{LastCustomerRegistered.CustomerLastName}}
+            </div>
+        </div>
+    </div>
+</div>
+<!--Commentaires-->
+<div class="h4 pl-3 border-left border-danger border-size-8-blue"><fa-icon [icon]="faComments" size="lg" class="pr-3 text-dark"></fa-icon>Commentaires</div>
+<div class="row d-flex justify-content-center">
+    <!--Bouton de changement d'username-->
+    <div class="col-sm-4 m-4 p-5 rounded shadow border-left border-size-8-blue">
+        <div class="h-100 p-3 text-center text-muted h5">
+            Nombre de commentaires
+            <div class="h-100 pt-4 h1">
+                {{CommentNumber}}
+            </div>
+        </div>
+    </div>
+    <!--Bouton de changement de password-->
+    <div class="col-sm-4 m-4 p-5 rounded shadow border-left border-size-8-blue">
+        <div class="h-100 p-3 text-center text-muted h5">
+            Dernier commentaire écrit:
+            <div class="row pt-2 pb-2">
+                <div class="col font-weight-normal">
+                    <fa-icon [icon]="faQuoteLeft" size=""></fa-icon>
+                    {{LastCommentAdded.CommentValue}}
+                    <fa-icon [icon]="faQuoteRight" size=""></fa-icon>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col font-weight-light">
+                Par:
+                {{LastCommentAdded.CustomerName}}
+                {{LastCommentAdded.CustomerLastName}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Articles-->
+<div class="h4 pl-3 border-left border-danger border-size-8-yellow">
+    <fa-icon [icon]="faCrown" size="lg" class="pr-3 text-dark"></fa-icon>L'article le plus vendu</div>
+<div class="row d-flex justify-content-center">
+    <!--Bouton de changement d'username-->
+    <div class="col-sm-4 m-4 p-5 rounded shadow border-left border-size-8-yellow">
+        <div class="h-100 p-3 text-center text-muted h5">
+            Le champion de ventes:
+            <div class="h-100 pt-4">
+                {{BestsellerProduct}}
+            </div>
+        </div>
+    </div>
 </div>

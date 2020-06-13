@@ -6,7 +6,7 @@
     <div class="row">
         <!--Affiche l'username actuel-->
         <div class="form-group col-sm d-inline">
-            <h5 class="h3 text-dark">
+            <h5 class="h3 text-dark text-center">
                 Nom d'utlisateur actuel : <span class="font-weight-bold">{{usernameData | titlecase}}</span>
             </h5>
         </div>
@@ -15,12 +15,22 @@
         <!--Bouton de changement d'username-->
         <div class="col-sm-4 m-4 p-5 btn btn-light rounded shadow "
             (click)="openModal(EditUsernameModal);onUsernameChange()">
-            <a class="text-center text-muted h5">Modifier mon nom d'utilisateur</a>
+            <div class="h-100 p-3 text-center text-muted h5">
+                Modifier mon nom d'utilisateur
+                <div class="h-100 pt-4">
+                    <fa-icon [icon]="faUserEdit" size="4x"></fa-icon>
+                </div>
+            </div>
         </div>
         <!--Bouton de changement de password-->
         <div class="col-sm-4 m-4 p-5 btn btn-light rounded shadow"
             (click)="openModal(EditPasswordModal);onPasswordChange()">
-            <a class="text-center text-muted h5">Modifier mon mot de passe</a>
+            <div class="h-100 p-3 text-center text-muted h5">
+                Modifier mon mot de passe
+                <div class="h-100 pt-4">
+                    <fa-icon [icon]="faKey" size="4x"></fa-icon>
+                </div>
+            </div>
         </div>
     </div>
 </div>

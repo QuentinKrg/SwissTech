@@ -6,6 +6,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CustomValidators } from 'src/app/helpers/CustomValidators';
 import { Customer } from 'src/app/models/customer';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { faKey ,faUserEdit} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-edit-login-infos',
@@ -13,7 +14,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./edit-login-infos.component.css']
 })
 export class EditLoginInfosComponent implements OnInit {
-
+  //Icones
+  faKey =faKey;
+  faUserEdit = faUserEdit;
+  
   //propriétés et variables
   editRegisterForm: FormGroup;
   loading;
