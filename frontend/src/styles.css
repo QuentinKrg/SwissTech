@@ -14,12 +14,6 @@ header {
   header .icon {
     height: 23px; }
 
-fa-layers-counter {
-  zoom: 160%;
-  position: relative;
-  left: 1.4rem;
-  bottom: 0.5rem; }
-
 .card-header {
   padding: 0.5em 0em 0.25em  0.5em;
   border-bottom: 0px !important;

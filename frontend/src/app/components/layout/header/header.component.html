@@ -23,17 +23,20 @@
             
             <div class="col-sm-11 col-md-4 order-2 w-auto ml-auto pr-0">
                 <span class="d-flex float-right">
+                    <!--Iconne du panier-->
                 <a class="nav-link" routerLink="/cart">
-                    <fa-layers size="2x">
+                    <fa-layers size="2x" [fixedWidth]="true">
                         <fa-icon  [icon]="faShoppingCart" class="icon"></fa-icon>
-                        <fa-layers-counter content="{{cartCount}}" class="h1"></fa-layers-counter>
+                        <fa-layers-counter content="{{cartCount}}" [classes]="['fa-custom-counter']"></fa-layers-counter>
                     </fa-layers>
                 </a>
+                <!--lien pour la conenxion si pas connecté ou lien pour le panneau de gestion utilisateur-->
                 <a class="nav-link" (click)="openNav()">
                     <a *ngIf="currentUser" class="pr-2 h5" title="Mon compte">{{currentUser.login | titlecase}}</a>
                     <fa-icon *ngIf="currentUser" [icon]="faUser" class="icon" size="2x" title="Mon compte"></fa-icon>
                     <a *ngIf="!currentUser">Se connecter</a>
                 </a>
+                <!--Iconne de déconnexion-->
                 <a class="nav-link" *ngIf="currentUser" title="Se déconnecter" (click)="logout()">
                     <fa-icon [icon]="faSignOutAlt" class="icon" size="2x"></fa-icon>
                 </a>

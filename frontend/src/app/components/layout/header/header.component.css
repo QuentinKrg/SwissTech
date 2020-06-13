@@ -46,9 +46,6 @@
     color: #df0000;
     font-size: 20px;
 }
-fa-layers-counter {
-    zoom: 160%;
-    position: relative;
-    left: 1.4rem;
-    bottom: 0.5rem;
-}
+:host ::ng-deep .fa-custom-counter {
+    transform: scale(0.5) translateX(50%) translateY(-50%);
+  }

@@ -185,15 +185,16 @@
         </button>
     </div>
 </form>
-<!--Modal avec les détails d'une commande-->
-<ng-template #showOrderDetailsModal id="showOrderDetailsModal" let-modal>
+<!--Modal pour afficher la confirmation d'une commande-->
+<ng-template #OrderConfirmationModal id="OrderConfirmationModal" let-modal>
+    <!--Modal header-->
     <div class="modal-header">
         <h6 class="modal-title text-dark p-0" id="showProfileLabel">Commande enregistrée.</h6>
         <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-
+    <!--Message-->
     <div class="modal-body p-3 ">
         <div class="p-3 mb-2 bg-info text-white text-center rounded">
             <h4>Merci pour votre commande</h4>

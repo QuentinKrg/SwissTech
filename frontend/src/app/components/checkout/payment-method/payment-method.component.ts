@@ -19,8 +19,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class PaymentMethodComponent implements OnInit {
   
-  @ViewChild('showOrderDetailsModal', {static: false}) showOrderDetailsModal:ElementRef;
+  //Elements HTML
+  @ViewChild('OrderConfirmationModal', {static: false}) OrderConfirmationModal:ElementRef;
 
+  //Variables
   creditCardForm: FormGroup;
   loading: boolean;
   submitted: boolean;
@@ -87,6 +89,7 @@ export class PaymentMethodComponent implements OnInit {
 
   // Retourne la validation du formulaire
   get f() { return this.creditCardForm.controls; }
+  get f2() { return this.newAddressForm.controls; }
 
   //Modal avec les détails de la commande
   openModal(targetModal) {
@@ -117,8 +120,6 @@ export class PaymentMethodComponent implements OnInit {
         console.log(error);
       });
   }
-  get f2() { return this.newAddressForm.controls; }
-
   onNewBillAddress(value) {
     if (value == -1) {
       this.newBillAddress = true;
@@ -128,7 +129,6 @@ export class PaymentMethodComponent implements OnInit {
   }
   onSubmit(address)
   {    
-    
     //Recupère l'adresse choisie dans la liste
     const addressObj = JSON.parse(address);
 
@@ -172,7 +172,6 @@ export class PaymentMethodComponent implements OnInit {
         this.formErrorMessage = "";
       }
     }
-
     let paymentOrder = new PaymentOrder;
 
     //Définit les adresses de la commande à passer au backend
@@ -190,19 +189,13 @@ export class PaymentMethodComponent implements OnInit {
     else if(!this.radioCard.checked && this.radioBill.checked) {
       paymentOrder.paymentMethodCode="FAC"; 
     }
-
-    
-
     // Panier du client
     paymentOrder.shoppingCart = this.cart;
     
     // Création de la commande
     this._orderService.addNewOrder(paymentOrder).subscribe(() => {
-
-
       // Insertion des infortmation de la carte de crédit si besoin
       if(this.radioCard.checked && this.creditCardForm.valid) {
-        
         let creditCard = new CreditCard;
         creditCard.cardNumber = this.creditCardForm.value.cardNumber;
         creditCard.cardName = this.creditCardForm.value.cardName;
@@ -213,7 +206,6 @@ export class PaymentMethodComponent implements OnInit {
         
         this._orderService.addCreditCard(creditCard).subscribe();
       }
-
       // Clear et update le cart
       this.cart.length = 0;
       this.cart = [];
@@ -222,15 +214,11 @@ export class PaymentMethodComponent implements OnInit {
       localStorage.removeItem('Cart');
       localStorage.removeItem('ProductsInTheCart');
       localStorage.removeItem('shippingID');
-      this.openModal(this.showOrderDetailsModal);
+      //ouvre le modal de confirmation d'une commande
+      this.openModal(this.OrderConfirmationModal);
       // Redirection
       this._router.navigate(['/']);
     });
-
-    
-
   },200);
-
   }
-
 }
