@@ -18,7 +18,7 @@ export class MyOrdersComponent implements OnInit {
   //icones
   faPrint = faPrint;
   //Récupération du nom d'user actuel
-  currentUsername = this.authenticationService.currentUserValue.login;
+  currentUsername = this._authenticationService.currentUserValue.login;
   //Propriétés de vérification et affichage de données
   myOrders: Order[];
   Orderdetails: Order[];
@@ -35,8 +35,8 @@ export class MyOrdersComponent implements OnInit {
 
   constructor(
     private _orderService: OrdersService,
-    private authenticationService: AuthenticationService,
-    private modalService: NgbModal,
+    private _authenticationService: AuthenticationService,
+    private _modalService: NgbModal,
     private _datePipe: DatePipe,
     private _printService: PrintService
   ) {
@@ -59,7 +59,7 @@ export class MyOrdersComponent implements OnInit {
   }
   //Modal avec les détails de la commande
   openModal(targetModal, order) {
-    this.modalService.open(targetModal, {
+    this._modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
       size: 'lg'

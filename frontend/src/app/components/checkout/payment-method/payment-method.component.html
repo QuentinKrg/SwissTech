@@ -179,9 +179,33 @@
             </div>
         </div>
         </div>
-        <button [disabled]="loading" class="btn btn-primary mt-3">
+        <button [disabled]="loading" class="btn btn-primary mt-3" >
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Payer maintenant
         </button>
     </div>
 </form>
+<!--Modal avec les détails d'une commande-->
+<ng-template #showOrderDetailsModal id="showOrderDetailsModal" let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title text-dark p-0" id="showProfileLabel">Commande enregistrée.</h6>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body p-3 ">
+        <div class="p-3 mb-2 bg-info text-white text-center rounded">
+            <h4>Merci pour votre commande</h4>
+            
+        </div>
+        <div>
+            <div class="col text-dark">
+                <div class="row d-flex justify-content-center text-center">Vous pouvez voir toutes vos commandes dans le panneau</div>
+                <div class="row d-flex justify-content-center text-center">
+                    <a autofocus routerLink="/myprofile/myorders" (click)="modal.dismiss()" class="nav-link">Mes commandes
+                    </a></div>
+            </div>
+        </div>
+    </div>
+</ng-template>  

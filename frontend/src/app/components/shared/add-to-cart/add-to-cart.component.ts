@@ -4,6 +4,7 @@ import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { ProductService } from 'src/app/services/product.service';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-to-cart.component.css']
 })
 export class AddToCartComponent implements OnInit {
-  
+  //Icones
+  faCartPlus = faCartPlus;
   constructor(
     private _productService: ProductService,
     private _dataService: DataService,
