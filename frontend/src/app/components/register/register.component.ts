@@ -9,6 +9,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { CustomValidators } from '../../helpers/CustomValidators';
 import { User } from 'src/app/models/user';
 import * as CryptoJS from 'crypto-js';
+import { faTimesCircle , faCheckCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,8 @@ import * as CryptoJS from 'crypto-js';
 export class RegisterComponent implements OnInit {
   //icones
   faSyncAlt=faSyncAlt;
+  faTimesCircle = faTimesCircle;
+  faCheckCircle=faCheckCircle;
   
   //Propriétés dus formulaire et validations
   registerForm: FormGroup;

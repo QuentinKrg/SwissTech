@@ -211,40 +211,55 @@
                                 <input id="password" formControlName="password" type="password" class="form-control"
                                     [ngClass]="f.password.touched && f.password.invalid ? 'is-invalid' : ''">
                                 <div>
-                                    <label class="col"
+                                    <label class="col pr-0"
                                         [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
-                                        <i class="material-icons">{{ f.password.hasError('required') ||
-                        f.password.hasError('minlength') ? 'cancel' :
-                        'check_circle' }}</i>
+                                        <fa-icon *ngIf=" f.password.hasError('required') ||
+                                            f.password.hasError('minlength'); else elseBlock1" [icon]="faTimesCircle" size="lg"
+                                            class="text-danger"></fa-icon>
+                                        <ng-template #elseBlock1>
+                                            <fa-icon [icon]="faCheckCircle" size="lg" class="text-success"></fa-icon>
+                                        </ng-template>
+            
                                         Au moins 8 caractères
                                     </label>
-                                    <label class="col"
+                                    <label class="col pr-0"
                                         [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
-                                        <i class="material-icons">{{ f.password.hasError('required') ||
-                        f.password.hasError('hasNumber') ? 'cancel' :
-                        'check_circle' }}</i>
+                                        <fa-icon *ngIf=" f.password.hasError('required') ||
+                                        f.password.hasError('hasNumber'); else elseBlock2" [icon]="faTimesCircle" size="lg"
+                                            class="text-danger"></fa-icon>
+                                        <ng-template #elseBlock2>
+                                            <fa-icon [icon]="faCheckCircle" size="lg" class="text-success"></fa-icon>
+                                        </ng-template>
                                         Au moins un chiffre
                                     </label>
-                                    <label class="col"
+                                    <label class="col pr-0"
                                         [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
-
-                                        <i class="material-icons">{{ f.password.hasError('required') ||
-                        f.password.hasError('hasCapitalCase') ? 'cancel' :
-                        'check_circle' }}</i>
+                                        <fa-icon *ngIf=" f.password.hasError('required') ||
+                                        f.password.hasError('hasCapitalCase'); else elseBlock3" [icon]="faTimesCircle" size="lg"
+                                            class="text-danger"></fa-icon>
+                                        <ng-template #elseBlock3>
+                                            <fa-icon [icon]="faCheckCircle" size="lg" class="text-success"></fa-icon>
+                                        </ng-template>
                                         Au moins une majuscule
                                     </label>
-                                    <label class="col"
+                                    <label class="col pr-0"
                                         [ngClass]="f.password.hasError('required') || f.password.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
-                                        <i class="material-icons">{{ f.password.hasError('required') ||
-                        f.password.hasError('hasSmallCase') ? 'cancel' :
-                        'check_circle' }}</i>
+                                        <fa-icon *ngIf=" f.password.hasError('required') ||
+                                        f.password.hasError('hasSmallCase'); else elseBlock4" [icon]="faTimesCircle" size="lg"
+                                            class="text-danger"></fa-icon>
+                                        <ng-template #elseBlock4>
+                                            <fa-icon [icon]="faCheckCircle" size="lg" class="text-success"></fa-icon>
+                                        </ng-template>
                                         Au moins une minuscule
                                     </label>
-                                    <label class="col"
+                                    <label class="col pr-0"
                                         [ngClass]="f.password.hasError('required') || f.password.hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
-                                        <i class="material-icons">{{ f.password.hasError('required') ||
-                        f.password.hasError('hasSpecialCharacters') ? 'cancel' :
-                        'check_circle' }}</i>
+                                        <fa-icon *ngIf=" f.password.hasError('required') ||
+                                        f.password.hasError('hasSpecialCharacters'); else elseBlock5" [icon]="faTimesCircle"
+                                            size="lg" class="text-danger"></fa-icon>
+                                        <ng-template #elseBlock5>
+                                            <fa-icon [icon]="faCheckCircle" size="lg" class="text-success"></fa-icon>
+                                        </ng-template>
                                         Au moins un caractère spécial
                                     </label>
                                 </div>

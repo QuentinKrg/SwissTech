@@ -7,6 +7,7 @@ import { CustomValidators } from 'src/app/helpers/CustomValidators';
 import { Customer } from 'src/app/models/customer';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faKey ,faUserEdit} from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle , faCheckCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-edit-login-infos',
@@ -17,6 +18,8 @@ export class EditLoginInfosComponent implements OnInit {
   //Icones
   faKey =faKey;
   faUserEdit = faUserEdit;
+  faTimesCircle = faTimesCircle;
+  faCheckCircle=faCheckCircle;
   
   //propriétés et variables
   editRegisterForm: FormGroup;
