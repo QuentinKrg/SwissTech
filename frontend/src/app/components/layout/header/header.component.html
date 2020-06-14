@@ -13,7 +13,7 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLinksCollapsed" aria-controls="navbarLinksCollapsed" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <input type="search" class="form-control" placeholder="Recherche" [(ngModel)]="textSearch" name="text">
+                        <input type="search" class="form-control rounded" placeholder="Recherche" [(ngModel)]="textSearch" name="text">
                         <span class="input-group-btn ml-2">
                             <button class="btn btn-info"  (click)="onSearch(textSearch)" type="submit">Recherche</button>
                         </span>
@@ -36,6 +36,7 @@
                     <fa-icon *ngIf="currentUser" [icon]="faUser" class="icon" size="2x" title="Mon compte"></fa-icon>
                     <a *ngIf="!currentUser">Se connecter</a>
                 </a>
+                <a class="nav-link" *ngIf="!currentUser"  routerLink="/register">Créer un compte</a>
                 <!--Iconne de déconnexion-->
                 <a class="nav-link" *ngIf="currentUser" title="Se déconnecter" (click)="logout()">
                     <fa-icon [icon]="faSignOutAlt" class="icon" size="2x"></fa-icon>
@@ -46,7 +47,7 @@
                 <div class="collapse navbar-collapse justify-content-center" id="navbarLinksCollapsed">
                     <ul class="navbar-nav" *ngFor="let category of mainCategories">
                         <li class="nav-item" *ngIf="category.IsActive == true" data-toggle="collapse" data-target=".navbar-collapse.show">
-                            <a class="nav-link"  [routerLink]="['products']" [queryParams]="{cat: category.id}" queryParamsHandling="merge" (click)="refreshResults(category)"  >{{category.CategoryName}}</a>
+                            <a class="nav-link h5 font-weight-normal ml-2 mr-2"  [routerLink]="['products']" [queryParams]="{cat: category.id}" queryParamsHandling="merge" (click)="refreshResults(category)"  >{{category.CategoryName}}</a>
                         </li>
                     </ul>
                 </div>

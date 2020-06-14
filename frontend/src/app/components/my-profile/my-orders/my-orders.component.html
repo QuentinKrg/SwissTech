@@ -33,7 +33,8 @@
                         <td>{{ order.OrderDate |date: 'dd.MM.yyyy'  }}</td>
                         <td>{{ order.TotalOrder }}</td>
                         <td>{{ order.MethodName }}</td>
-                        <td>{{ order.StatusName }}</td>
+                        <td [ngClass]="{ 'text-danger': order.StatusName == 'Erreur de paiement' || order.StatusName == 'Annulé',
+                                        'text-success' :order.StatusName == 'Livré'} ">{{ order.StatusName }}</td>
                         <td><!--Bouton détails-->
                             <a class="btn btn-light" (click)="openModal(showOrderDetailsModal, order)">Détails</a>
                         </td>

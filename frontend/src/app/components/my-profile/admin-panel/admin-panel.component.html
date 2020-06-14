@@ -43,10 +43,10 @@
         <div class="h-100 p-3 text-center text-muted h5">
             Dernier commentaire:
             <div class="row pt-2 pb-2">
-                <div class="col font-weight-normal">
-                    <fa-icon [icon]="faQuoteLeft" size=""></fa-icon>
-                    {{LastCommentAdded.CommentValue}}
-                    <fa-icon [icon]="faQuoteRight" size=""></fa-icon>
+                <div class="col font-weight-normal text-muted h5 cursorPointer" title="Voir l'article"routerLink="/product-details/{{LastCommentAdded.FK_Product}}">
+                    <fa-icon [icon]="faQuoteLeft"></fa-icon>
+                    {{(LastCommentAdded.CommentValue.length > 42)? (LastCommentAdded.CommentValue | slice:0:42)+'..':(LastCommentAdded.CommentValue)}}
+                    <fa-icon [icon]="faQuoteRight"></fa-icon>
                 </div>
             </div>
             <div class="row">
