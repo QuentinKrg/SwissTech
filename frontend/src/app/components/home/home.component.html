@@ -5,9 +5,6 @@
         height: 100%;
     }
 </style>
-
-
-    
     <div class="row align-item-center"> 
             <div id="demo" class="carousel slide mb-4" data-ride="carousel">
                 <!-- Indicators -->
@@ -38,10 +35,18 @@
                 <span class="carousel-control-next-icon"></span>
                 </a>
             </div>
-
+            <!-- Recommendations-->
             <div class="col-12 p-md-0">
                 
                 <h3 class="text-muted"> Nos recommendations </h3>
+                <div class="row">
+                    <app-product-card *ngFor="let product of recommendationList" [productData]="product" class="col-md-3 col-sm-12 pt-3"></app-product-card>
+                </div>
+            </div>
+
+            <!-- Nos marques-->
+            <div class="col-12 px-md-0 pt-5">
+                <h3 class="text-muted"> Découvrez nos meilleures marques </h3>
                 <div class="row">
                     <app-product-card *ngFor="let product of recommendationList" [productData]="product" class="col-md-3 col-sm-12 pt-3"></app-product-card>
                 </div>

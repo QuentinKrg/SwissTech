@@ -1,4 +1,4 @@
-<nav class=" header navbar navbar-expand-lg  p-0 fixed-top" data-toggle="sticky-onscroll">
+<nav class=" header navbar navbar-expand-lg  navbar-dark p-0 fixed-top" data-toggle="sticky-onscroll">
     <div class="container png p-0">
         <div class="row align-items-center w-100 p-0 m-0">
             <div class="col-sm-1 col-md-3 order-0 mr-auto w-auto">
@@ -36,8 +36,8 @@
                     <fa-icon *ngIf="currentUser" [icon]="faUser" class="icon" size="2x" title="Mon compte"></fa-icon>
                     <a *ngIf="!currentUser">Se connecter</a>
                 </a>
-                <a class="nav-link" *ngIf="!currentUser"  routerLink="/register">Créer un compte</a>
-                <!--Iconne de déconnexion-->
+                
+                <!--Icon de déconnexion-->
                 <a class="nav-link" *ngIf="currentUser" title="Se déconnecter" (click)="logout()">
                     <fa-icon [icon]="faSignOutAlt" class="icon" size="2x"></fa-icon>
                 </a>

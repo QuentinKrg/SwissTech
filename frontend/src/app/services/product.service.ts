@@ -27,6 +27,10 @@ export class ProductService {
     return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetRandom&id='+id);
   }
 
+  getLatestArticles(id: number) {
+    return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetLatestArticles&id='+id);
+  }
+
   deleteProduct(id:number) {
     return this.http.delete<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=Delete&id=' +id);
   }
@@ -40,7 +44,7 @@ export class ProductService {
   }
 
   getProductDetailsById(id:number) {
-    return this.http.get<Product>(environment.backendURL + 'start.php?' + 'c=Product&f=GetDetailsById&id=' +id);
+    return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetDetailsById&id=' +id);
   }
 
   updateProduct(product: Product) {

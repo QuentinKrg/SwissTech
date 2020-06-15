@@ -6,7 +6,7 @@
  */
 
 class Statistics extends Entity
-{	
+{
     public function  __construct(){
 		$this->Connect();
     }
@@ -53,10 +53,11 @@ class Statistics extends Entity
 //Articles
 	// BestSeller
 		public function GetBestSellerProduct(){
-		  $sql = "  SELECT ProductName, FK_Product, count(FK_Product) 
-					  FROM t_products_orders 
+		  $sql = "SELECT ProductName, FK_Product, sum(Quantity)
+					  FROM t_products_orders
 						 INNER JOIN t_products ON t_products.id_Product = t_products_orders.FK_Product
-						 GROUP by FK_Product ORDER BY count(FK_Product) DESC";
+						 GROUP by FK_Product ORDER BY sum(Quantity) DESC";
+
 
 		   $tmpResult = ($this->Query($sql)->fetchColumn(0));
 

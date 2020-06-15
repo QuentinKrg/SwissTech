@@ -27,6 +27,8 @@ export class ProductDetailsComponent implements OnInit {
   productsComments: Comments[] = [];
   addCommentForm: FormGroup;
   imageUrl: any;
+
+  showForm: boolean = false;
   // --------------------------------Captcha---------------------------------------------------
   userCaptcha: String;
   captchaIsValid = false;
@@ -51,9 +53,17 @@ export class ProductDetailsComponent implements OnInit {
 
     // Récupération des détails de l'article 
     this._productService.getProductDetailsById(this.productId)
-    .subscribe(product => {
-      this.product = product as Product;
-      console.log(this.product);
+    .subscribe(data => {
+      this.product = data[0];
+      if(this.product != null) {
+        // Retourner les catégories dans le bon sens
+        this.product.Categories = this.product.Categories.reverse();
+
+        // Ne garder que les catégories qui ne sont pas null (si un article n'a que 1 ou 2 catégorie(s))
+        this.product.Categories = this.product.Categories.filter(cat => cat.id != null);
+      }
+
+      
       
     });
     //Création d'un formulaire
@@ -149,7 +159,16 @@ get f() { return this.addCommentForm.controls; }
   }
   // --------------------------------/Captcha---------------------------------------------------
 
+  // Affichage du formulaire au complet
+  onClickInput(e: any, show: boolean) {    
+    if(show) {
+      this.showForm = true;
+    } else if(!show) {
+      this.showForm = false;
+    }
+  }
 
+  // Envoie du formulaire pour commentaire
   onSubmit() {
     this.submitted = true;
     // Stop si le formulaire n'est pas correctement rempli
@@ -165,13 +184,8 @@ get f() { return this.addCommentForm.controls; }
     // ----------------------------/Captcha-----------------------------------
     // Création d'un commentaire
     let tmpComment: Comments = new Comments;
-    tmpComment.CommentValue = this.addCommentForm.value.commentText;
-    
-    //tmpComment.CommentDate = new Date();
-    //console.log(tmpComment.CommentDate);
-    
-    
-    //tmpComment.isActive = true;
+    tmpComment.CommentValue = this.addCommentForm.value.commentText;  
+
     tmpComment.FK_Customer = this._authenticationService.currentUserValue.FK_Customer;
     tmpComment.FK_Product = this.productId;
 

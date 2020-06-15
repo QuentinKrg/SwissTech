@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
       .subscribe((data: Product[]) =>{
         this.recommendationList = data;
     });
+
   }
 
   onEdit(product: Product):void {

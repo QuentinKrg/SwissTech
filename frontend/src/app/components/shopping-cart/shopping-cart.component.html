@@ -1,72 +1,76 @@
+<h2 class="p-3 text-center">Mon Panier</h2>
 <div class="row">
     <div class="col-12">
-        <div class="table-responsive rounded border border-top-0 border-dark">
-            <table class="table">
-                <div *ngIf="cart.length > 0; then tbody else noValue"></div>
-                <ng-template #tbody>
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" class="border-0">
-                                <div class="p-2 px-3 text-uppercase">Produit</div>
-                            </th>
-                            <th scope="col" class="border-0">
-                                <div class="py-2 text-uppercase">Quantité</div>
-                            </th>
-                            <th scope="col" class="border-0">
-                                <div class="py-2 text-uppercase">Prix untitaire</div>
-                            </th>
-                            <th scope="col" class="border-0">
-                                <div class="py-2 text-uppercase">Prix</div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody *ngFor="let product of productsInTheCart">
-                        <tr>
-                            <th scope="row" class="border-0">
-                                <div class="p-2">
-                                    <img src="{{imageUrl}}{{product.ImagePath}}" alt="" width="70"
-                                        class="img-fluid rounded shadow-sm">
-                                    <div class="ml-3 d-inline-block align-middle">
-                                        <h5 class="mb-0"> <a [routerLink]="['/product-details', product.id_Product]"
-                                                class="text-dark d-inline-block align-middle">{{product.ProductName}}</a>
-                                        </h5><span class="text-muted font-weight-normal font-italic d-block">Catégorie:
-                                            {{product.CategoryName}}</span>
+        <div *ngIf="cart.length > 0; then tbody else noValue"></div>
+        <!-- Si le panier n'est pas vide-->
+        <ng-template #tbody>
+            <div class="table-responsive rounded border border-top-0 border-dark">
+                <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" class="border-0">
+                                    <div class="p-2 px-3 text-uppercase">Produit</div>
+                                </th>
+                                <th scope="col" class="border-0 d-none d-lg-table-cell">
+                                    <div class="py-2 text-uppercase">Quantité</div>
+                                </th>
+                                <th scope="col" class="border-0">
+                                    <div class="py-2 text-uppercase">Prix untitaire</div>
+                                </th>
+                                <th scope="col" class="border-0">
+                                    <div class="py-2 text-uppercase">Prix</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <!-- Informations sur le produit -->
+                        <tbody *ngFor="let product of productsInTheCart">
+                            <tr>
+                                <th scope="row" class="border-0">
+                                    <div class="p-2">
+                                        <img src="{{imageUrl}}{{product.ImagePath}}" alt="" width="70"
+                                            class="img-fluid rounded shadow-sm">
+                                        <div class="ml-3 d-inline-block align-middle">
+                                            <h5 class="mb-0"> <a [routerLink]="['/product-details', product.id_Product]"
+                                                    class="text-dark d-inline-block align-middle">{{product.ProductName}}</a>
+                                            </h5><span class="text-muted font-weight-normal font-italic d-block">Catégorie:
+                                                {{product.CategoryName}}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </th>
-                            <td class="border-0 align-middle">
-                                <a class="mr-3" (click)="onRemoveProduct(product.id_Product)">
-                                    <fa-icon [icon]="faTimesCircle" size="md" class="text-danger"></fa-icon></a>
-                                <a class="mr-2" (click)="onUpdateQuantity(0, product.id_Product)">
-                                    <fa-icon [icon]="faMinusCircle" size="md" class="text-dark"></fa-icon></a>
-                                <strong class="mr-2"><span>{{getQuantityOfProduct(product).Quantity}}</span></strong>
-                                <a class="mr-1" (click)="onUpdateQuantity(1, product.id_Product)">
-                                    <fa-icon [icon]="faPlusCircle" size="md" class="text-dark"></fa-icon></a>
-                            </td>
-                            <td class="border-0 align-middle"><strong>CHF {{product.ProductUnitPrice}}</strong></td>
-                            <td class="border-0 align-middle"><strong>CHF
-                                    {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong>
-                            </td>
-                        </tr>
-                    </tbody>
-                </ng-template>
-                <ng-template #noValue>
-                    <h5 class="text-dark mt-2">Le panier est vide.</h5>
-                    <a routerLink="/home" class="btn btn-info">Nos produits</a>
-                </ng-template>
-            </table>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row text-right mr-3">
-            <div class="col ">
-                <h6 class="text-dark">Total : CHF {{total.toFixed(2)}} </h6>
+                                </th>
+                                <td class="border-0 align-middle d-none d-lg-table-cell">
+                                    <a class="mr-3" (click)="onRemoveProduct(product.id_Product)">
+                                        <fa-icon [icon]="faTimesCircle" size="md" class="text-danger"></fa-icon></a>
+                                    <a class="mr-2" (click)="onUpdateQuantity(0, product.id_Product)">
+                                        <fa-icon [icon]="faMinusCircle" size="md" class="text-dark"></fa-icon></a>
+                                    <strong class="mr-2"><span>{{getQuantityOfProduct(product).Quantity}}</span></strong>
+                                    <a class="mr-1" (click)="onUpdateQuantity(1, product.id_Product)">
+                                        <fa-icon [icon]="faPlusCircle" size="md" class="text-dark"></fa-icon></a>
+                                </td>
+                                <td class="border-0 align-middle"><strong>CHF {{product.ProductUnitPrice}}</strong></td>
+                                <td class="border-0 align-middle"><strong>CHF
+                                        {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong>
+                                </td>
+                            </tr>
+                        </tbody>                
+                </table>
             </div>
-        </div>
-        <div class="row text-center">
-            <div class="col ">
-                <a routerLink="/checkout/information" class="btn btn-secondary">Continuer vers le paiement</a>
+            <!-- Total -->
+            <div class="row text-right mr-3">
+                <div class="col-12">
+                    <h5 class="text-dark">Total : CHF {{total.toFixed(2)}} </h5>
+                </div>
             </div>
-        </div>
+            <div class="row text-center">
+                <div class="col-12">
+                    <a routerLink="/checkout/information" class="btn btn-secondary">Continuer vers le paiement</a>
+                </div>
+            </div>
+        </ng-template>
+        <!-- Si le panier est vide-->
+        <ng-template #noValue>
+            <h5 class="text-dark mt-2">Le panier est vide.</h5>
+            <a routerLink="/home" class="btn btn-info">Nos produits</a>
+        </ng-template>
     </div>
+    
 </div>

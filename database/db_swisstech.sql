@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS `t_address` (
   CONSTRAINT `FK_Address_AddressType` FOREIGN KEY (`FK_AddressType`) REFERENCES `t_addresstypes` (`id_AddressType`),
   CONSTRAINT `FK_Address_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Title` FOREIGN KEY (`FK_Title`) REFERENCES `t_titles` (`id_CustomerTitle`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_address : ~21 rows (environ)
+-- Listage des données de la table db_swisstech.t_address : ~28 rows (environ)
 /*!40000 ALTER TABLE `t_address` DISABLE KEYS */;
 INSERT INTO `t_address` (`id_Address`, `FullName`, `Address`, `City`, `ZIP`, `isActive`, `isDefault`, `FK_Title`, `FK_AddressType`, `FK_Customer`) VALUES
 	(13, 'cookieeee', 'Couloir 7 , 717', 'Lausanne', 1004, 1, 0, 1, 1, 24),
@@ -61,7 +61,15 @@ INSERT INTO `t_address` (`id_Address`, `FullName`, `Address`, `City`, `ZIP`, `is
 	(41, 'Choisir une adresse', 'Rue de livraison 3000', 'Livre ville', 1000, 0, 0, 2, 1, 25),
 	(42, 'Quentin Test', 'Av de test', 'Lausanne', 1233, 1, 1, 2, 1, 26),
 	(43, 'Test', 'Test', 'rwar§', 0, 0, 0, 3, 1, 26),
-	(44, 'Test', 'Test', 'rwar§', 0, 0, 0, 3, 2, 26);
+	(44, 'Test', 'Test', 'rwar§', 0, 0, 0, 3, 2, 26),
+	(45, 'Quentin Krenger', 'Av. de Vernand-Dessous 4', 'Cheseaux-sur-Lausanne', 1033, 1, 0, 1, 2, 26),
+	(46, 'Adieu', 'Av 4', 'Lausann', 1234, 1, 0, 1, 1, 26),
+	(47, 'Angelo Rogeiro', 'Rue de Genève 63', 'Lausanne', 1002, 1, 1, 3, 1, 35),
+	(48, 'Angelo Rogeiro', 'Rue de Genève 63', 'Lausanne', 1002, 1, 1, 3, 2, 35),
+	(49, 'Quentin Krenger', 'Av. De Vernand-Dessous 4', 'Cheseaux', 1033, 1, 1, 1, 1, 36),
+	(50, 'Quentin Krenger', 'Av. De Vernand-Dessous 4', 'Cheseaux', 1033, 1, 1, 1, 2, 36),
+	(51, 'test test', 'test', 'test', 1000, 1, 1, 2, 1, 37),
+	(52, 'test test', 'test', 'test', 1000, 1, 1, 2, 2, 37);
 /*!40000 ALTER TABLE `t_address` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_addresstypes
@@ -89,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `t_categories` (
   CONSTRAINT `FK_Category_Category` FOREIGN KEY (`FK_Category`) REFERENCES `t_categories` (`id_Category`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_categories : ~45 rows (environ)
+-- Listage des données de la table db_swisstech.t_categories : ~57 rows (environ)
 /*!40000 ALTER TABLE `t_categories` DISABLE KEYS */;
 INSERT INTO `t_categories` (`id_Category`, `CategoryName`, `isActive`, `FK_Category`) VALUES
 	(3, 'IT & Multimédia', 1, NULL),
@@ -166,10 +174,17 @@ CREATE TABLE IF NOT EXISTS `t_comments` (
   KEY `FK_Comment_Customer` (`FK_Customer`),
   CONSTRAINT `FK_Comment_Customer` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Comment_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_comments : ~0 rows (environ)
+-- Listage des données de la table db_swisstech.t_comments : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_comments` DISABLE KEYS */;
+INSERT INTO `t_comments` (`id_Comment`, `CommentValue`, `CommentDate`, `isActive`, `FK_Product`, `FK_Customer`) VALUES
+	(30, 'whit', '2020-06-04 11:02:53', 1, 76, 26),
+	(31, 'test', '2020-06-05 07:52:32', 1, 81, 25),
+	(32, 'ok c\'est co^l', '2020-06-05 07:53:03', 1, 81, 25),
+	(33, '%ç+&quot;*ç+&quot;*ç%&amp;/()=?`/*', '2020-06-05 07:53:44', 1, 81, 25),
+	(34, 'Woaw ce site est vraiment super bien ! Bravo Winston et Quentin pour ce superbe boulot !', '2020-06-07 12:51:53', 1, 58, 25),
+	(35, 'test', '2020-06-11 11:10:04', 1, 83, 25);
 /*!40000 ALTER TABLE `t_comments` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_customers
@@ -188,9 +203,9 @@ CREATE TABLE IF NOT EXISTS `t_customers` (
   KEY `FK_CustomerTitle` (`FK_Title`),
   CONSTRAINT `FK_CustomerTitle` FOREIGN KEY (`FK_Title`) REFERENCES `t_titles` (`id_CustomerTitle`),
   CONSTRAINT `FK_Customer_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_customers : ~6 rows (environ)
+-- Listage des données de la table db_swisstech.t_customers : ~8 rows (environ)
 /*!40000 ALTER TABLE `t_customers` DISABLE KEYS */;
 INSERT INTO `t_customers` (`id_customer`, `CustomerName`, `CustomerLastName`, `CustomerPhone`, `CustomerEmail`, `CustomerBirthday`, `FK_ShoppingCart`, `CustomerSince`, `FK_Title`) VALUES
 	(24, 'Chippo', 'Lata', '+4171237654', 'lapute@gmail.com', '1890-01-01', NULL, '2020-03-18', 2),
@@ -198,7 +213,10 @@ INSERT INTO `t_customers` (`id_customer`, `CustomerName`, `CustomerLastName`, `C
 	(26, 'cookie', 'testnom', '9999', 'test@email.com', '2020-05-15', NULL, '2020-03-18', 1),
 	(32, 'Salami', 'Italien', '+31 222 222 222 2', 'salami@sala.com', '1000-01-01', NULL, '2020-05-13', 1),
 	(33, 'Choisir', 'adresse', '+41768018510', 'test@swisstchstore.com', '2020-05-21', NULL, '2020-05-13', 2),
-	(34, 'dsa', 'asda', '+41768018510', 'winstonforti@gmail.com', '2020-05-01', NULL, '2020-05-13', 3);
+	(34, 'dsa', 'asda', '+41768018510', 'winstonforti@gmail.com', '2020-05-01', NULL, '2020-05-13', 3),
+	(35, 'Angelo', 'Rogeiro', '021 316 58 58', 'angelo.rogeiro@eduvaud.ch', '1974-01-02', NULL, '2020-06-04', 3),
+	(36, 'Quentin', 'Krenger', '079 603 68 34', 'quentinkrenger@gmail.com', '2001-02-17', NULL, '2020-06-04', 1),
+	(37, 'test', 'test', '079 604 55 55', 'test@gmail.com', '2001-01-01', NULL, '2020-06-04', 2);
 /*!40000 ALTER TABLE `t_customers` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_images
@@ -209,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `t_images` (
   PRIMARY KEY (`id_Image`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_images : ~4 rows (environ)
+-- Listage des données de la table db_swisstech.t_images : ~27 rows (environ)
 /*!40000 ALTER TABLE `t_images` DISABLE KEYS */;
 INSERT INTO `t_images` (`id_Image`, `ImageName`, `ImagePath`) VALUES
 	(27, '58214203_xxl', '58214203_xxl.jpg'),
@@ -265,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `t_lock_product` (
   PRIMARY KEY (`id_lock_product`),
   KEY `FK_product` (`FK_Product`),
   CONSTRAINT `FK_product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
-) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8mb4;
 
 -- Listage des données de la table db_swisstech.t_lock_product : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_lock_product` DISABLE KEYS */;
@@ -278,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `t_manufacturers` (
   PRIMARY KEY (`id_Manufacturer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_manufacturers : ~19 rows (environ)
+-- Listage des données de la table db_swisstech.t_manufacturers : ~32 rows (environ)
 /*!40000 ALTER TABLE `t_manufacturers` DISABLE KEYS */;
 INSERT INTO `t_manufacturers` (`id_Manufacturer`, `ManufacturerName`) VALUES
 	(2, 'HP'),
@@ -338,10 +356,17 @@ CREATE TABLE IF NOT EXISTS `t_orders` (
   CONSTRAINT `FK_Order_PaymentMethod` FOREIGN KEY (`FK_PaymentMethod`) REFERENCES `t_paymentmethod` (`id_paymentmethod`),
   CONSTRAINT `FK_Order_ShippingAddress` FOREIGN KEY (`FK_Order_ShippingAddress`) REFERENCES `t_address` (`id_Address`),
   CONSTRAINT `FK_Order_Status` FOREIGN KEY (`FK_Status`) REFERENCES `t_status` (`id_Status`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_orders : ~10 rows (environ)
+-- Listage des données de la table db_swisstech.t_orders : ~6 rows (environ)
 /*!40000 ALTER TABLE `t_orders` DISABLE KEYS */;
+INSERT INTO `t_orders` (`id_Order`, `OrderDate`, `FK_Status`, `FK_PaymentMethod`, `FK_Customer`, `FK_Order_ShippingAddress`, `FK_Order_BillingAddress`) VALUES
+	(56, '2020-05-30 15:54:59', 1, 2, 26, 42, 45),
+	(57, '2020-05-30 15:55:30', 1, 2, 26, 42, 45),
+	(58, '2020-05-30 16:01:37', 1, 2, 26, 46, 26),
+	(59, '2020-06-05 09:51:33', 1, 2, 25, 40, 32),
+	(60, '2020-06-08 13:47:08', 3, 2, 25, 15, 16),
+	(61, '2020-06-09 09:31:59', 2, 2, 25, 15, 16);
 /*!40000 ALTER TABLE `t_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_parameters
@@ -413,12 +438,12 @@ CREATE TABLE IF NOT EXISTS `t_products` (
   CONSTRAINT `FK_Product_Manufacturer` FOREIGN KEY (`FK_Manufacturer`) REFERENCES `t_manufacturers` (`id_Manufacturer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products : ~4 rows (environ)
+-- Listage des données de la table db_swisstech.t_products : ~27 rows (environ)
 /*!40000 ALTER TABLE `t_products` DISABLE KEYS */;
 INSERT INTO `t_products` (`id_Product`, `ProductName`, `ProductSize`, `ProductDescription`, `ProductUnitPrice`, `isActive`, `FK_Category`, `FK_Manufacturer`, `FK_ProductColor`) VALUES
-	(58, 'iPhone 11 128GB Noir', 6.20, 'test', 799.00, 1, 9, 3, 8),
-	(60, 'Console de jeu PlayStation 4 Pro 1 TB Noir', 24.00, 'Console de jeu haut de gamme, noire\n\nAvec la Sony PlayStation 4 Pro 1 To, vous pouvez jouer aux jeux vidéo actuels de la prochaine génération en douceur et dans des graphismes modernes. La console de jeu compacte sert également de lecteur DVD ou Blu-ray, peut lire des fichiers vidéo et de la musique comme un media center à domicile, ou peut être utilisée pour surfer sur Internet. La console est livrée avec un disque dur interne d\'une capacité de 1 To. Vous pouvez donc acheter et télécharger des jeux directement en ligne. Les partitions de jeu, les vidéos et les fichiers musicaux peuvent également être stockés.', 389.00, 1, 44, 17, 8),
-	(61, 'Console de jeu Switch Rouge/Bleu', 22.90, 'La console de jeu pour à la maison et sur la route\n\nAvec la console Nintendo, vous avez la garantie de la flexibilité et de la liberté. N\'interrompez pas un match quand vous n\'avez pas le temps, prenez-le avec vous. La manette Nintendo s\'adapte à votre rythme et vous permet de jouer quand, où et avec qui vous voulez. Vous pouvez donc utiliser la console Nintendo en mode TV à la maison, en mode table chez un ami ou en mode portable en déplacement.', 349.00, 1, 44, 20, 10),
+	(58, 'iPhone 11 128GB Noir', 6.20, 'test test gang ou pas\n', 799.00, 1, 9, 3, 8),
+	(60, 'Console de jeu PlayStation 4 Pro 1 TB Noir ', 24.00, 'Console de jeu haut de gamme, noire\n\nAvec la Sony PlayStation 4 Pro 1 To, vous pouvez jouer aux jeux vidéo actuels de la prochaine génération en douceur et dans des graphismes modernes. La console de jeu compacte sert également de lecteur DVD ou Blu-ray, peut lire des fichiers vidéo et de la musique comme un media center à domicile, ou peut être utilisée pour surfer sur Internet. La console est livrée avec un disque dur interne d\'une capacité de 1 To. Vous pouvez donc acheter et télécharger des jeux directement en ligne. Les partitions de jeu, les vidéos et les fichiers musicaux peuvent également être stockés.', 389.00, 1, 44, 17, 8),
+	(61, 'Console de jeu Switch Rouge/Bleu', 22.90, 'La console de jeu pour à la maison, sur la route ou dans le train !\n\nAvec la console Nintendo, vous avez la garantie de la flexibilité et de la liberté. N\'interrompez pas un match quand vous n\'avez pas le temps, prenez-le avec vous. La manette Nintendo s\'adapte à votre rythme et vous permet de jouer quand, où et avec qui vous voulez. Vous pouvez donc utiliser la console Nintendo en mode TV à la maison, en mode table chez un ami ou en mode portable en déplacement.', 349.00, 1, 44, 20, 10),
 	(62, 'Ecouteurs intra-auriculaires Wireless AirPods Pro Blanc', 243.00, 'Casque d\'écoute Bluetooth avec annulation active du bruit pour les appareils Apple\n\nQue vous soyez un utilisateur fréquent ou un passionné de musique, AirPods Pro est le complément parfait à presque tous les appareils Apple. Ils ne servent pas seulement d\'écouteurs : activez Siri d\'un double tap ou dites simplement "Hey Siri" pour régler le volume par commande vocale, changer la chanson, appeler quelqu\'un ou laissez-les vous indiquer le chemin. Maintenez la touche enfoncée pour basculer entre le mode de transparence et la réduction active du bruit. Les AirPods offrent une reproduction audio et vocale riche et de haute qualité. Lorsque vous êtes au téléphone, les microphones à faisceaux d\'ondes filtrent les bruits de fond et accentuent votre voix.', 259.00, 1, 13, 3, 7),
 	(64, 'iPad 7th Gen. Wifi 32 Go d\'argent', 11.30, 'Comprimé puissant avec écran rétine de 10,2 po\n\nLe nouvel iPad est doté d\'un écran rétine de 10,2 pouces plus grand que son prédécesseur pour mettre en valeur des contenus tels que des films, des jeux et des dessins encore meilleurs. L\'iPad prend en charge le crayon Apple et maintenant aussi les claviers intelligents Apple pour rendre le travail, l\'apprentissage ou le dessin simple et polyvalent. Le nouvel iPadOS offre des fonctionnalités conçues spécialement pour l\'iPad, pour un multitâche productif et une expérience divertissante sur votre iPad. Sa conception robuste et légère en fait le compagnon idéal au quotidien.\nMince et rapide\n\nL\'iPad est si puissant que chaque application fonctionne rapidement et en douceur - qu\'il s\'agisse d\'une aide pratique au quotidien, d\'une application d\'apprentissage fascinante ou d\'un jeu à forte intensité graphique - avec les performances de la puce 64 bits A10, ce n\'est pas un problème, même si vous faites plusieurs choses en même temps. Le coprocesseur M10 Motion capture le mouvement avec précision et fiabilité. Malgré ces performances, il n\'est que de 7,5 mm d\'épaisseur, ce qui, combiné à la durée de vie de la batterie (jusqu\'à dix heures), garantit une mobilité maximale.', 379.00, 1, 24, 3, 7),
 	(65, 'Souris B100 Optical', 10.00, 'Souris Business en version OEM, noir\n\nLa Logitech Optical Mouse B100 est une souris d\'entreprise conçue pour une utilisation au bureau ou au bureau à domicile. Il convient aussi bien aux droitiers qu\'aux gauchers. La molette de défilement vous permet de faire défiler les documents et les pages Web plus rapidement. Grâce à son port USB, il peut être utilisé avec tous les systèmes d\'exploitation courants et ne nécessite aucun pilote supplémentaire.', 11.95, 1, 5, 15, 8),
@@ -457,7 +482,7 @@ CREATE TABLE IF NOT EXISTS `t_products_images` (
   CONSTRAINT `FK_ProductImage_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`)
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_images : ~4 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_images : ~25 rows (environ)
 /*!40000 ALTER TABLE `t_products_images` DISABLE KEYS */;
 INSERT INTO `t_products_images` (`id_Product_Image`, `FK_Product`, `FK_Image`) VALUES
 	(31, 58, 27),
@@ -504,13 +529,29 @@ CREATE TABLE IF NOT EXISTS `t_products_orders` (
   CONSTRAINT `FK_ProductOrder_Order` FOREIGN KEY (`FK_Order`) REFERENCES `t_orders` (`id_Order`),
   CONSTRAINT `FK_ProductOrder_Product` FOREIGN KEY (`FK_Product`) REFERENCES `t_products` (`id_Product`),
   CONSTRAINT `FK_ProductOrder_ShoppingCart` FOREIGN KEY (`FK_ShoppingCart`) REFERENCES `t_shoppingcart` (`id_ShoppingCart`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_products_orders : ~2 rows (environ)
+-- Listage des données de la table db_swisstech.t_products_orders : ~18 rows (environ)
 /*!40000 ALTER TABLE `t_products_orders` DISABLE KEYS */;
 INSERT INTO `t_products_orders` (`id_Product_Order`, `Quantity`, `CourantUnitPrice`, `FK_Product`, `FK_Order`, `FK_ShoppingCart`) VALUES
 	(78, 1, 389.00, 60, 56, NULL),
-	(79, 1, 799.00, 58, 56, NULL);
+	(79, 1, 799.00, 58, 56, NULL),
+	(80, 1, 15.20, 76, 56, NULL),
+	(81, 1, 20.45, 77, 56, NULL),
+	(82, 1, 14.95, 75, 57, NULL),
+	(83, 1, 83.85, 85, 57, NULL),
+	(84, 1, 5.80, 74, 57, NULL),
+	(85, 1, 799.00, 58, 58, NULL),
+	(86, 1, 389.00, 60, 58, NULL),
+	(87, 1, 379.00, 64, 59, NULL),
+	(88, 1, 579.00, 69, 59, NULL),
+	(89, 1, 6.60, 79, 59, NULL),
+	(90, 2, 389.00, 60, 59, NULL),
+	(91, 1, 799.00, 58, 59, NULL),
+	(92, 2, 72.00, 87, 60, NULL),
+	(93, 1, 72.00, 87, 61, NULL),
+	(94, 1, 15.20, 76, 61, NULL),
+	(95, 2, 799.00, 58, 61, NULL);
 /*!40000 ALTER TABLE `t_products_orders` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_product_color
@@ -560,28 +601,12 @@ CREATE TABLE IF NOT EXISTS `t_rss` (
   PRIMARY KEY (`Guid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_rss : ~11 rows (environ)
+-- Listage des données de la table db_swisstech.t_rss : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_rss` DISABLE KEYS */;
 INSERT INTO `t_rss` (`Title`, `Link`, `Guid`, `Description`, `PubDate`) VALUES
-	('Ceci est une ps5', 30, 1588928129, 'WOOOOAW', '2020-05-08 10:55:29'),
-	('XBOXZZZZ', 31, 1588928184, 'MOnstre xbox des familles super cool tmtc 78', '2020-05-08 10:56:24'),
-	('ICON SWISSTECH99', 32, 1588928765, 'test icon wet', '2020-05-08 11:06:05'),
-	('test', 50, 1590564119, 'test', '2020-05-27 09:21:59'),
-	('retest', 51, 1590564137, 'test', '2020-05-27 09:22:17'),
-	('asdf', 53, 1590648911, 'tet', '2020-05-28 08:55:11'),
-	('asdf', 54, 1590649005, 'tet', '2020-05-28 08:56:45'),
-	('rzrdz', 55, 1590649084, 'test', '2020-05-28 08:58:04'),
-	('PS4', 56, 1590649212, 'test', '2020-05-28 09:00:12'),
-	('rePS4', 57, 1590649305, 'testetset', '2020-05-28 09:01:45'),
-	('iPhone 11 128GB Noir', 58, 1590649547, 'test', '2020-05-28 09:05:47'),
-	('SSD 860 EVO 2.5" SATA 500 GB', 67, 1590744102, '2.5"-Solid State Drive mit 500 GB\n\nLe Samsung 860 EVO est conçu pour les particuliers exigeants et soucieux du prix qui souhaitent améliorer les performances de leur PC ou ordinateur portable. Il utilise TLC-V-NAND avec 64 couches de mémoire. La technolog', '2020-05-29 11:21:42'),
-	('Chips Nacho Cheese 125g', 72, 1590747968, 'Croustilles tortilla de maïs', '2020-05-29 12:26:08'),
-	('Barres chocolatées et snacks Chocolat Enfant 8 bar', 73, 1590748081, 'Chocolat au lait fourré avec fourrage au lait (60%)\n\nUn goût unique et une excellente qualité....les enfants sont aimés depuis des générations.', '2020-05-29 12:28:01'),
-	('Chocolat Peanut 500 g', 74, 1590748213, 'Le classique populaire', '2020-05-29 12:30:13'),
-	('Gélifiés Anaconda Serpents géants en boîte de 30 p', 75, 1590748322, 'Gelée de fruits au sucre mousse', '2020-05-29 12:32:02'),
-	('Bière Extra Bière 6 x 0,355 l', 76, 1590748624, 'Meilleure façon de se rafraichir en temps de confinement.', '2020-05-29 12:37:04'),
-	('Barbecue électrique Döner-Vertikal-Multigrill DVG ', 86, 1590755716, 'Gril électrique vertical pour brochettes de kebab/gyros, de poulet ou de viande\n\nAvec le gril vertical DVG 3686 kebab de Clatronic, vous pouvez faire apparaître un kebab comme un snack autour du plafond. Vous avez plusieurs possibilités pour préparer le k', '2020-05-29 14:35:16'),
-	('Barbecue électrique Döner-Vertikal-Multigrill DVG ', 87, 1590755822, 'Gril électrique vertical pour brochettes de kebab/gyros, de poulet ou de viande\n\nAvec le gril vertical DVG 3686 kebab de Clatronic, vous pouvez faire apparaître un kebab comme un snack autour du plafond. Vous avez plusieurs possibilités pour préparer le k', '2020-05-29 14:37:02');
+	('iPhone 11 128GB Noir', 58, 1591357138, 'test test gang ou pas\n', '2020-06-05 13:38:58'),
+	('Console de jeu PlayStation 4 Pro 1 TB Noir ', 60, 1591357418, 'Console de jeu haut de gamme, noire\n\nAvec la Sony PlayStation 4 Pro 1 To, vous pouvez jouer aux jeux vidéo actuels de la prochaine génération en douceur et dans des graphismes modernes. La console de jeu compacte sert également de lecteur DVD ou Blu-ray, ', '2020-06-05 13:43:38'),
+	('Console de jeu Switch Rouge/Bleu', 61, 1591357504, 'La console de jeu pour à la maison, sur la route ou dans le train !\n\nAvec la console Nintendo, vous avez la garantie de la flexibilité et de la liberté. N\'interrompez pas un match quand vous n\'avez pas le temps, prenez-le avec vous. La manette Nintendo s\'', '2020-06-05 13:45:04');
 /*!40000 ALTER TABLE `t_rss` ENABLE KEYS */;
 
 -- Listage de la structure de la table db_swisstech. t_shoppingcart
@@ -648,17 +673,20 @@ CREATE TABLE IF NOT EXISTS `t_users` (
   KEY `FK_Users_Roles` (`FK_Role`),
   CONSTRAINT `FK_Users_Customers` FOREIGN KEY (`FK_Customer`) REFERENCES `t_customers` (`id_customer`),
   CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`FK_Role`) REFERENCES `t_roles` (`id_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table db_swisstech.t_users : ~6 rows (environ)
+-- Listage des données de la table db_swisstech.t_users : ~9 rows (environ)
 /*!40000 ALTER TABLE `t_users` DISABLE KEYS */;
 INSERT INTO `t_users` (`id_user`, `Username`, `Password`, `Salt`, `Token`, `TokenValidity`, `isActive`, `IpAddress`, `FK_Role`, `FK_Customer`) VALUES
 	(29, 'chippo', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '4c2ca7e31c52b564f8c5ca5a3fef68bb', '2020-05-08 10:40:56', 1, '127.0.0.1', 2, 24),
-	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '0954da2fa67cfbb221ac820b5c1e2f55', '2020-05-16 13:27:14', 1, '::1', 2, 25),
-	(31, 'cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '3fb4cdcfdaebf8766deb2665fd07cc64', '2020-05-16 13:26:29', 1, '::1', 2, 26),
+	(30, 'test', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '0ea77e9790f6139958b20d8867363d6f', '2020-06-08 14:32:07', 1, '127.0.0.1', 2, 25),
+	(31, 'cookie', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '03cc22d622e084f6ccb287fb1bc0cabf', '2020-06-08 12:37:15', 1, '127.0.0.1', 1, 26),
 	(36, 'salami', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'f27447f6c4f339639e7f045bb842cd10', '2020-05-13 15:51:24', 1, '', 1, 32),
 	(37, 'rapelli', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', '80f625b9e871c1d38e6397c6c3acca82', '2020-05-13 16:04:07', 1, '', 1, 33),
-	(38, 'winston', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'edac5fb5d4552857aa458af75c0c6b8b', '2020-05-13 16:06:14', 1, '', 1, 34);
+	(38, 'winston', '2f9833894a0e04b64880f4be693bb44ac86d6e76957f52b86da4c748166608d2', 'monsalt', 'edac5fb5d4552857aa458af75c0c6b8b', '2020-05-13 16:06:14', 1, '', 1, 34),
+	(39, 'rogeiroa', 'aa5c4d4b2d819b50567748d4de48cdd7c518022882616aa8bc28881d9c1f4579', 'i;151-120#', '2af1d06b832a7ad8805a3dfada2fdecf', '2020-06-04 11:17:03', 1, '127.0.0.1', 2, 35),
+	(40, 'quentinkrg', '5fd9d015545598ed79724d757394907d585b60c72d3642d92f9ee2943c63e03c', 'i;151-120#', '3a25efdfd80dc599c2acbbeeb53ee1ef', '2020-06-04 11:24:26', 1, '::1', 1, 36),
+	(41, 'okgoogle', 'a461cc3a26370057004ea51dde38d23751b16073f22dc9754c4898100a3b60aa', 'i;151-120#', '8edd90601e787bee708e86e6b4234f7b', '2020-06-04 11:31:49', 1, '', 1, 37);
 /*!40000 ALTER TABLE `t_users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

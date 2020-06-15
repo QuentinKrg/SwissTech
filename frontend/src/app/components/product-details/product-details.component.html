@@ -1,9 +1,23 @@
-<div class="row d-flex h-100 ">
+<div class="row pb-3">
+    <div class="col-12">
+        <nav>
+            <ol class="breadcrumb bg-light p-4">
+                <li class="breadcrumb-item"><a  routerLink="/" title="Accueil">Accueil</a></li>
+                <li class="breadcrumb-item " *ngFor="let cat of product.Categories"><a
+                    [ngClass]="{ 'active font-weight-bold ': cat.id == product.CategoryId}"
+                    [routerLink]="['/products']"
+                    [queryParams]="{cat: cat.id}"
+                    title="{{cat.CategoryName}}">{{cat.CategoryName}}</a></li> 
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row d-flex h-100">
     <div class="col-sm-12 col-md-12 align-self-center">
         <!-- Produit-->
         <div class="row">
             <div class="col-md-5 col-sm-12">
-                <!-- Carousselle-->
+                <!-- Image-->
                 <img src='{{imageUrl}}{{product.ImagePath}}' class="card-img-top" alt="...">
             </div>
             <div class="col-md-7 col-sm-12">
@@ -12,105 +26,114 @@
                     {{product.ProductName}}
                 </h3>
                 <p><a [routerLink]="['/products']"
-                        [queryParams]="{brand: product.ManufacturerId}">{{product.ManufacturerName}}</a> - <a
+                        [queryParams]="{brand: product.ManufacturerId}" title="{{product.ManufacturerName}}">{{product.ManufacturerName}}</a> - <a
                         [routerLink]="['/products']"
-                        [queryParams]="{cat: product.CategoryId}">{{product.CategoryName}}</a></p>
+                        [queryParams]="{cat: product.CategoryId}"
+                        title="{{product.CategoryName}}">{{product.CategoryName}}</a></p>
                 <p>Couleur : {{product.ProductColor}}</p>
 
                 <app-add-to-cart [productDetails]="product" [isCartItem]="false" class=""></app-add-to-cart>
-
-                <!-- Spec + commentaires-->
-                <div class="mt-4">
-                    <!-- Navigation -->
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="pills-specs-tab" data-toggle="pill" href="#pills-specs"
-                                role="tab" aria-controls="pills-specs" aria-selected="true">Spécifications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews"
-                                role="tab" aria-controls="pills-reviews" aria-selected="false">Commentaires</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="pills-tabContent">
-                        <!-- Spec -->
-                        <div class="tab-pane fade show active" id="pills-specs" role="tabpanel"
-                            aria-labelledby="pills-specs-tab">
-                            <p>{{product.ProductDescription}}</p>
-                        </div>
-                        <!-- Commentaires si le client est connecté -->
-                        <div *ngIf="currentUser" class="tab-pane fade" id="pills-reviews" role="tabpanel"
-                            aria-labelledby="pills-reviews-tab">
-                            <form class="form pb-5" [formGroup]="addCommentForm" (ngSubmit)="onSubmit()">
-                                <textarea rows="2" class="form-control" formControlName="commentText"
-                                    placeholder="Votre commentaire..."></textarea>
-                                <!-- CAPTCHA-->
-                                <div class="captcha mt-2 mr-0">
-                                    <div class="row w-60 mx-auto text-center">
-                                        <div class="col-auto">
-                                            <canvas id="myCanvas" width="180" height="45" class="rounded shadow-sm">
-                                                Your browser does not support the HTML5 canvas tag, please try another
-                                                browser.</canvas>
-                                        </div>
-                                        <div class="col-auto text-baseline">
-                                            <button id="MyButton" type="button"
-                                                class="btn btn-light align-baseline h-20" (click)="onRefresh() ">
-                                                <h4 class="m-auto text-primary">
-                                                    <fa-icon [icon]="faSyncAlt" class="align-baseline"></fa-icon>
-                                                </h4>
-                                            </button>
-                                        </div>
-                                    </div>
-                                        <!-- Validations du CAPTCHA-->
-                                    <div class="form-group mw-42">
-                                        <input class="form-control" formControlName="userEnteredCaptcha"
-                                            placeholder="Inserez le code de l'image" type="text" [maxlength]="6"
-                                            [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
-                                            submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
-                                        <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
-                                        f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors"
-                                            class="invalid-feedback">
-                                            Veuillez saisir les caractères de l'image
-                                        </div>
-                                        <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)"
-                                            class="invalid-feedback">
-                                            Le captcha est invalide
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Fin du formulaire et envoi-->
-                                <div class="margin-top-10">
-                                    <button type="submit" class="btn btn-sm btn-primary pull-right">
-                                        Soumettre
-                                    </button>
-                                </div>
-                            </form>
-                            <div *ngIf="productsComments != null; then asComments else noValue"></div>
-                            <ng-template #asComments>
-                                <div *ngFor="let comment of productsComments">
-                                    <div class="list-group" *ngIf="comment.isActive == true">
-                                        <div
-                                            class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="text-break">{{comment.CommentValue}}</h5>
-                                                <small>{{comment.CommentDate | date: 'dd/MM/yyyy à HH:mm'}}</small>
-                                            </div>
-                                            <small class="text-muted">{{comment.CustomerName}}
-                                                {{comment.CustomerLastName}}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ng-template>
-                            <ng-template #noValue>
-                                <p>Aucun commentaire ici, sois le premier à en rédiger un !</p>
-                            </ng-template>
-                        </div>
-                        <div *ngIf="!currentUser" class="tab-pane fade" id="pills-reviews" role="tabpanel"
-                            aria-labelledby="pills-reviews-tab">
-                            <a routerLink="/login">Veuillez vous connecter avant de rédiger un commentaire.</a>
-                        </div>
-                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row bg-light mt-3">
+    <div class="col-12">
+        <!-- Spec + commentaires-->
+        <div class="mt-4">
+            <!-- Navigation -->
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-specs-tab" data-toggle="pill" href="#pills-specs"
+                        role="tab" aria-controls="pills-specs" aria-selected="true">Spécifications</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews"
+                        role="tab" aria-controls="pills-reviews" aria-selected="false">Commentaires</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <!-- Spec -->
+                <div class="tab-pane fade show active" id="pills-specs" role="tabpanel"
+                    aria-labelledby="pills-specs-tab">
+                    <p>{{product.ProductDescription}}</p>
                 </div>
+                <!-- Commentaires si le client est connecté -->
+                <div class="tab-pane fade" id="pills-reviews" role="tabpanel"
+                    aria-labelledby="pills-reviews-tab">
+
+                    <div *ngIf="!currentUser" class="nav-link">
+                        <a routerLink="/login">Veuillez vous connecter pour rédiger un commentaire.</a>
+                    </div>
+                    <form *ngIf="currentUser" class="form pb-5" [formGroup]="addCommentForm" (ngSubmit)="onSubmit()">
+                        <textarea rows="2" class="form-control" formControlName="commentText"
+                            placeholder="Votre commentaire..." (focus)="onClickInput($event, true)" >
+                        </textarea>
+                        <!-- Si on clic sur l'input -->
+                        <div [ngClass]="{'d-none': !showForm}">
+                            <!-- CAPTCHA-->
+                            <div class="captcha mt-2 mr-0">
+                                <div class="row w-60 mx-auto text-center">
+                                    <div class="col-auto">
+                                        <canvas id="myCanvas" width="180" height="45" class="rounded shadow-sm">
+                                            Your browser does not support the HTML5 canvas tag, please try another
+                                            browser.</canvas>
+                                    </div>
+                                    <div class="col-auto text-baseline">
+                                        <button id="MyButton" type="button"
+                                            class="btn btn-light align-baseline h-20" (click)="onRefresh() ">
+                                            <h4 class="m-auto text-primary">
+                                                <fa-icon [icon]="faSyncAlt" class="align-baseline"></fa-icon>
+                                            </h4>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Validations du CAPTCHA-->
+                                <div class="form-group mw-42">
+                                    <input class="form-control" formControlName="userEnteredCaptcha"
+                                        placeholder="Inserez le code de l'image" type="text" [maxlength]="6"
+                                        [ngClass]="{ 'is-invalid': f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors ||
+                                        submitted && f.userEnteredCaptcha.errors || submitted && !isValid(f.userEnteredCaptcha.value) }" />
+                                    <div *ngIf="submitted &&  f.userEnteredCaptcha.errors ||
+                                    f.userEnteredCaptcha.touched &&  f.userEnteredCaptcha.errors"
+                                        class="invalid-feedback">
+                                        Veuillez saisir les caractères de l'image
+                                    </div>
+                                    <div *ngIf="submitted && !isValid(f.userEnteredCaptcha.value)"
+                                        class="invalid-feedback">
+                                        Le captcha est invalide
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fin du formulaire et envoi-->
+                            <div class="margin-top-10">
+                                <button type="submit" class="btn btn-sm btn-primary float-right">
+                                    Soumettre
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div *ngIf="productsComments != null; then asComments else noValue"></div>
+                    <ng-template #asComments>
+                        <div *ngFor="let comment of productsComments">
+                            <div class="list-group" *ngIf="comment.isActive == true">
+                                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="text-break">{{comment.CommentValue}}</h5>
+                                        <small>{{comment.CommentDate | date: 'dd/MM/yyyy à HH:mm'}}</small>
+                                    </div>
+                                    <small class="text-muted">{{comment.CustomerName}}
+                                        {{comment.CustomerLastName}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #noValue>
+                        <p>Aucun commentaire ici, sois le premier à en rédiger un !</p>
+                    </ng-template>
+                </div>
+                
             </div>
         </div>
     </div>

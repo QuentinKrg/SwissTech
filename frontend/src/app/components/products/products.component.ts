@@ -140,7 +140,7 @@ export class ProductsComponent implements OnInit {
     // Filtrer avec le text
     if(params.has('q')) {      
       let tmpSearchValue: string = params.get('q').toLowerCase();
-      this.allProducts = productsList.filter(
+      productsList = productsList.filter(
           p => p.ProductName.toLowerCase().includes(tmpSearchValue)
           || p.ProductDescription.toLowerCase().includes(tmpSearchValue)
           || p.ManufacturerName.toLowerCase().includes(tmpSearchValue)
