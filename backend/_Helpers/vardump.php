@@ -1,5 +1,6 @@
 <?php
-// Function vardump pimpée
+// Function vardump customisée
+// Cette fonction nous permet de débuger les retours que nous faisons
 function vardump($var, $exit=false){
 
   ?>

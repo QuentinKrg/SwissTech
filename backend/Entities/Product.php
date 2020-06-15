@@ -302,19 +302,7 @@ class Product extends Entity
         // echo de la liste des articles
         return $articles;
       }
-      // Fermeture de la connexion
-      return $tmpResult;
     }
-
-    // Retourne list d'article lors d'une recherche
-    public function GetOnSearch() {
-      echo "ok";
-      if (isset($_GET["toSearch"]) != "" )
-      {
-        return "wesh";
-      }
-    }
-
 
     // Récupérer alléatoirement un nombre d'articles voulu
     public function GetRandom()
