@@ -1,8 +1,18 @@
 <!-- Aperçu des options du panneau mon profile -->
-<small><a routerLink="/myprofile/editprofile">Mon profile</a></small>
+<div class="row pb-3">
+    <div class="col-12">
+        <nav>
+            <ol class="breadcrumb bg-light p-4">
+                <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
+                <li class="breadcrumb-item "><a routerLink="/myprofile/editprofile" title="Mon profile">Mon profile</a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <h2 class="p-3 text-center">Mon profile</h2>
 <div class="row">
-    <div type="button" class="col-md-5 p-4 m-4 shadow min-vw-40" routerLink="/myprofile/editpersonalinfos"
+    <div class="col-md-5 p-4 m-4 shadow min-vw-40 cursorPointer" routerLink="/myprofile/editpersonalinfos"
         title="Editer mes coordonées">
         <h5>Mes coordonnées</h5>
         <div class="row p-3">
@@ -49,7 +59,7 @@
             </div>
         </div>
     </div>
-    <div type="button" class=" col-md-5 p-4 m-4 shadow min-vw-40" routerLink="/myprofile/editaddress"
+    <div  class=" col-md-5 p-4 m-4 shadow min-vw-40 cursorPointer" routerLink="/myprofile/editaddress"
         title="Gerer mes adresses">
         <h5>Mes adresses</h5>
         <div class="row p-3 m-2 rounded bg-light">
@@ -81,7 +91,7 @@
     </div>
 </div>
 <div  class="row">
-    <div type="button"class=" col-md-5 p-4 m-4 shadow min-vw-40" routerLink="/myprofile/editlogininfos"
+    <div class=" col-md-5 p-4 m-4 shadow min-vw-40 cursorPointer" routerLink="/myprofile/editlogininfos"
         title="Modifier mes identifiants">
         <h5>Mes identifiants</h5>
     </div>

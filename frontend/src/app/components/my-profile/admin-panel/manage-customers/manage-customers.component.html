@@ -1,6 +1,17 @@
 <!-- Navigation -->
-<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecustomers">Gestion des
-    clients</a></small>
+<div class="row pb-3">
+  <div class="col-12">
+      <nav>
+          <ol class="breadcrumb bg-light p-4">
+              <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
+              <li class="breadcrumb-item "><a routerLink="/admin" title="Statistiques">Statistiques</a>
+              </li>
+              <li class="breadcrumb-item "><a routerLink="/admin/managecustomers" title="Gestion des clients">Gestion des clients</a>
+              </li>
+          </ol>
+      </nav>
+  </div>
+</div>
     <!--Message de mise à jour ok-->
     <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
 <!-- Titre -->

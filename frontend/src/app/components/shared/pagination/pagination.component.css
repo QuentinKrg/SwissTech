@@ -1,0 +1,22 @@
+ngb-pagination ::ng-deep a {
+    color: rgb(105, 105, 105) !important;
+    font-weight: normal;
+  }
+  
+  ngb-pagination ::ng-deep .page-item .page-link {
+    margin-left: 10px;
+  }
+  ngb-pagination ::ng-deep .page-item.active .page-link {
+      color: rgb(253, 253, 253) !important;
+      font-weight: bold;
+    border-color: rgb(230, 227, 227);
+    background-color: #343a40;
+  }
+  
+  ngb-pagination ::ng-deep .page-item.active .page-link:focus, .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+  }
+  
+  ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+  }

@@ -1,10 +1,11 @@
 <!--Pagination-->
-<div class="row justify-content-between m-0" *ngIf="collectionSize >5">
+<div class="row justify-content-between m-0" >
     <div class="col-sm-3">
         <!--Choix de nombre d'items par page-->
         <button type="button" class="btn btn-light" id="navbarDropdown" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <a>{{itemsPerPage}} par page...</a>
+            <!--choix de combien d'item par page depui un menu-->
             <a class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" (click)="changePagesize(5)">5
                 </a>
@@ -17,7 +18,7 @@
     </div>
     <div class="col-sm-8">
         <!--sélection de la page-->
-        <ngb-pagination class="float-right" [collectionSize]="collectionSize" 
+        <ngb-pagination class="float-right" [collectionSize]="collectionSize"[maxSize]="3" [rotate]="true" [boundaryLinks]="true"
             [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)">
         </ngb-pagination>
     </div>

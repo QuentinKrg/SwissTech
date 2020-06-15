@@ -1,6 +1,17 @@
 <!-- Navigation -->
-<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/managecategories">Gestion des
-    catégories</a></small>
+<div class="row pb-3">
+  <div class="col-12">
+      <nav>
+          <ol class="breadcrumb bg-light p-4">
+              <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
+              <li class="breadcrumb-item "><a routerLink="/admin" title="Statistiques">Statistiques</a>
+              </li>
+              <li class="breadcrumb-item "><a routerLink="/admin/managecategories" title="Gestion des catégories">Gestion des catégories</a>
+              </li>
+          </ol>
+      </nav>
+  </div>
+</div>
 <!--Message de mise à jour ok-->
 <div *ngIf="catUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{catUpdateDataMessage}}</div>
 <!-- Titre -->

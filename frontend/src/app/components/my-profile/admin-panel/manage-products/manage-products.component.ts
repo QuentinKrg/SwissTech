@@ -41,7 +41,6 @@ export class ManageProductsComponent implements OnInit {
   //Pagination
   pageSize: number;
   itemsPerPage: number;
-
   //utilisateur actuel
   currentUsername = this._authenticationService.currentUserValue.login;
 
@@ -161,7 +160,6 @@ export class ManageProductsComponent implements OnInit {
     this.allProducts = this.filterValue;
     this.filteredByStatus();
     this.filteredByCategories();
-
     this.allProducts = this.allProducts.filter(i => i.ProductName.toLowerCase().indexOf(initial.toLocaleLowerCase()) !== -1);
     this.textToFilterWith = initial.toLocaleLowerCase();
   }
@@ -545,11 +543,11 @@ export class ManageProductsComponent implements OnInit {
       }
     );
   }
-  //Récupere le taille de la page
+  //Récupere le taille de la page pour le slice des données
   pageSizeEvent($event) {
     this.pageSize = $event;
   }
-  //Récupère le total d'items par page
+  //Récupère le total d'items par page pour le slice des données
   itemsPerPageEvent($event) {
     this.itemsPerPage = $event;
   }

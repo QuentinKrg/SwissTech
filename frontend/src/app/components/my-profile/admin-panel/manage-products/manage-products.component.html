@@ -1,5 +1,17 @@
 <!-- Navigation -->
-<small><a routerLink="/admin">Administration</a> / <a routerLink="/admin/manageproducts">Gestion des articles</a></small>
+<div class="row pb-3">
+    <div class="col-12">
+        <nav>
+            <ol class="breadcrumb bg-light p-4">
+                <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
+                <li class="breadcrumb-item "><a routerLink="/admin" title="Statistiques">Statistiques</a>
+                </li>
+                <li class="breadcrumb-item "><a routerLink="/admin/manageproducts" title="Gestion des articles">Gestion des articles</a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <!-- Titre -->
 <h4 class="pb-3 text-dark">Gestion des articles</h4>
 <!-- Filtres de recherches -->
@@ -107,7 +119,7 @@
             </div>
         </ng-template>
         <ng-template #noProduct>
-            <p>Aucuns articles ne corresponts à cette recherche</p>
+            <p>Aucun article ne corresponts à cette recherche</p>
         </ng-template>
     </div>
 </div>

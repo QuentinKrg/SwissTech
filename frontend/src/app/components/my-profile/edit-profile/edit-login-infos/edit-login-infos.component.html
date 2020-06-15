@@ -1,5 +1,16 @@
-<small><a routerLink="/myprofile/editprofile">Mon profile</a> / <a routerLink="/myprofile/editlogininfos">Mes
-        identifiants</a></small>
+<div class="row pb-3">
+    <div class="col-12">
+        <nav>
+            <ol class="breadcrumb bg-light p-4">
+                <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
+                <li class="breadcrumb-item "><a routerLink="/myprofile/editprofile" title="Mon profile">Mon profile</a>
+                </li>
+                <li class="breadcrumb-item "><a routerLink="/myprofile/editlogininfos" title="Mes identifiants">Mes
+                    identifiants</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <!--Formulaire de gestion des identifiants-->
 <div class=" p-4 mt-2">
     <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
