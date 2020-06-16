@@ -7,7 +7,7 @@ class Customer extends Entity
 {
     // Construction
     public function  __construct(){
-        // Connexion à la db
+        // Connexion à la bdd
 		    $this->Connect();
     }
 
@@ -263,42 +263,51 @@ class Customer extends Entity
       // Assigner les données reçues
       $username = $this->jsonToProcess->username;
 
-      // Requ^te
+      // Requête
       $sql = "SELECT * FROM t_users WHERE Username = '$username'";
 
-
+      // Exécution de la requête + stockage du retour
       $tmpUser = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
 
-
+      // Si la requête c'est mal déroulée => code erreure
       if($tmpUser != null)
       {
         return http_response_code(409);
       }
       else {
+        // Sinon retourne les informations du user
         return $tmpUser;
       }
     }
 
     // Récupération des détails d'un article avec son ID
     public function GetCustomerById(){
+
+      // Requête
       $sql = " SELECT * FROM t_customers
       INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer
       WHERE id_customer = $this->idToProcess";
 
+      // Exécution de la requête + stockage du retour
       $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
       // Retour du résultat
       return $tmpResult;
     }
 
+    // Récupération de tous les clients
     public function GetAllCustomers(){
+      // Tableau
       $customers = [];
 
+      // Requête
       $sql = " SELECT * FROM t_customers
       INNER JOIN t_users ON t_users.fk_customer = t_customers.id_customer";
 
+      // Exécution de la requête + stockage du retour
       $tmpResult = $this->Query($sql);
 
+      // Vérifier que l'on reçoit au moins 1 ligne de données en retour
       if($tmpResult->rowCount() > 0) {
 
         // Sortir les données pour chaque "row"
@@ -322,302 +331,398 @@ class Customer extends Entity
         // echo de la liste des customers
         return $customers;
       }
-      // Fermeture de la connexion
-      return $tmpResult;
     }
 
-  public function GetCustomerByUsername(){
-    if(isset($_GET['username'])){
-      $currentUsername = $_GET['username'];
-      $sql = "SELECT * FROM t_users
-      INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-      INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_customers.FK_Title
-      WHERE Username = '$currentUsername' LIMIT 1";
-      $getCustomer =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-      return $getCustomer;
+    // Récupérer les informations du client avec son nom d'utilisateur
+    public function GetCustomerByUsername(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Assignation des valeurs
+        $currentUsername = $_GET['username'];
+
+        // Requête
+        $sql = "SELECT * FROM t_users
+        INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+        INNER JOIN t_titles ON t_titles.id_CustomerTitle = t_customers.FK_Title
+        WHERE Username = '$currentUsername' LIMIT 1";
+
+        // Execution de la requête + stockage du retour
+        $getCustomer =($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+        // Retour des informations client
+        return $getCustomer;
+      }
     }
-  }
 
-  public function getShippingAddressByUser(){
-    if(isset($_GET['username'])){
+    // Récupération des de l'adresse de livraison d'un utilisateur avec son nom d'utilisateur
+    public function getShippingAddressByUser(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Assignation des valeurs
+        $currentUsername = $_GET['username'];
 
-      $currentUsername = $_GET['username'];
-      $sql = "SELECT t_address.Address as 'shippingAddress',FK_Title,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
-      FROM t_address
-      WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
+        // Requête
+        $sql = "SELECT t_address.Address as 'shippingAddress',FK_Title,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+        FROM t_address
+        WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
         INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
         WHERE Username = '$currentUsername' LIMIT 1) AND isDefault=1 LIMIT 1";
+
+        // Exécution de la requête + stockage du retour
         $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
+        // Retour des informations de l'adresse de livraison
         return $getShipAddr;
       }
-  }
-    public function getLastShippingAddressByUser(){
-      if(isset($_GET['username'])){
+    }
 
+    // Récupération des de l'adresse de facturation d'un utilisateur avec son nom d'utilisateur
+    public function getBillingAddressByUser(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Tableau
+        $billingAddress = [];
+        // Assignation des valeurs
         $currentUsername = $_GET['username'];
+        // Requête
+        $sql = "SELECT FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+        FROM t_address
+        WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
+          INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+          WHERE Username = '$currentUsername' LIMIT 1) AND isDefault=1 LIMIT 1";
+        // Exécution de la requête + stockage du retour
+        $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+        // Retour des informations de l'adresse de facturation
+        return $getBillAddr;
+      }
+    }
+
+    // Récupération de la dernière adresse de livraison d'un utilisateur avec son nom d'utilisateur
+    public function getLastShippingAddressByUser(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Assignation des valeurs
+        $currentUsername = $_GET['username'];
+
+        // Requête
         $sql = "SELECT id_Address, t_address.Address as 'shippingAddress',FK_Title,t_address.FullName, t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
         FROM t_address
         WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
-          INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-          WHERE Username = '$currentUsername' LIMIT 1) ORDER BY t_address.id_Address DESC LIMIT 1";
-          $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+        INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+        WHERE Username = '$currentUsername' LIMIT 1) ORDER BY t_address.id_Address DESC LIMIT 1";
 
+        // Exécution de la requête + stockage du retour
+        $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+        // Retour des informations de la dernière adresse de livraison
+        return $getShipAddr;
+      }
+    }
+
+    // Récupération de la dernière adresse de facturation d'un utilisateur avec son nom d'utilisateur
+    public function getLastBillingAddressByUser(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Assignation des valeurs
+        $currentUsername = $_GET['username'];
+
+        // Requête
+        $sql = "SELECT id_Address, t_address.Address as 'billingAddress',FK_Title,t_address.FullName, t_address.City AS 'billingCity', t_address.Zip AS 'billingZip' , t_address.FK_AddressType, t_address.FK_Customer
+        FROM t_address
+        WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
+        INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+        WHERE Username = '$currentUsername' LIMIT 1) ORDER BY t_address.id_Address DESC LIMIT 1";
+
+        // Exécution de la requête + stockage du retour
+        $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+
+        // Retour des informations de la dernière adresse de facturation
+        return $getShipAddr;
+      }
+    }
+
+    // Récupération de toutes les adresses de livraison d'un utilisateur avec son nom d'utilisateur
+    public function getAllShippingsAddressByUser(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Tableau
+        $shippingAddress = [];
+        // Assignation des valeurs
+        $currentUsername = $_GET['username'];
+        // Requête
+        $sql = "SELECT FK_AddressType as addressType, isDefault ,t_address.id_Address as 'shippingID',FK_Title, t_address.FullName, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
+        FROM t_address
+        WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
+        INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+        WHERE Username = '$currentUsername' LIMIT 1) AND isActive = 1
+        ORDER BY `isDefault` DESC";
+
+        // Exécution de la requête + stockage du retour
+        $getShipAddr=($this->Query($sql));
+
+        // Vérifier que l'on reçoit au moins une ligne en retour
+        if($getShipAddr->rowCount() > 0) {
+
+            // Sortir les données pour chaque "row"
+            $cr = 0;
+            while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
+              $shippingAddress[$cr]['addressType'] = $row['addressType'];
+              $shippingAddress[$cr]['isDefault'] = $row['isDefault'];
+              $shippingAddress[$cr]['FK_Title'] = $row['FK_Title'];
+              $shippingAddress[$cr]['FullName'] = $row['FullName'];
+              $shippingAddress[$cr]['shippingID'] = $row['shippingID'];
+              $shippingAddress[$cr]['shippingAddress'] = $row['shippingAddress'];
+              $shippingAddress[$cr]['shippingCity'] = $row['shippingCity'];
+              $shippingAddress[$cr]['shippingZip'] = $row['shippingZip'];
+
+              $cr++;
+            }
+            // echo de la liste des adresses
+            return $shippingAddress;
+          }
           return $getShipAddr;
         }
+    }
+
+    // Récupération de toutes les adresses de facturation d'un utilisateur avec son nom d'utilisateur
+    public function getAllBillingsAddressByUser(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Tableau
+        $billingAddress = [];
+        // Assignation des valeurs
+        $currentUsername = $_GET['username'];
+        // Requête
+        $sql = "SELECT FK_AddressType as addressType,isDefault, t_address.id_Address as 'billingID',FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
+        FROM t_address
+        WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
+        INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
+        WHERE Username = '$currentUsername'  LIMIT 1)AND isActive = 1
+        ORDER BY `isDefault` DESC";
+
+        // Exécution de la requête + stockage du retour
+        $getBillAddr=($this->Query($sql));
+
+        // Vérifier que l'on reçoit au moins une ligne en retour
+        if($getBillAddr->rowCount() > 0) {
+
+          // Sortir les données pour chaque "row"
+          $cr = 0;
+          while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
+            $billingAddress[$cr]['addressType'] = $row['addressType'];
+            $billingAddress[$cr]['isDefault'] = $row['isDefault'];
+            $billingAddress[$cr]['FK_Title'] = $row['FK_Title'];
+            $billingAddress[$cr]['FullName'] = $row['FullName'];
+            $billingAddress[$cr]['billingID'] = $row['billingID'];
+            $billingAddress[$cr]['billingAddress'] = $row['billingAddress'];
+            $billingAddress[$cr]['billingCity'] = $row['billingCity'];
+            $billingAddress[$cr]['billingZip'] = $row['billingZip'];
+
+            $cr++;
+          }
+          // echo de la liste des adresses
+          return $billingAddress;
+        }
+        return $getBillAddr;
       }
+    }
 
-      public function getLastBillingAddressByUser(){
+    // Désactiver une adresse avec l'id de l'adresse
+    public function disableAddress(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['addressID'])){
+        // Assignation des valeurs
+        $id =$_GET['addressID'];
+
+        // Requête
+        $sql = "UPDATE
+        t_address
+        SET
+        t_address.isActive = '0'
+        WHERE t_address.id_Address = '$id'";
+
+        // Exécution de la requête
+        $this->Query($sql);
+      }
+    }
+
+    // Ajout d'une adresse
+    public function AddAddress(){
+      // Vérifier que l'on reçoit bien les données voulues
+      if($this->jsonToProcess !=null)
+      {
+        // Vérifier que l'on reçoit bien le paramètre voulu
         if(isset($_GET['username'])){
+          // Assignation des valeurs
+          $username = $_GET['username'];
+          // Récupération des données reçues
+          $titre = $this->jsonToProcess->CustomerTitle;
+          $fullName = $this->jsonToProcess->FullName;
+          $type = $this->jsonToProcess->addressType;
+          $address = $this->jsonToProcess->address;
+          $city = $this->jsonToProcess->city;
+          $zip = $this->jsonToProcess->zip;
 
-          $currentUsername = $_GET['username'];
-          $sql = "SELECT id_Address, t_address.Address as 'billingAddress',FK_Title,t_address.FullName, t_address.City AS 'billingCity', t_address.Zip AS 'billingZip' , t_address.FK_AddressType, t_address.FK_Customer
-          FROM t_address
-          WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
-            INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-            WHERE Username = '$currentUsername' LIMIT 1) ORDER BY t_address.id_Address DESC LIMIT 1";
-            $getShipAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+          // Si le type est "3" cela veut dire qu'on doit créer une adresse de livraison et une adresse de facturation avec les mêmes données
+          if($type==3){
+            // Requête
+            $addShipAddress1 = "INSERT INTO t_address
+            (Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
+            VALUES ('$address','$fullName','$city','$zip','1',
+            (SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
+            WHERE t_users.Username = '$username'),'$titre')";
 
-            return $getShipAddr;
+            // Requête
+            $addBillAddress1 = "INSERT INTO t_address
+            (Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
+            VALUES ('$address','$fullName','$city','$zip','2',
+            (SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
+            WHERE t_users.Username = '$username'),'$titre')";
+
+            // Exécution des requêtes
+            $this->Query($addShipAddress1);
+            $this->Query($addBillAddress1);
+          }else{
+              //Insertion d'une adresse - requête
+              $addAddress = "INSERT INTO t_address
+              (Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
+              VALUES ('$address','$fullName','$city','$zip','$type',
+              (SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
+              WHERE t_users.Username = '$username'),'$titre')";
+
+              // Exécution de la requête
+              $this->Query($addAddress);
           }
         }
+      }
+    }
 
-        public function getBillingAddressByUser(){
+    // Définir une adresse par défaut
+    public function SetAddressByDefault(){
+      // Vérifier que l'on reçoit bien les paramètres voulus
+      if(isset($_GET['addressID'])){
+        // Assignation des valeurs
+        $id =$_GET['addressID'];
+        $type =$_GET['addressType'];
+        $currentUsername =$_GET['username'];
 
-          if(isset($_GET['username'])){
-            $billingAddress = [];
-            $currentUsername = $_GET['username'];
-            $sql = "SELECT FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
-            FROM t_address
-            WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
-              INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-              WHERE Username = '$currentUsername' LIMIT 1) AND isDefault=1 LIMIT 1";
-              $getBillAddr=($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+        // Requête
+        $sql1 = "UPDATE
+        t_address
+        SET
+        T_address.isDefault ='0'
+        WHERE t_address.isDefault = '1' AND t_address.FK_AddressType = '$type'
+        AND FK_Customer = (SELECT id_customer FROM t_customers
+        INNER JOIN t_users on t_users.FK_Customer = t_customers.id_customer
+        WHERE t_users.Username ='$currentUsername')";
 
-              return $getBillAddr;
-            }
-          }
+        // Exécution de la requête
+        $this->Query($sql1);
 
-          public function getAllShippingsAddressByUser(){
-            if(isset($_GET['username'])){
-              $shippingAddress = [];
-              $currentUsername = $_GET['username'];
-              $sql = "SELECT FK_AddressType as addressType, isDefault ,t_address.id_Address as 'shippingID',FK_Title, t_address.FullName, t_address.Address as 'shippingAddress',t_address.City AS 'shippingCity', t_address.Zip AS 'shippingZip' , t_address.FK_AddressType, t_address.FK_Customer
-              FROM t_address
-              WHERE FK_AddressType = 1 AND FK_Customer = (SELECT id_customer FROM t_users
-                INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-                WHERE Username = '$currentUsername' LIMIT 1) AND isActive = 1
-                ORDER BY `isDefault` DESC";
-                $getShipAddr=($this->Query($sql));
-                if($getShipAddr->rowCount() > 0) {
+        // Requête
+        $sql2 = "UPDATE
+        t_address
+        SET
+        T_address.isDefault ='1'
+        WHERE t_address.id_Address = '$id'";
 
-                  // Sortir les données pour chaque "row"
-                  $cr = 0;
-                  while($row = $getShipAddr->fetch( PDO::FETCH_ASSOC )) {
-                    $shippingAddress[$cr]['addressType'] = $row['addressType'];
-                    $shippingAddress[$cr]['isDefault'] = $row['isDefault'];
-                    $shippingAddress[$cr]['FK_Title'] = $row['FK_Title'];
-                    $shippingAddress[$cr]['FullName'] = $row['FullName'];
-                    $shippingAddress[$cr]['shippingID'] = $row['shippingID'];
-                    $shippingAddress[$cr]['shippingAddress'] = $row['shippingAddress'];
-                    $shippingAddress[$cr]['shippingCity'] = $row['shippingCity'];
-                    $shippingAddress[$cr]['shippingZip'] = $row['shippingZip'];
+        // Exécution de la requête
+        $this->Query($sql2);
+      }
+    }
 
-                    $cr++;
-                  }
-                  // echo de la liste des articles
-                  return $shippingAddress;
-                }
-                return $getShipAddr;
-              }
-            }
+    // Function pour vérifier si qqn utilise un formulaire de modification d'un client
+    public function LockCheck(){
+      // Requête
+      $sql = " SELECT LockedBy FROM t_lock_customer
+      WHERE FK_Customer = $this->idToProcess";
 
-            public function getAllBillingsAddressByUser(){
+      // Exécution de la requête + stockage du retour
+      $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
-              if(isset($_GET['username'])){
-                $billingAddress = [];
-                $currentUsername = $_GET['username'];
-                $sql = "SELECT FK_AddressType as addressType,isDefault, t_address.id_Address as 'billingID',FK_Title, t_address.FullName, Address as 'billingAddress',City AS 'billingCity', Zip AS 'billingZip' , FK_AddressType, FK_Customer
-                FROM t_address
-                WHERE FK_AddressType = 2 AND FK_Customer = (SELECT id_customer FROM t_users
-                  INNER JOIN t_customers ON t_users.fk_customer = t_customers.id_customer
-                  WHERE Username = '$currentUsername'  LIMIT 1)AND isActive = 1
-                  ORDER BY `isDefault` DESC";
-                  $getBillAddr=($this->Query($sql));
-                  if($getBillAddr->rowCount() > 0) {
+      // Retour du résultat
+      return $tmpResult;
+    }
 
-                    // Sortir les données pour chaque "row"
-                    $cr = 0;
-                    while($row = $getBillAddr->fetch( PDO::FETCH_ASSOC )) {
-                      $billingAddress[$cr]['addressType'] = $row['addressType'];
-                      $billingAddress[$cr]['isDefault'] = $row['isDefault'];
-                      $billingAddress[$cr]['FK_Title'] = $row['FK_Title'];
-                      $billingAddress[$cr]['FullName'] = $row['FullName'];
-                      $billingAddress[$cr]['billingID'] = $row['billingID'];
-                      $billingAddress[$cr]['billingAddress'] = $row['billingAddress'];
-                      $billingAddress[$cr]['billingCity'] = $row['billingCity'];
-                      $billingAddress[$cr]['billingZip'] = $row['billingZip'];
+    //  Mettre à jour le le temps de lock au temps actuel
+    public function UpdateLock(){
+      // Requête
+      $sql = "UPDATE  	t_lock_customer
+      SET
+      t_lock_customer.LockTime = NOW()
+      WHERE
+      t_lock_customer.FK_Customer = $this->idToProcess";
 
-                      $cr++;
-                    }
-                    // echo de la liste des articles
-                    return $billingAddress;
-                  }
-                  return $getBillAddr;
-                }
-              }
+      // Exécution de la requête + stockage du retour
+      $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
-              public function disableAddress(){
-                if(isset($_GET['addressID'])){
-                  $id =$_GET['addressID'];
+      // Retour du résultat
+      return $tmpResult;
+    }
 
-                  $sql = "UPDATE
-                  t_address
-                  SET
-                  t_address.isActive = '0'
-                  WHERE t_address.id_Address = '$id'";
+    // Ajout d'un lock pour l'édition d'un formulaire
+    public function AddLock(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Assignation des valeurs
+        $username= $_GET['username'];
+        // Requête
+        $sql = "INSERT INTO t_lock_customer (LockedBy, FK_Customer)
+        VALUES ('$username', $this->idToProcess)";
 
-                  $this->Query($sql);
-                }
-              }
+        // Exécution de la requête + stockage du retour
+        $tmpResult = ($this->Query($sql));
 
-              public function AddAddress(){
-                if($this->jsonToProcess !=null)
-                {
-                  if(isset($_GET['username'])){
-                    $username = $_GET['username'];
-                    // Récupération des données reçues
-                    $titre = $this->jsonToProcess->CustomerTitle;
-                    $fullName = $this->jsonToProcess->FullName;
-                    $type = $this->jsonToProcess->addressType;
-                    $address = $this->jsonToProcess->address;
-                    $city = $this->jsonToProcess->city;
-                    $zip = $this->jsonToProcess->zip;
+        // Retour du résultat
+        return $tmpResult;
+      }
 
-                    if($type==3){
-                      $addShipAddress1 = "INSERT INTO t_address
-                      (Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
-                      VALUES ('$address','$fullName','$city','$zip','1',
-                        (SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
-                          WHERE t_users.Username = '$username'),'$titre')";
-                          $addBillAddress1 = "INSERT INTO t_address
-                          (Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
-                          VALUES ('$address','$fullName','$city','$zip','2',
-                            (SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
-                              WHERE t_users.Username = '$username'),'$titre')";
-                              $this->Query($addShipAddress1);
-                              $this->Query($addBillAddress1);
-                            }else{
-                              //Insert  Address
-                              $addAddress = "INSERT INTO t_address
-                              (Address ,FullName, City , Zip , FK_AddressType , FK_Customer,FK_Title)
-                              VALUES ('$address','$fullName','$city','$zip','$type',
-                                (SELECT id_customer FROM t_customers INNER JOIN t_users ON t_users.FK_Customer = t_customers.id_customer
-                                  WHERE t_users.Username = '$username'),'$titre')";
-                                  $this->Query($addAddress);
-                                }
-                              }
-                            }
-                          }
+    }
 
-                          public function SetAddressByDefault(){
-                            if(isset($_GET['addressID'])){
-                              $id =$_GET['addressID'];
-                              $type =$_GET['addressType'];
-                              $currentUsername =$_GET['username'];
+    // Libérer le vérouillage de l'édition du formulaire avec le nom d'utilisateur
+    public function ReleaseLock(){
+      // Vérifier que l'on reçoit bien le paramètre voulu
+      if(isset($_GET['username'])){
+        // Assignation des valeurs
+        $username= $_GET['username'];
+        // Requête
+        $sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess AND LockedBy= '$username'";
 
-                              $sql1 = "UPDATE
-                              t_address
-                              SET
-                              T_address.isDefault ='0'
-                              WHERE t_address.isDefault = '1' AND t_address.FK_AddressType = '$type'
-                              AND FK_Customer = (SELECT id_customer FROM t_customers
-                                INNER JOIN t_users on t_users.FK_Customer = t_customers.id_customer
-                                WHERE t_users.Username ='$currentUsername')";
+        // Exécution de la requête + stockage du retour
+        $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
-                                $this->Query($sql1);
+        // Retour du résultat
+        return $tmpResult;
+      }
 
-                                $sql2 = "UPDATE
-                                t_address
-                                SET
-                                T_address.isDefault ='1'
-                                WHERE t_address.id_Address = '$id'";
+    }
 
-                                $this->Query($sql2);
-                              }
-                            }
+    // Forcer la suppression du vérouillage du formulaire
+    public function ForceReleaseLock(){
+      // Requête
+      $sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess";
 
-                            public function LockCheck(){
-                              $sql = " SELECT LockedBy FROM t_lock_customer
-                              WHERE FK_Customer = $this->idToProcess";
+      // Exécution de la requête + stockage du retour
+      $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
 
-                              $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+      // Retour du résultat
+      return $tmpResult;
 
-                              // Retour du résultat
-                              return $tmpResult;
-                            }
+    }
 
-                            public function UpdateLock(){
+    // Nettoyer la table de vérouillage
+    public function CleanupLocks(){
+      //  Requête
+      $sql = "DELETE FROM t_lock_customer WHERE TIME_TO_SEC(LockTime)+600 <= TIME_TO_SEC(NOW())";
 
-                              $sql = "UPDATE  	t_lock_customer
-                              SET
-                              t_lock_customer.LockTime = NOW()
-                              WHERE
-                              t_lock_customer.FK_Customer = $this->idToProcess";
+      // Exécution de la requête + stockage du retour
+      $tmpResult = ($this->Query($sql));
 
-                              $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
+      // Retour du résultat
+      return $tmpResult;
+    }
 
-                              // Retour du résultat
-                              return $tmpResult;
-                            }
-
-                            public function AddLock(){
-                              if(isset($_GET['username'])){
-                                $username= $_GET['username'];
-                                $sql = "INSERT INTO t_lock_customer (LockedBy, FK_Customer)
-                                VALUES ('$username', $this->idToProcess)";
-
-                                $tmpResult = ($this->Query($sql));
-
-                                // Retour du résultat
-                                return $tmpResult;
-                              }
-
-                            }
-
-                            public function ReleaseLock(){
-                              if(isset($_GET['username'])){
-                                $username= $_GET['username'];
-                                $sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess AND LockedBy= '$username'";
-
-                                $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-
-                                // Retour du résultat
-                                return $tmpResult;
-                              }
-
-                            }
-
-                            public function ForceReleaseLock(){
-
-                              $sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess";
-
-                              $tmpResult = ($this->Query($sql)->fetch( PDO::FETCH_ASSOC));
-
-                              // Retour du résultat
-                              return $tmpResult;
-
-                            }
-
-                            public function CleanupLocks(){
-                              $sql = "DELETE FROM t_lock_customer WHERE TIME_TO_SEC(LockTime)+600 <= TIME_TO_SEC(NOW())";
-
-                              $tmpResult = ($this->Query($sql));
-
-                              // Retour du résultat
-                              return $tmpResult;
-                            }
-
-                          }
+  }
 
  ?>

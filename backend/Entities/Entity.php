@@ -1,5 +1,7 @@
 <?php
-
+/*
+  Classe pour la gestion des requêtes à la bbd + Vérification du token
+*/
   // Class pour debug
   include('_Helpers/vardump.php');
   include('Entities/User.php');
@@ -51,7 +53,9 @@
 
     // Executer les requêtes
     public function Query($query) {
+      // Préparer la requête
       $stmt = $this->dbSt->prepare($query);
+      // Exécution de la requête
       $stmt->execute();
 
       return $stmt;
@@ -104,6 +108,7 @@
       // Le role doit-il être vérifier
       if($checkRole)
       {
+        // Vérifier que le rôle dans l'en-tête soit 'AD'
         if($hdRoleCode != "AD")
         {
           return false;
@@ -127,9 +132,12 @@
       // Si valide
       if($userInDB['Token'] != null && $userInDB['TokenValidity'] != null)
       {
+        // Récupération du temps de validité du token
         $userTokenDateTime = new DateTime($userInDB['TokenValidity']);
+        // Si la date / temps de validité du token de l'utilisateur est plus grand que le datetime actuel => mise à jour du token : valide !
         if($userTokenDateTime >= $actualDateTime)
         {
+          // Mise à jour du token de l'utilisateur grâce à son nom d'utilisateur
           $userEntity->UpdateTokenValidity($hdUsername);
           return true;
         } else {
@@ -141,11 +149,12 @@
 
     // Récupération du token par l'id de l'utilsateur
     public function getTokenByUserId($userid, $token) {
-
+      // Requête
       $sql = "SELECT token, tokenValidity FROM user WHERE id = '$userid'";
-
+      // Exécution de la requête + stockage du retour
       $resultat = $this->Query($sql);
 
+      // Retour du résultat
       return $resultat;
     }
 
