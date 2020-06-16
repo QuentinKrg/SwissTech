@@ -10,3 +10,13 @@
     border-width:8px !important;
     border-left-color: #f7ba04!important;
 }
+.breandcrumb, .breadcrumb-item, a {
+    font-size: 17px;
+    text-decoration: none;
+    color: black;
+}
+
+.breandcrumb, .breadcrumb-item:hover, a:hover {
+    color: #dc3545;
+    cursor: pointer;
+}

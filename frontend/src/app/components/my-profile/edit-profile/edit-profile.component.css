@@ -1,0 +1,10 @@
+.breandcrumb, .breadcrumb-item, a {
+    font-size: 17px;
+    text-decoration: none;
+    color: black;
+}
+
+.breandcrumb, .breadcrumb-item:hover, a:hover {
+    color: #dc3545;
+    cursor: pointer;
+}

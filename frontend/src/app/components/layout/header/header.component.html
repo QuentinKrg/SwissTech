@@ -13,9 +13,9 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLinksCollapsed" aria-controls="navbarLinksCollapsed" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <input type="search" class="form-control rounded" placeholder="Recherche" [(ngModel)]="textSearch" name="text">
+                        <input type="search" class="form-control rounded customInput" placeholder="Recherche" [(ngModel)]="textSearch" name="text">
                         <span class="input-group-btn ml-2">
-                            <button class="btn btn-info"  (click)="onSearch(textSearch)" type="submit">Recherche</button>
+                            <button class="btn btn-danger"  (click)="onSearch(textSearch)" type="submit">Recherche</button>
                         </span>
                     </div>
                 </form>
@@ -32,7 +32,6 @@
                 </a>
                 <!--lien pour la conenxion si pas connecté ou lien pour le panneau de gestion utilisateur-->
                 <a class="nav-link" (click)="openNav()">
-                    <span *ngIf="currentUser" class="pr-2 h5" title="Mon compte">{{currentUser.login | titlecase}}</span>
                     <fa-icon *ngIf="currentUser" [icon]="faUser" class="icon" size="2x" title="Mon compte"></fa-icon>
                     <a *ngIf="!currentUser">Se connecter</a>
                 </a>

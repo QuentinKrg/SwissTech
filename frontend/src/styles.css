@@ -49,6 +49,7 @@ body::after {
   height: 400px;
 }
 
+
 @media screen and (max-width: 768px) {
   body::after{ content:''; display:block; height:600px; }
 }
