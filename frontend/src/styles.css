@@ -27,10 +27,6 @@ header {
   .card-footer .price-card-footer {
     margin-top: 0.40rem; }
 
-.captcha {
-  margin: auto;
-  inline-size: fit-content; }
-
 html {
   height: 100%;
 }

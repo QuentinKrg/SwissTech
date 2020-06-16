@@ -14,16 +14,15 @@
 <!--Page d'edition des informations personnelles d'un client-->
 <h2 class="p-3 text-center">Editer mon compte</h2>
 <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form row justify-content-md-center">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <!--champs du formulaire:-->
-        <div class="p-4 shadow-sm">
-            <h5 class="border-top">Mes coordonnées </h5>
+        <div class="p-4 shadow">
+            <h5 class="mb-5 text-dark ">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
-                <label for="FK_Title">Titre *</label>
-                <select class="form-control" formControlName="FK_Title" autofocus
+                <select class="form-control input-border-bottom" formControlName="FK_Title" autofocus 
                     [ngClass]="{ 'is-invalid': submitted && f.FK_Title.errors || f.FK_Title.touched && f.FK_Title.errors}">
-                    <option [value]="-1" selected disabled>Veuillez choisir</option>
+                    <option [value]="-1" selected disabled>Titre</option>
                     <option [value]="2">Mme</option>
                     <option [value]="1">Mr</option>
                     <option [value]="3">Non binaire</option>
@@ -33,9 +32,8 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="form-group">
-                        <label for="CustomerName">Prénom *</label>
-                        <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
+                        <input type="text" maxlength="100" formControlName="CustomerName" class="form-control input-border-bottom"
+                        placeholder="Prénom" [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
                         <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
                             Uniquement des lettres et des espaces</div>
                     </div>
@@ -43,9 +41,8 @@
                 <!-- Last name-->
                 <div class="col-sm">
                     <div class="form-group">
-                        <label for="CustomerLastName">Nom *</label>
-                        <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
+                        <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control input-border-bottom"
+                            placeholder="Nom" [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
                         <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
                             Uniquement des lettres et des espaces</div>
                     </div>
@@ -53,20 +50,16 @@
             </div>
             <!-- Birthday date-->
             <div class="form-group">
-                <label for="CustomerBirthday">Date de naissance *</label>
-                <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
-                    placeholder=""
+                <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control input-border-bottom"
+                    placeholder="Date de naissance"
                     [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
             </div>
-        </div>
-        <div class=" p-4 mt-2 shadow-sm">
-            <h5 class="border-top">Mes informations de contact</h5>
+            <h5 class="mb-5 text-dark ">Mes informations de contact</h5>
             <div>
                 <!-- Email -->
                 <div class="form-group">
-                    <label for="CustomerEmail">E-mail *</label>
-                    <input type="CustomerEmail" formControlName="CustomerEmail" class="form-control"
-                        placeholder="exemple@domaine.com"
+                    <input type="CustomerEmail" formControlName="CustomerEmail" class="form-control input-border-bottom"
+                    placeholder="E-mail:      exemple@domaine.com"
                         [ngClass]="{ 'is-invalid': submitted && f.CustomerEmail.errors || f.CustomerEmail.touched && f.CustomerEmail.errors}" />
                     <div class="invalid-feedback"
                         *ngIf="submitted && f.CustomerEmail.hasError('pattern') || f.CustomerEmail.touched && f.CustomerEmail.hasError('pattern')">
@@ -75,9 +68,8 @@
                 </div>
                 <!-- Private phone-->
                 <div class="form-group">
-                    <label for="CustomerPhone">Téléphone privé *</label>
-                    <input type="phone" formControlName="CustomerPhone" class="form-control"
-                        placeholder="Par exemple: +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.CustomerPhone.errors || f.CustomerPhone.touched && f.CustomerPhone.errors || 
+                    <input type="phone" formControlName="CustomerPhone" class="form-control input-border-bottom"
+                    placeholder="Téléphone:        Exemple:  +41 12 345 67 89" [ngClass]="{ 'is-invalid': submitted && f.CustomerPhone.errors || f.CustomerPhone.touched && f.CustomerPhone.errors || 
                         f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')}" />
                     <div class="invalid-feedback" *ngIf="submitted && f.CustomerPhone.hasError('pattern') ||
                          f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')">

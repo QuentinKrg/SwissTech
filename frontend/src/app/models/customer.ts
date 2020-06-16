@@ -25,4 +25,5 @@ export class Customer {
     isActive: number;
     IpAddress:string;
     LockedBy: string;
+    addressType:number;
 }

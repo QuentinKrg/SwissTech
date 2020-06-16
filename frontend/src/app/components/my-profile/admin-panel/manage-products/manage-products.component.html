@@ -19,12 +19,12 @@
     <!-- Recherche par nom d'article -->
     <div class="col-md-6 col-sm-12">
         <label class="control-label" for="selectProduct">Filtrer par nom d'article</label>
-        <input id="selectProduct" class="form-control" placeholder="Rechercher un nom d'article" type="text" [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
+        <input id="selectProduct" class="form-control input-border-bottom" placeholder="Rechercher un nom d'article" type="text" [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
     </div>
     <!-- L'article est il artif ou non -->
     <div class="col-md-6 col-sm-12" >
         <label class="control-label" for="selectStatus">Filtrer par état</label>
-        <select  class="form-control" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
+        <select  class="form-control input-border-bottom" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
             <option value="-1" selected>Les deux</option>
             <option value="1">Actif</option>
             <option value="0">Innactif</option>
@@ -35,7 +35,7 @@
     <!-- Liste des catégories des articles -->
     <div class="col-md-4 col-sm-12">
         <label class="control-label" for="selectCat">Filtrer par catégories</label>
-        <select  class="form-control" id="selectCat" [(ngModel)]="selectedMainCategory" (change)="filteredByCategories()">
+        <select  class="form-control input-border-bottom" id="selectCat" [(ngModel)]="selectedMainCategory" (change)="filteredByCategories()">
             <option value="-1" selected>Toutes</option>
             <option *ngFor="let cat of allMainCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
         </select>
@@ -43,7 +43,7 @@
     <!-- Liste des sous-catégories des articles -->
     <div class="col-md-4 col-sm-12" *ngIf="allSubCategories.length > 0">
         <label class="control-label" for="selectSub">Filtrer par sous-catégories</label>
-        <select  class="form-control" id="selectSub" [(ngModel)]="selectedSubCategory" (change)="filteredByCategories()">
+        <select  class="form-control input-border-bottom" id="selectSub" [(ngModel)]="selectedSubCategory" (change)="filteredByCategories()">
             <option value="-1" selected>Toutes</option>
             <option *ngFor="let cat of allSubCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
         </select>
@@ -51,7 +51,7 @@
     <!-- Liste des sous-sous-catégories des articles -->
     <div class="col-md-4 col-sm-12" *ngIf="allSubSubCategories.length > 0">
         <label class="control-label" for="selectSubSub">Filtrer par sous-sous-catégories</label>
-        <select  class="form-control" id="selectSubSub" [(ngModel)]="selectedSubSubCategory" (change)="filteredByCategories()">
+        <select  class="form-control input-border-bottom" id="selectSubSub" [(ngModel)]="selectedSubSubCategory" (change)="filteredByCategories()">
             <option value="-1" selected>Toutes</option>
             <option *ngFor="let cat of allSubSubCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
         </select>
@@ -155,55 +155,49 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">
-                    <label for="productName">Nom de l'article *</label>
-                    <input class="form-control" type="text" name="productName"  formControlName="ProductName" id="productName" placeholder="Ex: PS4 Pro 2020"
+                    <input class="form-control input-border-bottom" type="text" name="productName"  formControlName="ProductName" id="productName" placeholder="Nom    Ex: PS4 Pro 2020"
                     [ngClass]="{ 'is-invalid': submitted && f.ProductName.errors || f.ProductName.touched && f.ProductName.errors}">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
-                    <label for="productColor">Couleur *</label>
-                    <select  class="form-control" id="productColor" formControlName="ProductColor" 
+                    <select  class="form-control input-border-bottom" id="productColor" formControlName="ProductColor" 
                     [ngClass]="{ 'is-invalid': submitted && f.ProductColor.value=='-1'|| f.ProductColor.touched && f.ProductColor.value=='-1'}">
                         <option value="-1" selected disabled>Choisir une couleur *</option>
                         <option *ngFor="let color of allColors" id="optionSelected" [value]="color.id_color">{{color.ProductColor}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
-                    <label for="productSize">Taille (cm) *</label>
-                    <input class="form-control" type="number" name="productSize" id="productSize" formControlName="ProductSize" placeholder="Ex: 256cm"
+                    <input class="form-control input-border-bottom" type="number" name="productSize" id="productSize" formControlName="ProductSize" placeholder="Taille   Ex: 256cm"
                     [ngClass]="{ 'is-invalid': submitted && f.ProductSize.errors || f.ProductSize.touched && f.ProductSize.errors}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4 col-sm-11">
-                    <label class="control-label" for="selectStatus">Catégorie *</label>
-                    <select  class="form-control" id="selectStatus" formControlName="ProductCategory" (change)="updateCategory()"
+                    <select  class="form-control input-border-bottom" id="selectStatus" formControlName="ProductCategory" (change)="updateCategory()"
                     [ngClass]="{ 'is-invalid': submitted && f.ProductCategory.value=='-1'|| f.ProductCategory.touched && f.ProductCategory.value=='-1'}">
-                        <option value="-1" selected disabled>Choisir une catégorie</option>
+                        <option value="-1" selected disabled>Choisir une catégorie *</option>
                         <option *ngFor="let cat of allCategories" id="optionSelected" [value]="cat.id">{{cat.CategoryName}}</option>
                     </select>
                 </div>
-                <div class="form-group col-md-1 col-sm-1" style="margin-top: 30px;">
+                <div class="form-group col-md-1 col-sm-1" >
                     <a class="btn btn-info form-control text-white" id="clearBtn" (click)="clearCategory()">X</a>
                 </div>
                 <div class="form-group col-md-4 col-sm-12">
-                    <label class="control-label" for="productBrand">Marque *</label>
-                    <select  class="form-control" id="productBrand" formControlName="ProductBrand"
+                    <select  class="form-control input-border-bottom" id="productBrand" formControlName="ProductBrand"
                     [ngClass]="{ 'is-invalid': submitted && f.ProductBrand.value=='-1'|| f.ProductBrand.touched && f.ProductBrand.value=='-1'}">
-                        <option value="-1" selected disabled>Choisir une marque</option>
+                        <option value="-1" selected disabled>Choisir une marque *</option>
                         <option *ngFor="let brand of allManufacturer" id="optionSelected" [value]="brand.id_Manufacturer">{{brand.ManufacturerName}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
-                    <label class="control-label" for="productPrice">Prix (CHF) *</label>
-                    <input class="form-control" type="number" min="0.05" max="1000000" step="0.05" name="productPrice" 
-                    formControlName="ProductPrice" id="productPrice" placeholder="Prix"
+                    <input class="form-control input-border-bottom" type="number" min="0.05" max="1000000" step="0.05" name="productPrice" 
+                    formControlName="ProductPrice" id="productPrice" placeholder="Prix (CHF) *"
                     [ngClass]="{ 'is-invalid': submitted && f.ProductPrice.errors || f.ProductPrice.touched && f.ProductPrice.errors}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-8 col-sm-12">
                     <label for="productDescription">Description *</label>
-                    <textarea class="form-control" id="productDescription" rows="3" formControlName="ProductDescription" placeholder="Description de l'article"
+                    <textarea class="form-control " id="productDescription" rows="3" formControlName="ProductDescription" placeholder="Description de l'article"
                     [ngClass]="{ 'is-invalid': submitted && f.ProductDescription.errors || f.ProductDescription.touched && f.ProductDescription.errors}"></textarea>  
                 </div>
                 <div class="form-group col-md-4 col-sm-12">

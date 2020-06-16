@@ -96,6 +96,8 @@ export class EditAddressComponent implements OnInit {
         this.myShipAddr = data;
         this.myShipAddr = this.myShipAddr;
         console.log(data);
+        console.log(this.myShipAddr);
+        
 
       },
       (error) => {
@@ -174,9 +176,8 @@ export class EditAddressComponent implements OnInit {
     //désactive le bouton d'enregistrement
     this.loading = true;
 
-    //vérifie que le nom d'utilisateur est disponible
 
-    //update de l'utilisateur
+    //update de l'adresse
     this._userService.updateCustomer(this.currentUsername, this.editShippingAddrForm.value).then(
       () => {
         console.log('tout va bien');
@@ -224,9 +225,8 @@ export class EditAddressComponent implements OnInit {
     //désactive le bouton d'enregistrement
     this.loading = true;
 
-    //vérifie que le nom d'utilisateur est disponible
 
-    //update de l'utilisateur
+    //update de l'adresse
     this._userService.updateCustomer(this.currentUsername, this.editBillingAddrForm.value).then(
       () => {
         console.log('tout va bien');
@@ -254,6 +254,23 @@ export class EditAddressComponent implements OnInit {
   }
   //Envoi du formulaire d'ajout d'adresse
   onSubmitAddAddresse() {
+    //Stop si le formulaire n'est pas valide
+    if (this.AddAddrForm.invalid) {
+      this.submitted = false;
+    }
+    // Stop si le formulaire n'est pas correctement rempli
+    if (this.AddAddrForm.invalid) {
+      this.userUpdateData = false;
+      this.FormError = true;
+      this.FormErrorMessage = "Veuillez remplir correctement tous les champs marqués d'un *";
+      return;
+    } else {
+      this.FormError = false;
+      this.FormErrorMessage = "";
+    }
+
+    //désactive le bouton d'enregistrement
+    this.loading = true;
     //Appel au service addAddress pour envoyer les données
     this._userService.addAddress(this.currentUsername, this.AddAddrForm.value).subscribe(
       () => {
@@ -270,6 +287,9 @@ export class EditAddressComponent implements OnInit {
       (data) => {
         //récupère la liste de toutes les adresse à jour
         this.getAllShippingsAddress();
+        this.addressType=this.myShipAddr[0].addressType;
+        this.SetAddressByDefault(this.myShipAddr[1].shippingID);
+        this.ngOnInit();
       },
       (error) => {
         console.log(error);
@@ -281,6 +301,9 @@ export class EditAddressComponent implements OnInit {
       (data) => {
         //récupère la liste de toutes les adresse à jour
         this.getAllBillingsAddress();
+        this.addressType=this.myBillAddr[0].addressType;
+        this.SetAddressByDefault(this.myBillAddr[1].billingID);
+        this.ngOnInit();
       },
       (error) => {
         console.log(error);

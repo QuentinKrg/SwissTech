@@ -14,7 +14,7 @@
     <!-- Calendrier pour filter par date -->
     <div class="col-md-4 col-sm-12">
         <label class="control-label h6 text-dark" for="selectDate">Filtrer par date</label>
-        <input id="selectDate" #myDate class="form-control" placeholder="Choisir une date" type="date"
+        <input id="selectDate" #myDate class="form-control input-border-bottom" placeholder="Choisir une date" type="date"
             (change)="filteredByDate(myDate.value)">
     </div>
 </div>
@@ -84,10 +84,8 @@
                             <td class="align-middle" >
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        
-                                            <img src="{{imageUrl}}{{details.ImagePath}}" alt="" width="100"
+                                            <img src="{{imageUrl}}{{details.ImagePath}}" alt=""
                                                 class="img-fluid rounded shadow-sm">
-                                        
                                     </div>
                                     <div class="col-sm d-flex align-items-center">
                                         <a [routerLink]="['/product-details', details.id_Product]" 

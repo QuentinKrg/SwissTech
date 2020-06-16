@@ -10,7 +10,7 @@ ngb-pagination ::ng-deep a {
       color: rgb(253, 253, 253) !important;
       font-weight: bold;
     border-color: rgb(230, 227, 227);
-    background-color: #343a40;
+    background-color: #dc3545;
   }
   
   ngb-pagination ::ng-deep .page-item.active .page-link:focus, .page-link:not(:disabled):not(.disabled):active:focus {

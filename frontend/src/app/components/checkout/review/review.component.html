@@ -1,16 +1,14 @@
 <div class="row bg-light ">
     <div class="col-md-12 ">
         <!-- liste des articles -->
-        <tbody *ngFor="let product of allProducts">
-            <div class="mb-3">
-                <tr>
-                    <td class="align-middle">
+        <tbody >
+            <tr *ngFor="let product of allProducts">
+                <a [routerLink]="['/product-details', product.id_Product]">
+                    <td class="align-middle" >
                         <div class="row">
-                            <div class="col-sm-3 ">
-                                <a [routerLink]="['/product-details', product.id_Product]">
-                                    <img src="{{imageUrl}}{{product.ImagePath}}" alt="" width="70"
+                            <div class="col-sm-3">
+                                    <img src="{{imageUrl}}{{product.ImagePath}}" alt=""
                                         class="img-fluid rounded shadow-sm">
-                                </a>
                             </div>
                             <div class="col-sm d-flex align-items-center">
                                 <a [routerLink]="['/product-details', product.id_Product]" 
@@ -19,10 +17,9 @@
                             </div>
                         </div>
                     </td>
-                    <td class="border-0  text-right"><strong>CHF {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong></td>
-                </tr>
-            </div>
-            
+                </a>
+                <td class="align-middle text-center"><strong>CHF {{(product.ProductUnitPrice*getQuantityOfProduct(product).Quantity).toFixed(2)}}</strong></td>
+            </tr>
         </tbody>
         <!-- Sous-total / livraison -->
         <tbody class="border-top">

@@ -16,7 +16,7 @@
                 <div class="col-sm-8">
                     <select class="form-control" id="CustomerTitle" formControlName="CustomerTitle"
                         [ngClass]="{ 'is-invalid': submitted && f2.CustomerTitle.errors || f2.CustomerTitle.touched && f2.CustomerTitle.errors}">
-                        <option [value]="-1" disabled>choisir le Titre</option>
+                        <option [selected]="true" [value]="-1" disabled>choisir le Titre</option>
                         <option [value]="1">Mr</option>
                         <option [value]="2">Mme</option>
                         <option [value]="3">Non Binaire</option>

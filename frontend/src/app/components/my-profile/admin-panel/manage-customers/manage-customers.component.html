@@ -21,13 +21,13 @@
   <!-- Recherche par nom d'utilisateur -->
   <div class="col-md-6 col-sm-12">
     <label class="control-label" for="selectUsername">Filtrer par nom d'utilisateur</label>
-    <input id="selectUsername" class="form-control" placeholder="Rechercher un nom d'utilisateur" type="text"
+    <input id="selectUsername" class="form-control input-border-bottom input-border-bottom" placeholder="Rechercher un nom d'utilisateur" type="text"
       [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
   </div>
   <!-- Liste des status d'un utilisateur -->
   <div class="col-md-6 col-sm-12">
     <label class="control-label" for="selectStatus">Filtrer par statut</label>
-    <select class="form-control" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
+    <select class="form-control input-border-bottom" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
       <option value="-1" selected>Les deux</option>
       <option value="1">Actif</option>
       <option value="0">Innactif</option>
@@ -115,7 +115,7 @@
       <div class="form-group row">
         <label for="FK_Title" class="col-sm-5 col-form-label">Titre</label>
         <div class="col-sm-7">
-          <select class="form-control" formControlName="FK_Title" autofocus>
+          <select class="form-control input-border-bottom" formControlName="FK_Title" autofocus>
             <option value="" selected disabled>Veuillez choisir</option>
             <option value="2">Mme</option>
             <option value="1">Mr</option>
@@ -128,7 +128,7 @@
       <div class="form-group row">
         <label class="col-sm-5 col-form-label" for="CustomerName">Prénom *</label>
         <div class="col-sm-7">
-          <input type="text" maxlength="100" formControlName="CustomerName" class="form-control"
+          <input type="text" maxlength="100" formControlName="CustomerName" class="form-control input-border-bottom"
             [ngClass]="{ 'is-invalid': submitted && f.CustomerName.errors || f.CustomerName.touched && f.CustomerName.errors}" />
         </div>
         <div class="invalid-feedback" *ngIf=" f.CustomerName.hasError('pattern')">
@@ -139,7 +139,7 @@
       <div class="form-group row">
         <label class="col-sm-5 col-form-label" for="CustomerLastName">Nom *</label>
         <div class="col-sm-7">
-          <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control"
+          <input type="text" maxlength="100" formControlName="CustomerLastName" class="form-control input-border-bottom"
             [ngClass]="{ 'is-invalid': submitted && f.CustomerLastName.errors || f.CustomerLastName.touched && f.CustomerLastName.errors}" />
         </div>
         <div class="invalid-feedback" *ngIf="submitted && f.CustomerLastName.hasError('pattern')">
@@ -150,7 +150,7 @@
       <div class="form-group row">
         <label class="col-sm-5 col-form-label" for="CustomerBirthday">Date de naissance *</label>
         <div class="col-sm-7">
-          <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control"
+          <input onfocus="(this.type='date')" type="text" formControlName="CustomerBirthday" class="form-control input-border-bottom"
             placeholder=""
             [ngClass]="{ 'is-invalid': submitted && f.CustomerBirthday.errors || f.CustomerBirthday.touched && f.CustomerBirthday.errors}" />
         </div>
@@ -159,7 +159,7 @@
       <div class="form-group row">
         <label for="Username" class="col-sm-5 col-form-label">Nom d'utilisateur *</label>
         <div class="col-sm-7">
-          <input type="text" formControlName="Username" class="form-control" (keyup.tab)="isUserAvailable()"
+          <input type="text" formControlName="Username" class="form-control input-border-bottom" (keyup.tab)="isUserAvailable()"
             (blur)="isUserAvailable()" id="Username"
             [ngClass]="{ 'is-invalid': !isUserValid || submitted && f.Username.errors ||f.Username.touched && f.Username.errors || f.Username.hasError('pattern')}" />
           <div *ngIf=" f.Username.hasError('pattern')" class="invalid-feedback">
@@ -172,7 +172,7 @@
       <div class="form-group row">
         <label class="col-sm-5 col-form-label" for="CustomerEmail">E-mail *</label>
         <div class="col-sm-7">
-          <input type="CustomerEmail" formControlName="CustomerEmail" class="form-control"
+          <input type="CustomerEmail" formControlName="CustomerEmail" class="form-control input-border-bottom"
             placeholder="exemple@domaine.com"
             [ngClass]="{ 'is-invalid': submitted && f.CustomerEmail.errors || f.CustomerEmail.touched && f.CustomerEmail.errors}" />
         </div>
@@ -185,7 +185,7 @@
       <div class="form-group row">
         <label class="col-sm-5 col-form-label" for="CustomerPhone">Téléphone privé *</label>
         <div class="col-sm-7">
-          <input type="phone" formControlName="CustomerPhone" class="form-control"
+          <input type="phone" formControlName="CustomerPhone" class="form-control input-border-bottom"
             placeholder="Par exemple: +41 12 345 67 89"
             [ngClass]="{ 'is-invalid': submitted && f.CustomerPhone.errors ||
            f.CustomerPhone.touched && f.CustomerPhone.errors || f.CustomerPhone.touched && f.CustomerPhone.hasError('pattern')}" />
@@ -220,7 +220,7 @@
         </button> </div>
       <div class="form-group">
         <label class="control-label h6" for="selectAddress">Adresse de livraison</label>
-        <select class="form-control" #selectAddress id="selectAddress"
+        <select class="form-control input-border-bottom" #selectAddress id="selectAddress"
           (change)="onShipAddressChange(selectAddress.value)">
           <option value="-1" [selected]="!editShipAddress" disabled>Choisir une adresse</option>
           <option [selected]="editShipAddress" *ngFor="let shipaddr of myShipAddr" id="optionSelected"
@@ -234,7 +234,7 @@
         <div class="form-group row">
           <label for="CustomerTitle" class="col-sm-4 col-form-label">Titre</label>
           <div class="col-sm-8">
-            <select class="form-control" id="CustomerTitle" formControlName="CustomerTitle"
+            <select class="form-control input-border-bottom" id="CustomerTitle" formControlName="CustomerTitle"
               [ngClass]="{ 'is-invalid': submitted && f2.CustomerTitle.errors || f2.CustomerTitle.touched && f2.CustomerTitle.errors}">
               <option [value]="-1" disabled>choisir le Titre</option>
               <option [value]="1">Mr</option>
@@ -247,7 +247,7 @@
         <div class="form-group row">
           <label for="FullName" class="col-sm-4 col-form-label">Destinataire</label>
           <div class="col-sm-8">
-            <input id="FullName" type="text" formControlName="FullName" class="form-control"
+            <input id="FullName" type="text" formControlName="FullName" class="form-control input-border-bottom"
               [ngClass]="{ 'is-invalid': submitted && f2.FullName.errors || f2.FullName.touched && f2.FullName.errors}" />
           </div>
         </div>
@@ -255,7 +255,7 @@
         <div class="form-group row">
           <label for="shippingAddress" class="col-sm-4 col-form-label">Adresse</label>
           <div class="col-sm-8">
-            <input type="shippingAddress" class="form-control" formControlName="shippingAddress" id="shippingAddress"
+            <input type="shippingAddress" class="form-control input-border-bottom" formControlName="shippingAddress" id="shippingAddress"
               placeholder="Rue, n°"
               [ngClass]="{ 'is-invalid': submitted && f2.shippingAddress.errors || f2.shippingAddress.touched && f2.shippingAddress.errors}">
           </div>
@@ -264,13 +264,13 @@
         <div class="form-group row">
           <label for="shippingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
           <div class="col-sm-5">
-            <input type="shippingCity" class="form-control" formControlName="shippingCity" id="shippingCity"
+            <input type="shippingCity" class="form-control input-border-bottom" formControlName="shippingCity" id="shippingCity"
               placeholder="Ville"
               [ngClass]="{ 'is-invalid': submitted && f2.shippingCity.errors  || f2.shippingCity.touched && f2.shippingCity.errors}">
           </div>
           <!-- NPA-->
           <div class="col-sm-3">
-            <input type="shippingZip" class="form-control" formControlName="shippingZip" id="shippingZip"
+            <input type="shippingZip" class="form-control input-border-bottom" formControlName="shippingZip" id="shippingZip"
               placeholder="NPA" [ngClass]="{ 'is-invalid': submitted && f2.shippingZip.errors ||
                     f2.shippingZip.errors && f2.shippingZip.hasError('pattern') || f2.shippingZip.touched && f2.shippingZip.errors ||
                    f2.shippingZip.touched && f2.shippingZip.hasError('minLength')}">
@@ -286,7 +286,7 @@
 
       <div class="form-group">
         <label class="control-label h6" for="selectBillAddress">Adresse de Facuration</label>
-        <select class="form-control" #selectBillAddress id="selectBillAddress"
+        <select class="form-control input-border-bottom" #selectBillAddress id="selectBillAddress"
           (change)="onBillAddressChange(selectBillAddress.value)">
           <option value="-1" [selected]="!editBillAddress" disabled>Choisir une adresse</option>
           <option [selected]="editBillAddress" *ngFor="let Billaddr of myBillAddr" id="optionSelected"
@@ -300,7 +300,7 @@
         <div class="form-group row">
           <label for="CustomerTitle" class="col-sm-4 col-form-label">Titre</label>
           <div class="col-sm-8">
-            <select class="form-control" id="CustomerTitle" formControlName="CustomerTitle"
+            <select class="form-control input-border-bottom" id="CustomerTitle" formControlName="CustomerTitle"
               [ngClass]="{ 'is-invalid': submitted && f2.CustomerTitle.errors || f2.CustomerTitle.touched && f2.CustomerTitle.errors}">
               <option [value]="-1" disabled>choisir le Titre</option>
               <option [value]="1">Mr</option>
@@ -312,7 +312,7 @@
         <!-- Destinataire-->
         <div class="form-group row">
           <label for="FullName" class="col-sm-4 col-form-label">Destinataire</label>
-          <div class="col-sm-8"><input id="FullName" type="text" formControlName="FullName" class="form-control"
+          <div class="col-sm-8"><input id="FullName" type="text" formControlName="FullName" class="form-control input-border-bottom"
               [ngClass]="{ 'is-invalid': submitted && f2.FullName.errors || f2.FullName.touched && f2.FullName.errors}" />
           </div>
         </div>
@@ -320,7 +320,7 @@
         <div class="form-group row">
           <label for="billingAddress" class="col-sm-4 col-form-label">Adresse</label>
           <div class="col-sm-8">
-            <input type="billingAddress" class="form-control" formControlName="billingAddress" id="billingAddress"
+            <input type="billingAddress" class="form-control input-border-bottom" formControlName="billingAddress" id="billingAddress"
               placeholder="Rue, n°"
               [ngClass]="{ 'is-invalid': submitted && f2.billingAddress.errors ||f2.billingAddress.touched && f2.billingAddress.errors}">
           </div>
@@ -329,13 +329,13 @@
           <!-- Ville-->
           <label for="billingCity" class="col-sm-4 col-form-label">Ville / NPA</label>
           <div class="col-sm-5">
-            <input type="billingCity" class="form-control" formControlName="billingCity" id="billingCity"
+            <input type="billingCity" class="form-control input-border-bottom" formControlName="billingCity" id="billingCity"
               placeholder="Ville"
               [ngClass]="{ 'is-invalid': submitted && f2.billingCity.errors ||f2.billingCity.touched && f2.billingCity.errors }">
           </div>
           <!-- NPA-->
           <div class="col-sm-3">
-            <input type="billingZip" class="form-control" formControlName="billingZip" id="billingZip" placeholder="NPA"
+            <input type="billingZip" class="form-control input-border-bottom" formControlName="billingZip" id="billingZip" placeholder="NPA"
               [ngClass]="{ 'is-invalid': submitted && f.billingZip.errors ||
                                          f2.billingZip.touched && f2.billingZip.hasError('pattern')
                                          || f2.billingZip.touched && f2.billingZip.errors ||

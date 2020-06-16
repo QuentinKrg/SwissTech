@@ -539,7 +539,8 @@ class Customer extends Entity
         $sql = "UPDATE
         t_address
         SET
-        t_address.isActive = '0'
+        t_address.isActive = '0',
+		t_address.isDefault = '0'
         WHERE t_address.id_Address = '$id'";
 
         // Exécution de la requête
