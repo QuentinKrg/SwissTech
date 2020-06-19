@@ -4,16 +4,15 @@
             <ol class="breadcrumb bg-light p-4">
                 <li class="breadcrumb-item"><a  routerLink="/" title="Accueil">Accueil</a></li>
                 <li class="breadcrumb-item "><a routerLink="/myprofile/editprofile" title="Mon profile">Mon profile</a></li> 
-                <li class="breadcrumb-item "><a routerLink="/myprofile/myorders" title="Mes commandes">Mes Commandes</a></li> 
+                <li class="breadcrumb-item h4"><a routerLink="/myprofile/myorders" title="Mes commandes">Mes Commandes</a></li> 
             </ol>
         </nav>
     </div>
 </div>
-<h2 class="p-3 text-center">Mes commandes</h2>
 <div class="row py-2">
     <!-- Calendrier pour filter par date -->
     <div class="col-md-4 col-sm-12">
-        <label class="control-label h6 text-dark" for="selectDate">Filtrer par date</label>
+        <label class="control-label h6 text-muted ml-2" for="selectDate">Filtrer par date</label>
         <input id="selectDate" #myDate class="form-control input-border-bottom" placeholder="Choisir une date" type="date"
             (change)="filteredByDate(myDate.value)">
     </div>
@@ -21,7 +20,7 @@
 <!-- Tableau -->
 <div class="row" *ngIf="myOrders">
     <div class="col-12">
-        <div class="table-responsive rounded border border-top-0 border-dark">
+        <div class="table-responsive rounded shadow-sm">
             <table class="table table-hover">
                 <!-- Label du tableau -->
                 <thead class="thead-dark">

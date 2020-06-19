@@ -1,10 +1,20 @@
-<h2 class="p-3 text-center">Mon Panier</h2>
+<div class="row pb-3">
+    <div class="col-12">
+        <nav>
+            <ol class="breadcrumb bg-light p-4">
+                <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
+                <li class="breadcrumb-item h5 "><a routerLink="/cart" title="Mon Panier">Mon Panier</a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <div class="row">
     <div class="col-12">
         <div *ngIf="cart.length > 0; then tbody else noValue"></div>
         <!-- Si le panier n'est pas vide-->
         <ng-template #tbody>
-            <div class="table-responsive rounded border border-top-0 border-dark">
+            <div class="table-responsive rounded shadow-sm">
                 <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -38,13 +48,13 @@
                                     </div>
                                 </th>
                                 <td class="border-0 align-middle d-none d-lg-table-cell">
-                                    <a class="mr-3" (click)="onRemoveProduct(product.id_Product)">
-                                        <fa-icon [icon]="faTimesCircle" size="md" class="text-danger"></fa-icon></a>
-                                    <a class="mr-2" (click)="onUpdateQuantity(0, product.id_Product)">
-                                        <fa-icon [icon]="faMinusCircle" size="md" class="text-dark"></fa-icon></a>
-                                    <strong class="mr-2"><span>{{getQuantityOfProduct(product).Quantity}}</span></strong>
-                                    <a class="mr-1" (click)="onUpdateQuantity(1, product.id_Product)">
-                                        <fa-icon [icon]="faPlusCircle" size="md" class="text-dark"></fa-icon></a>
+                                        <a class="mr-3" (click)="onRemoveProduct(product.id_Product)">
+                                            <fa-icon [icon]="faTimesCircle" size="md" class="text-danger"></fa-icon></a>
+                                        <a class="mr-2" (click)="onUpdateQuantity(0, product.id_Product)">
+                                            <fa-icon [icon]="faMinusCircle" size="md" class="text-dark"></fa-icon></a>
+                                        <strong class="mr-2"><span>{{getQuantityOfProduct(product).Quantity}}</span></strong>
+                                        <a class="mr-1" (click)="onUpdateQuantity(1, product.id_Product)">
+                                            <fa-icon [icon]="faPlusCircle" size="md" class="text-dark"></fa-icon></a>
                                 </td>
                                 <td class="border-0 align-middle"><strong>CHF {{product.ProductUnitPrice}}</strong></td>
                                 <td class="border-0 align-middle"><strong>CHF
@@ -55,14 +65,14 @@
                 </table>
             </div>
             <!-- Total -->
-            <div class="row text-right mr-3">
+            <div class="row text-right m-3">
                 <div class="col-12">
                     <h5 class="text-dark">Total : CHF {{total.toFixed(2)}} </h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-12">
-                    <a routerLink="/checkout/information" class="btn btn-secondary">Continuer vers le paiement</a>
+                    <button routerLink="/checkout/information" class="btn btn-secondary">Continuer vers le paiement</button>
                 </div>
             </div>
         </ng-template>

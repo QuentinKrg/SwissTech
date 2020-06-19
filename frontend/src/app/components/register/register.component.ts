@@ -239,10 +239,6 @@ export class RegisterComponent implements OnInit {
     }
     // ----------------------------/Captcha-----------------------------------
 
-    //Stop si le formulaire n'est pas valide
-    if (this.registerForm.invalid) {
-      this.submitted = false;
-    }
     // Stop si le formulaire n'est pas correctement rempli
     if (this.registerForm.invalid) {
       return;

@@ -5,9 +5,7 @@ import { Product } from 'src/app/models/product';
 import { Comments } from 'src/app/models/comments';
 import { CommentsService } from 'src/app/services/comments.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { formatDate } from '@angular/common';
 import { User } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +19,8 @@ import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 export class ProductDetailsComponent implements OnInit {
   //Icones
   faSyncAlt =faSyncAlt;
+
+  //VAriables
   currentUser: User;
   product: Product;
   productId: number;
