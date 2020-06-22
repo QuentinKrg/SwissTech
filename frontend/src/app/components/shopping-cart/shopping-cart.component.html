@@ -1,9 +1,9 @@
 <div class="row pb-3">
     <div class="col-12">
         <nav>
-            <ol class="breadcrumb bg-light p-4">
+            <ol class="breadcrumb bg-light p-4 border-0 shadow">
                 <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
-                <li class="breadcrumb-item h5 "><a routerLink="/cart" title="Mon Panier">Mon Panier</a>
+                <li class="breadcrumb-item font-weight-bold "><a routerLink="/cart" title="Mon Panier">Mon Panier</a>
                 </li>
             </ol>
         </nav>
@@ -72,14 +72,14 @@
             </div>
             <div class="row text-center">
                 <div class="col-12">
-                    <button routerLink="/checkout/information" class="btn btn-secondary">Continuer vers le paiement</button>
+                    <button routerLink="/checkout/information" class="btn btn-danger text-white">Continuer vers le paiement</button>
                 </div>
             </div>
         </ng-template>
         <!-- Si le panier est vide-->
         <ng-template #noValue>
             <h5 class="text-dark mt-2">Le panier est vide.</h5>
-            <a routerLink="/home" class="btn btn-info">Nos produits</a>
+            <a routerLink="/home" class="btn btn-danger text-white">Nos produits</a>
         </ng-template>
     </div>
     

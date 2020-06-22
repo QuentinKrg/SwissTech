@@ -1,0 +1,10 @@
+a {
+    font-size: 17px;
+    text-decoration: none;
+    color: black;
+}
+
+ a:hover {
+    color: #dc3545;
+    cursor: pointer;
+}

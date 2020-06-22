@@ -1,11 +1,11 @@
 <div class="row pb-3">
     <div class="col-12">
         <nav>
-            <ol class="breadcrumb bg-light p-4">
+            <ol class="breadcrumb bg-light p-4 shadow border-0">
                 <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
                 <li class="breadcrumb-item "><a routerLink="/myprofile/editprofile" title="Mon profile">Mon profile</a>
                 </li>
-                <li class="breadcrumb-item "><a routerLink="/myprofile/editpersonalinfos" title="Mes Coordonnées">Mes
+                <li class="breadcrumb-item font-weight-bold"><a routerLink="/myprofile/editpersonalinfos" title="Mes Coordonnées">Mes
                     Coordonnées</a></li>
             </ol>
         </nav>
@@ -16,7 +16,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form row justify-content-md-center">
     <div class="col-md-7">
         <!--champs du formulaire:-->
-        <div class="p-4 shadow">
+        <div class="p-4 shadow bg-light">
             <h5 class="mb-5 text-dark ">Mes coordonnées </h5>
             <!-- Titre-->
             <div class="form-group">
@@ -80,7 +80,7 @@
         </div>
         <!--Fin et envoi du formulaire-->
         <div class="form-group pb-3 mt-3 text-center">
-            <button [disabled]="loading" class="btn btn-primary btn-lg w-60 ">
+            <button [disabled]="loading" class="btn btn-danger text-white btn-lg w-60 ">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Enregistrer
             </button>
