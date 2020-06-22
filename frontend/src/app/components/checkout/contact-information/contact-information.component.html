@@ -66,15 +66,17 @@
 
 <!-- Mode d'expédition -->
 <h5>Mode d'expédition</h5>
-<p class="text-muted">Toutes les livraisons se font par la poste et sont <strong>gratuites</strong></p>
+<p class="text-muted pb-5">Toutes les livraisons se font par la poste et sont <strong>gratuites</strong></p>
 
 <!-- Bouttons de navigations -->
-<div class="row mt-5 fixed-bottom ">
-    <a class="col-md-5" routerLink="/cart">
-        <span>Retour au panier</span>
-    </a>
+<div class="row pb-3 pt-5 px-3 fixed-bottom">
+    <div class="col-md-5">
+        <a routerLink="/cart">
+            <span>Retour au panier</span>
+        </a>
+    </div>
     <div class="col-md-7 text-right">
-        <button type="button" class="btn btn-secondary" (click)="onSubmitAddress(selectAddress.value)">Continuer vers le
+        <button type="button" class="btn btn-danger text-white" (click)="onSubmitAddress(selectAddress.value)">Continuer vers le
             paiement</button>
     </div>
 </div>

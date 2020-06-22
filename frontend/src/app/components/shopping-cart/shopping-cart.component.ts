@@ -79,6 +79,7 @@ faTimesCircle=faTimesCircle;
       this.cart.forEach((element, index) => {
         if(element.id_Product == productId)
         {
+          // Ajout d'une quantité de 1
           if(this.cart[index].Quantity < 99) {
             this.cart[index].Quantity = element.Quantity + 1;
           }
@@ -89,6 +90,11 @@ faTimesCircle=faTimesCircle;
       this.cart.forEach((element, index) => {
         if(element.id_Product == productId)
         {
+          // Si il n'y a qu'un seul élément et qu'on appuie sur "-", remove de l'objet
+          if(this.cart[index].Quantity == 1) {
+            this.onRemoveProduct(productId);
+          }
+          // S'il y a plus de 1 articles, soustraire la quantité de 1
           if(this.cart[index].Quantity > 1) {
             this.cart[index].Quantity = element.Quantity - 1;
           }

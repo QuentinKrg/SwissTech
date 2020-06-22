@@ -2,66 +2,72 @@
     <div class="col-sm-12 col-md-3">
         <h5 class="p-2">Catégories</h5>
         <ul class="list-group">
-            <li class="list-group-item py-2 bg-dark text-white" *ngIf="previousCat" (click)="goToPreviousCat(previousCat.id)">Revenir à {{previousCat.CategoryName}}</li>
-            <li class="list-group-item py-2" *ngFor="let subCat of allSubCat" (click)="filterByCat(subCat.id)">{{subCat.CategoryName}}</li>
+            <a><li class="list-group-item py-2 bg-dark text-white" *ngIf="previousCat" (click)="goToPreviousCat(previousCat.id)">Revenir à {{previousCat.CategoryName}}</li></a>
+            <a><li class="list-group-item py-2" *ngFor="let subCat of allSubCat" (click)="filterByCat(subCat.id)">{{subCat.CategoryName}}</li></a>
         </ul>
         <h5 class="p-2">Filtres</h5>
 
         <!-- Selection d'un prix-->
-        <ul class="list-group">
-            <li class="list-group-item py-2 bg-dark text-white" data-toggle="collapse" data-target="#price">Prix</li>
-            <div id="price" class="collapse bg-light">
-                <div class="row m-1 justify-content-center">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="minPrice">Min :</label>
-                            <input type="number" class="form-control" id="minPrice" [(ngModel)]="minPrice" placeholder="{{minPrice}}" max="{{maxPrice}}" min="{{minPriceToNotChange}}" >
+        <a>
+            <ul class="list-group">
+                <li class="list-group-item py-2 bg-dark text-white" data-toggle="collapse" data-target="#price">Prix</li>
+                <div id="price" class="collapse bg-light">
+                    <div class="row m-1 justify-content-center">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="minPrice">Min :</label>
+                                <input type="number" class="form-control" id="minPrice" [(ngModel)]="minPrice" placeholder="{{minPrice}}" max="{{maxPrice}}" min="{{minPriceToNotChange}}" >
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="maxPrice">Max :</label>
+                                <input type="number" class="form-control" id="maxPrice"  [(ngModel)]="maxPrice" placeholder="{{maxPrice}}" max="{{maxPriceToNotChange}}" min="{{minPrice}}">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="maxPrice">Max :</label>
-                            <input type="number" class="form-control" id="maxPrice"  [(ngModel)]="maxPrice" placeholder="{{maxPrice}}" max="{{maxPriceToNotChange}}" min="{{minPrice}}">
+                    <div class="row m-1  justify-content-center">
+                        <div class="col-12">
+                            <button class="btn btn-secondary"(click)="filterByPriceRange()">Rerchercher</button>
                         </div>
                     </div>
                 </div>
-                <div class="row m-1  justify-content-center">
-                    <div class="col-12">
-                        <button class="btn btn-secondary"(click)="filterByPriceRange()">Rerchercher</button>
-                    </div>
-                </div>
-            </div>
-        </ul>
+            </ul>
+        </a>
 
         <!-- Selection d'une marque-->
-        <ul class="list-group pt-2">
-            <li class="list-group-item py-2 bg-dark text-white" data-toggle="collapse" data-target="#brand">Marque</li>
-            <div id="brand" class="collapse bg-light">
-                <div class="row m-1  justify-content-center">
-                    <div class="col-12">
-                        <select class="form-control" [(ngModel)]="selectedBrand" (change)="filterByBrand()">
-                            <option value="-1" selected hidden>Marque</option>
-                            <option *ngFor="let manufacturer of allManufacturers" value="{{manufacturer.id_Manufacturer}}">{{manufacturer.ManufacturerName}}</option>
-                        </select>                         
+        <a>
+            <ul class="list-group pt-2">
+                <li class="list-group-item py-2 bg-dark text-white" data-toggle="collapse" data-target="#brand">Marque</li>
+                <div id="brand" class="collapse bg-light">
+                    <div class="row m-1  justify-content-center">
+                        <div class="col-12">
+                            <select class="form-control" [(ngModel)]="selectedBrand" (change)="filterByBrand()">
+                                <option value="-1" selected hidden>Marque</option>
+                                <option *ngFor="let manufacturer of allManufacturers" value="{{manufacturer.id_Manufacturer}}">{{manufacturer.ManufacturerName}}</option>
+                            </select>                         
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ul>
+            </ul>
+        </a>
 
-        <!-- Selection d'une couleur-->
-        <ul class="list-group pt-2 pb-4">
-            <li class="list-group-item py-2 bg-dark text-white" data-toggle="collapse" data-target="#color">Couleur</li>
-            <div id="color" class="collapse bg-light">
-                <div class="row m-1  justify-content-center">
-                    <div class="col-12">
-                        <select class="form-control" [(ngModel)]="selectedColor" (change)="filterByColor()">
-                            <option value="-1" selected hidden>Couleur</option>
-                            <option *ngFor="let color of allColors" value="{{color.id_color}}">{{color.ProductColor}}</option>
-                        </select>
+        <!-- Selection d'une couleur--> 
+        <a>
+            <ul class="list-group pt-2 pb-4">
+                <li class="list-group-item py-2 bg-dark text-white" data-toggle="collapse" data-target="#color">Couleur</li>
+                <div id="color" class="collapse bg-light">
+                    <div class="row m-1  justify-content-center">
+                        <div class="col-12">
+                            <select class="form-control" [(ngModel)]="selectedColor" (change)="filterByColor()">
+                                <option value="-1" selected hidden>Couleur</option>
+                                <option *ngFor="let color of allColors" value="{{color.id_color}}">{{color.ProductColor}}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ul>
+            </ul>
+        </a>
 
     </div>
     <div class="col-sm-12 col-md-9">

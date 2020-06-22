@@ -1,11 +1,9 @@
 i {
-  vertical-align: middle; }
+  vertical-align: middle;
+}
 
 .cursorPointer {
   cursor: pointer; }
-
-body {
-  background-color: #f0efef; }
 
 header {
   height: 120px; }
@@ -37,6 +35,7 @@ body {
   margin: 0;
   position: relative;
   padding-top: 1.33em;
+ 
 }
 
 body::after {
@@ -47,7 +46,7 @@ body::after {
 
 
 @media screen and (max-width: 768px) {
-  body::after{ content:''; display:block; height:600px; }
+  body::after{ content:''; display:block; height:700px; }
 }
 
 /*# sourceMappingURL=styles.css.map */

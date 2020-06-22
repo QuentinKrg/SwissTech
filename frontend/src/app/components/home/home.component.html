@@ -36,7 +36,7 @@
                 </a>
             </div>
             <!-- Recommendations-->
-            <div class="col-12 p-md-0">
+            <div class="col-12 p-md-0 mb-4">
                 
                 <h3 class="text-muted"> Nos recommendations </h3>
                 <div class="row">
@@ -44,11 +44,73 @@
                 </div>
             </div>
 
+            <!-- A propos de swisstech-->
+            <div class="col-12 px-md-0 mt-4 py-3 text-center bg-light shadow border-0">
+                <h5 class="text-muted text-uppercase"> à propos </h5>
+                <h1 style="color:#dc3545">Swisstech</h1>
+                <p class="text-muted">Swisstech.store est le site de référence dans la vente en ligne. <br> Notre ambition est de proposer un catalogue varié pour toutes les personnes qui voudraient acquérir un objet du quotidien simplement.</p>
+            </div>
+
             <!-- Nos marques-->
-            <div class="col-12 px-md-0 pt-5">
+            <div class="col-12 px-md-0 pt-5 mb-4">
                 <h3 class="text-muted"> Découvrez nos meilleures marques </h3>
                 <div class="row">
                     <app-product-card *ngFor="let product of recommendationList" [productData]="product" class="col-md-3 col-sm-12 pt-3"></app-product-card>
+                </div>
+            </div>
+
+            <!-- A propos de l'équipe-->
+            <div class="col-12 px-md-0 mt-4 py-3 text-center">
+                <h3 class="text-muted text-uppercase pb-2"> Notre équipe </h3>
+                <div class="row  pb-2 ">
+                    <!-- Quentin Krenger-->
+                    <div class="col-md-6 col-sm-12">
+                        <div class="card border-0 shadow">
+                            <div class="card-body text-center">
+                                <!-- Photo-->
+                                <p>
+                                    <img class=" img-fluid"  width="256" src="/assets/images/logo_quentin_krenger.jpeg"/>
+                                </p>
+                                <!-- Role-->
+                                <h4 class="card-title">Quentin Krenger</h4>
+                                <p class="font-weight-bold">Web Developer</p>
+
+                                <!-- Description-->
+                                <p class="card-text">Apprenti informaticien en 3ème année, employé à la Loterie Romande depuis 2017.</p>
+
+                                <!-- Social netword-->
+                                <p >
+                                    <a href="https://www.instagram.com/quent1.ch/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/instagram.svg"></a>
+                                    <a href="https://www.linkedin.com/in/quentin-krenger-44691018a/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/linkedin.svg"></a>
+                                    <a href="https://github.com/QuentinKrg" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/github.svg"></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Winston Meisen-->
+                    <div class="col-md-6 col-sm-12">
+                        <div class="card border-0 shadow">
+                            <div class="card-body text-center">
+                                <!-- Photo-->
+                                <p>
+                                    <img class=" img-fluid"  width="256" src="/assets/images/logo_winston_meisen.jpeg"/>
+                                </p>
+                                <!-- Role-->
+                                <h4 class="card-title">Winston Meisen</h4>
+                                <p class="font-weight-bold">Web Developer</p>
+
+                                <!-- Description-->
+                                <p class="card-text">Apprenti informaticien en 3ème année, employé au Casino Barrière Montreux depuis 2017.</p>
+
+                                <!-- Social netword-->
+                                <p >
+                                    <a href="https://www.instagram.com/winstonmeisen/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/instagram.svg"></a>
+                                    <a href="https://www.linkedin.com/in/winston-meisen-79b0a1189/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/linkedin.svg"></a>
+                                    <a href="https://github.com/wmeisen" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/github.svg"></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
     </div>
