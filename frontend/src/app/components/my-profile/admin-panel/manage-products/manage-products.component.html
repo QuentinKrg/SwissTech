@@ -17,12 +17,12 @@
 <!-- Filtres de recherches -->
 <div class="row">
     <!-- Recherche par nom d'article -->
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-6 col-sm-10">
         <label class="control-label" for="selectProduct">Filtrer par nom d'article</label>
         <input id="selectProduct" class="form-control input-border-bottom" placeholder="Rechercher un nom d'article" type="text" [(ngModel)]="filterText" (keyup)="filteredByText($event.target.value)">
     </div>
     <!-- L'article est il artif ou non -->
-    <div class="col-md-6 col-sm-12" >
+    <div class="col-md-6 col-sm-10" >
         <label class="control-label" for="selectStatus">Filtrer par état</label>
         <select  class="form-control input-border-bottom" id="selectStatus" [(ngModel)]="selectedStatus" (change)="filteredByStatus()">
             <option value="-1" selected>Les deux</option>

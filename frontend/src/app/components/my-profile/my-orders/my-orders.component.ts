@@ -7,7 +7,6 @@ import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { PrintService } from 'src/app/services/print.service';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
-import { PaginationComponent } from '../../shared/pagination/pagination.component';
 
 @Component({
   selector: 'app-my-orders',

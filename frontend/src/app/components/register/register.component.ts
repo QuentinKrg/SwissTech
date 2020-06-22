@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
-
 import { UserService } from 'src/app/services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -22,7 +21,7 @@ export class RegisterComponent implements OnInit {
   faTimesCircle = faTimesCircle;
   faCheckCircle=faCheckCircle;
   
-  //Propriétés dus formulaire et validations
+  //Propriétés et Variables dus formulaire et validations
   registerForm: FormGroup;
   loading = false;
   submitted = false;
@@ -43,7 +42,6 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService
   ) { 
     if(this.authenticationService.currentUserValue != null) {
       this.router.navigate(['/']);

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductService } from 'src/app/services/product.service';
-import { AlertService } from 'src/app/services/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Categories } from 'src/app/models/categories';
 import { Product } from 'src/app/models/product';
@@ -27,7 +26,6 @@ export class ManageProductsComponent implements OnInit {
   constructor(
     private _categoriesService: CategoriesService,
     private _productService: ProductService,
-    private _alertService: AlertService,
     private _commentsService: CommentsService,
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder,

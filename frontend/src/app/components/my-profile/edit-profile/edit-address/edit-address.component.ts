@@ -40,7 +40,7 @@ export class EditAddressComponent implements OnInit {
   FormError:boolean;
   currentUsername = this._authenticationService.currentUserValue.login;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private _formBuilder: FormBuilder,
     private _userService: UserService,
     private _modalService: NgbModal,
     private _authenticationService: AuthenticationService
@@ -54,7 +54,7 @@ export class EditAddressComponent implements OnInit {
     this.submitted = false;
 
     //Création d'un active form pour l'ajout d'adresse
-    this.AddAddrForm = this.formBuilder.group({
+    this.AddAddrForm = this._formBuilder.group({
       CustomerTitle: ['-1', Validators.required],
       FullName: ['', Validators.required],
       addressType: ['', Validators.required],
@@ -63,7 +63,7 @@ export class EditAddressComponent implements OnInit {
       zip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
     });
     //Création d'un reactive form pour l'édition d'une adresse de livraison
-    this.editShippingAddrForm = this.formBuilder.group({
+    this.editShippingAddrForm = this._formBuilder.group({
       shippingID: [''],
       CustomerTitle: ['-1', Validators.required],
       FullName: ['', Validators.required],
@@ -72,7 +72,7 @@ export class EditAddressComponent implements OnInit {
       shippingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]]
     });
     //Création d'un reactive form pour l'édition d'une adresse de facturation
-    this.editBillingAddrForm = this.formBuilder.group({
+    this.editBillingAddrForm = this._formBuilder.group({
       billingID: [''],
       CustomerTitle: ['-1', Validators.required],
       FullName: ['', Validators.required],

@@ -11,11 +11,11 @@ import { Customer } from 'src/app/models/customer';
 export class EditProfileComponent implements OnInit {
 
   currentCustomer= new Customer;
-  currentUsername = this.authenticationService.currentUserValue.login;
+  currentUsername = this._authenticationService.currentUserValue.login;
 
   constructor(
     private _userService: UserService,
-    private authenticationService: AuthenticationService,
+    private _authenticationService: AuthenticationService,
   ) { }
 
 
