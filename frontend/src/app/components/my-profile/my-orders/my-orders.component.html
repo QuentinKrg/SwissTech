@@ -9,7 +9,14 @@
         </nav>
     </div>
 </div>
-<div class="row py-2">
+<!-- Si il n'y aucunes commandes-->
+<div class="row" *ngIf="!myOrders">
+    <div class="col-12">
+        <p>Aucune commande n'a été effectuée à ce jour. N'attendez plus !</p>
+        <a routerLink="/home" class="btn btn-danger text-white">Nos produits</a>
+    </div>
+</div>
+<div class="row py-2" *ngIf="myOrders">
     <!-- Calendrier pour filter par date -->
     <div class="col-md-4 col-sm-12">
         <label class="control-label h6 text-muted ml-2" for="selectDate">Filtrer par date</label>
