@@ -9,7 +9,7 @@
         </option>
     </select>
     <div *ngIf="newShipAddress" class="p-3">
-        <form [formGroup]="newAddressForm" (ngSubmit)="onSubmitAddress()">
+        <form [formGroup]="newAddressForm" (ngSubmit)="onSubmitAddress(newShipAddress)">
             <!-- Titre-->
             <div class="form-group row">
                 <label for="CustomerTitle" class="col-sm-4 col-form-label">Titre</label>

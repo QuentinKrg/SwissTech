@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpInterceptor, HttpRequest, HttpEvent, HttpHandler } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpEvent, HttpHandler, HttpHeaders} from '@angular/common/http';
 import { AuthenticationService } from '../services/authentication.service';
 import { Observable } from 'rxjs';
 
@@ -13,6 +13,8 @@ export class TokenInterceptor implements HttpInterceptor {
         
         var currentUser = this._authenticationService.currentUserValue;
         
+
+        
         if(currentUser && currentUser.token) {
             request = request.clone( {
                 setHeaders: {
@@ -24,6 +26,8 @@ export class TokenInterceptor implements HttpInterceptor {
                 
             });
         }
+
+        
         return next.handle(request);
     }
 }

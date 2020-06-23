@@ -10,7 +10,6 @@ import { Categories } from '../models/categories';
 export class CategoriesService {
 
   constructor(private http: HttpClient) {
-
   }
 
   getAllCategories() {
