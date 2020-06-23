@@ -1,5 +1,5 @@
 <div class="row pb-3">
-    <div class="col-12">
+    <div class="col-12 p-0">
         <nav>
             <ol class="breadcrumb bg-light p-4 border-0 shadow">
                 <li class="breadcrumb-item"><a routerLink="/" title="Accueil">Accueil</a></li>
@@ -10,7 +10,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-12 bg-white">
+    <div class="col-12 p-0 bg-white">
         <div *ngIf="cart.length > 0; then tbody else noValue"></div>
         <!-- Si le panier n'est pas vide-->
         <ng-template #tbody>
@@ -70,7 +70,7 @@
                     <h5 class="text-dark">Total : CHF {{total.toFixed(2)}} </h5>
                 </div>
             </div>
-            <div class="row text-center">
+            <div class="row text-center mb-2">
                 <div class="col-12">
                     <button routerLink="/checkout/information" class="btn btn-danger text-white">Continuer vers le paiement</button>
                 </div>
@@ -78,7 +78,7 @@
         </ng-template>
         <!-- Si le panier est vide-->
         <ng-template #noValue>
-            <h5 class="text-dark mt-2">Le panier est vide.</h5>
+            <h5 class="text-dark mt-2 mb-2">Le panier est vide.</h5>
             <a routerLink="/home" class="btn btn-danger text-white">Nos produits</a>
         </ng-template>
     </div>
