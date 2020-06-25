@@ -64,6 +64,7 @@ export class ProductsComponent implements OnInit {
   minPriceToNotChange: number = 0;
 
   ngOnInit() {    
+    window.scroll(0,0);
     // Récupération des paramètres dans l'URL
     this.getParams();
     // Récupérer l'ensemble des produits actifs en bdd

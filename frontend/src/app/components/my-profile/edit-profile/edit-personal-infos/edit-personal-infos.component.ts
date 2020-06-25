@@ -28,6 +28,7 @@ export class EditPersonalInfosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     //On Re/initialise les contrôles du formulaire
     this.loading=false;
     this.submitted = false;

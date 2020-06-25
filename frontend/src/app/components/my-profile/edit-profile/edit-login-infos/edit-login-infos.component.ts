@@ -48,6 +48,7 @@ export class EditLoginInfosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     //Re/Initialisation des variable
     this.userUpdateData = false;
     this.isPasswordCorrect= false;

@@ -39,6 +39,7 @@ export class ManageCategoriesComponent implements OnInit {
     private _fb: FormBuilder) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     //création d'un reactiveForm pour l'édition d'un catégorie
     this.editCatForm = this._fb.group({
       CategoryName: ['', [Validators.required]],

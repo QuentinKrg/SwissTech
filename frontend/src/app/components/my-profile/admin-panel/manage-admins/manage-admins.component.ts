@@ -22,6 +22,7 @@ export class ManageAdminsComponent implements OnInit {
   pageSize: number;
   itemsPerPage: number;
   ngOnInit() {
+    window.scroll(0,0);
     //récupère tous les admins
     this.getAllAdminUsers();
   }

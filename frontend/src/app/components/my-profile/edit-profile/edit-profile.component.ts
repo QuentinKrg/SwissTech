@@ -20,6 +20,7 @@ export class EditProfileComponent implements OnInit {
 
 
   ngOnInit() {
+    window.scroll(0,0);
     //Appel au service qui retourne les infos personnelles du clients
     this._userService.getCustomer(this.currentUsername).subscribe(
       (data: Customer) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues à un objet de type customer

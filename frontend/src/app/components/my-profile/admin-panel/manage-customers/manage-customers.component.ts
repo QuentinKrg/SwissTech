@@ -55,8 +55,9 @@ export class ManageCustomersComponent implements OnInit {
   }
   //utilisateur actuel
   currentUsername = this._authenticationService.currentUserValue.login;
-
+  ipaddr = this._authenticationService.currentUserValue.IP_ADDR;
   ngOnInit() {
+    window.scroll(0,0);
     //Re / initialise les variables
     this.userUpdateData = false;
     this.submitted = false;
@@ -176,7 +177,7 @@ export class ManageCustomersComponent implements OnInit {
       CustomerPhone: user.CustomerPhone,
       Username: user.Username,
       CustomerSince: user.CustomerSince,
-      IpAddress: user.IpAddress
+      IpAddress: this.ipaddr
     });
     //Vérifie si quelqu'un est en train de modifier ce formulaire
     this.onCheckLock();

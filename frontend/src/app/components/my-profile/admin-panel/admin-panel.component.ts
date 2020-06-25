@@ -29,6 +29,7 @@ BestsellerProduct: string;
   constructor(private _statisticsService: StatisticsService,) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     this.GetNumberOfCustomers();
     this.GetLastCustomerRegistered();
     this.GetNumberOfComments();

@@ -46,6 +46,7 @@ export class ProductDetailsComponent implements OnInit {
               }
 
   ngOnInit() {   
+    window.scroll(0,0);
     // Récupérer l'id passé dans l'URL
     this._route.params.subscribe(params => {
       this.productId = params['id'];

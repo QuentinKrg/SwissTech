@@ -88,6 +88,7 @@ export class ManageProductsComponent implements OnInit {
 
   // on Init
   ngOnInit() {
+    window.scroll(0,0);
     this.isimagePathValid = true;
     this.submitted = false;
     this.addProductGroup = this._formBuilder.group({

@@ -34,6 +34,7 @@ export class ManageOrdersComponent implements OnInit {
   orderDetails: Order[] = [];
 
   ngOnInit() {
+    window.scroll(0,0);
     //Appel un service qui retourne tous les status des commandes
     this._orderService.getAllStatus().subscribe(data => this.allStatus = data);
     //Récupère toutes les commandes depuis une fonction de ce component

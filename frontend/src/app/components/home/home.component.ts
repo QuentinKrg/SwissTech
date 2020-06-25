@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
               private _router: Router) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     this._productService.getRandoms(4)
       .subscribe((data: Product[]) =>{
         this.recommendationList = data;

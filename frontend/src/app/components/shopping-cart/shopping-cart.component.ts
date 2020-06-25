@@ -29,6 +29,7 @@ faTimesCircle=faTimesCircle;
               }
 
    ngOnInit() {
+    window.scroll(0,0);
     // Récupérer les éléments présents dans le panier dans "cart" du service "dataService"
     this._dataService.cart.subscribe(a => this.cart = a);
     

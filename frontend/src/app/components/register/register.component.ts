@@ -50,6 +50,7 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit() {
+    window.scroll(0,0);
     //Création d'un reactive form + validators des champs
     this.registerForm = this.formBuilder.group({
       CustomerTitle: ['', Validators.required],
@@ -64,7 +65,7 @@ export class RegisterComponent implements OnInit {
       billingAddress: ['', Validators.required],
       billingCity: ['', Validators.required],
       billingZip: ['', [Validators.required, Validators.minLength(4), Validators.pattern('[0-9 ]*')]],
-      CustomerEmail: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]],
+      CustomerEmail: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-zA-Z]{2,4}')]],
       Username: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
       confirmPassword: ['', [Validators.required]],
       CustomerPhone: ['', [Validators.required, Validators.pattern('[0-9 - + .]*')]],

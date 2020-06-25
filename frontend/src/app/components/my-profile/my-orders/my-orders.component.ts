@@ -43,6 +43,7 @@ export class MyOrdersComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scroll(0,0);
     this.getAllOrders();
   }
   

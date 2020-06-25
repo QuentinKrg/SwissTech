@@ -47,6 +47,7 @@ export class EditAddressComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     //Re/initialisation des variables
     this.userUpdateData=false;
     this.FormError=false;
