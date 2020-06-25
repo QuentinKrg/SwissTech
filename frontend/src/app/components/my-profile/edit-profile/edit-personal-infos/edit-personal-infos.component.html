@@ -15,6 +15,9 @@
 <h2 class="p-3 text-center">Editer mon compte</h2>
 <form (ngSubmit)="onSubmit()" [formGroup]="editRegisterForm" class="form row justify-content-md-center">
     <div class="col-md-7">
+        
+        <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
+        <div *ngIf="FormError" class="p-3 mb-2 bg-danger text-white text-center">{{FormErrorMessage}}</div>
         <!--champs du formulaire:-->
         <div class="p-4 shadow bg-white">
             <h5 class="mb-5 text-dark ">Mes coordonnées </h5>
@@ -85,7 +88,5 @@
                 Enregistrer
             </button>
         </div>
-        <div *ngIf="userUpdateData" class="p-3 mb-2 bg-info text-white text-center">{{userUpdateDataMessage}}</div>
-        <div *ngIf="FormError" class="p-3 mb-2 bg-danger text-white text-center">{{FormErrorMessage}}</div>
     </div>
 </form>

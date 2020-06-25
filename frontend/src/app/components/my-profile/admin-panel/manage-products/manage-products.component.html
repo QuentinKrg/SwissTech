@@ -69,10 +69,10 @@
     <div class="col-12">
         <div *ngIf="allProducts.length > 0; then asProducts else noProduct"></div>
         <ng-template #asProducts>
-            <div class="table-responsive">
+            <div class="table-responsive bg-white shadow-sm">
                 <table class="table table-hover">
                     <!-- Label du tableau -->
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                         <th scope="col">N° de l'article</th>
                         <th scope="col">Nom de l'article</th>
