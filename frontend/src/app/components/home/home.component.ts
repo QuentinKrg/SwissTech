@@ -11,6 +11,7 @@ import { Product } from 'src/app/models/product';
 export class HomeComponent implements OnInit {
 
   recommendationList: Product[];
+  bestSellers: Product[];
   private _id: number;
   constructor(private _productService: ProductService,
               private _router: Router) { }
@@ -20,6 +21,10 @@ export class HomeComponent implements OnInit {
     this._productService.getRandoms(4)
       .subscribe((data: Product[]) =>{
         this.recommendationList = data;
+    });
+    this._productService.getRandoms(4)
+      .subscribe((data: Product[]) =>{
+        this.bestSellers = data;
     });
 
   }
