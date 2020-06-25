@@ -15,10 +15,10 @@
     public $isUserTokenValid = false;
 
     // Attributs pour la connexion à la bdd
-    private $servername = "0o02i.myd.infomaniak.com";
-    private $username = "0o02i_st_a";
-    private $password = "pSO7n-rjcsV6";
-    private $dbname = "0o02i_db_swisstech";
+    private $servername = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $dbname = "db_swisstech";
 
     // Variable de la DB
     private $dbSt = null;
