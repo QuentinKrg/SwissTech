@@ -58,61 +58,8 @@
                     <app-product-card *ngFor="let product of bestSellers" [productData]="product" class="col-md-3 col-sm-12 pt-3"></app-product-card>
                 </div>
             </div>
-
             <!-- A propos de l'équipe-->
-            <div class="col-12 px-md-0 mt-4 py-3 text-center">
-                <h3 class="text-muted text-uppercase pb-2"> Notre équipe </h3>
-                <div class="row  pb-2 ">
-                    <!-- Quentin Krenger-->
-                    <div class="col-md-6 col-sm-12">
-                        <div class="card border-0 shadow">
-                            <div class="card-body text-center">
-                                <!-- Photo-->
-                                <p>
-                                    <img class=" img-fluid"  width="256" src="/assets/images/logo_quentin_krenger.jpeg"/>
-                                </p>
-                                <!-- Role-->
-                                <h4 class="card-title">Quentin Krenger</h4>
-                                <p class="font-weight-bold">Web Developer</p>
-
-                                <!-- Description-->
-                                <p class="card-text">Apprenti informaticien en 3ème année, employé à la Loterie Romande depuis 2017.</p>
-
-                                <!-- Social netword-->
-                                <p >
-                                    <a href="https://www.instagram.com/quent1.ch/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/instagram.svg"></a>
-                                    <a href="https://www.linkedin.com/in/quentin-krenger-44691018a/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/linkedin.svg"></a>
-                                    <a href="https://github.com/QuentinKrg" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/github.svg"></a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Winston Meisen-->
-                    <div class="col-md-6 col-sm-12">
-                        <div class="card border-0 shadow">
-                            <div class="card-body text-center">
-                                <!-- Photo-->
-                                <p>
-                                    <img class=" img-fluid"  width="256" src="/assets/images/logo_winston_meisen.jpeg"/>
-                                </p>
-                                <!-- Role-->
-                                <h4 class="card-title">Winston Meisen</h4>
-                                <p class="font-weight-bold">Web Developer</p>
-
-                                <!-- Description-->
-                                <p class="card-text">Apprenti informaticien en 3ème année, employé au Casino Barrière Montreux depuis 2017.</p>
-
-                                <!-- Social netword-->
-                                <p >
-                                    <a href="https://www.instagram.com/winstonmeisen/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/instagram.svg"></a>
-                                    <a href="https://www.linkedin.com/in/winston-meisen-79b0a1189/" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/linkedin.svg"></a>
-                                    <a href="https://github.com/wmeisen" target="_blank"><img class="px-1" width="56" src="/assets/images/icons/github.svg"></a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-contact-infos></app-contact-infos>
     </div>
 
 

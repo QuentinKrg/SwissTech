@@ -43,6 +43,10 @@ import { PrintLayoutComponent } from './components/my-profile/my-orders/print/pr
 import { InvoiceComponent } from './components/my-profile/my-orders/print/invoice/invoice.component';
 import { ManageCategoriesComponent } from './components/my-profile/admin-panel/manage-categories/manage-categories.component';
 import { PaginationComponent } from './components/shared/pagination/pagination.component';
+import { ContactInfosComponent } from './components/home/contact-infos/contact-infos.component';
+import { FAQComponent } from './components/faq/faq.component';
+import { RGPDInfosComponent } from './components/rgpdinfos/rgpdinfos.component';
+import { LegalsMentionsComponent } from './components/legals-mentions/legals-mentions.component';
 
 
 @NgModule({
@@ -80,7 +84,11 @@ import { PaginationComponent } from './components/shared/pagination/pagination.c
     PrintLayoutComponent,
     InvoiceComponent,
     ManageCategoriesComponent,
-    PaginationComponent
+    PaginationComponent,
+    ContactInfosComponent,
+    FAQComponent,
+    RGPDInfosComponent,
+    LegalsMentionsComponent
   ],
   imports: [
     BrowserModule,
