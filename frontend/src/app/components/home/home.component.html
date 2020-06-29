@@ -6,6 +6,11 @@
     }
 </style>
     <div class="row align-item-center"> 
+        <div class="col-12">
+            <div class="alert alert-danger text-center" role="alert">
+                Attention ceci est un site fictif !!! Aucune commande ne sera envoyée.
+              </div>
+        </div>
             <div id="demo" class="carousel slide mb-4" data-ride="carousel">
                 <!-- Indicators -->
                 <ul class="carousel-indicators">
@@ -53,7 +58,7 @@
 
             <!-- Nos marques-->
             <div class="col-12 px-md-0 pt-5 mb-4">
-                <h3 class="text-muted"> Découvrez nos meilleures marques </h3>
+                <h3 class="text-muted"> Découvrez les produits les plus vendus </h3>
                 <div class="row">
                     <app-product-card *ngFor="let product of bestSellers" [productData]="product" class="col-md-3 col-sm-12 pt-3"></app-product-card>
                 </div>
