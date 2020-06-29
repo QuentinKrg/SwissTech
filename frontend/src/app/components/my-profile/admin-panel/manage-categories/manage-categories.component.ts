@@ -122,12 +122,10 @@ export class ManageCategoriesComponent implements OnInit {
       (error) => {
 
         this.submitted = false;
-        console.log(error);
         return;
       });
   }
   onUpdateCategoryStatus(cat) {
-    console.log(cat);
 
     if (cat.IsActive == true) {
       cat.IsActive = false;
@@ -139,13 +137,10 @@ export class ManageCategoriesComponent implements OnInit {
       },
       //en cas d'erreur
       (error) => {
-        console.log(error);
         return;
       });
   }
   onSubmitAdd() {
-    console.log(this.editCatForm.value);
-
     this.submitted = true;
     if (this.editCatForm.invalid) {
       return;

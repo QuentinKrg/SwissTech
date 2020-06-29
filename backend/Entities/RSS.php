@@ -55,6 +55,7 @@ class RSS extends Entity
 
     // Retourne le fichier XML pour s'abonner au flux RSS
     public function GetFeed() {
+      header("Content-type: text/xml");
       // Chemin vers le ficheir .xml
       $url = "./Rss.xml";
       // Stockage des éléments présents dans le fichier xml

@@ -11,14 +11,14 @@ export class TokenInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
         // ajouter un header avec le token ssi disponible
         
-        var currentUser = this._authenticationService.currentUserValue;
+        var currentUser = this._authenticationService.currentUserValue;       
         
 
         
         if(currentUser && currentUser.token) {
             request = request.clone( {
                 setHeaders: {
-                    'Username': `${currentUser.username}`,
+                    'Username': `${currentUser.login}`,
                     'Authorization': `${currentUser.token}`,
                     'Role': `${currentUser.role}`,
                     'LastIpAddr': `${currentUser.IP_ADDR}`

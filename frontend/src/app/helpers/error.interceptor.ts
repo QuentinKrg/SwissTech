@@ -24,9 +24,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                 
             }
 
-            if(error.status == 408) {
-                
-            }
             const err = error.message || error.status;
             return throwError(err);
         }))

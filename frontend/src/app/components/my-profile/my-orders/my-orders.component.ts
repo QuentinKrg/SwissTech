@@ -53,7 +53,6 @@ export class MyOrdersComponent implements OnInit {
     .subscribe((data: Order[]) => {
       this.myOrders = data;
       this.filterValue = this.myOrders;//Filtrage
-      console.log(this.myOrders);
     });
       
   }
@@ -74,7 +73,7 @@ export class MyOrdersComponent implements OnInit {
         this.Orderdetails = data;
       },
         (error) => {
-          console.log(error);
+
         });
     //Récupère l'adresse de livraison
     this._orderService.getOrderShippingAddressByOrderID(orderid)
@@ -82,7 +81,7 @@ export class MyOrdersComponent implements OnInit {
         this.shippingAddress = data;
       },
         (error) => {
-          console.log(error);
+
         });
     //Récupère l'adresse de facturation
     this._orderService.getOrderBillingAddressByOrderID(orderid)
@@ -90,7 +89,7 @@ export class MyOrdersComponent implements OnInit {
         this.billingAddress = data;
       },
         (error) => {
-          console.log(error);
+
         });
   }
   //Filtrer les commandes par date sélectionée

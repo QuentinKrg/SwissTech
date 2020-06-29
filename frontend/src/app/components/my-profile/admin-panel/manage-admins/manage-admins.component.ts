@@ -55,7 +55,6 @@ export class ManageAdminsComponent implements OnInit {
     },  
     //en cas d'erreur
     (error) => {
-      console.log(error);
       return;
     });
     

@@ -77,7 +77,6 @@ export class ProductDetailsComponent implements OnInit {
     this._commentsService.getAllProductsComments(this.productId)
     .subscribe(comments => {
       this.productsComments = comments;
-      //console.log(this.productsComments);
     });
     
     this.submitted = false;//CAPTCHA
@@ -145,7 +144,6 @@ get f() { return this.addCommentForm.controls; }
     canvas.width += 0;
     //regénére l'image
     this.generateCaptchaImage();
-    console.log(this.captchaGenerated);
   }
 
   //Fontion utile pour valider le champ captcha au moment de la saisie 

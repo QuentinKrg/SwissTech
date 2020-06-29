@@ -122,8 +122,8 @@ class User extends Entity
     // Récupération du datetime actuel
     $dateTimeValidity = new DateTime();
 
-    // Ajout d'un interval à la data de validité
-    $dateTimeValidity->Add(new DateInterval('PT1M'));
+    // Ajout d'un interval à la data de validité (+ 60min)
+    $dateTimeValidity->Add(new DateInterval('PT60M'));
 
     // Assignation de la nouvelle valeur
     $tokenValidity = $dateTimeValidity->format('yy-m-d H:i:s');
@@ -155,7 +155,7 @@ class User extends Entity
   }
 
   // Récupération de tous les utilisateurs
-  public function GetAllUsers() {
+  public function GetAllUsersMBAD() {
     // Variable
     $allUser = [];
     // Requête
@@ -181,7 +181,7 @@ class User extends Entity
   }
 
   // Mise à jour du role d'un utilisateur
-  public function UpdateUserRole() {
+  public function UpdateUserRoleMBAD() {
     // Vérifier que l'on reçoit bien les données voulues
     if($this->jsonToProcess !=null)
     {
@@ -208,7 +208,7 @@ class User extends Entity
   }
 
   // Mise à jour du statut d'un utilisateur
-  public function UpdateUserStatus(){
+  public function UpdateUserStatusMBAD(){
     // Vérifier que l'on reçoit bien les données voulues
     if($this->jsonToProcess !=null)
     {
@@ -223,7 +223,7 @@ class User extends Entity
       t_users.isActive = '$userStatus'
       WHERE
       t_users.id_user = '$userID'";
-      // Exécution de la requête 
+      // Exécution de la requête
       $this->Query($updateUserStatus);
     }
   }

@@ -118,11 +118,8 @@
       // Vérifier que l'adresse IP est la même qu'à la dernière connexion. Sinon => logout
       if($hdIpAddr != "")
       {
-        // Si l'adresse IP est la même => true
-        if ($hdIpAddr == $userInDB['IpAddress']) {
-          return true;
-        } else {
-          // sinon false
+        // Si l'adresse IP n'est pas la même => false
+        if ($hdIpAddr != $userInDB['IpAddress']) {
           return false;
         }
       }
@@ -143,6 +140,8 @@
         } else {
           return false;
         }
+      } else {
+        return false;
       }
     }
 

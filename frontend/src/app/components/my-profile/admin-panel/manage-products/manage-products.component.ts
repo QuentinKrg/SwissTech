@@ -138,7 +138,7 @@ export class ManageProductsComponent implements OnInit {
     },
       //en cas d'erreur
       (error) => {
-        console.log(error);
+
         return;
       });
   }
@@ -289,7 +289,6 @@ export class ManageProductsComponent implements OnInit {
   openModalAddProduct(targetModal) {
     this.imagePathToShow = '';
     this.imageRequired = true;
-    console.log(this.f.ProductImage.valueChanges);
 
     this._modalService.open(targetModal, {
       centered: true,
@@ -325,13 +324,12 @@ export class ManageProductsComponent implements OnInit {
 
     this._productService.addProduct(productToAdd).subscribe(
       () => {
-        console.log("ok");
         this._modalService.dismissAll();
         this.addProductGroup.reset();
         this.ngOnInit();
       },
       (error) => {
-        console.log(error);
+
         this.submitted = false;
       }
     );
@@ -380,9 +378,8 @@ export class ManageProductsComponent implements OnInit {
     this._productService.AddLock(this.editedProductId, this.currentUsername).subscribe((data) => {
     },
       (error) => {
-        console.log(error);
       });
-    console.log('libre pour edition');
+
   }
   //Test si le form d'edition d'un produit est locked
   onCheckLock() {
@@ -398,16 +395,14 @@ export class ManageProductsComponent implements OnInit {
           this._productService.UpdateLock(this.editedProductId).subscribe((data) => {
           },
             (error) => {
-              console.log(error);
+
             });
           this.LockedBy = this.currentUsername;
-          console.log('vous avez le lock');
           this.isLocked = false;
         }
         //Si non affiche un message avec le nom du proprietaire du lock
         //désactive le bouton de submit
         if (this.currentUsername != this.LockedBy) {
-          console.log('Verrouillé par ' + this.LockedBy);
           this.isLocked = true;
           this.loading = false;
         }
@@ -419,7 +414,7 @@ export class ManageProductsComponent implements OnInit {
       }
     },
       (error) => {
-        console.log(error);
+
       });
   }
   //Libère le formulaire pour l'edition
@@ -427,7 +422,7 @@ export class ManageProductsComponent implements OnInit {
     this._productService.ReleaseLock(this.editedProductId, this.currentUsername).subscribe((data) => {
     },
       (error) => {
-        console.log(error);
+
       });
   }
   //force le unlock
@@ -437,7 +432,7 @@ export class ManageProductsComponent implements OnInit {
       this.onAcquireLock();
     },
       (error) => {
-        console.log(error);
+
       });
 
   }
@@ -526,7 +521,6 @@ export class ManageProductsComponent implements OnInit {
     },
       //en cas d'erreur
       (error) => {
-        console.log(error);
         return;
       });
   }

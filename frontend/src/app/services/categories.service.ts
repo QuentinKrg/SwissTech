@@ -35,13 +35,13 @@ export class CategoriesService {
     return this.http.get<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=GetAllSubCategories');
   }
   updateCategory(id: number, cat: Categories){
-    return this.http.post<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=UpdateCategory&id='+id, cat);
+    return this.http.post<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=UpdateCategoryMBAD&id='+id, cat);
   }
   updateCategoryStatus( cat: Categories){
-    return this.http.post<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=UpdateCategoryStatus', cat);
+    return this.http.post<Categories[]>(environment.backendURL + 'start.php?' + 'c=Categories&f=UpdateCategoryStatusMBAD', cat);
   }
 
   addCategory(cat: Categories){
-    return this.http.post<Categories>(environment.backendURL + 'start.php?' + 'c=Categories&f=AddCategory', cat);
+    return this.http.post<Categories>(environment.backendURL + 'start.php?' + 'c=Categories&f=AddCategoryMBAD', cat);
   }
 }

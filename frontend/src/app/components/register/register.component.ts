@@ -197,7 +197,6 @@ export class RegisterComponent implements OnInit {
     canvas.width += 0;
     //regénére l'image
     this.generateCaptchaImage();
-    console.log(this.captchaGenerated);
   }
 
   //Fontion utile pour valider le champ captcha au moment de la saisie 
@@ -258,7 +257,6 @@ export class RegisterComponent implements OnInit {
         //si crée un nouveau client
         this._userService.addCustomer(this.registerForm.value).subscribe(
           () => {
-            console.log('tout va bien');
             //si tout va bien le client se connecte directement
             this.authenticationService.login(this.user)
               .subscribe(
@@ -270,7 +268,6 @@ export class RegisterComponent implements OnInit {
           },
           //en cas d'erreur
           (error) => {
-            console.log(error);
             this.submitted = false;
             this.loading = false;
             return;
@@ -278,7 +275,6 @@ export class RegisterComponent implements OnInit {
       },
       (error) =>{
         this.usernameErrorMessage = "Nom d'utilisateur non disponible"; // si l'user essaye de submit un nom déjà existant = message d'erreur
-        console.log(error);
         this.submitted = false;
         this.loading = false;
         return;

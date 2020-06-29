@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
-    console.log("test");
     // Récupérer l'url voulu dans l'URL or default
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }

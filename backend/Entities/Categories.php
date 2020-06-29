@@ -142,7 +142,7 @@ class Categories extends Entity
     }
 
     // Mettre à jour les données d'un catégorie
-    public function UpdateCategory()
+    public function UpdateCategoryMBAD()
     {
       // Vérifier que l'on reçoit bien le paramètre ID
       if(isset($_GET['id'])){
@@ -164,7 +164,7 @@ class Categories extends Entity
     }
 
     // Ajout d'une catégorie
-    public function AddCategory()
+    public function AddCategoryMBAD()
     {
         // Récupération des données reçues
         $CategoryName = $this->jsonToProcess->CategoryName;
@@ -205,7 +205,7 @@ class Categories extends Entity
 	}
 
   // Mise à jour du status d'une catégorie (active, innactive)
-	public function UpdateCategoryStatus()
+	public function UpdateCategoryStatusMBAD()
 	{
       // Récupération des données reçues en paramètre
 			$id = $this->jsonToProcess->id;

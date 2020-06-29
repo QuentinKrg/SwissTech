@@ -148,10 +148,8 @@ export class ManageCustomersComponent implements OnInit {
       (data: Customer[]) => { //Retourne data qui contient un objet de type Customer, puis assigne les valeurs reçues au formulaire
         this.allCustomers = data;
         this.filterValue = this.allCustomers;
-        console.log(this.filterValue);
       },
       (error) => {
-        console.log(error);
       });
   }
   //à l'ouverture d'un modal
@@ -196,12 +194,10 @@ export class ManageCustomersComponent implements OnInit {
       (data: Customer[]) => {
         this.myShipAddr = data;
         this.myShipAddr = this.myShipAddr;
-        console.log(data);
 
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
-        console.log(error);
       });
   }
   //Fonction qui retourne toutes les adresses de facturation
@@ -211,12 +207,10 @@ export class ManageCustomersComponent implements OnInit {
       (data: Customer[]) => {
         this.myBillAddr = data;
         this.myBillAddr = this.myBillAddr;
-        console.log(data);
 
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
-        console.log(error);
       });
   }
   //Si l'admin choisit de modifier une adresse de livraison
@@ -271,17 +265,17 @@ export class ManageCustomersComponent implements OnInit {
     if (this.editProfileForm.invalid) {
       return;
     }
-    console.log(this.selectedUser);
+
 
     this._modalService.dismissAll();
-    console.log(this.editProfileForm.value);
 
-    console.log("res:", this.editProfileForm.getRawValue());
+
+
 
     //update de l'utilisateur
     this._userService.updateCustomer(this.selectedUser, this.editProfileForm.value).then(
       () => {
-        console.log('tout va bien');
+
         if (this.editProfileForm.value.Username != null) {
           this.selectedUser = this.editProfileForm.value.Username;
         }
@@ -293,7 +287,6 @@ export class ManageCustomersComponent implements OnInit {
       (error) => {
 
         this.submitted = false;
-        console.log(error);
         return;
       });
   }
@@ -305,14 +298,11 @@ export class ManageCustomersComponent implements OnInit {
       return;
     }
     this._modalService.dismissAll();
-    console.log(this.editAddressForm.value);
 
-    console.log("res:", this.editAddressForm.getRawValue());
 
     //update de l'utilisateur
     this._userService.updateCustomer(this.selectedUser, this.editAddressForm.value).then(
       () => {
-        console.log('tout va bien');
 
         this.ngOnInit();
         this.userUpdateData = true;
@@ -320,7 +310,6 @@ export class ManageCustomersComponent implements OnInit {
       },
       //en cas d'erreur
       (error) => {
-        console.log(error);
         return;
       });
   }
@@ -332,7 +321,6 @@ export class ManageCustomersComponent implements OnInit {
         this.getAllShippingsAddress();
       },
       (error) => {
-        console.log(error);
       });
   }
   //fonction permettant de désactiver une adresse de facturation
@@ -343,7 +331,6 @@ export class ManageCustomersComponent implements OnInit {
         this.getAllBillingsAddress();
       },
       (error) => {
-        console.log(error);
       });
   }
 //Fonctin permettant de désactiver ou activer un utilisateur 
@@ -360,7 +347,6 @@ export class ManageCustomersComponent implements OnInit {
         },
         //en cas d'erreur
         (error) => {
-          console.log(error);
           return;
         });
   }
@@ -390,9 +376,7 @@ export class ManageCustomersComponent implements OnInit {
     this._userService.AddLock(this.selectedUserID, this.currentUsername).subscribe((data) => {
     },
       (error) => {
-        console.log(error);
       });
-    console.log('libre pour edition');
   }
 //Vérifie si un utilisateur peut être modifié ou s'il y a un lock pour l'edition
   onCheckLock() {
@@ -408,16 +392,13 @@ export class ManageCustomersComponent implements OnInit {
           this._userService.UpdateLock(this.selectedUserID).subscribe((data) => {
           },
             (error) => {
-              console.log(error);
             });
           this.LockedBy = this.currentUsername;
-          console.log('vous avez le lock');
           this.isLocked = false;
         }
         //Si non affiche un message avec le nom du proprietaire du lock
         //désactive le bouton de submit
         if (this.currentUsername != this.LockedBy) {
-          console.log('Verrouillé par ' + this.LockedBy);
           this.isLocked = true;
           this.loading = false;
         }
@@ -429,7 +410,6 @@ export class ManageCustomersComponent implements OnInit {
       }
     },
       (error) => {
-        console.log(error);
       });
   }
 //Libère l'user en question pour être modifier par autres
@@ -437,7 +417,6 @@ export class ManageCustomersComponent implements OnInit {
     this._userService.ReleaseLock(this.selectedUserID, this.currentUsername).subscribe((data) => {
     },
       (error) => {
-        console.log(error);
       });
   }
 //Fonction permettant de forcer la suppression d'un lock sur un user
@@ -447,7 +426,6 @@ export class ManageCustomersComponent implements OnInit {
       this.onAcquireLock();
     },
       (error) => {
-        console.log(error);
       });
 
   }

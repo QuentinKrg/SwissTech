@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { StatisticsService } from 'src/app/services/statistics.service.';
+
 import { Customer } from 'src/app/models/customer';
 import { Comments } from 'src/app/models/comments';
 import { faChartLine,faQuoteLeft,faQuoteRight,faUsers, faCrown} from '@fortawesome/free-solid-svg-icons';
 
 import { faComments} from '@fortawesome/free-regular-svg-icons';
+import { StatisticsService } from 'src/app/services/statistics.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -46,31 +47,24 @@ BestsellerProduct: string;
   GetLastCustomerRegistered(){
     this._statisticsService.GetLastCustomerRegistered().subscribe((data)=>{
       this.LastCustomerRegistered = data;
-      console.log(this.LastCustomerRegistered);
-      
     }
     )
   }
   GetNumberOfComments(){
     this._statisticsService.GetNumberOfComments().subscribe((data:number)=>{
-      this.CommentNumber = data;
-      console.log(this.CommentNumber);
-      
+      this.CommentNumber = data;      
     }
     )
   }
   GetLastCommentAdded(){
     this._statisticsService.GetLastCommentAdded().subscribe((data)=>{
-      this.LastCommentAdded = data;
-      console.log(this.LastCommentAdded);
-      
+      this.LastCommentAdded = data;      
     }
     )
   }
   GetBestSellerProduct(){
     this._statisticsService.GetBestSellerProduct().subscribe((data:string)=>{
       this.BestsellerProduct = data;
-      console.log(this.BestsellerProduct);
     }
     )
   }

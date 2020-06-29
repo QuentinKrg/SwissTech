@@ -54,7 +54,7 @@ export class EditPersonalInfosComponent implements OnInit {
         
       },
       (error) => {
-        console.log(error);
+
       });
   }
 //Création d'un controleur de formulaire pour les validation des champs
@@ -87,7 +87,6 @@ export class EditPersonalInfosComponent implements OnInit {
           },  
           //en cas d'erreur
           (error) => {
-            console.log(error);
             this.submitted = false;
             this.loading = false;
             return;

@@ -72,3 +72,7 @@ const routes: Routes = [
 ];
 
 export const appRoutingModule = RouterModule.forRoot(routes);
+
+RouterModule.forRoot(routes,
+    { useHash: true }
+  );

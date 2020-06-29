@@ -27,7 +27,6 @@ export class EditProfileComponent implements OnInit {
         this.currentCustomer = data;
       },
       (error) => {
-        console.log(error);
       });
     //Service qui retourne l'adresse de livraison et assigne les données à un objet de type customer
     this._userService.getShippingAddress(this.currentUsername).subscribe(
@@ -37,7 +36,7 @@ export class EditProfileComponent implements OnInit {
         this.currentCustomer.shippingZip = data.shippingZip;
       },
       (error) => {
-        console.log(error);
+
       });
     //Service qui retourne l'adresse de facturation et assigne les données un objet de type customer
     this._userService.getBillingAddress(this.currentUsername).subscribe(
@@ -47,7 +46,7 @@ export class EditProfileComponent implements OnInit {
         this.currentCustomer.billingZip = data.billingZip;
       },
       (error) => {
-        console.log(error);
+
       });
     
   }

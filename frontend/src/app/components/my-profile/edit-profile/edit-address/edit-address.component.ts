@@ -96,13 +96,9 @@ export class EditAddressComponent implements OnInit {
       (data: Customer[]) => {
         this.myShipAddr = data;
         this.myShipAddr = this.myShipAddr;
-        console.log(data);
-        console.log(this.myShipAddr);
-        
-
       },
       (error) => {
-        console.log(error);
+
       });
   }
   //Fonction d'appel au service qui retourne toutes les adresses de facturation
@@ -111,11 +107,9 @@ export class EditAddressComponent implements OnInit {
       (data: Customer[]) => {
         this.myBillAddr = data;
         this.myBillAddr = this.myBillAddr;
-        console.log(data);
-
       },
       (error) => {
-        console.log(error);
+
       });
   }
   //Fonction pour lancer un modal d'édition d'une adresse
@@ -181,13 +175,12 @@ export class EditAddressComponent implements OnInit {
     //update de l'adresse
     this._userService.updateCustomer(this.currentUsername, this.editShippingAddrForm.value).then(
       () => {
-        console.log('tout va bien');
         if (this.editShippingAddrForm.value.Username != null) {
           this.currentUsername = this.editShippingAddrForm.value.Username;
           let localStorageData = JSON.parse(localStorage.getItem('currentUser'));
           localStorageData.login = this.currentUsername;
           localStorage.setItem('currentUser', JSON.stringify(localStorageData));
-          console.log(localStorageData);
+
           this._authenticationService.currentUserValue.login = this.currentUsername;
         }
 
@@ -197,7 +190,6 @@ export class EditAddressComponent implements OnInit {
       },
       //en cas d'erreur
       (error) => {
-        console.log(error);
         this.submitted = false;
         this.loading = false;
         return;
@@ -230,13 +222,13 @@ export class EditAddressComponent implements OnInit {
     //update de l'adresse
     this._userService.updateCustomer(this.currentUsername, this.editBillingAddrForm.value).then(
       () => {
-        console.log('tout va bien');
+
         if (this.editBillingAddrForm.value.Username != null) {
           this.currentUsername = this.editBillingAddrForm.value.Username;
           let localStorageData = JSON.parse(localStorage.getItem('currentUser'));
           localStorageData.login = this.currentUsername;
           localStorage.setItem('currentUser', JSON.stringify(localStorageData));
-          console.log(localStorageData);
+
           this._authenticationService.currentUserValue.login = this.currentUsername;
         }
         this.ngOnInit();
@@ -245,7 +237,7 @@ export class EditAddressComponent implements OnInit {
       },
       //en cas d'erreur
       (error) => {
-        console.log(error);
+
         this.submitted = false;
         this.loading = false;
         return;
@@ -278,7 +270,7 @@ export class EditAddressComponent implements OnInit {
         //si ok ferme le modal et relance la page
         this.closeModal();
       }, (error) => {
-        console.log(error);
+
 
       });
   }
@@ -293,7 +285,7 @@ export class EditAddressComponent implements OnInit {
         this.ngOnInit();
       },
       (error) => {
-        console.log(error);
+
       });
   }
   //fonction pour "supprimer" une adresse de facturation
@@ -307,7 +299,7 @@ export class EditAddressComponent implements OnInit {
         this.ngOnInit();
       },
       (error) => {
-        console.log(error);
+
       });
   }
   //Fonction pour définir une adresse par défaut depuis un ID sélectionné
@@ -317,7 +309,7 @@ export class EditAddressComponent implements OnInit {
         this.isDefault= 1;
       },
       (error) => {
-        console.log(error);
+
       });
 
   }

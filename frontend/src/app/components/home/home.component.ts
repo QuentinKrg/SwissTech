@@ -28,23 +28,4 @@ export class HomeComponent implements OnInit {
     });
 
   }
-
-  onEdit(product: Product):void {
-
-  }
-
-  onDelete(product: Product):void {
-
-  }
-
-  monstreTest():void {
-    this._productService.getTest()
-      .subscribe(data => {
-
-      },
-      error => {
-
-      });
-  }
-
 }

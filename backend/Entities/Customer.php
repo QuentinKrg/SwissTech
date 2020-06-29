@@ -296,7 +296,7 @@ class Customer extends Entity
     }
 
     // Récupération de tous les clients
-    public function GetAllCustomers(){
+    public function GetAllCustomersMBL(){
       // Tableau
       $customers = [];
 
@@ -355,7 +355,7 @@ class Customer extends Entity
     }
 
     // Récupération des de l'adresse de livraison d'un utilisateur avec son nom d'utilisateur
-    public function getShippingAddressByUser(){
+    public function getShippingAddressByUserMBL(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Assignation des valeurs
@@ -377,7 +377,7 @@ class Customer extends Entity
     }
 
     // Récupération des de l'adresse de facturation d'un utilisateur avec son nom d'utilisateur
-    public function getBillingAddressByUser(){
+    public function getBillingAddressByUserMBL(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Tableau
@@ -399,7 +399,7 @@ class Customer extends Entity
     }
 
     // Récupération de la dernière adresse de livraison d'un utilisateur avec son nom d'utilisateur
-    public function getLastShippingAddressByUser(){
+    public function getLastShippingAddressByUserMBL(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Assignation des valeurs
@@ -421,7 +421,7 @@ class Customer extends Entity
     }
 
     // Récupération de la dernière adresse de facturation d'un utilisateur avec son nom d'utilisateur
-    public function getLastBillingAddressByUser(){
+    public function getLastBillingAddressByUserMBL(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Assignation des valeurs
@@ -443,7 +443,7 @@ class Customer extends Entity
     }
 
     // Récupération de toutes les adresses de livraison d'un utilisateur avec son nom d'utilisateur
-    public function getAllShippingsAddressByUser(){
+    public function getAllShippingsAddressByUserMBL(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Tableau
@@ -486,7 +486,7 @@ class Customer extends Entity
     }
 
     // Récupération de toutes les adresses de facturation d'un utilisateur avec son nom d'utilisateur
-    public function getAllBillingsAddressByUser(){
+    public function getAllBillingsAddressByUserMBL(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Tableau
@@ -529,7 +529,7 @@ class Customer extends Entity
     }
 
     // Désactiver une adresse avec l'id de l'adresse
-    public function disableAddress(){
+    public function disableAddressMBL(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['addressID'])){
         // Assignation des valeurs
@@ -549,7 +549,7 @@ class Customer extends Entity
     }
 
     // Ajout d'une adresse
-    public function AddAddress(){
+    public function AddAddressMBL(){
       // Vérifier que l'on reçoit bien les données voulues
       if($this->jsonToProcess !=null)
       {
@@ -634,7 +634,7 @@ class Customer extends Entity
     }
 
     // Function pour vérifier si qqn utilise un formulaire de modification d'un client
-    public function LockCheck(){
+    public function LockCheckMBAD(){
       // Requête
       $sql = " SELECT LockedBy FROM t_lock_customer
       WHERE FK_Customer = $this->idToProcess";
@@ -647,7 +647,7 @@ class Customer extends Entity
     }
 
     //  Mettre à jour le le temps de lock au temps actuel
-    public function UpdateLock(){
+    public function UpdateLockMBAD(){
       // Requête
       $sql = "UPDATE  	t_lock_customer
       SET
@@ -663,7 +663,7 @@ class Customer extends Entity
     }
 
     // Ajout d'un lock pour l'édition d'un formulaire
-    public function AddLock(){
+    public function AddLockMBAD(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Assignation des valeurs
@@ -682,7 +682,7 @@ class Customer extends Entity
     }
 
     // Libérer le vérouillage de l'édition du formulaire avec le nom d'utilisateur
-    public function ReleaseLock(){
+    public function ReleaseLockMBAD(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Assignation des valeurs
@@ -700,7 +700,7 @@ class Customer extends Entity
     }
 
     // Forcer la suppression du vérouillage du formulaire
-    public function ForceReleaseLock(){
+    public function ForceReleaseLockMBAD(){
       // Requête
       $sql = "DELETE FROM t_lock_customer WHERE FK_Customer= $this->idToProcess";
 

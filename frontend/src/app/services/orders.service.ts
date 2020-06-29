@@ -17,18 +17,18 @@ orderDetailSubject = new Subject<any[]>();
  constructor(private http: HttpClient) { }
 
   getOrderByUsername(user: string){
-    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=GetOrderByUsername&username=' + user);
+    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=GetOrderByUsernameMBL&username=' + user);
   }
   getOrderDetailsByOrderID(orderid: number){
-    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getProductsFromOrderByOrderID&orderid=' + orderid);
+    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getProductsFromOrderByOrderIDMBL&orderid=' + orderid);
   }
 
   
   getOrderShippingAddressByOrderID(orderid: number){
-    return this.http.get<Order>(environment.backendURL + 'start.php?' + 'c=Orders&f=getOrderShippingAddressByOrderID&orderid=' + orderid);
+    return this.http.get<Order>(environment.backendURL + 'start.php?' + 'c=Orders&f=getOrderShippingAddressByOrderIDMBL&orderid=' + orderid);
   }
   getOrderBillingAddressByOrderID(orderid: number){
-    return this.http.get<Order>(environment.backendURL + 'start.php?' + 'c=Orders&f=getOrderBillingAddressByOrderID&orderid=' + orderid);
+    return this.http.get<Order>(environment.backendURL + 'start.php?' + 'c=Orders&f=getOrderBillingAddressByOrderIDMBL&orderid=' + orderid);
   }
   emitOrderSubject(order){
     this.orderSubject.next(order.slice());
@@ -38,22 +38,22 @@ orderDetailSubject = new Subject<any[]>();
   }
   
   addNewOrder(paymentInfo: PaymentOrder) {
-    return this.http.post<PaymentOrder>(environment.backendURL + 'start.php?' + 'c=Orders&f=addOrder', paymentInfo);
+    return this.http.post<PaymentOrder>(environment.backendURL + 'start.php?' + 'c=Orders&f=addOrderMBL', paymentInfo);
   }
 
   addCreditCard(creditCard: CreditCard) {
-    return this.http.post<CreditCard>(environment.backendURL + 'start.php?' + 'c=Orders&f=addCreditCard', creditCard);
+    return this.http.post<CreditCard>(environment.backendURL + 'start.php?' + 'c=Orders&f=addCreditCardMBL', creditCard);
   }
 
   getAllOrders() {
-    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getAllOrders');
+    return this.http.get<Order[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getAllOrdersMBAD');
   }
 
   getAllStatus() {
-    return this.http.get<Status[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getAllStatus');
+    return this.http.get<Status[]>(environment.backendURL + 'start.php?' + 'c=Orders&f=getAllStatusMBL');
   }
 
   updateOrder(order: Order) {
-    return this.http.post<Order>(environment.backendURL + 'start.php?' + 'c=Orders&f=updateOrder', order);
+    return this.http.post<Order>(environment.backendURL + 'start.php?' + 'c=Orders&f=updateOrderMBAD', order);
   }
 }

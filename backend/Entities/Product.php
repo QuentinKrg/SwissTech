@@ -18,7 +18,7 @@ class Product extends Entity
     }
 
     // Ajout d'un article : doit avoir un token
-    public function AddProduct()
+    public function AddProductMBAD()
     {
       // Vérifier que l'on reçoit bien les voulues
       if($this->jsonToProcess !=null)
@@ -67,7 +67,7 @@ class Product extends Entity
 
 
     // Mise à jour d'un article
-    public function UpdateProduct()
+    public function UpdateProductMBAD()
     {
       // Vérifier que l'on reçoit bien les voulues
       if($this->jsonToProcess !=null)
@@ -441,7 +441,7 @@ class Product extends Entity
     }
 
     // Mise à jour du statut d'un article
-    public function UpdateProductStatus(){
+    public function UpdateProductStatusMBAD(){
       // Vérifier que l'on reçoit bien les données voulues
       if($this->jsonToProcess !=null)
       {
@@ -462,7 +462,7 @@ class Product extends Entity
     }
 
     // Vérification du chemin d'une image lors d'une insertion ou modification
-    public function CheckImagePathAvability(){
+    public function CheckImagePathAvabilityMBAD(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['ImagePath'])){
         // Assignation des valeurs
@@ -483,7 +483,7 @@ class Product extends Entity
     }
 
     // Ajout d'une image
-    public function UploadImage()
+    public function UploadImageMBAD()
     {
       // Vérifier que l'on reçoit bien un fichier dans la requête HTTP
       if($_FILES != null)
@@ -545,7 +545,7 @@ class Product extends Entity
     }
 
     // Function pour vérifier si qqn utilise un formulaire de modification d'un article
-    public function LockCheck(){
+    public function LockCheckMBAD(){
       // Requête
       $sql = " SELECT LockedBy FROM t_lock_product
       WHERE FK_Product = $this->idToProcess";
@@ -557,7 +557,7 @@ class Product extends Entity
     }
 
     //  Mettre à jour le le temps de lock au temps actuel
-    public function UpdateLock(){
+    public function UpdateLockMBAD(){
       // Requête
       $sql = "UPDATE  	t_lock_product
       SET
@@ -573,7 +573,7 @@ class Product extends Entity
     }
 
     // Ajout d'un lock pour l'édition d'un formulaire
-    public function AddLock(){
+    public function AddLockMBAD(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Assignation des valeurs
@@ -591,7 +591,7 @@ class Product extends Entity
     }
 
     // Libérer le vérouillage de l'édition du formulaire avec le nom d'utilisateur
-    public function ReleaseLock(){
+    public function ReleaseLockMBAD(){
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['username'])){
         // Assignation des valeurs
@@ -607,7 +607,7 @@ class Product extends Entity
     }
 
     // Forcer la suppression du vérouillage du formulaire
-    public function ForceReleaseLock(){
+    public function ForceReleaseLockMBAD(){
       // Requête
       $sql = "DELETE FROM t_lock_product WHERE FK_Product= $this->idToProcess";
 

@@ -12,7 +12,7 @@ class Orders extends Entity
     }
 
     // Récupération des commandes d'un utilisateur avec son nom d'utilisateur
-  	public function GetOrderByUsername() {
+  	public function GetOrderByUsernameMBL() {
       // Tableau
   		$orders = [];
 
@@ -55,7 +55,7 @@ class Orders extends Entity
   	}
 
     // Récupération de la liste des produits dans une commande avec l'id de la commande
-    public function getProductsFromOrderByOrderID() {
+    public function getProductsFromOrderByOrderIDMBL() {
       // Tableau
       $orderDetails= [];
       // Vérifier que l'on reçoit bien le paramètre voulu
@@ -96,7 +96,7 @@ class Orders extends Entity
     }
 
     // Récupération de l'adresse de livraison utilisée pour une commande avec l'id d'une commande
-    public function getOrderShippingAddressByOrderID() {
+    public function getOrderShippingAddressByOrderIDMBL() {
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['orderid'])){
         // Assignation des valeurs
@@ -114,7 +114,7 @@ class Orders extends Entity
     }
 
     // Récupération de l'adresse de facturation utilisée pour une commande avec l'id d'une commande
-    public function getOrderBillingAddressByOrderID() {
+    public function getOrderBillingAddressByOrderIDMBL() {
       // Vérifier que l'on reçoit bien le paramètre voulu
       if(isset($_GET['orderid'])){
         // Assignation des valeurs
@@ -131,7 +131,7 @@ class Orders extends Entity
     }
 
     // Création d'une nouvelle commande
-    public function addOrder() {
+    public function addOrderMBL() {
       if($this->jsonToProcess !=null)
       {
         // Récupération des données reçues
@@ -171,7 +171,7 @@ class Orders extends Entity
     }
 
     // Ajout d'une carte de crédit
-    public function addCreditCard() {
+    public function addCreditCardMBL() {
       if($this->jsonToProcess !=null)
       {
         // Récupération des données reçues
@@ -203,7 +203,7 @@ class Orders extends Entity
     }
 
     // Récupération des toutes les commandes
-    public function getAllOrders() {
+    public function getAllOrdersMBAD() {
       // Tableau
       $orders = [];
       // Requête
@@ -243,7 +243,7 @@ class Orders extends Entity
     }
 
     // Récupération des tous les status des commandes
-    public function getAllStatus() {
+    public function getAllStatusMBL() {
       // Tableau
       $status = [];
       // Requête
@@ -266,7 +266,7 @@ class Orders extends Entity
     }
 
     // Mise à jour d'une commande
-    public function updateOrder() {
+    public function updateOrderMBAD() {
       // Vérifier que l'on reçoit bien les données voulues
       if($this->jsonToProcess !=null)
       {

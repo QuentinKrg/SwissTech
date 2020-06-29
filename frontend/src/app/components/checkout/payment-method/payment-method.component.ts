@@ -113,11 +113,8 @@ export class PaymentMethodComponent implements OnInit {
       (data: Customer[]) => {
         this.myBillAddr = data;
         this.myBillAddr = this.myBillAddr;
-        console.log(data);
-
       },
       (error) => {
-        console.log(error);
       });
   }
   onNewBillAddress(value) {
@@ -148,8 +145,6 @@ export class PaymentMethodComponent implements OnInit {
             this.selectedBillingID = moreData.id_Address.toString();
           });
         }, (error) => {
-          console.log(error);
-
         });
 
     } else {
@@ -162,12 +157,10 @@ export class PaymentMethodComponent implements OnInit {
       // Stop si le formulaire n'est pas correctement rempli
       // TODO modifié le test
       if (this.creditCardForm.invalid) {
-        console.log("test 1");
         this.formError = true;
         this.formErrorMessage="Veuillez remplir correctement tous les champs marqués d'un *";
         return;
       }else{
-        console.log("test 2");
         this.formError = false;
         this.formErrorMessage = "";
       }

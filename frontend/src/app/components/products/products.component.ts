@@ -316,13 +316,11 @@ export class ProductsComponent implements OnInit {
 
       // Récupération du prix min
       this.minPriceToNotChange = allPrice.reduce((a,b) => Math.min(a,b));
-      console.log(this.minPriceToNotChange);
       
       this.minPrice = this.minPriceToNotChange;
 
       // Récupération du prix max
       this.maxPriceToNotChange = allPrice.reduce((a,b) => Math.max(b,a));
-      console.log(this.maxPriceToNotChange);
       
       this.maxPrice = this.maxPriceToNotChange;  
       

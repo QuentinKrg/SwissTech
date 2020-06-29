@@ -101,7 +101,7 @@ export class EditLoginInfosComponent implements OnInit {
       },
       (error) => {
         this.usernameErrorMessage = "Error ";
-        console.log(error);
+
       });
     //Au lancement les champs sont désactivés
     this.editRegisterForm.get('myPassword').disable();
@@ -172,7 +172,7 @@ export class EditLoginInfosComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.editRegisterForm);
+
     
     //Une fois le bouton pressé:
     this.submitted = true;
@@ -221,7 +221,7 @@ export class EditLoginInfosComponent implements OnInit {
       },
       //en cas d'erreur
       (error) => {
-        console.log(error);
+
         this.submitted = false;
         this.loading = false;
         return;

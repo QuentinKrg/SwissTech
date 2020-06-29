@@ -1,5 +1,6 @@
 <?php
-
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-PINGOTHER, Content-Type, authorization, lastipaddr,role,token, username ");
 // Ignore toutes les requêtes HTTP de type "option" en répondant favorablement à ces requêtes
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
      return http_response_code(200);

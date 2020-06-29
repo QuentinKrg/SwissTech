@@ -19,7 +19,7 @@ export class UserService {
   }
 
   updateUserRole(user: User) {
-    return this.http.post<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=UpdateUserRole',  user);
+    return this.http.post<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=UpdateUserRoleMBAD',  user);
   }
 
   addCustomer(customer: Customer) {
@@ -49,33 +49,33 @@ export class UserService {
     return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetCustomerById&id=' +id);
   }
   getAllCustomers(){
-    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetAllCustomers') ;
+    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=GetAllCustomersMBL') ;
   }
   getShippingAddress(user: string){
-    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getShippingAddressByUser&username=' + user);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getShippingAddressByUserMBL&username=' + user);
   }
   getLastShippingAddress(user: string){
-    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getLastShippingAddressByUser&username=' + user);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getLastShippingAddressByUserMBL&username=' + user);
   }
   getAllShippingsAddress(user: string){
-    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllShippingsAddressByUser&username=' + user);
+    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllShippingsAddressByUserMBL&username=' + user);
   }
   getBillingAddress(user: string){
-    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getBillingAddressByUser&username=' + user);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getBillingAddressByUserMBL&username=' + user);
   }
   getLastBillingAddress(user: string){
-    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getLastBillingAddressByUser&username=' + user);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=getLastBillingAddressByUserMBL&username=' + user);
     
   }
 
   getAllBillingsAddress(user: string){
-    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllBillingsAddressByUser&username=' + user);
+    return this.http.get<Customer[]>(environment.backendURL + 'start.php?' + 'c=Customer&f=getAllBillingsAddressByUserMBL&username=' + user);
   }
   disableAddress(addressID){
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=disableAddress&addressID=' + addressID);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=disableAddressMBL&addressID=' + addressID);
   }
   setAddressByDefault(addressID,type,user){
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=SetAddressByDefault&addressID=' + addressID+'&addressType='+type
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=SetAddressByDefaultMBL&addressID=' + addressID+'&addressType='+type
     +'&username='+user);
   }
   checkUserByUsername(user: User) {
@@ -123,25 +123,24 @@ export class UserService {
     );
   }
   addAddress(user, address: object){
-    return this.http.post(environment.backendURL + 'start.php?' + 'c=Customer&f=AddAddress&username=' + user,address);
+    return this.http.post(environment.backendURL + 'start.php?' + 'c=Customer&f=AddAddressMBL&username=' + user,address);
   }
   CheckLock(id:number) {
-    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=LockCheck&id=' +id);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Customer&f=LockCheckMBAD&id=' +id);
   }
   UpdateLock(id:number) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=UpdateLock&id=' +id);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=UpdateLockMBAD&id=' +id);
   }
   AddLock(id:number, username: string) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=AddLock&id=' +id+'&username='+username);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=AddLockMBAD&id=' +id+'&username='+username);
   }
   ReleaseLock(id:number, username: string) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=ReleaseLock&id=' +id+'&username='+username);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=ReleaseLockMBAD&id=' +id+'&username='+username);
   }
   ForceReleaseLock(id:number) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=ForceReleaseLock&id=' +id);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=ForceReleaseLockMBAD&id=' +id);
   }
   CleanupLocks() {
-    console.log('clean');
     return this.http.get(environment.backendURL + 'start.php?' + 'c=Customer&f=CleanupLocks');
   }
 }

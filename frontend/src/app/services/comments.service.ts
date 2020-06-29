@@ -17,11 +17,11 @@ export class CommentsService {
   }
 
   addComment(comment: Comments) {
-    return this.http.post<Comments>(environment.backendURL + 'start.php?' + 'c=Comments&f=addComment', comment);
+    return this.http.post<Comments>(environment.backendURL + 'start.php?' + 'c=Comments&f=addCommentMBL', comment);
   }
 
   updateCommentStatus(comment: Comments) {
-    return this.http.post<Comments[]>(environment.backendURL + 'start.php?' + 'c=Comments&f=UpdateCommentStatus',  comment);
+    return this.http.post<Comments[]>(environment.backendURL + 'start.php?' + 'c=Comments&f=UpdateCommentStatusMBAD',  comment);
   }
 
 }

@@ -47,7 +47,7 @@ class Comments extends Entity
     }
 
     // Ajout d'un commentaire
-    public function addComment()
+    public function addCommentMBL()
     {
       // Vérifier que l'on reçoit bien des données à traiter
       if($this->jsonToProcess !=null)
@@ -67,7 +67,7 @@ class Comments extends Entity
     }
 
     // Mise à jour du statut d'un commentaire
-    public function UpdateCommentStatus(){
+    public function UpdateCommentStatusMBAD(){
       // Vérifier que l'on reçoit bien des données à traiter
       if($this->jsonToProcess !=null)
       {
@@ -82,7 +82,7 @@ class Comments extends Entity
   									t_comments.isActive = '$commentStatus'
   								WHERE
   									t_comments.id_Comment = '$commentId'";
-                    
+
         // Execution de la requête
   			$this->Query($updateCommentStatus);
       }

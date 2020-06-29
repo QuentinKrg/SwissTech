@@ -15,10 +15,6 @@ export class ProductService {
     setInterval(()=> { this.CleanupLocks().subscribe(); }, 60000);
   }
 
-  getTest(){
-    return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=TestMBAD');
-  }
- 
   getAllProducts() {
     return this.http.get<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAll');
   }
@@ -48,15 +44,15 @@ export class ProductService {
   }
 
   updateProduct(product: Product) {
-    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateProduct',  product);
+    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateProductMBAD',  product);
   }
 
   updateProductStatus(product: Product) {
-    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateProductStatus',  product);
+    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateProductStatusMBAD',  product);
   }
 
   uploadProductImage(formData: FormData) {
-    return this.http.post(environment.backendURL+'start.php?'+'c=Product&f=UploadImage', formData);
+    return this.http.post(environment.backendURL+'start.php?'+'c=Product&f=UploadImageMBAD', formData);
   }
 
   getAllManufacturer() {
@@ -66,30 +62,28 @@ export class ProductService {
     return this.http.get<Color[]>(environment.backendURL + 'start.php?' + 'c=Product&f=GetAllColors');
   }
   CheckLock(id:number) {
-    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Product&f=LockCheck&id=' +id);
+    return this.http.get<Customer>(environment.backendURL + 'start.php?' + 'c=Product&f=LockCheckMBAD&id=' +id);
   }
   UpdateLock(id:number) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateLock&id=' +id);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=UpdateLockMBAD&id=' +id);
   }
   AddLock(id:number, username: string) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=AddLock&id=' +id+'&username='+username);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=AddLockMBAD&id=' +id+'&username='+username);
   }
   ReleaseLock(id:number, username: string) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=ReleaseLock&id=' +id+'&username='+username);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=ReleaseLockMBAD&id=' +id+'&username='+username);
   }
   ForceReleaseLock(id:number) {
-    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=ForceReleaseLock&id=' +id);
+    return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=ForceReleaseLockMBAD&id=' +id);
   }
-  CleanupLocks() {
-    console.log('clean');
-    
+  CleanupLocks() {   
     return this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=CleanupLocks');
     
   }
   checkImagePathAvability(imagePath: string){
     return new Promise(
       (resolve, reject) => {
-        this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=CheckImagePathAvability&ImagePath='+imagePath).toPromise().then(
+        this.http.get(environment.backendURL + 'start.php?' + 'c=Product&f=CheckImagePathAvabilityMBAD&ImagePath='+imagePath).toPromise().then(
           () => {
             resolve();
           },

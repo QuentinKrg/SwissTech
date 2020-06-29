@@ -65,15 +65,11 @@ export class ContactInformationComponent implements OnInit {
       (data: Customer[]) => {
         this.myShipAddr = data;
         this.myShipAddr = this.myShipAddr;
-        console.log(data);
-
       },
       (error) => {
-        console.log(error);
       });
   }
   onSubmitAddress(address) {
-    console.log(address);
     const addressObj = JSON.parse(address);
     this.submitted = true;
     
@@ -91,11 +87,8 @@ export class ContactInformationComponent implements OnInit {
         // this.selectedShippingID = get last id
           this.router.navigateByUrl('/checkout/payment')
         }, (error) => {
-          console.log(error);
-
         });
       //Passe à la page payment
-      console.log('test1');
 
     } else {
       this.selectedShippingID = addressObj.shippingID;
