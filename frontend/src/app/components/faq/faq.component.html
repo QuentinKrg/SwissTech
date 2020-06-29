@@ -1,0 +1,213 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="nav nav-pills faq-nav" id="faq-tabs" role="tablist" aria-orientation="vertical">
+                <a href="#tab1" class="nav-link active" data-toggle="pill" role="tab" aria-controls="tab1" aria-selected="true">
+                    <i class="mdi mdi-help-circle"></i> Foire aux Questions
+                </a>
+                <a href="#tab2" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab2" aria-selected="false">
+                    <i class="mdi mdi-account"></i> Profil
+                </a>
+                <a href="#tab3" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab3" aria-selected="false">
+                    <i class="mdi mdi-account-settings"></i> Achats
+                </a>
+                <a href="#tab4" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab4" aria-selected="false">
+                    <i class="mdi mdi-heart"></i> Création de compte
+                </a>
+                <a href="#tab5" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
+                    <i class="mdi mdi-coin"></i> Commandes et livraisons
+                </a>
+                <a href="#tab6" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab6" aria-selected="false">
+                    <i class="mdi mdi-help"></i> Bugs
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="tab-content" id="faq-tab-content">
+                <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1">
+                    <div class="accordion" id="accordion-tab-1">
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-1-heading-1">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-1-content-1" aria-expanded="false" aria-controls="accordion-tab-1-content-1">Comment utiliser cette section?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse show" id="accordion-tab-1-content-1" aria-labelledby="accordion-tab-1-heading-1" data-parent="#accordion-tab-1">
+                                <div class="card-body">
+                                    <p>Choisissez un theme du menu à gauche pour voir les question et réponses.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-1-heading-4">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-1-content-4" aria-expanded="false" aria-controls="accordion-tab-1-content-4">Comment contacter les créateurs de Swisstech?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse" id="accordion-tab-1-content-4" aria-labelledby="accordion-tab-1-heading-4" data-parent="#accordion-tab-1">
+                                <div class="card-body">
+                                    <p>Rendez-vous sur la section <a routerLink="contactinfos">Contact</a>. Vous pouvez nous contacter via les réseaux sociaux à disposition</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="tab2">
+                    <div class="accordion" id="accordion-tab-2">
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-2-heading-1">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-2-content-1" aria-expanded="false" aria-controls="accordion-tab-2-content-1">
+                                        Comment modifer mes coordonnées?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse show" id="accordion-tab-2-content-1" aria-labelledby="accordion-tab-2-heading-1" data-parent="#accordion-tab-2">
+                                <div class="card-body">
+                                    <p>Une fois connecté au site, vous pouvez accès à votre panneau client depuis l'icone dans la partie supérieure droite de l'écran.
+                                    </p>
+                                    <p>Vous pouvez aussi accéder à toutes vos informations depuis la <a routerLink="/myprofile/editprofile">Page d'accueil</a> du panneau client.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-2-heading-2">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-2-content-2" aria-expanded="false"
+                                     aria-controls="accordion-tab-3-content-1">Comment rajouter une nouvelle adresse?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse" id="accordion-tab-2-content-2" aria-labelledby="accordion-tab-2-heading-2" data-parent="#accordion-tab-2">
+                                <div class="card-body">
+                                    <p>Une fois connecté, vous pouvez gérer vos adresses de livraisons et facturations. Vous pouvez les modifier ou en rajouter une depuis la panneau 
+                                        <a routerLink="/myprofile/editaddress">Mes adresses</a>.</p>
+                                        <p>Cliquez sur le bouton "Ajouter une adresse" et remplissez le formulaire, puis enregistrez les informations en cliquant sur le bouton "Enregistrer"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="tab3">
+                    <div class="accordion" id="accordion-tab-3">
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-3-heading-1">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-3-content-1" aria-expanded="false"
+                                     aria-controls="accordion-tab-3-content-1">Une question?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse show" id="accordion-tab-3-content-1" aria-labelledby="accordion-tab-3-heading-1" data-parent="#accordion-tab-3">
+                                <div class="card-body">
+                                    <p></p>
+                                        <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-3-heading-2">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-3-content-2" aria-expanded="false" aria-controls="accordion-tab-3-content-2">Why am I sticky and naked?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse" id="accordion-tab-3-content-2" aria-labelledby="accordion-tab-3-heading-2" data-parent="#accordion-tab-3">
+                                <div class="card-body">
+                                    <p>Did I miss something fun? Humans dating robots is sick. You people wonder why I'm still single? It's 'cause all the fine robot sisters are dating humans! Kids don't turn rotten just from watching TV.</p>
+                                    <p><strong>Example: </strong>I usually try to keep my sadness pent up inside where it can fester quietly as a mental illness.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="tab4">
+                    <div class="accordion" id="accordion-tab-4">
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-4-heading-1">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-4-content-1" aria-expanded="false" aria-controls="accordion-tab-4-content-1">You, minion. Lift my arm?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse show" id="accordion-tab-4-content-1" aria-labelledby="accordion-tab-4-heading-1" data-parent="#accordion-tab-4">
+                                <div class="card-body">
+                                    <p>AFTER HIM! A true inspiration for the children. What are you hacking off? Is it my torso?! 'It is!' My precious torso! I saw you with those two "ladies of the evening" at Elzars. Explain that. She also liked to shut up! Why not indeed!</p>
+                                    <p><strong>Example: </strong>I feel like I was mauled by Jesus. Hello, little man. I will destroy you!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-4-heading-2">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-4-content-2" aria-expanded="false" aria-controls="accordion-tab-4-content-2">No, I'm Santa Claus?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse" id="accordion-tab-4-content-2" aria-labelledby="accordion-tab-4-heading-2" data-parent="#accordion-tab-4">
+                                <div class="card-body">
+                                    <p>I meant 'physically'. Look, perhaps you could let me work for a little food? I could clean the floors or paint a fence, or service you sexually? When the lights go out, it's nobody's business what goes on between two consenting adults.</p>
+                                    <p><strong>Example: </strong>Nay, I respect and admire Harold Zoid too much to beat him to death with his own Oscar.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="tab5">
+                    <div class="accordion" id="accordion-tab-5">
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-5-heading-1">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-5-content-1" aria-expanded="false" aria-controls="accordion-tab-5-content-1">Say what?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse show" id="accordion-tab-5-content-1" aria-labelledby="accordion-tab-5-heading-1" data-parent="#accordion-tab-5">
+                                <div class="card-body">
+                                    <p>That could be 'my' beautiful soul sitting naked on a couch. If I could just learn to play this stupid thing. Oh, I don't have time for this. I have to go and buy a single piece of fruit with a coupon and then return it, making people wait behind me while I complain. I'm just glad my fat, ugly mama isn't alive to see this day. For one beautiful night I knew what it was like to be a grandmother. Subjugated, yet honored. But existing is basically all I do! I never loved you.</p>
+                                    <p><strong>Example: </strong>A sexy mistake. And I'd do it again!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-5-heading-2">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-5-content-2" aria-expanded="false" aria-controls="accordion-tab-5-content-2">Who's brave enough to fly into something we all keep calling a death sphere?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse" id="accordion-tab-5-content-2" aria-labelledby="accordion-tab-5-heading-2" data-parent="#accordion-tab-5">
+                                <div class="card-body">
+                                    <p>Maybe I love you so much I love you no matter who you are pretending to be. Ah, the 'Breakfast Club' soundtrack! I can't wait til I'm old enough to feel ways about stuff! Now Fry, it's been a few years since medical school, so remind me.</p>
+                                    <p><strong>Example: </strong>Disemboweling in your species: fatal or non-fatal?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab6" role="tabpanel" aria-labelledby="tab6">
+                    <div class="accordion" id="accordion-tab-6">
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-6-heading-1">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-6-content-1" aria-expanded="false" aria-controls="accordion-tab-6-content-1">Doomsday device?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse show" id="accordion-tab-6-content-1" aria-labelledby="accordion-tab-6-heading-1" data-parent="#accordion-tab-6">
+                                <div class="card-body">
+                                    <p>Ah, now the ball's in Farnsworth's court! We'll need to have a look inside you with this camera. Stop it, stop it. It's fine. I will 'destroy' you! Bender! Ship! Stop bickering or I'm going to come back there and change your opinions manually!</p>
+                                    <p><strong>Example: </strong>So I really am important? How I feel when I'm drunk is correct?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="accordion-tab-6-heading-2">
+                                <h5>
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#accordion-tab-6-content-2" aria-expanded="false" aria-controls="accordion-tab-6-content-2">And so we say goodbye to our beloved pet, Nibbler?</button>
+                                </h5>
+                            </div>
+                            <div class="collapse" id="accordion-tab-6-content-2" aria-labelledby="accordion-tab-6-heading-2" data-parent="#accordion-tab-6">
+                                <div class="card-body">
+                                    <p>Nibbler, who's gone to a place where I, too, hope one day to go. The toilet. But existing is basically all I do! I suppose I could part with 'one' and still be feared. I just told you! You've killed me!</p>
+                                    <p><strong>Example: </strong>What's with you kids? Every other day it's food, food, food.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
