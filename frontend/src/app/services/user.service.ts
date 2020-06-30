@@ -15,7 +15,7 @@ export class UserService {
   constructor(private http: HttpClient) {setInterval(()=> { this.CleanupLocks().subscribe(); }, 60000); }
 
   getAllUsers() {
-    return this.http.get<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=GetAllUsers');
+    return this.http.get<User[]>(environment.backendURL + 'start.php?' + 'c=User&f=GetAllUsersMBAD');
   }
 
   updateUserRole(user: User) {
