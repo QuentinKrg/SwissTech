@@ -32,7 +32,7 @@ export class ProductService {
   }
 
   addProduct(product: Product) {
-    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=AddProduct',  product);
+    return this.http.post<Product[]>(environment.backendURL + 'start.php?' + 'c=Product&f=AddProductMBAD',  product);
   }
 
   getProductById(id:number) {
