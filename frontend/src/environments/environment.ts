@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  backendURL: 'http://localhost/SwissTech/backend/',
-  imageDirectory: 'http://localhost/SwissTech/Images/index.php?f=getImg&img='
+  backendURL: '/SwissTech/backend/',
+  imageDirectory: '/SwissTech/Images/index.php?f=getImg&img='
 };
 
 /*

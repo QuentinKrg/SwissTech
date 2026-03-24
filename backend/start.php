@@ -14,14 +14,26 @@ if (isset($_GET["c"]) != '' && isset($_GET["f"]) != '')
     $function = $_GET["f"];
 
     // Vérifier que la class existe
-    if (!file_exists("Entities/$class.php"))
+    $actualFile = "Entities/$class.php";
+    if (!file_exists($actualFile))
     {
-        return http_response_code(404);
+        // Try case-insensitive fallback (Linux is case-sensitive, Windows is not)
+        $files = scandir("Entities/");
+        $found = false;
+        foreach ($files as $file) {
+            if (strtolower($file) === strtolower($class . '.php')) {
+                $actualFile = "Entities/$file";
+                $class = pathinfo($file, PATHINFO_FILENAME);
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) return http_response_code(404);
     }
 
     // Appel des class
     require_once "Entities/Entity.php";
-    require_once "Entities/$class.php";
+    require_once $actualFile;
 
     // Création d'une instance de la class
     $object = new $class();

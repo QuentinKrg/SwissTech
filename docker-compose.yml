@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_swisstech
+    volumes:
+      # Automatically initialize the database
+      - ./database/db_swisstech.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - swisstech_net
+
+  backend:
+    build: 
+      context: .
+      dockerfile: ./backend/Dockerfile
+    volumes:
+      - ./backend:/var/www/html/SwissTech/backend
+      - ./Images:/var/www/html/SwissTech/Images
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: db_swisstech
+    networks:
+      - swisstech_net
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - swisstech_net
+    depends_on:
+      - backend
+
+networks:
+  swisstech_net:
+    driver: bridge
