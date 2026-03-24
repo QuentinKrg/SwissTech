@@ -15,10 +15,10 @@
     public $isUserTokenValid = false;
 
     // Attributs pour la connexion à la bdd
-    private $servername = "localhost";
-    private $username = "root";
+    private $servername = "";
+    private $username = "";
     private $password = "";
-    private $dbname = "db_swisstech";
+    private $dbname = "";
 
     // Variable de la DB
     private $dbSt = null;
@@ -47,6 +47,11 @@
 
     // Connexion à la DB
     public function Connect() {
+        $this->servername = getenv('DB_HOST') ?: "localhost";
+        $this->username = getenv('DB_USER') ?: "root";
+        $this->password = getenv('DB_PASS') !== false ? getenv('DB_PASS') : "";
+        $this->dbname = getenv('DB_NAME') ?: "db_swisstech";
+
       $this->dbSt = new PDO("mysql:host=$this->servername;dbname=$this->dbname", $this->username, $this->password,
                             array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
     }
